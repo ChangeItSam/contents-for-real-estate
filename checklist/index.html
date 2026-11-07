@@ -176,6 +176,22 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
 .rf{font-size:15px!important;color:#8A1F1F!important;background:#FDECEC;border-radius:10px;padding:8px 10px;margin-top:12px!important}
 .btn.pulse{animation:pulse 1.8s infinite}
 .sharenote{font-size:14.5px;color:#C8D2E2;margin-top:8px}
+
+.sugg{text-align:left;background:#fff;border:2px solid var(--gold);border-radius:12px;margin-top:6px;overflow:hidden}
+.sugg button{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:#fff;padding:10px 12px;font:inherit;font-size:16px;cursor:pointer}
+.sugg button:last-child{border-bottom:0}
+.sugg button small{display:block;color:var(--muted);font-size:13px}
+.sugg button:hover,.sugg button:focus{background:#FFF6E3}
+.dld{text-align:left;border-radius:14px;padding:14px 14px;margin-top:10px;font-size:16px;line-height:1.5}
+.dld.ok{background:#E8F8EE;border:2px solid #3DDC84;color:#14532D}
+.dld.warn{background:#FFF6E3;border:2px solid var(--gold);color:#6B4E12}
+.dld.bad{background:#FDECEC;border:2px solid #FF6B6B;color:#8A1F1F}
+.dld b.t{display:block;font-size:18px;margin-bottom:4px}
+.dld .row2{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:15px;margin-top:4px}
+.dld small{display:block;font-size:13px;opacity:.85;margin-top:6px}
+.dldsrc{font-size:14px!important;color:var(--muted)!important}
+.auto{font-size:12px;font-weight:800;color:#14532D;background:#C9F2D9;border-radius:20px;padding:1px 7px;margin-left:6px;white-space:nowrap}
+.hint{display:block;font-size:14px;color:#14532D;font-weight:600;margin-top:2px}
 </style>
 </head>
 <body>
@@ -214,9 +230,12 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
  <div class="dd">🎲 DEAL <span>or</span> NO DEAL?</div>
  <h2>Take the 2-minute Deal Test</h2>
  <p>Thinking about an off-plan project? Tick only what you have <b>actually confirmed</b>. Each check carries points by how serious it is, out of 100. Then tap <b>Get my result</b>.</p>
- <label class="proj">Which project are you checking? <small>(optional)</small><input id="proj" type="text" placeholder="e.g. a project name or area"></label>
+ <label class="proj">Which project are you checking? <small>(type 2+ letters)</small><input id="proj" type="text" autocomplete="off" placeholder="e.g. Azizi Venice, Sobha Hartland"></label>
+ <div class="sugg" id="sugg" hidden></div>
+ <div class="dld" id="dld" hidden></div>
+ <p class="dldsrc" id="dldsrc">🏛️ We check the project against Dubai Land Department records and tick what they confirm.</p>
  <div class="scale"><div><b>95–100</b><span>✅ Deal</span></div><div><b>80–94</b><span>⚠️ Caution</span></div><div><b>70–79</b><span>🧐 Broker</span></div><div><b>0–69</b><span>❌ No deal</span></div></div>
- <p class="rf">🚩 Missing a must-have (developer, project registration or escrow)? You get a red flag, whatever your score.</p>
+ <p class="rf">🚩 Missing a must-have (developer, project registration, escrow, or your payment going to that escrow)? You get a red flag, whatever your score.</p>
 </section>
 
 <section class="sec">
@@ -227,7 +246,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
 
 <section class="sec">
  <div class="kicker">Checks 3–4</div><h2>🔐 Protect your money</h2><p class="lead">Where your money goes and who you deal with.</p>
- <div class="card"><div class="num"><span class="ic">🏦</span><span class="n">03</span></div><div class="body"><h3>Your money goes into the project's escrow account</h3><p>By law (<b>Law No. 8 of 2007</b>), off-plan payments go into a regulated escrow account for that project, not the developer's company account.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="9"><span>Escrow bank &amp; account on the payment instructions</span></label><label class="tick"><input type="checkbox" data-w="9"><span>They match the project's escrow details on Dubai REST</span></label></div><div class="tip warn">⚠️ Never pay a deposit into a personal or general company account.</div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏦</span><span class="n">03</span></div><div class="body"><h3>Your money goes into the project's escrow account</h3><p>By law (<b>Law No. 8 of 2007</b>), off-plan payments go into a regulated escrow account for that project, not the developer's company account.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><span>Project has an escrow account registered with DLD</span></label><label class="tick"><input type="checkbox" data-w="5"><span>Escrow bank &amp; account shown on <b>your</b> payment instructions</span></label><label class="tick"><input type="checkbox" data-w="5"><span>They match the project's escrow on DLD / Dubai REST</span></label></div><div class="tip warn">⚠️ Never pay a deposit into a personal or general company account.</div></div></div>
  <div class="card"><div class="num"><span class="ic">🪪</span><span class="n">04</span></div><div class="body"><h3>Your agent is licensed</h3><p>Ask for the agent's <b>BRN</b> (Broker Registration Number) and verify it on Dubai REST.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="5"><span>Agent BRN verified</span></label><label class="tick"><input type="checkbox" data-w="2"><span>Agency and agent named on the paperwork</span></label></div></div></div>
 </section>
 
@@ -280,7 +299,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
  </div>
  <img class="photo" src="sam-awards.jpg" alt="Sam Surya with his sales awards" loading="lazy">
  <div class="cap">🏆 Employee of the Year · Top Sales Performer</div>
- <div class="disc">General information as of November 2026, not legal or financial advice. Rules and fees can change; check with the Dubai Land Department and the developer before you buy.</div>
+ <div class="disc">Project data: Dubai Land Department open data (via Dubai Pulse or Dubai Data, datadubai.ae, CC BY 4.0), refreshed weekly. Not an official DLD service.<br>General information as of November 2026, not legal or financial advice. Rules and fees can change; check with the Dubai Land Department and the developer before you buy.</div>
 </footer>
 
 </div>
@@ -340,7 +359,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
   var url = "https://wa.me/971528728248?text=" + encodeURIComponent(msg);
   document.querySelectorAll(".wa-link").forEach(function(a){ a.href = url; });
   var boxes = Array.prototype.slice.call(document.querySelectorAll(".tick input"));
-  var key = "sam-dealtest-v2", saved = [];
+  var key = "sam-dealtest-v3", saved = [];
   try { saved = JSON.parse(localStorage.getItem(key) || "[]"); } catch(e) {}
   function update(){
     var n = boxes.filter(function(b){ return b.checked; }).length;
@@ -365,7 +384,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
   function labelOf(b){ return b.parentNode.querySelector("span").textContent; }
   function show(){
     var sc=score(), tier=TIERS.filter(function(x){return sc>=x.min;})[0];
-    var CRIT=[0,2,4,5], redflag=CRIT.some(function(i){return !boxes[i].checked;});
+    var CRIT=[0,2,4,6], redflag=CRIT.some(function(i){return !boxes[i].checked;});
     if(redflag && sc>=70){ tier={v:"RED FLAG 🚩",c:"#FF8A3D",t:"Your score looks good, but a must-have is missing: the developer, the project registration or the escrow account is not confirmed. Don't pay anything until it is. Consult a broker and proceed with caution."}; }
     lastScore=sc; lastTier=tier;
     var proj=document.getElementById("proj").value.trim();
@@ -436,6 +455,52 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
     var t0=performance.now();
     (function f(now){ x.clearRect(0,0,c.width,c.height); ps.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.a+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);x.restore();}); if(now-t0<4500) requestAnimationFrame(f); else x.clearRect(0,0,c.width,c.height); })(t0);
   }
+
+  // ---------- DLD project lookup ----------
+  var P=null, loading=false, auto=[], DEV=0, PROJ=2, PROG=3, ESC=4;
+  var pin=document.getElementById("proj"), sg=document.getElementById("sugg"), card=document.getElementById("dld");
+  function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
+  function load(cb){ if(P) return cb(); if(loading) return; loading=true;
+    fetch("data/projects.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){P=j; loading=false;
+      document.getElementById("dldsrc").textContent="🏛️ Checked against "+j.p.length+" DLD-registered projects (updated "+j.updated+"). Source: "+j.source+".";
+      cb();}).catch(function(){loading=false;}); }
+  function clearAuto(){ auto.forEach(function(i){ boxes[i].checked=false; var s=boxes[i].parentNode.querySelector(".auto"); if(s) s.remove(); }); auto=[];
+    var h=document.querySelector(".hint"); if(h) h.remove(); update(); }
+  function tickAuto(i){ if(!boxes[i].checked){ boxes[i].checked=true; auto.push(i);
+      var s=document.createElement("span"); s.className="auto"; s.textContent="✓ DLD"; boxes[i].parentNode.querySelector("span").appendChild(s);} }
+  function fmtDate(d){ if(!d) return ""; var x=new Date(d); return isNaN(x)?d:x.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}); }
+  function pick(r){
+    var no=r[0],name=r[1],dev=r[2],st=(r[3]||"").toLowerCase(),pct=r[4],escb=r[5],end=r[6],area=r[7];
+    pin.value=name; sg.hidden=true; clearAuto();
+    var info='<div class="row2"><span>🏗️ DLD project no. <b>'+esc(no||"–")+'</b></span><span>👷 '+esc(dev||"–")+'</span>'+(area?'<span>📍 '+esc(area)+'</span>':'')+'</div>'+
+      '<div class="row2"><span>📊 '+(pct!==""?esc(Math.round(+pct))+'% complete':'progress n/a')+'</span>'+(end?'<span>📅 Completion '+esc(fmtDate(end))+'</span>':'')+'<span>🏦 Escrow: '+esc(escb||"not listed")+'</span></div>';
+    var src='<small>Source: '+esc(P.source)+', updated '+esc(P.updated)+'. Always confirm the live status on the Dubai REST app.</small>';
+    if(st.indexOf("cancel")>=0){
+      card.className="dld bad"; card.innerHTML='<b class="t">🚩 CANCELLED in DLD records</b>'+info+'<b>Do not pay anything for this project.</b>'+src;
+    } else {
+      tickAuto(DEV); tickAuto(PROJ); if(escb) tickAuto(ESC);
+      var fin=st.indexOf("finish")>=0||st.indexOf("complet")>=0;
+      card.className="dld "+(escb?"ok":"warn");
+      card.innerHTML='<b class="t">'+(escb?'✅ Registered with DLD · escrow account on record':'⚠️ Registered with DLD · escrow not listed')+'</b>'+info+
+        (fin?'<b>This project is finished (handed over), so it is no longer off-plan.</b>':'')+(escb?'':'<b>Ask the developer for the escrow account and check it on Dubai REST.</b>')+
+        '<div style="margin-top:6px">We ticked what DLD confirms (<span class="auto">✓ DLD</span>). You still need to check your own payment instructions.</div>'+src;
+      var lab=boxes[PROG].parentNode; if(pct!==""){ var h=document.createElement("span"); h.className="hint"; h.textContent="DLD says "+Math.round(+pct)+"% complete. Does that match what you were told?"; lab.querySelector("span").appendChild(h); }
+    }
+    card.hidden=false; update();
+  }
+  function search(){
+    var q=pin.value.trim().toLowerCase(); if(q.length<2){ sg.hidden=true; return; }
+    load(function(){
+      var ws=q.split(/\s+/), hits=[];
+      for(var i=0;i<P.p.length && hits.length<7;i++){ var r=P.p[i], s=(r[1]+" "+r[7]+" "+r[2]).toLowerCase(); if(ws.every(function(w){return s.indexOf(w)>=0;})) hits.push(r); }
+      if(!hits.length){ sg.innerHTML='<button type="button" disabled>No match in DLD projects with sales records. Check it on Dubai REST.</button>'; sg.hidden=false; return; }
+      sg.innerHTML=hits.map(function(r,k){return '<button type="button" data-k="'+k+'">'+esc(r[1])+'<small>'+esc([r[7],r[2],r[3]].filter(Boolean).join(" · "))+'</small></button>';}).join("");
+      sg.hidden=false;
+      Array.prototype.forEach.call(sg.querySelectorAll("button[data-k]"),function(b){ b.addEventListener("click",function(){ pick(hits[+b.dataset.k]); }); });
+    });
+  }
+  pin.addEventListener("focus",function(){ load(function(){}); });
+  pin.addEventListener("input",function(){ if(auto.length){ clearAuto(); card.hidden=true; } search(); });
   var modal=document.getElementById("modal");
   document.getElementById("getpdf").addEventListener("click",function(){document.getElementById("fname").value=document.getElementById("fname").value||who.n||"";document.getElementById("fphone").value=document.getElementById("fphone").value||who.p||"";modal.hidden=false;setTimeout(function(){document.getElementById("fname").focus();},50);});
   document.getElementById("close").addEventListener("click",function(){modal.hidden=true;});
