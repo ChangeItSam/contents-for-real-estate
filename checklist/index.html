@@ -121,6 +121,59 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
 .sheet input:focus{border-color:var(--gold)}
 .sheet .err{color:#B42318;font-size:15px;font-weight:600;min-height:20px;margin-top:8px}
 .sheet small{display:block;font-size:13px;color:var(--muted);margin-top:12px;line-height:1.45}
+
+.prog .go{background:var(--navy);color:var(--gold2);text-decoration:none;font-size:14px;padding:6px 12px;border-radius:20px;white-space:nowrap}
+.game{margin:22px 18px 0;background:linear-gradient(135deg,#fff,#FFF6E3);border:2px solid var(--gold);border-radius:22px;padding:22px 20px;text-align:center}
+.dd{font-weight:900;letter-spacing:2px;color:var(--navy);font-size:22px}
+.dd span{color:var(--gold);font-size:.75em;margin:0 6px;font-style:italic}
+.game h2{margin-top:6px}
+.game p{font-size:17.5px;color:#3A4456;margin-top:8px}
+.proj{display:block;text-align:left;font-weight:700;color:var(--navy);font-size:16px;margin-top:16px}
+.proj small{color:var(--muted);font-weight:500}
+.proj input{display:block;width:100%;margin-top:6px;font:inherit;font-size:17px;padding:12px 14px;border:2px solid var(--line);border-radius:12px;outline:none;background:#fff}
+.proj input:focus{border-color:var(--gold)}
+.scale{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:16px}
+.scale div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 4px}
+.scale b{display:block;font-size:15px;color:var(--navy)}
+.scale span{font-size:13px;color:var(--muted);font-weight:600;white-space:nowrap}
+.pts{flex:none;margin-left:auto;font-size:13px;font-weight:800;color:var(--gold);background:#FFF6E3;border-radius:20px;padding:1px 8px;margin-top:2px;white-space:nowrap}
+.tick{align-items:flex-start}
+.tick input:checked ~ .pts{background:var(--gold);color:#fff}
+.submit{background:var(--navy);border-radius:22px;padding:26px 20px;text-align:center;color:#fff}
+.submit .dd{color:#fff}
+.submit p{color:#D5DDEA;font-size:18px;margin:8px 0 4px}
+.btn.go2{background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--navy);border:0;width:100%;font-size:22px;cursor:pointer;font-family:inherit;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
+.reset{background:none;border:0;color:#C8D2E2;font:inherit;font-size:16px;margin-top:12px;cursor:pointer;text-decoration:underline}
+.reset.light{color:var(--muted)}
+.res{position:fixed;inset:0;z-index:30;background:radial-gradient(circle at 50% 20%,#1d3f6b,#0B1F3A 70%);color:#fff;overflow-y:auto}
+.res[hidden]{display:none}
+#conf{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+.rin{max-width:520px;margin:0 auto;padding:40px 22px 40px;text-align:center;position:relative}
+.x2{position:absolute;right:10px;top:6px;border:0;background:none;color:#fff;font-size:36px;cursor:pointer}
+.suspense{padding-top:18vh}
+.dice{font-size:80px;animation:roll .5s infinite linear}
+@keyframes roll{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+.dd.big{font-size:34px;color:#fff;margin-top:16px}
+.suspense p{color:var(--gold2);font-size:20px;margin-top:14px;font-weight:600}
+.rproj{color:var(--gold2);font-weight:700;font-size:16px;letter-spacing:1px;text-transform:uppercase;min-height:20px}
+.ring{position:relative;width:230px;height:230px;margin:14px auto 0}
+.ring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:11}
+.ring .trk{stroke:rgba(255,255,255,.12)}
+.ring .val{stroke:var(--gold);stroke-linecap:round;stroke-dasharray:326.7;stroke-dashoffset:326.7;transition:stroke-dashoffset 1.6s ease,stroke .3s}
+.score{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.score b{font-size:70px;font-weight:900;line-height:1}
+.score span{color:#C8D2E2;font-size:17px}
+.verdict{font-size:clamp(34px,10vw,46px);font-weight:900;margin-top:18px;line-height:1.1;letter-spacing:-.5px;opacity:0;transform:scale(.6);transition:all .5s cubic-bezier(.2,1.6,.4,1)}
+.verdict.show{opacity:1;transform:scale(1)}
+.vtext{font-size:18.5px;color:#E3E9F2;margin-top:12px;line-height:1.5}
+.gaps{text-align:left;margin-top:20px}
+.gaps h4{font-size:17px;color:var(--gold2);margin-bottom:8px}
+.gap{display:flex;gap:10px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:10px 12px;margin-bottom:8px;font-size:16px}
+.gap b{margin-left:auto;color:#FF9C9C;white-space:nowrap}
+.res .btn{margin-top:20px}
+.rf{font-size:15px!important;color:#8A1F1F!important;background:#FDECEC;border-radius:10px;padding:8px 10px;margin-top:12px!important}
 </style>
 </head>
 <body>
@@ -153,42 +206,60 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
  </div>
 </header>
 
-<div class="prog"><span>✅ <span id="done">0</span> / <span id="tot">17</span> checked</span><div class="bar"><i id="bar"></i></div></div>
+<div class="prog"><span>✅ <span id="done">0</span> / <span id="tot">17</span></span><div class="bar"><i id="bar"></i></div><a href="#test" class="go">Get result</a></div>
+
+<section class="game">
+ <div class="dd">🎲 DEAL <span>or</span> NO DEAL?</div>
+ <h2>Take the 2-minute Deal Test</h2>
+ <p>Thinking about an off-plan project? Tick only what you have <b>actually confirmed</b>. Each check carries points by how serious it is, out of 100. Then tap <b>Get my result</b>.</p>
+ <label class="proj">Which project are you checking? <small>(optional)</small><input id="proj" type="text" placeholder="e.g. a project name or area"></label>
+ <div class="scale"><div><b>95–100</b><span>✅ Deal</span></div><div><b>80–94</b><span>⚠️ Caution</span></div><div><b>70–79</b><span>🧐 Broker</span></div><div><b>0–69</b><span>❌ No deal</span></div></div>
+ <p class="rf">🚩 Missing a must-have (developer, project registration or escrow)? You get a red flag, whatever your score.</p>
+</section>
 
 <section class="sec">
  <div class="kicker">Checks 1–2</div><h2>🛡️ Is it safe?</h2><p class="lead">Dubai protects off-plan buyers well. Make sure you're inside that protection.</p>
- <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">01</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>Open the official <b>Dubai REST</b> app (Dubai Land Department) and search the developer. Look at their completed projects and on-time handovers.</p><div class="ticks"><label class="tick"><input type="checkbox"><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox"><span>Track record of delivered projects checked</span></label></div></div></div>
- <div class="card"><div class="num"><span class="ic">🏗️</span><span class="n">02</span></div><div class="body"><h3>The exact project is registered, not just the developer</h3><p>Every off-plan project has its own registration. Ask for the <b>project number</b> and search it on Dubai REST to see its status and construction progress.</p><div class="ticks"><label class="tick"><input type="checkbox"><span>Project number verified on Dubai REST</span></label><label class="tick"><input type="checkbox"><span>Construction progress (%) matches what you were told</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">01</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>Open the official <b>Dubai REST</b> app (Dubai Land Department) and search the developer. Look at their completed projects and on-time handovers.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><span>Track record of delivered projects checked</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏗️</span><span class="n">02</span></div><div class="body"><h3>The exact project is registered, not just the developer</h3><p>Every off-plan project has its own registration. Ask for the <b>project number</b> and search it on Dubai REST to see its status and construction progress.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="10"><span>Project number verified on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="4"><span>Construction progress (%) matches what you were told</span></label></div></div></div>
 </section>
 
 <section class="sec">
  <div class="kicker">Checks 3–4</div><h2>🔐 Protect your money</h2><p class="lead">Where your money goes and who you deal with.</p>
- <div class="card"><div class="num"><span class="ic">🏦</span><span class="n">03</span></div><div class="body"><h3>Your money goes into the project's escrow account</h3><p>By law (<b>Law No. 8 of 2007</b>), off-plan payments go into a regulated escrow account for that project, not the developer's company account.</p><div class="ticks"><label class="tick"><input type="checkbox"><span>Escrow bank &amp; account on the payment instructions</span></label><label class="tick"><input type="checkbox"><span>They match the project's escrow details on Dubai REST</span></label></div><div class="tip warn">⚠️ Never pay a deposit into a personal or general company account.</div></div></div>
- <div class="card"><div class="num"><span class="ic">🪪</span><span class="n">04</span></div><div class="body"><h3>Your agent is licensed</h3><p>Ask for the agent's <b>BRN</b> (Broker Registration Number) and verify it on Dubai REST.</p><div class="ticks"><label class="tick"><input type="checkbox"><span>Agent BRN verified</span></label><label class="tick"><input type="checkbox"><span>Agency and agent named on the paperwork</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏦</span><span class="n">03</span></div><div class="body"><h3>Your money goes into the project's escrow account</h3><p>By law (<b>Law No. 8 of 2007</b>), off-plan payments go into a regulated escrow account for that project, not the developer's company account.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="9"><span>Escrow bank &amp; account on the payment instructions</span></label><label class="tick"><input type="checkbox" data-w="9"><span>They match the project's escrow details on Dubai REST</span></label></div><div class="tip warn">⚠️ Never pay a deposit into a personal or general company account.</div></div></div>
+ <div class="card"><div class="num"><span class="ic">🪪</span><span class="n">04</span></div><div class="body"><h3>Your agent is licensed</h3><p>Ask for the agent's <b>BRN</b> (Broker Registration Number) and verify it on Dubai REST.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="5"><span>Agent BRN verified</span></label><label class="tick"><input type="checkbox" data-w="2"><span>Agency and agent named on the paperwork</span></label></div></div></div>
 </section>
 
 <section class="sec">
  <div class="kicker">Check 5</div><h2>💰 Know the real cost</h2><p class="lead">The price is not the whole story.</p>
- <div class="card"><div class="num"><span class="ic">💰</span><span class="n">05</span></div><div class="body"><h3>You know the full cost, not just the price</h3><div class="costs"><div style="flex:5;background:#0B1F3A">DLD ~4%</div><div style="flex:10;background:#C9A24A">Deposit 10–20%</div><div style="flex:5;background:#5B6678">Handover</div></div><p>Oqood is usually paid at booking (some launches cover or share it, so ask). At handover budget for DEWA, cooling (if any) and service charges. Get any agency fee in writing.</p><div class="ticks"><label class="tick"><input type="checkbox"><span>Total cash needed at booking calculated</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">💰</span><span class="n">05</span></div><div class="body"><h3>You know the full cost, not just the price</h3><div class="costs"><div style="flex:5;background:#0B1F3A">DLD ~4%</div><div style="flex:10;background:#C9A24A">Deposit 10–20%</div><div style="flex:5;background:#5B6678">Handover</div></div><p>Oqood is usually paid at booking (some launches cover or share it, so ask). At handover budget for DEWA, cooling (if any) and service charges. Get any agency fee in writing.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="6"><span>Total cash needed at booking calculated</span></label></div></div></div>
  <div class="card tipc"><div class="num"><span class="ic">📱</span><span class="n">TIP</span></div><div class="body"><h3>Your #1 free tool: the Dubai REST app</h3><p>Free on the App Store and Google Play, from the Dubai Land Department. Checks 1 to 4 take about <b>10 minutes</b> in the app. If a project or agent isn't there, walk away.</p></div></div>
 </section>
 
 <section class="sec">
  <div class="kicker">Checks 6–7</div><h2>📈 Is it right for you?</h2><p class="lead">It has to fit your cash flow and your contract.</p>
- <div class="card"><div class="num"><span class="ic">📅</span><span class="n">06</span></div><div class="body"><h3>The payment plan fits your cash flow</h3><p>Write down every milestone: how much and when. Is it linked to dates or to construction progress? Is there a <b>post-handover</b> plan?</p><div class="ticks"><label class="tick"><input type="checkbox"><span>Every instalment and date listed</span></label><label class="tick"><input type="checkbox"><span>You can pay each one even if your plans change</span></label></div></div></div>
- <div class="card"><div class="num"><span class="ic">📝</span><span class="n">07</span></div><div class="body"><h3>The SPA (Sale &amp; Purchase Agreement) is clear</h3><p>Check unit number, size, floor plan, finishes, payment schedule, the <b>expected completion date</b> and what happens if handover is late.</p><div class="ticks"><label class="tick"><input type="checkbox"><span>Unit, size and specs match the brochure</span></label><label class="tick"><input type="checkbox"><span>Completion date and delay terms understood</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">📅</span><span class="n">06</span></div><div class="body"><h3>The payment plan fits your cash flow</h3><p>Write down every milestone: how much and when. Is it linked to dates or to construction progress? Is there a <b>post-handover</b> plan?</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="4"><span>Every instalment and date listed</span></label><label class="tick"><input type="checkbox" data-w="6"><span>You can pay each one even if your plans change</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">📝</span><span class="n">07</span></div><div class="body"><h3>The SPA (Sale &amp; Purchase Agreement) is clear</h3><p>Check unit number, size, floor plan, finishes, payment schedule, the <b>expected completion date</b> and what happens if handover is late.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="4"><span>Unit, size and specs match the brochure</span></label><label class="tick"><input type="checkbox" data-w="5"><span>Completion date and delay terms understood</span></label></div></div></div>
 </section>
 
 <section class="sec">
  <div class="kicker">Checks 8–9</div><h2>⚖️ Lock in your rights</h2><p class="lead">Registration and the fine print.</p>
- <div class="card"><div class="num"><span class="ic">📜</span><span class="n">08</span></div><div class="body"><h3>Your purchase is registered (Oqood)</h3><p>Oqood is the DLD's interim registration of your off-plan purchase. It protects your rights during construction and becomes your <b>title deed</b> at handover.</p><div class="ticks"><label class="tick"><input type="checkbox"><span>Oqood certificate received</span></label></div></div></div>
- <div class="card"><div class="num"><span class="ic">⚖️</span><span class="n">09</span></div><div class="body"><h3>You know the risk if you stop paying</h3><p>If a buyer defaults, Dubai rules let the developer keep part of what was paid, depending on construction progress. Know the terms <b>before</b> you sign.</p><div class="ticks"><label class="tick"><input type="checkbox"><span>Default and cancellation terms understood</span></label><label class="tick"><input type="checkbox"><span>Resale rules known (when you can sell, NOC fee)</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">📜</span><span class="n">08</span></div><div class="body"><h3>Your purchase is registered (Oqood)</h3><p>Oqood is the DLD's interim registration of your off-plan purchase. It protects your rights during construction and becomes your <b>title deed</b> at handover.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="9"><span>Developer confirms your purchase will be registered (Oqood) with DLD</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">⚖️</span><span class="n">09</span></div><div class="body"><h3>You know the risk if you stop paying</h3><p>If a buyer defaults, Dubai rules let the developer keep part of what was paid, depending on construction progress. Know the terms <b>before</b> you sign.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="5"><span>Default and cancellation terms understood</span></label><label class="tick"><input type="checkbox" data-w="3"><span>Resale rules known (when you can sell, NOC fee)</span></label></div></div></div>
 </section>
 
 <section class="sec">
  <div class="kicker">Check 10</div><h2>🧭 Plan your way out</h2><p class="lead">Know your exit before you commit.</p>
- <div class="card"><div class="num"><span class="ic">🚪</span><span class="n">10</span></div><div class="body"><h3>Your exit plan makes sense</h3><p>🏠 <b>Live</b> · 🔑 <b>Rent</b>: compare rents for similar ready units · 💸 <b>Sell</b>: check real resale prices on DLD data.</p><div class="tip">🌟 <b>Golden Visa:</b> property worth AED 2M+ can qualify for the 10-year UAE Golden Visa, off-plan included. Confirm current DLD conditions for your case.</div><div class="ticks"><label class="tick"><input type="checkbox"><span>Exit plan chosen and numbers checked</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">🚪</span><span class="n">10</span></div><div class="body"><h3>Your exit plan makes sense</h3><p>🏠 <b>Live</b> · 🔑 <b>Rent</b>: compare rents for similar ready units · 💸 <b>Sell</b>: check real resale prices on DLD data.</p><div class="tip">🌟 <b>Golden Visa:</b> property worth AED 2M+ can qualify for the 10-year UAE Golden Visa, off-plan included. Confirm current DLD conditions for your case.</div><div class="ticks"><label class="tick"><input type="checkbox" data-w="6"><span>Exit plan chosen and numbers checked</span></label></div></div></div>
  <div class="card rule"><div class="num"><span class="ic">🔐</span><span class="n">RULE</span></div><div class="body"><h3>The golden rule</h3><p>No Dubai REST listing, no escrow account, no Oqood? <b style="color:#E8CF8E">No deal.</b> A good project passes all 10 checks easily.</p></div></div>
+</section>
+
+<section class="sec" id="test">
+ <div class="submit">
+  <div class="dd">🎲 DEAL <span>or</span> NO DEAL?</div>
+  <p>Ticked everything you've confirmed? Let's see your Deal Score.</p>
+  <button type="button" class="btn go2" id="submit">🎯 Get my result</button>
+  <button type="button" class="reset" id="reset">↺ Start again</button>
+ </div>
 </section>
 
 <footer class="cta">
@@ -213,6 +284,23 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
 </div>
 
 
+<div class="res" id="res" hidden>
+ <canvas id="conf"></canvas>
+ <div class="rin">
+  <button type="button" class="x2" id="rclose" aria-label="Close">×</button>
+  <div id="suspense" class="suspense"><div class="dice">🎲</div><div class="dd big">DEAL <span>or</span> NO DEAL?</div><p id="sline">Weighing your answers…</p></div>
+  <div id="final" hidden>
+   <div class="rproj" id="rproj"></div>
+   <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="trk"/><circle cx="60" cy="60" r="52" class="val" id="arc"/></svg><div class="score"><b id="pct">0</b><span>/ 100</span></div></div>
+   <div class="verdict" id="verdict"></div>
+   <p class="vtext" id="vtext"></p>
+   <div class="gaps" id="gaps"></div>
+   <a class="btn" id="share" href="#"><svg class="lg"><use href="#waw"/></svg>Send my result to Sam</a>
+   <button type="button" class="reset light" id="review">Review my answers</button>
+  </div>
+ </div>
+</div>
+
 <div class="modal" id="modal" hidden>
  <form class="sheet" id="pdfform" novalidate>
   <button type="button" class="x" id="close" aria-label="Close">×</button>
@@ -235,7 +323,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
   var url = "https://wa.me/971528728248?text=" + encodeURIComponent(msg);
   document.querySelectorAll(".wa-link").forEach(function(a){ a.href = url; });
   var boxes = Array.prototype.slice.call(document.querySelectorAll(".tick input"));
-  var key = "sam-checklist-v1", saved = [];
+  var key = "sam-dealtest-v2", saved = [];
   try { saved = JSON.parse(localStorage.getItem(key) || "[]"); } catch(e) {}
   function update(){
     var n = boxes.filter(function(b){ return b.checked; }).length;
@@ -247,6 +335,60 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
   document.getElementById("tot").textContent = boxes.length;
   update();
 
+
+  // points badges
+  boxes.forEach(function(b){ var s=document.createElement("span"); s.className="pts"; s.textContent="+"+b.dataset.w; b.parentNode.appendChild(s); });
+  var TIERS=[
+    {min:95,v:"DEAL ✅",c:"#3DDC84",t:"Congratulations! This project passes the key checks and is worth considering for your next step. Not a blind yes: take it forward to a site visit and the final paperwork, with someone checking the details with you."},
+    {min:80,v:"DEAL WITH CAUTION ⚠️",c:"#F5C451",t:"Most of the important boxes are ticked. Close the gaps below before you pay anything, then go ahead with care."},
+    {min:70,v:"CONSULT A BROKER 🧐",c:"#F59E51",t:"Proceed with caution. There are real gaps here. Talk to a licensed broker and get the missing answers before you commit."},
+    {min:0,v:"NO DEAL ❌",c:"#FF6B6B",t:"Too many key checks are missing. Walk away for now and look at other projects, or get these answers first."}];
+  var res=document.getElementById("res"), lastScore=0, lastTier=null;
+  function score(){ return boxes.reduce(function(s,b){return s+(b.checked?+b.dataset.w:0);},0); }
+  function labelOf(b){ return b.parentNode.querySelector("span").textContent; }
+  function show(){
+    var sc=score(), tier=TIERS.filter(function(x){return sc>=x.min;})[0];
+    var CRIT=[0,2,4,5], redflag=CRIT.some(function(i){return !boxes[i].checked;});
+    if(redflag && sc>=70){ tier={v:"RED FLAG 🚩",c:"#FF8A3D",t:"Your score looks good, but a must-have is missing: the developer, the project registration or the escrow account is not confirmed. Don't pay anything until it is. Consult a broker and proceed with caution."}; }
+    lastScore=sc; lastTier=tier;
+    var proj=document.getElementById("proj").value.trim();
+    res.hidden=false; document.body.style.overflow="hidden"; res.scrollTop=0;
+    document.getElementById("suspense").hidden=false; document.getElementById("final").hidden=true;
+    var lines=["Weighing your answers…","Checking escrow & registration…","Deal… or no deal?"], k=0, sl=document.getElementById("sline");
+    sl.textContent=lines[0];
+    var iv=setInterval(function(){k++; if(k<lines.length) sl.textContent=lines[k];},800);
+    setTimeout(function(){
+      clearInterval(iv);
+      document.getElementById("suspense").hidden=true; document.getElementById("final").hidden=false;
+      document.getElementById("rproj").textContent=proj?("🏗️ "+proj):"Your Deal Score";
+      var arc=document.getElementById("arc"); arc.style.stroke=tier.c; arc.style.strokeDashoffset=326.7;
+      setTimeout(function(){arc.style.strokeDashoffset=326.7*(1-sc/100);},50);
+      var p=document.getElementById("pct"), n=0, st=performance.now();
+      (function step(now){ var f=Math.min(1,(now-st)/1600); n=Math.round(sc*(1-Math.pow(1-f,3))); p.textContent=n; if(f<1) requestAnimationFrame(step); else reveal(); })(st);
+      function reveal(){
+        var v=document.getElementById("verdict"); v.textContent=tier.v; v.style.color=tier.c; v.classList.remove("show"); void v.offsetWidth; v.classList.add("show");
+        document.getElementById("vtext").textContent=tier.t;
+        var miss=boxes.filter(function(b){return !b.checked;}).sort(function(a,b){return b.dataset.w-a.dataset.w;});
+        var g=document.getElementById("gaps");
+        g.innerHTML = miss.length ? "<h4>"+(sc>=95?"Still to confirm":"Fix these first (biggest first)")+"</h4>"+miss.slice(0,6).map(function(b){return '<div class="gap"><span>❗ '+labelOf(b).replace(/</g,"&lt;")+'</span><b>−'+b.dataset.w+'</b></div>';}).join("") : "<h4>🎉 Every check confirmed</h4>";
+        var m="Hi Sam, I took your Deal Test"+(proj?(" for "+proj):"")+": "+sc+"/100, "+tier.v.replace(/[^A-Za-z ]/g,"").trim()+". Can you review it with me?";
+        document.getElementById("share").href="https://wa.me/971528728248?text="+encodeURIComponent(m);
+        if(sc>=95) confetti();
+      }
+    },2600);
+  }
+  function close(){ res.hidden=true; document.body.style.overflow=""; }
+  document.getElementById("submit").addEventListener("click",show);
+  document.getElementById("rclose").addEventListener("click",close);
+  document.getElementById("review").addEventListener("click",function(){ close(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
+  document.getElementById("reset").addEventListener("click",function(){ boxes.forEach(function(b){b.checked=false;}); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
+  function confetti(){
+    var c=document.getElementById("conf"), x=c.getContext("2d"); c.width=innerWidth; c.height=innerHeight;
+    var cols=["#C9A24A","#E8CF8E","#3DDC84","#fff","#25D366"], ps=[];
+    for(var i=0;i<160;i++) ps.push({x:Math.random()*c.width,y:-20-Math.random()*c.height*.5,r:4+Math.random()*6,vx:-2+Math.random()*4,vy:2+Math.random()*4,a:Math.random()*6,c:cols[i%5]});
+    var t0=performance.now();
+    (function f(now){ x.clearRect(0,0,c.width,c.height); ps.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.a+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);x.restore();}); if(now-t0<4500) requestAnimationFrame(f); else x.clearRect(0,0,c.width,c.height); })(t0);
+  }
   var modal=document.getElementById("modal");
   document.getElementById("getpdf").addEventListener("click",function(){modal.hidden=false;setTimeout(function(){document.getElementById("fname").focus();},50);});
   document.getElementById("close").addEventListener("click",function(){modal.hidden=true;});
