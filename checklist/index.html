@@ -98,7 +98,12 @@ h2{font-size:clamp(28px,7vw,36px);color:var(--navy);font-weight:800;letter-spaci
 .sticky{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--wa);color:#fff;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:12px;padding:14px 16px calc(14px + env(safe-area-inset-bottom));font-weight:800;font-size:19px;box-shadow:0 -4px 16px rgba(0,0,0,.18)}
 .sticky .lg{width:30px;height:30px}
 .sticky small{background:rgba(255,255,255,.22);border-radius:30px;padding:3px 12px;font-size:15px;font-weight:700}
-@media (max-width:420px){.sticky small{display:none}.num{width:50px}.num .ic{font-size:33px}}
+.sticky{gap:10px;font-size:18px}
+.sticky .st,.sticky small{white-space:nowrap}
+.sticky small{font-size:16px;padding:4px 12px}
+.links a,.contact .r b{white-space:nowrap}
+@media (max-width:420px){.num{width:50px}.num .ic{font-size:33px}.sticky{font-size:16px;gap:8px;padding-left:10px;padding-right:10px}.sticky small{font-size:15px;padding:3px 10px}.sticky .lg{width:26px;height:26px}}
+@media (max-width:340px){.sticky .st{display:none}}
 
 button.btn{width:100%;border:0;cursor:pointer;font-family:inherit}
 button.btn.pdf{border:2px solid var(--gold);background:transparent}
@@ -222,7 +227,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
  </form>
 </div>
 
-<a class="sticky wa-link" href="#"><svg class="lg"><use href="#waw"/></svg>Chat with Sam on WhatsApp <small>+971 52 872 8248</small></a>
+<a class="sticky wa-link" href="#"><svg class="lg"><use href="#waw"/></svg><span class="st">Chat on WhatsApp</span><small>+971 52 872 8248</small></a>
 
 <script>
 (function(){
