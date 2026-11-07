@@ -1,7 +1,19 @@
 {
- "checked_at": "2026-11-07T19:44:13.080390Z",
- "ok": false,
+ "checked_at": "2026-11-07T19:49:06.437435Z",
+ "ok": true,
  "errors": [
-  "https://www.dubaipulse.gov.ae/dataset/0b782e64-5950-4507-8f6e-02a0c30c7054/resource/db35b0cd-d291-4dde-b176-9b8d5765c7d9/download/projects.csv: <urlopen error timed out>"
- ]
+  "dubaipulse: <urlopen error timed out>"
+ ],
+ "source": "datadubai",
+ "rows": 770,
+ "mapped": {
+  "no": "pn",
+  "name": "name",
+  "dev": "developer",
+  "status": "status",
+  "pct": "completion",
+  "escrow": "escrow",
+  "end": "completion_date",
+  "area": "community"
+ }
 }
