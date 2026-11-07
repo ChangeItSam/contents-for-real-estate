@@ -26,6 +26,12 @@ try:
             if not series and not is_short(vid): series = (vid, title)
         elif not full and not is_short(vid): full = (vid, title)
         if full and series: break
+    # accumulate every Sir Purrperty video ever seen (the feed only shows the latest 15)
+    sl = {v["id"]: v for v in cur.get("series_list", [])}
+    for vid, title, pub in entries:
+        if SERIES_PAT.search(title) and "#shorts" not in title.lower() and vid not in sl and not is_short(vid):
+            sl[vid] = {"id": vid, "title": title, "published": pub[:10]}
+    cur["series_list"] = sorted(sl.values(), key=lambda v: v["published"])
     if full: cur["full"] = {"url": f"https://youtu.be/{full[0]}", "title": full[1]}
     if series: cur["series"] = {"url": f"https://youtu.be/{series[0]}", "title": series[1]}
     cur["updated"] = datetime.date.today().isoformat()
