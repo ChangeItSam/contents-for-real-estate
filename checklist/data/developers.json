@@ -74,34 +74,20 @@
   },
   {
    "priority": 10,
-   "name": "Reportage",
-   "match": [
-    "reportage"
-   ]
-  },
-  {
-   "priority": 11,
    "name": "Imtiaz",
    "match": [
     "imtiaz"
    ]
   },
   {
-   "priority": 12,
-   "name": "Deyaar",
-   "match": [
-    "deyaar"
-   ]
-  },
-  {
-   "priority": 13,
+   "priority": 11,
    "name": "Majid Al Futtaim",
    "match": [
     "majid al futtaim"
    ]
   },
   {
-   "priority": 14,
+   "priority": 12,
    "name": "Tiger",
    "match": [
     "tiger properties"
