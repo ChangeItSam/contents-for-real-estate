@@ -88,9 +88,9 @@
   },
   {
    "priority": 12,
-   "name": "Tiger",
+   "name": "Object One",
    "match": [
-    "tiger properties"
+    "object one"
    ]
   }
  ]
