@@ -174,6 +174,8 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
 .gap b{margin-left:auto;color:#FF9C9C;white-space:nowrap}
 .res .btn{margin-top:20px}
 .rf{font-size:15px!important;color:#8A1F1F!important;background:#FDECEC;border-radius:10px;padding:8px 10px;margin-top:12px!important}
+.btn.pulse{animation:pulse 1.8s infinite}
+.sharenote{font-size:14.5px;color:#C8D2E2;margin-top:8px}
 </style>
 </head>
 <body>
@@ -284,6 +286,20 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
 </div>
 
 
+<div class="modal" id="gate" hidden>
+ <form class="sheet" id="gateform" novalidate>
+  <button type="button" class="x" id="gclose" aria-label="Close">×</button>
+  <div class="mi">🎲</div>
+  <h3>Your result is ready!</h3>
+  <p>Enter your name and WhatsApp number to see your Deal Score. You'll get a link to your result on WhatsApp to keep.</p>
+  <label>Your name<input id="gname" type="text" autocomplete="name" placeholder="e.g. Ahmed Khan" required></label>
+  <label>WhatsApp number (with country code)<input id="gphone" type="tel" autocomplete="tel" inputmode="tel" placeholder="e.g. +44 7700 900123" required></label>
+  <div class="err" id="gerr"></div>
+  <button class="btn go2" type="submit">🎯 Show my result</button>
+  <small>Your details are only used to send you your result and Dubai property updates. Reply STOP any time.</small>
+ </form>
+</div>
+
 <div class="res" id="res" hidden>
  <canvas id="conf"></canvas>
  <div class="rin">
@@ -295,7 +311,8 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
    <div class="verdict" id="verdict"></div>
    <p class="vtext" id="vtext"></p>
    <div class="gaps" id="gaps"></div>
-   <a class="btn" id="share" href="#"><svg class="lg"><use href="#waw"/></svg>Send my result to Sam</a>
+   <a class="btn pulse" id="share" href="#"><svg class="lg"><use href="#waw"/></svg>Send my result to my WhatsApp</a>
+   <p class="sharenote">Opens WhatsApp with your result link ready. Tap send to keep it, and Sam will reply to help.</p>
    <button type="button" class="reset light" id="review">Review my answers</button>
   </div>
  </div>
@@ -371,14 +388,44 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
         var miss=boxes.filter(function(b){return !b.checked;}).sort(function(a,b){return b.dataset.w-a.dataset.w;});
         var g=document.getElementById("gaps");
         g.innerHTML = miss.length ? "<h4>"+(sc>=95?"Still to confirm":"Fix these first (biggest first)")+"</h4>"+miss.slice(0,6).map(function(b){return '<div class="gap"><span>❗ '+labelOf(b).replace(/</g,"&lt;")+'</span><b>−'+b.dataset.w+'</b></div>';}).join("") : "<h4>🎉 Every check confirmed</h4>";
-        var m="Hi Sam, I took your Deal Test"+(proj?(" for "+proj):"")+": "+sc+"/100, "+tier.v.replace(/[^A-Za-z ]/g,"").trim()+". Can you review it with me?";
+        var m="🎯 My Dubai Off-Plan Deal Test result"+(proj?(" for "+proj):"")+": "+sc+"/100, "+tier.v.replace(/[^A-Za-z ]/g,"").trim()+".\n\nMy result: "+resultLink(sc)+"\n\nHi Sam, I'm "+(who.n||"")+(who.p?(" (WhatsApp: "+who.p+")"):"")+". Can you review it with me?";
         document.getElementById("share").href="https://wa.me/971528728248?text="+encodeURIComponent(m);
         if(sc>=95) confetti();
       }
     },2600);
   }
   function close(){ res.hidden=true; document.body.style.overflow=""; }
-  document.getElementById("submit").addEventListener("click",show);
+  var gate=document.getElementById("gate"), who={};
+  try{ who=JSON.parse(localStorage.getItem("sam-who")||"{}"); }catch(e){}
+  function openGate(){ document.getElementById("gname").value=who.n||""; document.getElementById("gphone").value=who.p||""; gate.hidden=false; setTimeout(function(){document.getElementById(who.n?"gphone":"gname").focus();},50); }
+  document.getElementById("submit").addEventListener("click",openGate);
+  document.querySelector(".prog .go").addEventListener("click",function(e){ e.preventDefault(); openGate(); });
+  document.getElementById("gclose").addEventListener("click",function(){gate.hidden=true;});
+  gate.addEventListener("click",function(e){if(e.target===gate)gate.hidden=true;});
+  document.getElementById("gateform").addEventListener("submit",function(e){
+    e.preventDefault();
+    var n=document.getElementById("gname").value.trim(), p=document.getElementById("gphone").value.trim(), dg=p.replace(/[^0-9]/g,""), er=document.getElementById("gerr");
+    if(n.length<2){er.textContent="Please enter your name.";return;}
+    if(dg.length<8||dg.length>15){er.textContent="Please enter your WhatsApp number with country code.";return;}
+    er.textContent=""; who={n:n,p:p}; try{localStorage.setItem("sam-who",JSON.stringify(who));}catch(x){}
+    gate.hidden=true; show();
+  });
+  function resultLink(sc){
+    var bits=boxes.map(function(b){return b.checked?"1":"0";}).join("");
+    var proj=document.getElementById("proj").value.trim();
+    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||""})))));
+  }
+  // shared result link: restore answers and show result directly
+  (function(){
+    var m=location.hash.match(/^#r=(.+)$/); if(!m) return;
+    try{
+      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));
+      boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; });
+      document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n;
+      update(); setTimeout(show,400);
+    }catch(x){}
+  })();
+
   document.getElementById("rclose").addEventListener("click",close);
   document.getElementById("review").addEventListener("click",function(){ close(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
   document.getElementById("reset").addEventListener("click",function(){ boxes.forEach(function(b){b.checked=false;}); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
@@ -390,7 +437,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
     (function f(now){ x.clearRect(0,0,c.width,c.height); ps.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.a+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r/2,-p.r/4,p.r,p.r/2);x.restore();}); if(now-t0<4500) requestAnimationFrame(f); else x.clearRect(0,0,c.width,c.height); })(t0);
   }
   var modal=document.getElementById("modal");
-  document.getElementById("getpdf").addEventListener("click",function(){modal.hidden=false;setTimeout(function(){document.getElementById("fname").focus();},50);});
+  document.getElementById("getpdf").addEventListener("click",function(){document.getElementById("fname").value=document.getElementById("fname").value||who.n||"";document.getElementById("fphone").value=document.getElementById("fphone").value||who.p||"";modal.hidden=false;setTimeout(function(){document.getElementById("fname").focus();},50);});
   document.getElementById("close").addEventListener("click",function(){modal.hidden=true;});
   modal.addEventListener("click",function(e){if(e.target===modal)modal.hidden=true;});
   document.getElementById("pdfform").addEventListener("submit",function(e){
