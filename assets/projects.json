@@ -1,0 +1,31 @@
+{
+ "_how_to_edit": "Project cards for the 6 pm developer reels, newest first. Added by the reel pipeline (production/PLAYBOOK.md) or by Claude on request. Prices and plans only as published or provided by the developer, with their status (e.g. indicative EOI).",
+ "projects": [
+  {
+   "slug": "alaya",
+   "date": "2026-11-08",
+   "name": "ALAYA",
+   "collection": "Lorevia Collection",
+   "developer": "DECA",
+   "developer_ig": "deca.properties",
+   "location": "Al Zorah, Ajman",
+   "status": "Expression of interest (EOI)",
+   "hero": "img/alaya-model.jpg",
+   "gallery": ["img/alaya-mangroves.jpg", "img/alaya-masterplan.jpg"],
+   "headline": "Waterfront homes next to a Four Seasons resort",
+   "price_from": "AED 420K",
+   "price_note": "Indicative EOI starting price, studio",
+   "highlights": [
+    "178 homes: 118 studios, 32 one-beds, 28 two-beds, plus 16 retail units",
+    "Studios 308-521 sq ft · 1-beds 614-1,029 sq ft · 2-beds 1,012-1,328 sq ft",
+    "Indicative EOI starting prices: studios AED 420K, 1-beds AED 830K, 2-beds AED 1.35M",
+    "Al Zorah: 12 km of waterfront, 100 ha of mangroves, 1.6 km of beach",
+    "Next to the Four Seasons Resort, an 18-hole golf club and Marina 1",
+    "Post-handover payment plan available (indicative)",
+    "Completion: to be confirmed"
+   ],
+   "regulator_note": "Al Zorah is in Ajman, so this project is registered with Ajman's real estate regulator (ARRA), not Dubai Land Department. Ask Sam for the registration and escrow details.",
+   "disclaimer": "Early expression-of-interest terms from DECA's review-draft fact sheet (received 5 Nov 2026). Pricing, payment plan and allocation await DECA's approved commercial release. Not an offer or reservation; subject to availability."
+  }
+ ]
+}
