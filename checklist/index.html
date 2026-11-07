@@ -192,6 +192,9 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
 .dldsrc{font-size:14px!important;color:var(--muted)!important}
 .auto{font-size:12px;font-weight:800;color:#14532D;background:#C9F2D9;border-radius:20px;padding:1px 7px;margin-left:6px;white-space:nowrap}
 .hint{display:block;font-size:14px;color:#14532D;font-weight:600;margin-top:2px}
+.howto{text-align:left;background:rgba(255,255,255,.75);border:1px dashed var(--gold);border-radius:14px;padding:12px 14px;margin-top:14px;font-size:14.5px;line-height:1.5;color:#3A4456}
+.howto>b{display:block;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.howto ol{padding-left:20px} .howto li{margin:3px 0}
 </style>
 </head>
 <body>
@@ -230,6 +233,14 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
  <div class="dd">🎲 DEAL <span>or</span> NO DEAL?</div>
  <h2>Take the 2-minute Deal Test</h2>
  <p>Thinking about an off-plan project? Tick only what you have <b>actually confirmed</b>. Then tap <b>Get my result</b> to find out: deal, or no deal?</p>
+ <div class="howto">
+  <b>How it works</b>
+  <ol>
+   <li><b>Type your project name</b> below and tap it in the list. We check it against Dubai Land Department records and <b>tick the boxes DLD confirms for you</b>.</li>
+   <li>Project not listed, or you'd rather not say? No problem. <b>Skip it</b> and go through the checks yourself.</li>
+   <li>Do your due diligence, tick only what you've <b>confirmed</b>, then tap <b>Get my result</b>.</li>
+  </ol>
+ </div>
  <label class="proj">Which project are you checking? <small>(type 2+ letters)</small><input id="proj" type="text" autocomplete="off" placeholder="e.g. Azizi Venice, Sobha Hartland"></label>
  <div class="sugg" id="sugg" hidden></div>
  <div class="dld" id="dld" hidden></div>
