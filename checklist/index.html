@@ -99,6 +99,23 @@ h2{font-size:clamp(28px,7vw,36px);color:var(--navy);font-weight:800;letter-spaci
 .sticky .lg{width:30px;height:30px}
 .sticky small{background:rgba(255,255,255,.22);border-radius:30px;padding:3px 12px;font-size:15px;font-weight:700}
 @media (max-width:420px){.sticky small{display:none}.num{width:50px}.num .ic{font-size:33px}}
+
+button.btn{width:100%;border:0;cursor:pointer;font-family:inherit}
+button.btn.pdf{border:2px solid var(--gold);background:transparent}
+.modal{position:fixed;inset:0;z-index:20;background:rgba(11,31,58,.6);display:flex;align-items:flex-end;justify-content:center}
+.modal[hidden]{display:none}
+.sheet{background:#fff;width:100%;max-width:520px;border-radius:22px 22px 0 0;padding:26px 22px calc(22px + env(safe-area-inset-bottom));position:relative;animation:up .25s ease}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@media(min-width:560px){.modal{align-items:center}.sheet{border-radius:22px}}
+.sheet .x{position:absolute;right:14px;top:10px;border:0;background:none;font-size:32px;color:var(--muted);cursor:pointer}
+.sheet .mi{font-size:40px}
+.sheet h3{font-size:24px;color:var(--navy);font-weight:800;margin-top:4px}
+.sheet p{font-size:17px;color:var(--muted);margin:6px 0 14px}
+.sheet label{display:block;font-weight:700;font-size:16px;color:var(--navy);margin-top:12px}
+.sheet input{display:block;width:100%;margin-top:6px;font:inherit;font-size:18px;padding:13px 14px;border:2px solid var(--line);border-radius:12px;outline:none}
+.sheet input:focus{border-color:var(--gold)}
+.sheet .err{color:#B42318;font-size:15px;font-weight:600;min-height:20px;margin-top:8px}
+.sheet small{display:block;font-size:13px;color:var(--muted);margin-top:12px;line-height:1.45}
 </style>
 </head>
 <body>
@@ -180,7 +197,7 @@ h2{font-size:clamp(28px,7vw,36px);color:var(--navy);font-weight:800;letter-spaci
    <div class="r"><svg class="lg"><use href="#ig"/></svg><a href="https://www.instagram.com/samtherealrealtor/">Instagram: <b>@SamtheRealRealtor</b></a></div>
    <a class="btn wa-link" href="#"><svg class="lg"><use href="#waw"/></svg>WhatsApp me for a shortlist</a>
    <a class="btn ig" href="https://www.instagram.com/samtherealrealtor/"><svg class="lg"><use href="#igw"/></svg>Follow @SamtheRealRealtor</a>
-   <a class="btn pdf" href="Dubai_OffPlan_Investor_Checklist_SamSurya.pdf">📥 Download the PDF version</a>
+   <button class="btn pdf" type="button" id="getpdf">📥 Get the PDF on WhatsApp</button>
   </div>
  </div>
  <img class="photo" src="sam-awards.jpg" alt="Sam Surya with his sales awards" loading="lazy">
@@ -188,6 +205,21 @@ h2{font-size:clamp(28px,7vw,36px);color:var(--navy);font-weight:800;letter-spaci
  <div class="disc">General information as of November 2026, not legal or financial advice. Rules and fees can change; check with the Dubai Land Department and the developer before you buy.</div>
 </footer>
 
+</div>
+
+
+<div class="modal" id="modal" hidden>
+ <form class="sheet" id="pdfform" novalidate>
+  <button type="button" class="x" id="close" aria-label="Close">×</button>
+  <div class="mi">📥</div>
+  <h3>Get the PDF on WhatsApp</h3>
+  <p>Enter your name and WhatsApp number. Sam will send you the full checklist PDF on WhatsApp.</p>
+  <label>Your name<input id="fname" type="text" autocomplete="name" placeholder="e.g. Ahmed Khan" required></label>
+  <label>WhatsApp number (with country code)<input id="fphone" type="tel" autocomplete="tel" inputmode="tel" placeholder="e.g. +44 7700 900123" required></label>
+  <div class="err" id="err"></div>
+  <button class="btn" type="submit"><svg class="lg"><use href="#waw"/></svg>Send me the PDF</button>
+  <small>Tapping this opens WhatsApp with your request ready. Just press send. Your details are only used to send you the checklist and Dubai property updates; reply STOP any time.</small>
+ </form>
 </div>
 
 <a class="sticky wa-link" href="#"><svg class="lg"><use href="#waw"/></svg>Chat with Sam on WhatsApp <small>+971 52 872 8248</small></a>
@@ -209,6 +241,23 @@ h2{font-size:clamp(28px,7vw,36px);color:var(--navy);font-weight:800;letter-spaci
   boxes.forEach(function(b, i){ b.checked = !!saved[i]; b.addEventListener("change", update); });
   document.getElementById("tot").textContent = boxes.length;
   update();
+
+  var modal=document.getElementById("modal");
+  document.getElementById("getpdf").addEventListener("click",function(){modal.hidden=false;setTimeout(function(){document.getElementById("fname").focus();},50);});
+  document.getElementById("close").addEventListener("click",function(){modal.hidden=true;});
+  modal.addEventListener("click",function(e){if(e.target===modal)modal.hidden=true;});
+  document.getElementById("pdfform").addEventListener("submit",function(e){
+    e.preventDefault();
+    var name=document.getElementById("fname").value.trim();
+    var phone=document.getElementById("fphone").value.trim();
+    var digits=phone.replace(/[^0-9]/g,"");
+    var err=document.getElementById("err");
+    if(name.length<2){err.textContent="Please enter your name.";return;}
+    if(digits.length<8||digits.length>15){err.textContent="Please enter your WhatsApp number with country code.";return;}
+    err.textContent="";
+    var m="Hi Sam, I'm "+name+" (WhatsApp: "+phone+"). Please send me the Dubai Off-Plan Investor Checklist PDF.";
+    window.location.href="https://wa.me/971528728248?text="+encodeURIComponent(m);
+  });
 })();
 </script>
 </body>
