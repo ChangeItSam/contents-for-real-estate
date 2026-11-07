@@ -18,6 +18,20 @@ def col(cols, *names):
         for c in cols:
             if c.strip().lower() == n: return c
     return None
+def build_featured(out):
+    """Newest active project of each priority developer (registered within max_age_days), in priority order."""
+    try: cfg = json.load(open(f"{OUT}/developers.json"))
+    except Exception as e: return f"no developers.json: {e}"
+    cutoff = (datetime.date.today() - datetime.timedelta(days=cfg.get("max_age_days", 365))).isoformat()
+    feat = []
+    for d in sorted(cfg["developers"], key=lambda x: x["priority"]):
+        cands = [r for r in out if "active" in r[3].lower() and r[8] and r[8] >= cutoff and any(m in r[2].lower() for m in d["match"])]
+        if not cands: continue
+        r = max(cands, key=lambda r: r[8])
+        feat.append({"name": r[1], "search": r[1], "developer": d["name"], "priority": d["priority"], "registered": r[8], "no": r[0]})
+        if len(feat) >= cfg.get("show", 6): break
+    json.dump({"updated": status["checked_at"][:10], "featured": feat}, open(f"{OUT}/featured_auto.json", "w"), indent=1, ensure_ascii=False)
+    return [f["developer"] + ": " + f["name"] for f in feat]
 for key, url, credit in SOURCES:
     try:
         raw = get(url)
@@ -28,17 +42,19 @@ for key, url, credit in SOURCES:
             "no": ("project_number", "pn", "project number"), "name": ("project_name", "project_name_en", "name", "project name"),
             "dev": ("developer_name", "developer_name_en", "developer"), "status": ("project_status", "status"),
             "pct": ("percent_completed", "completion", "completed (%)"), "escrow": ("escrow_agent_name", "escrow"),
-            "end": ("completion_date", "project_end_date"), "area": ("area_name_en", "community", "area_name")}.items()}
+            "end": ("completion_date", "project_end_date"), "area": ("area_name_en", "community", "area_name"),
+            "reg": ("registration_date", "adoption_date", "project_start_date", "start_date")}.items()}
         if not C["name"]: raise ValueError(f"no name column in {cols}")
         out = []
         for r in rows:
             g = lambda k: (r.get(C[k]) or "").strip() if C[k] else ""
-            if g("name"): out.append([g("no"), g("name"), g("dev"), g("status"), g("pct"), g("escrow"), g("end"), g("area")])
+            if g("name"): out.append([g("no"), g("name"), g("dev"), g("status"), g("pct"), g("escrow"), g("end"), g("area"), g("reg")[:10]])
         if len(out) < 100: raise ValueError(f"only {len(out)} rows")
         out.sort(key=lambda x: x[1].lower())
-        json.dump({"updated": status["checked_at"][:10], "source": credit, "f": ["no", "name", "dev", "status", "pct", "escrow", "end", "area"], "p": out},
+        json.dump({"updated": status["checked_at"][:10], "source": credit, "f": ["no", "name", "dev", "status", "pct", "escrow", "end", "area", "reg"], "p": out},
                   open(f"{OUT}/projects.json", "w"), separators=(",", ":"), ensure_ascii=False)
-        status.update(ok=True, source=key, rows=len(out), mapped=C); break
+        status.update(ok=True, source=key, rows=len(out), mapped=C)
+        status["featured"] = build_featured(out); break
     except Exception as e:
         status["errors"].append(f"{key}: {e}")
 json.dump(status, open(f"{OUT}/status.json", "w"), indent=1)

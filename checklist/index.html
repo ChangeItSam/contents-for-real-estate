@@ -529,10 +529,13 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
       '<a class="btn" style="margin-top:10px;font-size:17px;padding:11px 14px" href="https://wa.me/971528728248?text='+encodeURIComponent(m)+'"><svg class="lg"><use href="#waw"/></svg>Ask Sam for the DLD details</a>';
     card.hidden=false;
   }
-  fetch("data/featured.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){
-    FEAT=(j.featured||[]).filter(function(f){return f&&f.name;}); if(!FEAT.length) return;
+  function getj(u){ return fetch(u,{cache:"no-cache"}).then(function(r){return r.ok?r.json():{featured:[]};}).catch(function(){return {featured:[]};}); }
+  Promise.all([getj("data/featured.json"),getj("data/featured_auto.json")]).then(function(js){
+    var seen={}; FEAT=[];
+    js[0].featured.concat(js[1].featured).forEach(function(f){ if(f&&f.name&&!seen[f.name.toLowerCase()]){ seen[f.name.toLowerCase()]=1; FEAT.push(f);} });
+    FEAT=FEAT.slice(0,6); if(!FEAT.length) return;
     var fe=document.getElementById("feat");
-    fe.innerHTML='<span>🔥 Featured:</span>'+FEAT.map(function(f,i){return '<button type="button" data-i="'+i+'">'+esc(f.name)+'</button>';}).join("");
+    fe.innerHTML='<span>🔥 New &amp; featured:</span>'+FEAT.map(function(f,i){return '<button type="button" data-i="'+i+'">'+esc(f.name)+(f.developer?' <small style="font-weight:600;color:#5B6678">· '+esc(f.developer)+'</small>':'')+'</button>';}).join("");
     fe.hidden=false;
     Array.prototype.forEach.call(fe.querySelectorAll("button"),function(bt){ bt.addEventListener("click",function(){
       var f=FEAT[+bt.dataset.i]; pin.value=f.search||f.name; pin.focus(); if(auto.length){clearAuto(); card.hidden=true;} search(); }); });

@@ -1,0 +1,22 @@
+{
+ "_how_to_edit": "Sam's priority developers for the Deal Test featured projects. Lower priority number = shown first. 'match' = words found in the DLD developer company name (DLD lists projects under subsidiaries). Ask Claude to reorder, add or remove.",
+ "show": 6,
+ "max_age_days": 365,
+ "developers": [
+  {"priority": 1,  "name": "Emaar",            "match": ["emaar", "dubai creek harbour", "dubai hills estate", "mina rashid properties"]},
+  {"priority": 2,  "name": "Sobha",            "match": ["sobha"]},
+  {"priority": 3,  "name": "DAMAC",            "match": ["damac", "island oasis"]},
+  {"priority": 4,  "name": "Azizi",            "match": ["azizi"]},
+  {"priority": 5,  "name": "Binghatti",        "match": ["binghatti"]},
+  {"priority": 6,  "name": "Danube",           "match": ["danube"]},
+  {"priority": 7,  "name": "Ellington",        "match": ["ellington"]},
+  {"priority": 8,  "name": "Nakheel",          "match": ["nakheel", "dubai islands l.l.c", "palm jebel ali"]},
+  {"priority": 9,  "name": "Samana",           "match": ["samana"]},
+  {"priority": 10, "name": "Reportage",        "match": ["reportage"]},
+  {"priority": 11, "name": "Imtiaz",           "match": ["imtiaz"]},
+  {"priority": 12, "name": "Deyaar",           "match": ["deyaar"]},
+  {"priority": 13, "name": "Majid Al Futtaim", "match": ["majid al futtaim"]},
+  {"priority": 14, "name": "Tiger",            "match": ["tiger properties"]},
+  {"priority": 15, "name": "Object One",       "match": ["object one"]}
+ ]
+}

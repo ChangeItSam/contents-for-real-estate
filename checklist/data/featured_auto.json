@@ -1,0 +1,53 @@
+{
+ "updated": "2026-11-07",
+ "featured": [
+  {
+   "name": "Golf Trails",
+   "search": "Golf Trails",
+   "developer": "Emaar",
+   "priority": 1,
+   "registered": "2026-07-07",
+   "no": "4523"
+  },
+  {
+   "name": "The Brooks At Sobha Sanctuary",
+   "search": "The Brooks At Sobha Sanctuary",
+   "developer": "Sobha",
+   "priority": 2,
+   "registered": "2026-07-30",
+   "no": "4532"
+  },
+  {
+   "name": "Damac Islands 2 - Antigua 1",
+   "search": "Damac Islands 2 - Antigua 1",
+   "developer": "DAMAC",
+   "priority": 3,
+   "registered": "2026-03-25",
+   "no": "4369"
+  },
+  {
+   "name": "Azizi Abraham",
+   "search": "Azizi Abraham",
+   "developer": "Azizi",
+   "priority": 4,
+   "registered": "2026-08-04",
+   "no": "4024"
+  },
+  {
+   "name": "Binghatti Skyflame 1",
+   "search": "Binghatti Skyflame 1",
+   "developer": "Binghatti",
+   "priority": 5,
+   "registered": "2026-03-26",
+   "no": "4393"
+  },
+  {
+   "name": "Greenz By Danube",
+   "search": "Greenz By Danube",
+   "developer": "Danube",
+   "priority": 6,
+   "registered": "2026-08-17",
+   "no": "4430"
+  }
+ ]
+}

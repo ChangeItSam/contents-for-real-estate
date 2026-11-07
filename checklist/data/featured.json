@@ -1,6 +1,4 @@
 {
- "_how_to_edit": "Featured projects shown as the typing hint and chips on the Deal Test. Ask Claude to change, or edit this list. 'name' is shown; 'search' is what gets typed into the box.",
- "featured": [
-  {"name": "Azizi Venice", "search": "azizi venice"}
- ]
+ "_how_to_edit": "Pinned projects, shown before the automatic ones (featured_auto.json is rebuilt weekly from developers.json). Ask Claude to pin a project.",
+ "featured": []
 }
