@@ -177,7 +177,8 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
 .btn.pulse{animation:pulse 1.8s infinite}
 .sharenote{font-size:14.5px;color:#C8D2E2;margin-top:8px}
 
-.sugg{text-align:left;background:#fff;border:2px solid var(--gold);border-radius:12px;margin-top:6px;overflow:hidden}
+.sugg{text-align:left;background:#fff;border:2px solid var(--gold);border-radius:12px;margin-top:6px;overflow:hidden;box-shadow:0 8px 22px rgba(8,18,38,.14);position:relative;z-index:5}
+.sugg:not([hidden])+.feat{display:none}
 .sugg button{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:#fff;padding:10px 12px;font:inherit;font-size:16px;cursor:pointer}
 .sugg button:last-child{border-bottom:0}
 .sugg button small{display:block;color:var(--muted);font-size:13px}
@@ -245,8 +246,8 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
   </ol>
  </div>
  <label class="proj">Which project are you checking? <small>(type 2+ letters)</small><input id="proj" type="text" autocomplete="off" placeholder="e.g. Azizi Venice, Sobha Hartland"></label>
- <div class="feat" id="feat" hidden></div>
  <div class="sugg" id="sugg" hidden></div>
+ <div class="feat" id="feat" hidden></div>
  <div class="dld" id="dld" hidden></div>
  <p class="dldsrc" id="dldsrc">🏛️ We check the project against Dubai Land Department records and tick what they confirm.</p>
 </section>
@@ -512,7 +513,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
         if(fm){ sg.hidden=true; newLaunch(fm.name); return; }
         sg.innerHTML='<button type="button" disabled>No match in DLD projects with sales records. Check it on Dubai REST.</button>'; sg.hidden=false; return; }
       sg.innerHTML=hits.map(function(r,k){return '<button type="button" data-k="'+k+'">'+esc(r[1])+'<small>'+esc([r[7],r[2],r[3]].filter(Boolean).join(" · "))+'</small></button>';}).join("");
-      sg.hidden=false;
+      sg.hidden=false; try{ sg.scrollIntoView({block:"nearest",behavior:"smooth"}); }catch(e){}
       Array.prototype.forEach.call(sg.querySelectorAll("button[data-k]"),function(b){ b.addEventListener("click",function(){ pick(hits[+b.dataset.k]); }); });
     });
   }
