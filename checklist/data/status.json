@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-11-07T19:49:06.437435Z",
+ "checked_at": "2026-11-07T20:09:22.861260Z",
  "ok": true,
  "errors": [
   "dubaipulse: <urlopen error timed out>"
@@ -14,6 +14,15 @@
   "pct": "completion",
   "escrow": "escrow",
   "end": "completion_date",
-  "area": "community"
- }
+  "area": "community",
+  "reg": "registration_date"
+ },
+ "featured": [
+  "Emaar: Golf Trails",
+  "Sobha: The Brooks At Sobha Sanctuary",
+  "DAMAC: Damac Islands 2 - Antigua 1",
+  "Azizi: Azizi Abraham",
+  "Binghatti: Binghatti Skyflame 1",
+  "Danube: Greenz By Danube"
+ ]
 }
