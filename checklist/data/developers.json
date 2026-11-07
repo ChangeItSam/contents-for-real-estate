@@ -81,16 +81,16 @@
   },
   {
    "priority": 11,
-   "name": "Majid Al Futtaim",
+   "name": "Object One",
    "match": [
-    "majid al futtaim"
+    "object one"
    ]
   },
   {
    "priority": 12,
-   "name": "Object One",
+   "name": "Aldar",
    "match": [
-    "object one"
+    "aldar"
    ]
   }
  ]
