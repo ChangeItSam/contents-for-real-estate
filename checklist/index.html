@@ -229,13 +229,11 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
 <section class="game">
  <div class="dd">🎲 DEAL <span>or</span> NO DEAL?</div>
  <h2>Take the 2-minute Deal Test</h2>
- <p>Thinking about an off-plan project? Tick only what you have <b>actually confirmed</b>. Each check carries points by how serious it is, out of 100. Then tap <b>Get my result</b>.</p>
+ <p>Thinking about an off-plan project? Tick only what you have <b>actually confirmed</b>. Then tap <b>Get my result</b> to find out: deal, or no deal?</p>
  <label class="proj">Which project are you checking? <small>(type 2+ letters)</small><input id="proj" type="text" autocomplete="off" placeholder="e.g. Azizi Venice, Sobha Hartland"></label>
  <div class="sugg" id="sugg" hidden></div>
  <div class="dld" id="dld" hidden></div>
  <p class="dldsrc" id="dldsrc">🏛️ We check the project against Dubai Land Department records and tick what they confirm.</p>
- <div class="scale"><div><b>95–100</b><span>✅ Deal</span></div><div><b>80–94</b><span>⚠️ Caution</span></div><div><b>70–79</b><span>🧐 Broker</span></div><div><b>0–69</b><span>❌ No deal</span></div></div>
- <p class="rf">🚩 Missing a must-have (developer, project registration, escrow, or your payment going to that escrow)? You get a red flag, whatever your score.</p>
 </section>
 
 <section class="sec">
@@ -373,7 +371,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
 
 
   // points badges
-  boxes.forEach(function(b){ var s=document.createElement("span"); s.className="pts"; s.textContent="+"+b.dataset.w; b.parentNode.appendChild(s); });
+  
   var TIERS=[
     {min:95,v:"DEAL ✅",c:"#3DDC84",t:"Congratulations! This project passes the key checks and is worth considering for your next step. Not a blind yes: take it forward to a site visit and the final paperwork, with someone checking the details with you."},
     {min:80,v:"DEAL WITH CAUTION ⚠️",c:"#F5C451",t:"Most of the important boxes are ticked. Close the gaps below before you pay anything, then go ahead with care."},
