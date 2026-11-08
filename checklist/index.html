@@ -539,7 +539,7 @@ section,.game{scroll-margin-top:110px}
     if(sig===sentFor) return; sentFor=sig;
     var d={name:who.n||"",phone:who.p,project:proj,score:sc,verdict:tier.v.replace(/[^A-Za-z ]/g,"").trim(),
            psf:PSFV||"",avg:PSFR?PSFR.avg:"",rating:(document.getElementById("psfpts").hidden?"":document.getElementById("psfpts").textContent),link:resultLink(sc)};
-    try{ fetch(LEADS_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(d)}); }catch(e){}
+    try{ fetch(LEADS_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(d)}).catch(function(){}); }catch(e){}
   }
   function close(){ res.hidden=true; document.body.style.overflow=""; }
   var gate=document.getElementById("gate"), who={};
