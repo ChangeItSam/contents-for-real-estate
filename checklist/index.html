@@ -73,8 +73,17 @@ h2{font-size:clamp(28px,7vw,36px);color:var(--navy);font-weight:800;letter-spaci
 .card.tipc{background:var(--cream)}
 
 /* progress */
-.prog{position:sticky;top:0;z-index:5;background:rgba(243,241,236,.95);backdrop-filter:blur(6px);padding:10px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;font-size:15px;font-weight:700;color:var(--navy)}
-.bar{flex:1;height:10px;background:#E6E1D6;border-radius:10px;overflow:hidden}
+.prog{position:fixed;top:0;left:0;right:0;z-index:15;background:rgba(11,31,58,.97);backdrop-filter:blur(6px);color:#fff;box-shadow:0 4px 18px rgba(0,0,0,.25);padding:10px 16px 9px}
+.prog .pin{max-width:760px;margin:0 auto}
+.prog .r1{display:flex;align-items:center;gap:12px}
+.prog .cnt{font-size:26px;font-weight:900;line-height:1;white-space:nowrap}.prog .cnt small{font-size:15px;font-weight:700;color:#C8D2E2;margin-left:4px}
+.prog .sc{margin-left:auto;background:rgba(255,255,255,.12);border-radius:20px;padding:4px 11px;font-size:15px;font-weight:800;white-space:nowrap}.prog .sc b{color:var(--gold2);font-size:18px}
+.prog .r3{display:flex;justify-content:space-between;gap:10px;font-size:14px;font-weight:700;color:#C8D2E2;margin-top:6px;min-height:18px}
+.prog .r3 .warnp{color:#FFB25C;white-space:nowrap;cursor:pointer;text-decoration:underline}
+@media(min-width:700px){.prog .cnt{font-size:30px}.prog .bar{height:18px}}
+#where{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:480px){.prog{padding:9px 12px 8px}.prog .r1{gap:8px}.prog .cnt{font-size:24px}.prog .cnt small{display:none}.prog .sc{padding:4px 9px;font-size:13px}.prog .sc b{font-size:16px}.prog .go{padding:7px 11px;font-size:14px}.prog .r3{font-size:13px}}
+.bar{height:14px;background:rgba(255,255,255,.18);border-radius:10px;overflow:hidden;margin-top:8px}
 .bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .3s}
 
 /* cta */
@@ -122,7 +131,10 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
 .sheet .err{color:#B42318;font-size:15px;font-weight:600;min-height:20px;margin-top:8px}
 .sheet small{display:block;font-size:13px;color:var(--muted);margin-top:12px;line-height:1.45}
 
-.prog .go{background:var(--navy);color:var(--gold2);text-decoration:none;font-size:14px;padding:6px 12px;border-radius:20px;white-space:nowrap}
+.prog .go{background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--navy);text-decoration:none;font-size:15px;font-weight:800;padding:8px 14px;border-radius:20px;white-space:nowrap}
+section,.game{scroll-margin-top:110px}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(201,162,74,0)}50%{box-shadow:0 0 0 6px rgba(201,162,74,.55)}}
+.flash{animation:glow 1s ease 3}
 .game{margin:22px 18px 0;background:linear-gradient(135deg,#fff,#FFF6E3);border:2px solid var(--gold);border-radius:22px;padding:22px 20px;text-align:center}
 .dd{font-weight:900;letter-spacing:2px;color:var(--navy);font-size:22px}
 .dd span{color:var(--gold);font-size:.75em;margin:0 6px;font-style:italic}
@@ -242,7 +254,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
  </div>
 </header>
 
-<div class="prog"><span>✅ <span id="done">0</span> / <span id="tot">17</span></span><div class="bar"><i id="bar"></i></div><a href="#test" class="go">Get result</a></div>
+<div class="prog" id="prog"><div class="pin"><div class="r1"><span class="cnt">✅ <span id="done">0</span>/<span id="tot">20</span><small>checks</small></span><span class="sc">Score <b id="live">0</b>/100</span><a href="#test" class="go">Get result</a></div><div class="bar"><i id="bar"></i></div><div class="r3"><span id="where">📍 Start: pick your project</span><span class="warnp" id="psfwarn" hidden>💲 Price check missing (15 pts)</span></div></div></div>
 
 <section class="game">
  <div class="dd">🎲 DEAL <span>or</span> NO DEAL?</div>
@@ -344,6 +356,17 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
 </div>
 
 
+<div class="modal" id="nudge" hidden>
+ <div class="sheet">
+  <button type="button" class="x" id="nclose" aria-label="Close">×</button>
+  <div class="mi">💲</div>
+  <h3>Wait! You skipped the most important check</h3>
+  <p>The <b>price check</b> (questions 19–20) is worth <b>15 points</b>, more than any other check. It shows if you're paying more than similar off-plan projects nearby. It takes 10 seconds.</p>
+  <button type="button" class="btn go2" id="ndo">💲 Check my price now</button>
+  <button type="button" class="reset light" id="nskip" style="display:block;margin:12px auto 0">Skip it and show my result (max 85/100)</button>
+ </div>
+</div>
+
 <div class="modal" id="gate" hidden>
  <form class="sheet" id="gateform" novalidate>
   <button type="button" class="x" id="gclose" aria-label="Close">×</button>
@@ -406,6 +429,8 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
     document.getElementById("bar").style.width = (n / (boxes.length+2) * 100) + "%";
     try { localStorage.setItem(key, JSON.stringify(boxes.map(function(b){ return b.checked; }))); } catch(e) {}
     var ch=document.getElementById("cmahint"), cm=document.getElementById("cma"); if(ch&&cm) ch.hidden=!cm.hidden;
+    if(typeof score==="function"){ document.getElementById("live").textContent=score(); }
+    document.getElementById("psfwarn").hidden=!!PSFR;
   }
   boxes.forEach(function(b, i){ b.checked = !!saved[i]; b.addEventListener("change", update); });
   document.getElementById("tot").textContent = boxes.length + 2;
@@ -462,8 +487,24 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
   var gate=document.getElementById("gate"), who={};
   try{ who=JSON.parse(localStorage.getItem("sam-who")||"{}"); }catch(e){}
   function openGate(){ document.getElementById("gname").value=who.n||""; document.getElementById("gphone").value=who.p||""; gate.hidden=false; setTimeout(function(){document.getElementById(who.n?"gphone":"gname").focus();},50); }
-  document.getElementById("submit").addEventListener("click",openGate);
-  document.querySelector(".prog .go").addEventListener("click",function(e){ e.preventDefault(); openGate(); });
+  var nudge=document.getElementById("nudge");
+  function tryResult(e){ if(e) e.preventDefault(); if(!PSFR){ nudge.hidden=false; } else openGate(); }
+  function goPsf(){ nudge.hidden=true; var c=document.querySelector("#psfsec .card"); c.scrollIntoView({behavior:"smooth",block:"start"}); c.classList.remove("flash"); void c.offsetWidth; c.classList.add("flash"); setTimeout(function(){ document.getElementById(PSFV?"ploc":"psf").focus({preventScroll:true}); },600); }
+  document.getElementById("submit").addEventListener("click",tryResult);
+  document.querySelector(".prog .go").addEventListener("click",tryResult);
+  document.getElementById("ndo").addEventListener("click",goPsf);
+  document.getElementById("psfwarn").addEventListener("click",goPsf);
+  document.getElementById("nskip").addEventListener("click",function(){ nudge.hidden=true; openGate(); });
+  document.getElementById("nclose").addEventListener("click",function(){ nudge.hidden=true; });
+  nudge.addEventListener("click",function(e){ if(e.target===nudge) nudge.hidden=true; });
+  // where am I: section name in the progress header
+  var prog=document.getElementById("prog");
+  function pad(){ document.body.style.paddingTop=prog.offsetHeight+"px"; } pad(); window.addEventListener("resize",pad);
+  var secs=Array.prototype.slice.call(document.querySelectorAll(".game, section.sec"));
+  function where(){ var y=prog.offsetHeight+40, cur=null; secs.forEach(function(sx){ if(sx.getBoundingClientRect().top<=y) cur=sx; });
+    var t="📍 Start: pick your project"; if(cur && cur.classList.contains("sec")){ var k=cur.querySelector(".kicker"), h=cur.querySelector("h2"); t="📍 "+(k?k.textContent+": ":"")+(h?h.textContent.replace(/^[^A-Za-z0-9]+/,""):""); if(cur.id==="test") t="🎯 Get your result"; }
+    document.getElementById("where").textContent=t; }
+  window.addEventListener("scroll",where,{passive:true}); where();
   document.getElementById("gclose").addEventListener("click",function(){gate.hidden=true;});
   gate.addEventListener("click",function(e){if(e.target===gate)gate.hidden=true;});
   document.getElementById("gateform").addEventListener("submit",function(e){
