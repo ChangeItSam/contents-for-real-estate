@@ -232,6 +232,14 @@ section,.game{scroll-margin-top:110px}
 .why .vs{margin-top:12px;font-size:15px;color:#E8CF8E;font-weight:600}
 .how3{text-align:left;background:#F7F4EC;border-radius:12px;padding:12px 14px;margin-top:12px;font-size:15.5px;color:#3A4456}
 .how3 b.h{display:block;color:var(--navy);font-size:16px;margin-bottom:4px}.how3 ol{padding-left:20px}.how3 li{margin-top:4px}
+.pend{text-align:left;background:rgba(232,207,142,.12);border:1px solid rgba(232,207,142,.45);border-radius:14px;padding:14px 14px;margin-top:20px;font-size:16.5px;color:#E3E9F2;line-height:1.5}.pend b{display:block;color:#E8CF8E;font-size:18px;margin-bottom:4px}
+.btn.callb{background:transparent;border:2px solid rgba(255,255,255,.5);color:#fff;margin-top:12px;font-size:18px}
+.rep{text-align:left;margin-top:22px}.rep h4{font-size:18px;color:var(--gold2);margin:20px 0 8px}
+.rep .box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px 13px;font-size:15.5px;color:#E3E9F2;line-height:1.5}
+.rep .row{display:flex;justify-content:space-between;gap:10px;border-top:1px dashed rgba(255,255,255,.15);padding:5px 0}.rep .row:first-child{border-top:0}
+.rep .big{display:flex;flex-wrap:wrap;gap:6px 22px;margin-bottom:6px}.rep .big b{display:block;font-size:22px;color:#fff}
+.rep .ok{color:#9FF0C0}.rep .tag{font-size:12px;font-weight:800;border-radius:10px;padding:1px 7px;margin-left:6px;white-space:nowrap;background:#FF8A3D;color:#0B1F3A;align-self:flex-start}
+.rep .tag.p{background:#F5C451}
 </style>
 <script>
 // Access gate: the test opens from the Instagram DM link (it carries ?k=...). A plain copied link goes to Instagram first.
@@ -440,9 +448,10 @@ section,.game{scroll-margin-top:110px}
    <div class="verdict" id="verdict"></div>
    <p class="vtext" id="vtext"></p>
    <div class="gaps" id="gaps"></div>
-   <p class="vtext" style="margin-top:22px">💬 <b>Want it explained?</b> Send me your full result. I'll go through it with you and show you the off-plan options that fit your budget and goals.</p>
-   <a class="btn pulse" id="share" href="#"><svg class="lg"><use href="#waw"/></svg>Send my full result to Sam</a>
-   <p class="sharenote">Opens WhatsApp with your full result ready. Just tap send and I'll reply personally.</p>
+   <div class="pend" id="pend">📩 <b>Your detailed report is on its way</b>Sam will personally review your answers and send your detailed report on WhatsApp shortly: what to fix first, how your price compares with nearby projects, and the off-plan options that fit you.</div>
+   <p class="vtext" id="cwait" style="margin-top:22px"><b>Can't wait?</b> Talk to Sam now.</p>
+   <a class="btn pulse" id="share" href="#"><svg class="lg"><use href="#waw"/></svg>WhatsApp Sam now</a>
+   <a class="btn callb" id="callb" href="tel:+971528728248">📞 Call Sam · +971 52 872 8248</a>
    <button type="button" class="reset light" id="review">Review my answers</button>
   </div>
  </div>
@@ -470,7 +479,7 @@ section,.game{scroll-margin-top:110px}
   var url = "https://wa.me/971528728248?text=" + encodeURIComponent(msg);
   document.querySelectorAll(".wa-link").forEach(function(a){ a.href = url; });
   var boxes = Array.prototype.slice.call(document.querySelectorAll(".tick input"));
-  var LEADS_URL = "https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec", FROMLINK = false, sentFor = "";
+  var PROJROW = null; var LEADS_URL = "https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec", FROMLINK = false, sentFor = "";
   var key = "sam-dealtest-v3", saved = [], PSFV = 0, PSFR = null, PSF_MAX = 15;
   try { saved = JSON.parse(localStorage.getItem(key) || "[]"); } catch(e) {}
   function update(){
@@ -522,11 +531,9 @@ section,.game{scroll-margin-top:110px}
         document.getElementById("vtext").textContent=tier.t;
         var miss=boxes.filter(function(b){return !b.checked;}).sort(function(a,b){return b.dataset.w-a.dataset.w;});
         var g=document.getElementById("gaps");
-        var gl=miss.map(function(b){return {t:labelOf(b),w:b.dataset.w*(100-PSF_MAX)/100};});
-        var lost=PSF_MAX-(PSFR?PSFR.pts:0);
-        if(lost>0) gl.push({t:PSFR?("Price is "+PSFR.diffTxt+" the average of similar off-plan projects ("+PSFR.basis+")"):"Price per sq ft not compared (questions 19–20)",w:lost});
-        gl.sort(function(a,b){return b.w-a.w;});
-        g.innerHTML = gl.length ? "<h4>"+(sc>=95?"Still to confirm":"Fix these first (biggest first)")+"</h4>"+gl.slice(0,6).map(function(x){return '<div class="gap"><span>❗ '+x.t.replace(/</g,"&lt;")+'</span><b>−'+(+x.w.toFixed(1))+'</b></div>';}).join("") : "<h4>🎉 Every check confirmed</h4>";
+        var pend=document.getElementById("pend"), cw=document.getElementById("cwait");
+        if(FROMLINK){ g.className="rep"; g.innerHTML=report(sc); pend.hidden=true; cw.innerHTML="💬 <b>Questions about your report?</b> Let's talk it through."; }
+        else { g.className="gaps"; g.innerHTML=""; pend.hidden=false; cw.innerHTML="<b>Can't wait?</b> Talk to Sam now."; }
         var m="My Dubai Off-Plan Deal Stress Test result"+(proj?(" for "+proj):"")+": "+sc+"/100, "+tier.v.replace(/[^A-Za-z ]/g,"").trim()+"."+(PSFR?("\nPrice: AED "+PSFV.toLocaleString("en-US")+"/sq ft vs average AED "+PSFR.avg.toLocaleString("en-US")+" ("+PSFR.diffTxt+", "+PSFR.basis+")."):"")+"\n\nMy full result: "+resultLink(sc)+"\n\nHi Sam, I'm "+(who.n||"")+(who.p?(" (WhatsApp: "+who.p+")"):"")+". Can you go through my result with me? I'd also like to discuss my off-plan purchase options.";
         document.getElementById("share").href="https://wa.me/971528728248?text="+encodeURIComponent(m);
         if(sc>=95) confetti();
@@ -540,6 +547,31 @@ section,.game{scroll-margin-top:110px}
     var d={name:who.n||"",phone:who.p,project:proj,score:sc,verdict:tier.v.replace(/[^A-Za-z ]/g,"").trim(),
            psf:PSFV||"",avg:PSFR?PSFR.avg:"",rating:(document.getElementById("psfpts").hidden?"":document.getElementById("psfpts").textContent),link:resultLink(sc)};
     try{ fetch(LEADS_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(d)}).catch(function(){}); }catch(e){}
+  }
+  function report(sc){
+    var e=function(t){return String(t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
+    var fmtA=function(n){return "AED "+Math.round(n).toLocaleString("en-US");};
+    var CRIT=[0,2,4,6], h='';
+    if(PROJROW){ var r=PROJROW;
+      h+='<h4>🏗️ Project record (Dubai Land Department)</h4><div class="box">'+
+        '<div class="row"><span>Project</span><b>'+e(r[1])+'</b></div><div class="row"><span>DLD project no.</span><b>'+e(r[0]||"–")+'</b></div>'+
+        '<div class="row"><span>Developer</span><b>'+e(r[2]||"–")+'</b></div>'+(r[7]?'<div class="row"><span>Area</span><b>'+e(r[7])+'</b></div>':'')+
+        '<div class="row"><span>Status</span><b>'+e(r[3]||"–")+'</b></div>'+(r[4]!==""?'<div class="row"><span>Construction</span><b>'+Math.round(+r[4])+'% complete</b></div>':'')+
+        (r[6]?'<div class="row"><span>Expected completion</span><b>'+e(fmtDate(r[6]))+'</b></div>':'')+'<div class="row"><span>Escrow bank</span><b>'+e(r[5]||"Not listed: ask the developer")+'</b></div></div>'; }
+    if(PSFR){
+      h+='<h4>💲 Your price vs the market</h4><div class="box"><div class="big"><span>You pay<b>'+fmtA(PSFV)+'</b></span><span>Average nearby<b>'+fmtA(PSFR.avg)+'</b></span><span>Difference<b>'+(PSFR.d>0?"+":"")+PSFR.d.toFixed(1)+'%</b></span></div>'+
+        '<div>Price rating: <b>'+e(PSFR.rating)+'</b>. Compared with '+e(PSFR.basis)+'.</div>'+
+        (PSFR.list.length?'<div style="margin-top:8px">'+PSFR.list.map(function(x){return '<div class="row"><span>'+e(x[0])+'</span><b>'+fmtA(x[1])+'</b></div>';}).join("")+'</div>':'')+
+        '<div style="margin-top:6px;opacity:.75;font-size:13.5px">Median price per sq ft actually paid, from DLD registered sales.</div></div>';
+    } else h+='<h4>💲 Your price vs the market</h4><div class="box">Not checked yet. Send me the price and size and I\'ll compare it with nearby projects for you.</div>';
+    var miss=boxes.map(function(b,i){return {b:b,i:i};}).filter(function(x){return !x.b.checked;}).sort(function(a,b){return b.b.dataset.w-a.b.dataset.w;});
+    var conf=boxes.filter(function(b){return b.checked;});
+    h+='<h4>❗ Still to confirm ('+miss.length+')</h4>'+(miss.length?'<div class="box">'+miss.map(function(x,k){
+        var tag=CRIT.indexOf(x.i)>=0?'<span class="tag">Must-have</span>':(k<3?'<span class="tag p">Priority</span>':'');
+        return '<div class="row"><span>'+e(labelOf(x.b))+'</span>'+tag+'</div>';}).join("")+'</div>':'<div class="box ok">Nothing missing. Every check is confirmed.</div>');
+    h+='<h4>✅ Already confirmed ('+conf.length+')</h4>'+(conf.length?'<div class="box">'+conf.map(function(b){return '<div class="row ok"><span>✓ '+e(labelOf(b))+'</span></div>';}).join("")+'</div>':'<div class="box">Nothing confirmed yet.</div>');
+    h+='<h4>🧭 Next step</h4><div class="box">'+(sc>=95?"This project passes the key checks. Next: a site or show-room visit and the paperwork, checked together.":sc>=80?"Close the items above before you pay anything. I can help you get each one confirmed with the developer.":"There are real gaps here. Let's go through them together, and I'll show you off-plan projects that pass these checks.")+'</div>';
+    return h;
   }
   function close(){ res.hidden=true; document.body.style.overflow=""; }
   var gate=document.getElementById("gate"), who={};
@@ -576,19 +608,22 @@ section,.game{scroll-margin-top:110px}
   function resultLink(sc){
     var bits=boxes.map(function(b){return b.checked?"1":"0";}).join("");
     var proj=document.getElementById("proj").value.trim();
-    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim()})))));
+    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||""})))));
   }
-  // shared result link: restore answers and show result directly
-  (function(){
+  // shared result link: restore answers and show result directly (after the page has set up)
+  setTimeout(function(){
     var m=location.hash.match(/^#r=(.+)$/); if(!m) return;
     try{
       var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true;
       boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; });
       document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n;
-      if(o.v){ document.getElementById("psf").value=o.v; document.getElementById("ploc").value=o.l||""; PSFV=+o.v; psfLoad(function(){ psfCalc(); update(); }); }
-      update(); setTimeout(show,400);
+      update();
+      load(function(){ var q=(o.p||"").toLowerCase(); P.p.some(function(r){ if(r[1].toLowerCase()===q){ PROJROW=r; return true; } }); });
+      if(o.v){ document.getElementById("psf").value=o.v; document.getElementById("ploc").value=o.l||""; PSFV=+o.v;
+        psfLoad(function(){ var x=o.pn&&PD.byNo[o.pn]; if(x) PSFP={no:x[0],name:x[1],grade:x[3],community:x[4],area:x[5],psf:x[6]}; psfCalc(); update(); setTimeout(show,300); }); }
+      else setTimeout(show,500);
     }catch(x){}
-  })();
+  },0);
 
   document.getElementById("rclose").addEventListener("click",close);
   document.getElementById("review").addEventListener("click",function(){ close(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
@@ -723,7 +758,7 @@ section,.game{scroll-margin-top:110px}
     if(!mean){ cma.className="dld warn"; cma.innerHTML='<b class="t">Not enough sales data for '+esc(place)+' yet</b>Ask Sam for comparable prices in this area.'; cma.hidden=false; return; }
     var d=(PSFV-mean)/mean*100, pct=d<=0?1:d<=10?.75:d<=15?.5:d<=30?.25:0, pts=pct*PSF_MAX;
     var diffTxt = Math.abs(d)<0.5 ? "in line with" : (Math.abs(d).toFixed(0)+"% "+(d<0?"below":"above"));
-    PSFR={avg:mean,pts:pts,diffTxt:diffTxt,basis:basis};
+    PSFR={avg:mean,pts:pts,diffTxt:diffTxt,basis:basis,d:d,rating:(pct===1?"Excellent":pct===.75?"Good":pct===.5?"Fair":pct===.25?"Poor":"Overpriced"),list:set?set.slice().sort(function(a,b){return b[7]-a[7];}).slice(0,6).map(function(r){return [r[1],r[6]];}):[]};
     var rating=pct===1?"Excellent":pct===.75?"Good":pct===.5?"Fair":pct===.25?"Poor":"Overpriced"; badge.textContent=rating; badge.hidden=false;
     var cls=pct>=.75?"ok":pct>=.25?"warn":"bad";
     var head=pct===1?"✅ At or below the average nearby":pct===.75?"👍 Up to 10% above the average":pct===.5?"⚠️ 10–15% above the average":pct===.25?"⚠️ 15–30% above the average":"🚩 More than 30% above the average";
