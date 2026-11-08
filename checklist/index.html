@@ -467,7 +467,7 @@ section,.game{scroll-margin-top:110px}
   var url = "https://wa.me/971528728248?text=" + encodeURIComponent(msg);
   document.querySelectorAll(".wa-link").forEach(function(a){ a.href = url; });
   var boxes = Array.prototype.slice.call(document.querySelectorAll(".tick input"));
-  var LEADS_URL = "", FROMLINK = false, sentFor = "";
+  var LEADS_URL = "https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec", FROMLINK = false, sentFor = "";
   var key = "sam-dealtest-v3", saved = [], PSFV = 0, PSFR = null, PSF_MAX = 15;
   try { saved = JSON.parse(localStorage.getItem(key) || "[]"); } catch(e) {}
   function update(){
