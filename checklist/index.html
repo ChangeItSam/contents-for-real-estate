@@ -398,7 +398,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
   var url = "https://wa.me/971528728248?text=" + encodeURIComponent(msg);
   document.querySelectorAll(".wa-link").forEach(function(a){ a.href = url; });
   var boxes = Array.prototype.slice.call(document.querySelectorAll(".tick input"));
-  var key = "sam-dealtest-v3", saved = [], PSFV = 0, PSFR = null, PSF_MAX = 20;
+  var key = "sam-dealtest-v3", saved = [], PSFV = 0, PSFR = null, PSF_MAX = 15;
   try { saved = JSON.parse(localStorage.getItem(key) || "[]"); } catch(e) {}
   function update(){
     var n = boxes.filter(function(b){ return b.checked; }).length + (PSFV?1:0) + (PSFR?1:0);
@@ -421,7 +421,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
     {min:0,v:"NO DEAL ❌",c:"#FF6B6B",t:"Too many key checks are missing. Walk away for now and look at other projects, or get these answers first."}];
   var res=document.getElementById("res"), lastScore=0, lastTier=null;
   function ticks(){ return boxes.reduce(function(s,b){return s+(b.checked?+b.dataset.w:0);},0); }
-  function score(){ return Math.round((ticks()+(PSFR?PSFR.pts:0))*100/(100+PSF_MAX)); }
+  function score(){ return Math.round(ticks()*(100-PSF_MAX)/100+(PSFR?PSFR.pts:0)); }
   function labelOf(b){ return b.parentNode.querySelector("span").textContent; }
   function show(){
     var sc=score(), tier=TIERS.filter(function(x){return sc>=x.min;})[0];
@@ -447,7 +447,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
         document.getElementById("vtext").textContent=tier.t;
         var miss=boxes.filter(function(b){return !b.checked;}).sort(function(a,b){return b.dataset.w-a.dataset.w;});
         var g=document.getElementById("gaps");
-        var gl=miss.map(function(b){return {t:labelOf(b),w:+b.dataset.w};});
+        var gl=miss.map(function(b){return {t:labelOf(b),w:b.dataset.w*(100-PSF_MAX)/100};});
         var lost=PSF_MAX-(PSFR?PSFR.pts:0);
         if(lost>0) gl.push({t:PSFR?("Price is "+PSFR.diffTxt+" the average of similar off-plan projects ("+PSFR.basis+")"):"Price per sq ft not compared (questions 19–20)",w:lost});
         gl.sort(function(a,b){return b.w-a.w;});
