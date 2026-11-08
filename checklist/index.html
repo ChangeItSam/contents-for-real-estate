@@ -5,9 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Off-Plan Deal Stress Test | Sam Surya</title>
 <meta name="description" content="10 checks to make before you buy off-plan property in Dubai. Free guide by Sam Surya, Principal Property Advisor.">
-<meta property="og:title" content="Dubai Off-Plan Deal Stress Test">
-<meta property="og:description" content="10 checks before you put a single dirham into an off-plan property in Dubai. Free guide by Sam Surya.">
-<meta property="og:image" content="https://changeitsam.github.io/contents-for-real-estate/checklist/sam-awards.jpg">
+<meta property="og:title" content="Off-Plan Deal Stress Test: Deal or No Deal?">
+<meta property="og:description" content="20 checks plus a real DLD price per sq ft comparison. Tap to see the full result.">
+<meta property="og:image" content="https://changeitsam.github.io/contents-for-real-estate/checklist/result-card.jpg?v=2">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:type" content="article">
 <meta name="theme-color" content="#0B1F3A">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -524,7 +527,7 @@ section,.game{scroll-margin-top:110px}
         if(lost>0) gl.push({t:PSFR?("Price is "+PSFR.diffTxt+" the average of similar off-plan projects ("+PSFR.basis+")"):"Price per sq ft not compared (questions 19–20)",w:lost});
         gl.sort(function(a,b){return b.w-a.w;});
         g.innerHTML = gl.length ? "<h4>"+(sc>=95?"Still to confirm":"Fix these first (biggest first)")+"</h4>"+gl.slice(0,6).map(function(x){return '<div class="gap"><span>❗ '+x.t.replace(/</g,"&lt;")+'</span><b>−'+(+x.w.toFixed(1))+'</b></div>';}).join("") : "<h4>🎉 Every check confirmed</h4>";
-        var m="🎯 My Dubai Off-Plan Deal Stress Test result"+(proj?(" for "+proj):"")+": "+sc+"/100, "+tier.v.replace(/[^A-Za-z ]/g,"").trim()+"."+(PSFR?("\n💲 Price: AED "+PSFV.toLocaleString("en-US")+"/sq ft vs average AED "+PSFR.avg.toLocaleString("en-US")+" ("+PSFR.diffTxt+", "+PSFR.basis+")."):"")+"\n\nMy full result: "+resultLink(sc)+"\n\nHi Sam, I'm "+(who.n||"")+(who.p?(" (WhatsApp: "+who.p+")"):"")+". Can you go through my result with me? I'd also like to discuss my off-plan purchase options.";
+        var m="My Dubai Off-Plan Deal Stress Test result"+(proj?(" for "+proj):"")+": "+sc+"/100, "+tier.v.replace(/[^A-Za-z ]/g,"").trim()+"."+(PSFR?("\nPrice: AED "+PSFV.toLocaleString("en-US")+"/sq ft vs average AED "+PSFR.avg.toLocaleString("en-US")+" ("+PSFR.diffTxt+", "+PSFR.basis+")."):"")+"\n\nMy full result: "+resultLink(sc)+"\n\nHi Sam, I'm "+(who.n||"")+(who.p?(" (WhatsApp: "+who.p+")"):"")+". Can you go through my result with me? I'd also like to discuss my off-plan purchase options.";
         document.getElementById("share").href="https://wa.me/971528728248?text="+encodeURIComponent(m);
         if(sc>=95) confetti();
       }
