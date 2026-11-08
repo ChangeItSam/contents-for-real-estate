@@ -694,6 +694,7 @@ section,.game{scroll-margin-top:110px}
       '<div class="cmpbig"><span>You pay<b>'+fmt(PSFV)+'</b></span><span>Average nearby<b>'+fmt(mean)+'</b></span><span>Difference<b>'+(d>0?"+":"")+d.toFixed(1)+'%</b></span></div>'+
       '<div>Compared with: '+esc(basis)+(level==="B"&&g==="A"?' (not enough Grade A projects in this area)':'')+(level==="C"?' (not enough off-plan projects to compare)':'')+'.</div>'+
       (list?'<div class="cmp">'+list+(set.length>5?'<div><span>+ '+(set.length-5)+' more</span><span></span></div>':'')+'</div>':'')+
+      '<div style="margin-top:10px;font-size:17px">🏆 Your price score: <b style="font-size:22px">'+(+pts.toFixed(1))+' / '+PSF_MAX+'</b> points<br><span style="font-size:15px">The price check carries the <b>most weight</b> of any check in your Deal Score.</span></div>'+
       '<small>📊 DLD market data · through '+esc(fmtDate(PD.data_through||PD.updated))+'</small>';
     cma.hidden=false;
   }
