@@ -1,15 +1,35 @@
-/**
- * Off-Plan Deal Stress Test: lead sheet for Sam Surya.
- * Paste into the Google Sheet's Extensions > Apps Script, then Deploy > New deployment > Web app
- * (Execute as: Me, Who has access: Anyone). Give the Web app URL to Claude to connect the page.
- * Every result seen on the test adds one row, with a button that opens WhatsApp on your phone
- * with the lead's result message ready to send.
- */
 var SHEET = 'Leads';
 var HEAD = ['Date (Dubai)', 'Name', 'WhatsApp', 'Project', 'Deal Score', 'Verdict', 'Price / sq ft (AED)',
             'Area average (AED)', 'Price rating', 'Result link', 'Send result', 'Status'];
 
-function clean(v) {               // stop anything typed on the page from running as a formula
+function book() {
+  var props = PropertiesService.getScriptProperties();
+  var id = props.getProperty('BOOK_ID');
+  if (id) { try { return SpreadsheetApp.openById(id); } catch (e) {} }
+  var ss = null;
+  try { ss = SpreadsheetApp.getActiveSpreadsheet(); } catch (e) {}
+  if (!ss) ss = SpreadsheetApp.create('Stress Test Leads');
+  props.setProperty('BOOK_ID', ss.getId());
+  return ss;
+}
+
+function leadsSheet() {
+  var ss = book();
+  var sh = ss.getSheetByName(SHEET) || ss.insertSheet(SHEET);
+  if (sh.getLastRow() === 0) {
+    sh.appendRow(HEAD);
+    sh.getRange(1, 1, 1, HEAD.length).setFontWeight('bold').setBackground('#0B1F3A').setFontColor('#E8CF8E');
+    sh.setFrozenRows(1);
+  }
+  return sh;
+}
+
+function setup() {
+  var sh = leadsSheet();
+  Logger.log('Leads go to: ' + sh.getParent().getUrl());
+}
+
+function clean(v) {
   v = String(v == null ? '' : v).slice(0, 300);
   return /^[=+\-@]/.test(v) ? "'" + v : v;
 }
@@ -19,13 +39,7 @@ function doPost(e) {
   lock.waitLock(20000);
   try {
     var p = (e && e.parameter) || {};
-    var ss = SpreadsheetApp.getActiveSpreadsheet();
-    var sh = ss.getSheetByName(SHEET) || ss.insertSheet(SHEET);
-    if (sh.getLastRow() === 0) {
-      sh.appendRow(HEAD);
-      sh.getRange(1, 1, 1, HEAD.length).setFontWeight('bold').setBackground('#0B1F3A').setFontColor('#E8CF8E');
-      sh.setFrozenRows(1);
-    }
+    var sh = leadsSheet();
     var digits = String(p.phone || '').replace(/[^0-9]/g, '');
     var name = String(p.name || '').trim();
     var first = name.split(/\s+/)[0] || 'there';
@@ -50,5 +64,5 @@ function doPost(e) {
 }
 
 function doGet() {
-  return ContentService.createTextOutput('Stress Test lead sheet is running.');
+  return ContentService.createTextOutput('Stress Test lead sheet is running. Leads go to: ' + book().getUrl());
 }
