@@ -1,0 +1,17 @@
+{
+ "_how_to_edit": "Developer grades for the Deal Test price-per-sq-ft check (questions 19-20). 'match' = words found in the DLD developer company name. Any developer not listed is Grade B. Ask Claude to move a developer between grades.",
+ "A": [
+  {"name": "Emaar", "match": ["emaar", "dubai creek harbour", "dubai hills estate", "mina rashid properties"]},
+  {"name": "Sobha", "match": ["sobha"]},
+  {"name": "Nakheel", "match": ["nakheel", "dubai islands l.l.c", "palm jebel ali"]},
+  {"name": "Meraas", "match": ["meraas"]},
+  {"name": "Dubai Holding / Dubai Properties", "match": ["dubai holding", "dubai properties"]},
+  {"name": "Meydan", "match": ["meydan"]},
+  {"name": "Aldar", "match": ["aldar"]},
+  {"name": "Ellington", "match": ["ellington"]},
+  {"name": "Omniyat", "match": ["omniyat"]},
+  {"name": "Select Group", "match": ["select group"]},
+  {"name": "DAMAC", "match": ["damac", "island oasis"]},
+  {"name": "Wasl", "match": ["wasl"]}
+ ]
+}

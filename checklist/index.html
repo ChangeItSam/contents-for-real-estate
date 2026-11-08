@@ -199,6 +199,17 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
 .feat{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:8px;font-size:13.5px;color:var(--muted);font-weight:600}
 .feat button{border:1px solid var(--gold);background:#fff;color:var(--navy);font:inherit;font-size:14px;font-weight:700;border-radius:20px;padding:5px 11px;cursor:pointer}
 .feat button:hover{background:#FFF6E3}
+.psfrow{display:flex;align-items:center;gap:8px;margin-top:10px;font-weight:700;color:var(--navy);font-size:17px}
+.psfrow input,.psfcalc input,#ploc{flex:1;min-width:0;font:inherit;font-size:18px;padding:11px 12px;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--navy)}
+.psfrow input:focus,.psfcalc input:focus,#ploc:focus{outline:0;border-color:var(--gold)}
+.psfcalc{margin-top:8px;font-size:15px;color:var(--muted)}
+.psfcalc summary{cursor:pointer;font-weight:700;color:var(--navy)}
+.psfcalc div{display:flex;gap:8px;margin-top:8px}
+.psfcalc input{font-size:16px;padding:9px 10px}
+#ploc{display:block;width:100%;margin-top:6px;font-size:16px}
+.q{font-size:13px;font-weight:800;letter-spacing:1px;color:var(--gold);text-transform:uppercase;margin-top:16px;display:block}
+.cmp{margin-top:6px;font-size:15px}.cmp div{display:flex;justify-content:space-between;gap:10px;border-top:1px dashed rgba(0,0,0,.12);padding:4px 0}
+.cmpbig{display:flex;flex-wrap:wrap;gap:6px 18px;margin:6px 0;font-size:16px}.cmpbig b{font-size:22px;display:block}
 </style>
 </head>
 <body>
@@ -288,6 +299,20 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
  <div class="card rule"><div class="num"><span class="ic">🔐</span><span class="n">RULE</span></div><div class="body"><h3>The golden rule</h3><p>No Dubai REST listing, no escrow account, no Oqood? <b style="color:#E8CF8E">No deal.</b> A good project passes all 10 checks easily.</p></div></div>
 </section>
 
+<section class="sec" id="psfsec">
+ <div class="kicker">Questions 19–20</div><h2>💲 Is the price right?</h2><p class="lead">The price per square foot you pay decides your profit. Compare it with similar off-plan projects around you.</p>
+ <div class="card"><div class="num"><span class="ic">📐</span><span class="n">19·20</span></div><div class="body">
+  <span class="q">Question 19</span><h3>What price per sq ft are you paying?</h3>
+  <p>Price ÷ size in sq ft. Use the size in your SPA or floor plan, and check whether it includes the balcony.</p>
+  <div class="psfrow">AED <input id="psf" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 1,850"> / sq ft</div>
+  <details class="psfcalc"><summary>Don't know it? Work it out</summary><div><input id="pprice" type="text" inputmode="decimal" placeholder="Price (AED)"><input id="psize" type="text" inputmode="decimal" placeholder="Size (sq ft)"></div></details>
+  <label class="proj">Where is the property? <small>(filled in when you pick your project at the top)</small><input id="ploc" type="text" list="plocs" autocomplete="off" placeholder="e.g. Jumeirah Village Circle"></label><datalist id="plocs"></datalist>
+  <span class="q">Question 20</span><h3>How your price compares <span class="pts" id="psfpts">up to 10 pts</span></h3>
+  <p id="cmahint">Enter your price per sq ft and the area. The average price per sq ft of similar off-plan projects appears here, with your score.</p>
+  <div class="dld" id="cma" hidden></div>
+ </div></div>
+</section>
+
 <section class="sec" id="test">
  <div class="submit">
   <div class="dd">🎲 DEAL <span>or</span> NO DEAL?</div>
@@ -373,16 +398,17 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
   var url = "https://wa.me/971528728248?text=" + encodeURIComponent(msg);
   document.querySelectorAll(".wa-link").forEach(function(a){ a.href = url; });
   var boxes = Array.prototype.slice.call(document.querySelectorAll(".tick input"));
-  var key = "sam-dealtest-v3", saved = [];
+  var key = "sam-dealtest-v3", saved = [], PSFV = 0, PSFR = null, PSF_MAX = 10;
   try { saved = JSON.parse(localStorage.getItem(key) || "[]"); } catch(e) {}
   function update(){
-    var n = boxes.filter(function(b){ return b.checked; }).length;
+    var n = boxes.filter(function(b){ return b.checked; }).length + (PSFV?1:0) + (PSFR?1:0);
     document.getElementById("done").textContent = n;
-    document.getElementById("bar").style.width = (n / boxes.length * 100) + "%";
+    document.getElementById("bar").style.width = (n / (boxes.length+2) * 100) + "%";
     try { localStorage.setItem(key, JSON.stringify(boxes.map(function(b){ return b.checked; }))); } catch(e) {}
+    var ch=document.getElementById("cmahint"), cm=document.getElementById("cma"); if(ch&&cm) ch.hidden=!cm.hidden;
   }
   boxes.forEach(function(b, i){ b.checked = !!saved[i]; b.addEventListener("change", update); });
-  document.getElementById("tot").textContent = boxes.length;
+  document.getElementById("tot").textContent = boxes.length + 2;
   update();
 
 
@@ -394,7 +420,8 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
     {min:70,v:"CONSULT A BROKER 🧐",c:"#F59E51",t:"Proceed with caution. There are real gaps here. Talk to a licensed broker and get the missing answers before you commit."},
     {min:0,v:"NO DEAL ❌",c:"#FF6B6B",t:"Too many key checks are missing. Walk away for now and look at other projects, or get these answers first."}];
   var res=document.getElementById("res"), lastScore=0, lastTier=null;
-  function score(){ return boxes.reduce(function(s,b){return s+(b.checked?+b.dataset.w:0);},0); }
+  function ticks(){ return boxes.reduce(function(s,b){return s+(b.checked?+b.dataset.w:0);},0); }
+  function score(){ return Math.round((ticks()+(PSFR?PSFR.pts:0))*100/(100+PSF_MAX)); }
   function labelOf(b){ return b.parentNode.querySelector("span").textContent; }
   function show(){
     var sc=score(), tier=TIERS.filter(function(x){return sc>=x.min;})[0];
@@ -420,8 +447,12 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
         document.getElementById("vtext").textContent=tier.t;
         var miss=boxes.filter(function(b){return !b.checked;}).sort(function(a,b){return b.dataset.w-a.dataset.w;});
         var g=document.getElementById("gaps");
-        g.innerHTML = miss.length ? "<h4>"+(sc>=95?"Still to confirm":"Fix these first (biggest first)")+"</h4>"+miss.slice(0,6).map(function(b){return '<div class="gap"><span>❗ '+labelOf(b).replace(/</g,"&lt;")+'</span><b>−'+b.dataset.w+'</b></div>';}).join("") : "<h4>🎉 Every check confirmed</h4>";
-        var m="🎯 My Dubai Off-Plan Deal Test result"+(proj?(" for "+proj):"")+": "+sc+"/100, "+tier.v.replace(/[^A-Za-z ]/g,"").trim()+".\n\nMy result: "+resultLink(sc)+"\n\nHi Sam, I'm "+(who.n||"")+(who.p?(" (WhatsApp: "+who.p+")"):"")+". Can you review it with me?";
+        var gl=miss.map(function(b){return {t:labelOf(b),w:+b.dataset.w};});
+        var lost=PSF_MAX-(PSFR?PSFR.pts:0);
+        if(lost>0) gl.push({t:PSFR?("Price is "+PSFR.diffTxt+" the average of similar off-plan projects ("+PSFR.basis+")"):"Price per sq ft not compared (questions 19–20)",w:lost});
+        gl.sort(function(a,b){return b.w-a.w;});
+        g.innerHTML = gl.length ? "<h4>"+(sc>=95?"Still to confirm":"Fix these first (biggest first)")+"</h4>"+gl.slice(0,6).map(function(x){return '<div class="gap"><span>❗ '+x.t.replace(/</g,"&lt;")+'</span><b>−'+(+x.w.toFixed(1))+'</b></div>';}).join("") : "<h4>🎉 Every check confirmed</h4>";
+        var m="🎯 My Dubai Off-Plan Deal Test result"+(proj?(" for "+proj):"")+": "+sc+"/100, "+tier.v.replace(/[^A-Za-z ]/g,"").trim()+"."+(PSFR?("\n💲 Price: AED "+PSFV.toLocaleString("en-US")+"/sq ft vs average AED "+PSFR.avg.toLocaleString("en-US")+" ("+PSFR.diffTxt+", "+PSFR.basis+")."):"")+"\n\nMy result: "+resultLink(sc)+"\n\nHi Sam, I'm "+(who.n||"")+(who.p?(" (WhatsApp: "+who.p+")"):"")+". Can you review it with me?";
         document.getElementById("share").href="https://wa.me/971528728248?text="+encodeURIComponent(m);
         if(sc>=95) confetti();
       }
@@ -446,7 +477,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
   function resultLink(sc){
     var bits=boxes.map(function(b){return b.checked?"1":"0";}).join("");
     var proj=document.getElementById("proj").value.trim();
-    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||""})))));
+    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim()})))));
   }
   // shared result link: restore answers and show result directly
   (function(){
@@ -455,13 +486,14 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
       var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));
       boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; });
       document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n;
+      if(o.v){ document.getElementById("psf").value=o.v; document.getElementById("ploc").value=o.l||""; PSFV=+o.v; psfLoad(function(){ psfCalc(); update(); }); }
       update(); setTimeout(show,400);
     }catch(x){}
   })();
 
   document.getElementById("rclose").addEventListener("click",close);
   document.getElementById("review").addEventListener("click",function(){ close(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
-  document.getElementById("reset").addEventListener("click",function(){ boxes.forEach(function(b){b.checked=false;}); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
+  document.getElementById("reset").addEventListener("click",function(){ boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc"].forEach(function(i){document.getElementById(i).value="";}); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
   function confetti(){
     var c=document.getElementById("conf"), x=c.getContext("2d"); c.width=innerWidth; c.height=innerHeight;
     var cols=["#C9A24A","#E8CF8E","#3DDC84","#fff","#25D366"], ps=[];
@@ -501,7 +533,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
         '<div style="margin-top:6px">We ticked what DLD confirms (<span class="auto">✓ DLD</span>). You still need to check your own payment instructions.</div>'+src;
       var lab=boxes[PROG].parentNode; if(pct!==""){ var h=document.createElement("span"); h.className="hint"; h.textContent="DLD says "+Math.round(+pct)+"% complete. Does that match what you were told?"; lab.querySelector("span").appendChild(h); }
     }
-    card.hidden=false; update();
+    card.hidden=false; psfProject(r); update();
   }
   function search(){
     var q=pin.value.trim().toLowerCase(); if(q.length<2){ sg.hidden=true; return; }
@@ -551,6 +583,65 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
       setTimeout(type,wait);
     })();
   }).catch(function(){});
+
+  // ---------- Questions 19-20: price per sq ft vs similar off-plan projects (data/psf.json) ----------
+  var PD=null, PSFP=null, pwait=[], ploading=false;
+  var psfIn=document.getElementById("psf"), locIn=document.getElementById("ploc"), cma=document.getElementById("cma");
+  function psfLoad(cb){ if(PD) return cb(); pwait.push(cb); if(ploading) return; ploading=true;
+    fetch("data/psf.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){
+      j.byNo={}; j.p.forEach(function(r){ j.byNo[r[0]]=r; }); PD=j;
+      var seen={}, opts=[]; Object.keys(j.c).concat(Object.keys(j.a)).forEach(function(n){ if(!seen[n.toLowerCase()]){ seen[n.toLowerCase()]=1; opts.push(n);} });
+      opts.sort(); document.getElementById("plocs").innerHTML=opts.map(function(n){return '<option value="'+esc(n)+'">';}).join("");
+      pwait.forEach(function(f){f();}); pwait=[];
+    }).catch(function(){ ploading=false; document.getElementById("cmahint").textContent="Price data could not load right now. Please try again later."; }); }
+  function num(v){ v=String(v||"").replace(/[^0-9.]/g,""); return v?+v:0; }
+  function avg(a){ return Math.round(a.reduce(function(s,r){return s+r[6];},0)/a.length); }
+  function psfProject(r){ psfLoad(function(){
+      var x=PD.byNo[r[0]];
+      PSFP = x ? {no:x[0],name:x[1],grade:x[3],community:x[4],area:x[5],psf:x[6]} : {no:r[0],name:r[1],grade:null,community:r[7]||"",area:""};
+      locIn.value=PSFP.community||PSFP.area||locIn.value; psfCalc(); update(); }); }
+  function fmt(n){ return "AED "+Math.round(n).toLocaleString("en-US"); }
+  function psfCalc(){
+    PSFV=num(psfIn.value); PSFR=null;
+    var badge=document.getElementById("psfpts"); badge.textContent="up to "+PSF_MAX+" pts";
+    if(!PD){ cma.hidden=true; return; }
+    var loc=locIn.value.trim(), ll=loc.toLowerCase();
+    if(PSFP && ll!==(PSFP.community||"").toLowerCase() && ll!==(PSFP.area||"").toLowerCase()) PSFP=null; // area changed by hand
+    var comm=null, area=null;
+    Object.keys(PD.c).forEach(function(n){ if(n.toLowerCase()===ll) comm=n; });
+    Object.keys(PD.a).forEach(function(n){ if(n.toLowerCase()===ll) area=n; });
+    if(PSFP){ comm=PSFP.community||comm; area=PSFP.area||area; }
+    if(!PSFV || !loc){ cma.hidden=true; return; }
+    if(!comm && !area){ cma.className="dld warn"; cma.innerHTML='<b class="t">📍 Pick the area from the list</b>Start typing the community (e.g. JVC is "Jumeirah Village Circle") and tap it in the list.'; cma.hidden=false; return; }
+    var here=PD.p.filter(function(r){ return (PSFP?r[0]!==PSFP.no:true) && (comm ? r[4]===comm : r[5]===area); });
+    var place=comm||area, g=PSFP&&PSFP.grade, set=null, basis="", level="";
+    var same=g?here.filter(function(r){return r[3]===g;}):[];
+    if(same.length>=2){ set=same; level="A"; basis=same.length+" similar off-plan projects by Grade "+g+" developers in "+place; }
+    else if(g==="A" && here.filter(function(r){return r[3]==="B";}).length>=2){ set=here.filter(function(r){return r[3]==="B";}); level="B"; basis=set.length+" off-plan projects by Grade B developers in "+place; }
+    else if(here.length>=2){ set=here; level="B"; basis=set.length+" off-plan projects in "+place; }
+    var mean = set ? avg(set) : (comm&&PD.c[comm]) || (area&&PD.a[area]) || 0;
+    if(!set){ level="C"; basis="median of all registered sales in "+place+", last 12 months"; }
+    if(!mean){ cma.className="dld warn"; cma.innerHTML='<b class="t">Not enough sales data for '+esc(place)+' yet</b>Ask Sam for comparable prices in this area.'; cma.hidden=false; return; }
+    var d=(PSFV-mean)/mean*100, pct=d<=0?1:d<=10?.75:d<=15?.5:d<=30?.25:0, pts=pct*PSF_MAX;
+    var diffTxt = Math.abs(d)<0.5 ? "in line with" : (Math.abs(d).toFixed(0)+"% "+(d<0?"below":"above"));
+    PSFR={avg:mean,pts:pts,diffTxt:diffTxt,basis:basis};
+    badge.textContent=(+pts.toFixed(1))+" / "+PSF_MAX+" pts";
+    var cls=pct>=.75?"ok":pct>=.25?"warn":"bad";
+    var head=pct===1?"✅ At or below the average. Full marks.":pct===.75?"👍 Up to 10% above the average":pct===.5?"⚠️ 10–15% above the average":pct===.25?"⚠️ 15–30% above the average":"🚩 More than 30% above the average";
+    var list=set?set.slice().sort(function(a,b){return b[7]-a[7];}).slice(0,5).map(function(r){return '<div><span>'+esc(r[1])+' <small style="display:inline;opacity:.7">· '+esc(r[2].replace(/ (l\.?l\.?c\.?|p\.?j\.?s\.?c\.?|fze|fzco|development|developers|developments|real estate|properties|investment)\b.*$/i,""))+'</small></span><b>'+fmt(r[6])+'</b></div>';}).join(""):"";
+    cma.className="dld "+cls;
+    cma.innerHTML='<b class="t">'+head+'</b>'+
+      '<div class="cmpbig"><span>You pay<b>'+fmt(PSFV)+'</b></span><span>Average nearby<b>'+fmt(mean)+'</b></span><span>Difference<b>'+(d>0?"+":"")+d.toFixed(1)+'%</b></span></div>'+
+      '<div>Compared with: '+esc(basis)+(level==="B"&&g==="A"?' (not enough Grade A projects in this area)':'')+(level==="C"?' (not enough off-plan projects to compare)':'')+'.</div>'+
+      (list?'<div class="cmp">'+list+(set.length>5?'<div><span>+ '+(set.length-5)+' more</span><span></span></div>':'')+'</div>':'')+
+      '<div style="margin-top:6px">Score: <b>'+(pct*100)+'%</b> of '+PSF_MAX+' points = <b>'+(+pts.toFixed(1))+'</b>. Full marks at or below the average; up to 10% above = 75%; 10–15% = 50%; 15–30% = 25%; over 30% = 0.</div>'+
+      '<small>Each project\'s figure is the median price per sq ft of its registered sales; the average is across those projects. Off-plan = not handed over yet. Size, floor, view and unit type also change the price, so use this as a guide. Source: '+esc(PD.source)+', data through '+esc(PD.data_through||PD.updated)+'.</small>';
+    cma.hidden=false;
+  }
+  function calcFromParts(){ var pr=num(document.getElementById("pprice").value), sz=num(document.getElementById("psize").value); if(pr&&sz){ psfIn.value=Math.round(pr/sz).toLocaleString("en-US"); psfAll(); } }
+  function psfAll(){ psfLoad(function(){ psfCalc(); update(); }); PSFV=num(psfIn.value); update(); }
+  [psfIn,locIn].forEach(function(el){ el.addEventListener("focus",function(){psfLoad(function(){});}); el.addEventListener("input",psfAll); el.addEventListener("change",psfAll); });
+  ["pprice","psize"].forEach(function(i){ document.getElementById(i).addEventListener("input",calcFromParts); });
   var modal=document.getElementById("modal");
   document.getElementById("getpdf").addEventListener("click",function(){document.getElementById("fname").value=document.getElementById("fname").value||who.n||"";document.getElementById("fphone").value=document.getElementById("fphone").value||who.p||"";modal.hidden=false;setTimeout(function(){document.getElementById("fname").focus();},50);});
   document.getElementById("close").addEventListener("click",function(){modal.hidden=true;});

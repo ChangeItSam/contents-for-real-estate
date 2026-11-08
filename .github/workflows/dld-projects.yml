@@ -6,6 +6,8 @@ on:
   push:
     paths:
       - "tools/fetch_dld_projects.py"
+      - "tools/fetch_dld_psf.py"
+      - "checklist/data/developer_grades.json"
       - ".github/workflows/dld-projects.yml"
 permissions:
   contents: write
@@ -18,9 +20,11 @@ jobs:
         with:
           python-version: "3.12"
       - run: python tools/fetch_dld_projects.py
+      - run: python tools/fetch_dld_psf.py
+        continue-on-error: true
       - name: Commit if changed
         run: |
           git config user.name "dld-refresh-bot"
           git config user.email "actions@users.noreply.github.com"
           git add checklist/data
-          git diff --cached --quiet || (git commit -m "Refresh DLD project list" && git push)
+          git diff --cached --quiet || (git commit -m "Refresh DLD project list and PSF data" && git push)
