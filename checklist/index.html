@@ -398,7 +398,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
   var url = "https://wa.me/971528728248?text=" + encodeURIComponent(msg);
   document.querySelectorAll(".wa-link").forEach(function(a){ a.href = url; });
   var boxes = Array.prototype.slice.call(document.querySelectorAll(".tick input"));
-  var key = "sam-dealtest-v3", saved = [], PSFV = 0, PSFR = null, PSF_MAX = 10;
+  var key = "sam-dealtest-v3", saved = [], PSFV = 0, PSFR = null, PSF_MAX = 20;
   try { saved = JSON.parse(localStorage.getItem(key) || "[]"); } catch(e) {}
   function update(){
     var n = boxes.filter(function(b){ return b.checked; }).length + (PSFV?1:0) + (PSFR?1:0);
