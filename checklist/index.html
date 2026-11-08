@@ -466,6 +466,7 @@ section,.game{scroll-margin-top:110px}
   var url = "https://wa.me/971528728248?text=" + encodeURIComponent(msg);
   document.querySelectorAll(".wa-link").forEach(function(a){ a.href = url; });
   var boxes = Array.prototype.slice.call(document.querySelectorAll(".tick input"));
+  var LEADS_URL = "", FROMLINK = false, sentFor = "";
   var key = "sam-dealtest-v3", saved = [], PSFV = 0, PSFR = null, PSF_MAX = 15;
   try { saved = JSON.parse(localStorage.getItem(key) || "[]"); } catch(e) {}
   function update(){
@@ -497,6 +498,7 @@ section,.game{scroll-margin-top:110px}
     var CRIT=[0,2,4,6], redflag=CRIT.some(function(i){return !boxes[i].checked;});
     if(redflag && sc>=70){ tier={v:"RED FLAG 🚩",c:"#FF8A3D",t:"Your score looks good, but a must-have is missing: the developer, the project registration or the escrow account is not confirmed. Don't pay anything until it is. Consult a broker and proceed with caution."}; }
     lastScore=sc; lastTier=tier;
+    sendLead(sc,tier);
     var proj=document.getElementById("proj").value.trim();
     res.hidden=false; document.body.style.overflow="hidden"; res.scrollTop=0;
     document.getElementById("suspense").hidden=false; document.getElementById("final").hidden=true;
@@ -526,6 +528,14 @@ section,.game{scroll-margin-top:110px}
         if(sc>=95) confetti();
       }
     },2600);
+  }
+  function sendLead(sc,tier){
+    if(!LEADS_URL || FROMLINK || !who.p) return;
+    var proj=document.getElementById("proj").value.trim(), sig=[who.p,proj,sc].join("|");
+    if(sig===sentFor) return; sentFor=sig;
+    var d={name:who.n||"",phone:who.p,project:proj,score:sc,verdict:tier.v.replace(/[^A-Za-z ]/g,"").trim(),
+           psf:PSFV||"",avg:PSFR?PSFR.avg:"",rating:(document.getElementById("psfpts").hidden?"":document.getElementById("psfpts").textContent),link:resultLink(sc)};
+    try{ fetch(LEADS_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(d)}); }catch(e){}
   }
   function close(){ res.hidden=true; document.body.style.overflow=""; }
   var gate=document.getElementById("gate"), who={};
@@ -568,7 +578,7 @@ section,.game{scroll-margin-top:110px}
   (function(){
     var m=location.hash.match(/^#r=(.+)$/); if(!m) return;
     try{
-      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1])))));
+      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true;
       boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; });
       document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n;
       if(o.v){ document.getElementById("psf").value=o.v; document.getElementById("ploc").value=o.l||""; PSFV=+o.v; psfLoad(function(){ psfCalc(); update(); }); }
