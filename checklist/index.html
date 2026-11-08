@@ -222,6 +222,13 @@ section,.game{scroll-margin-top:110px}
 .q{font-size:13px;font-weight:800;letter-spacing:1px;color:var(--gold);text-transform:uppercase;margin-top:16px;display:block}
 .cmp{margin-top:6px;font-size:15px}.cmp div{display:flex;justify-content:space-between;gap:10px;border-top:1px dashed rgba(0,0,0,.12);padding:4px 0}
 .cmpbig{display:flex;flex-wrap:wrap;gap:6px 18px;margin:6px 0;font-size:16px}.cmpbig b{font-size:22px;display:block}
+.why{text-align:left;background:#0B1F3A;color:#fff;border-radius:18px;padding:18px 16px;margin-top:16px}
+.why h3{font-size:20px;color:var(--gold2);font-weight:800;line-height:1.25}
+.why .wi{display:flex;gap:12px;margin-top:12px;font-size:16px;line-height:1.45;color:#D5DDEA}.why .wi b{color:#fff}.why .wi .e{font-size:24px;flex:none;line-height:1.1}
+.why .stats3{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}.why .stats3 span{background:rgba(255,255,255,.1);border-radius:12px;padding:7px 11px;font-size:14px;font-weight:600;color:#D5DDEA}.why .stats3 b{color:var(--gold2);font-size:18px;margin-right:4px}
+.why .vs{margin-top:12px;font-size:15px;color:#E8CF8E;font-weight:600}
+.how3{text-align:left;background:#F7F4EC;border-radius:12px;padding:12px 14px;margin-top:12px;font-size:15.5px;color:#3A4456}
+.how3 b.h{display:block;color:var(--navy);font-size:16px;margin-bottom:4px}.how3 ol{padding-left:20px}.how3 li{margin-top:4px}
 </style>
 </head>
 <body>
@@ -260,6 +267,14 @@ section,.game{scroll-margin-top:110px}
  <div class="dd">🎲 DEAL <span>or</span> NO DEAL?</div>
  <h2>Take the 2-minute Deal Test</h2>
  <p>Thinking about an off-plan project? Tick only what you have <b>actually confirmed</b>. Then tap <b>Get my result</b> to find out: deal, or no deal?</p>
+ <div class="why">
+  <h3>🔍 Real market data, checked for you. Free.</h3>
+  <div class="wi"><span class="e">🏛️</span><span><b>Project registration, checked for you.</b> Type your project and we pull its Dubai Land Department record: project number, developer, construction progress, completion date and escrow bank. No searching project by project.</span></div>
+  <div class="wi"><span class="e">💲</span><span><b>The real price per sq ft, not the advertised one.</b> We compare your price with what buyers <b>actually paid</b> in similar off-plan projects nearby (median price per sq ft from registered sales), plus the area median. Developer sites and portals only show asking prices.</span></div>
+  <div class="wi"><span class="e">🎯</span><span><b>One clear answer.</b> 20 checks, one Deal Score out of 100: deal, or no deal?</span></div>
+  <div class="stats3"><span><b id="st1">770</b>DLD-registered projects</span><span><b id="st2">500+</b>off-plan projects with real sale prices</span><span><b>Weekly</b>market data updates · through <b id="st3">Oct 2026</b></span></div>
+  <div class="vs">What would take hours across developer websites, property portals and Dubai REST takes about 2 minutes here.</div>
+ </div>
  <div class="howto">
   <b>How it works</b>
   <ol>
@@ -320,6 +335,11 @@ section,.game{scroll-margin-top:110px}
   <details class="psfcalc"><summary>Don't know it? Work it out</summary><div><input id="pprice" type="text" inputmode="decimal" placeholder="Price (AED)"><input id="psize" type="text" inputmode="decimal" placeholder="Size (sq ft)"></div></details>
   <label class="proj">Where is the property? <small>(filled in when you pick your project at the top)</small><input id="ploc" type="text" list="plocs" autocomplete="off" placeholder="e.g. Jumeirah Village Circle"></label><datalist id="plocs"></datalist>
   <span class="q">Question 20</span><h3>How your price compares <span class="pts" id="psfpts">up to 10 pts</span></h3>
+  <div class="how3"><b class="h">📊 How we compare your price</b><ol>
+   <li><b>Real market data, not adverts.</b> We use every sale registered with the Dubai Land Department, refreshed weekly.</li>
+   <li><b>Off-plan only.</b> For each nearby project not handed over yet, we take the median price per sq ft buyers actually paid.</li>
+   <li><b>Like for like.</b> We average similar projects: same developer grade first, then other developers in the area, then the area median if there aren't enough.</li>
+   <li><b>Your score.</b> At or below the average = full 15 points. The further above it, the fewer points.</li></ol></div>
   <p id="cmahint">Enter your price per sq ft and the area. The average price per sq ft of similar off-plan projects appears here, with your score.</p>
   <div class="dld" id="cma" hidden></div>
  </div></div>
@@ -683,6 +703,8 @@ section,.game{scroll-margin-top:110px}
   function psfAll(){ psfLoad(function(){ psfCalc(); update(); }); PSFV=num(psfIn.value); update(); }
   [psfIn,locIn].forEach(function(el){ el.addEventListener("focus",function(){psfLoad(function(){});}); el.addEventListener("input",psfAll); el.addEventListener("change",psfAll); });
   ["pprice","psize"].forEach(function(i){ document.getElementById(i).addEventListener("input",calcFromParts); });
+  fetch("data/status.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){ if(j.rows) document.getElementById("st1").textContent=j.rows; }).catch(function(){});
+  psfLoad(function(){ document.getElementById("st2").textContent=PD.p.length; var d=PD.data_through||PD.updated; if(d) document.getElementById("st3").textContent=fmtDate(d); });
   var modal=document.getElementById("modal");
   document.getElementById("getpdf").addEventListener("click",function(){document.getElementById("fname").value=document.getElementById("fname").value||who.n||"";document.getElementById("fphone").value=document.getElementById("fphone").value||who.p||"";modal.hidden=false;setTimeout(function(){document.getElementById("fname").focus();},50);});
   document.getElementById("close").addEventListener("click",function(){modal.hidden=true;});
