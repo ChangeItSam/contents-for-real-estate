@@ -288,7 +288,7 @@ section,.game{scroll-margin-top:110px}
  </div>
 </header>
 
-<div class="prog" id="prog"><div class="pin"><div class="r1"><span class="cnt">✅ <span id="done">0</span>/<span id="tot">20</span><small>checks</small></span><a href="#test" class="go">Get result</a></div><div class="bar"><i id="bar"></i></div><div class="r3"><span id="where">📍 Start: pick your project</span><span class="warnp" id="psfwarn" hidden>💲 Price check missing (15 pts)</span></div></div></div>
+<div class="prog" id="prog"><div class="pin"><div class="r1"><span class="cnt">✅ <span id="done">0</span>/<span id="tot">20</span><small>checks</small></span><a href="#test" class="go">Get result</a></div><div class="bar"><i id="bar"></i></div><div class="r3"><span id="where">📍 Start: pick your project</span><span class="warnp" id="psfwarn" hidden>💲 Price check missing</span></div></div></div>
 
 <section class="game">
  <div class="dd">🎲 DEAL <span>or</span> NO DEAL?</div>
@@ -361,7 +361,7 @@ section,.game{scroll-margin-top:110px}
   <div class="psfrow">AED <input id="psf" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 1,850"> / sq ft</div>
   <details class="psfcalc"><summary>Don't know it? Work it out</summary><div><input id="pprice" type="text" inputmode="decimal" placeholder="Price (AED)"><input id="psize" type="text" inputmode="decimal" placeholder="Size (sq ft)"></div></details>
   <label class="proj">Where is the property? <small>(filled in when you pick your project at the top)</small><input id="ploc" type="text" list="plocs" autocomplete="off" placeholder="e.g. Jumeirah Village Circle"></label><datalist id="plocs"></datalist>
-  <span class="q">Question 20</span><h3>How your price compares <span class="pts" id="psfpts">up to 10 pts</span></h3>
+  <span class="q">Question 20</span><h3>How your price compares <span class="pts" id="psfpts" hidden></span></h3>
   <div class="how3"><b class="h">📊 How we compare your price</b><ol>
    <li><b>Real market data, not adverts.</b> We use every sale registered with the Dubai Land Department, refreshed weekly.</li>
    <li><b>Off-plan only.</b> For each nearby project not handed over yet, we take the median price per sq ft buyers actually paid.</li>
@@ -688,7 +688,7 @@ section,.game{scroll-margin-top:110px}
   function fmt(n){ return "AED "+Math.round(n).toLocaleString("en-US"); }
   function psfCalc(){
     PSFV=num(psfIn.value); PSFR=null;
-    var badge=document.getElementById("psfpts"); badge.textContent="up to "+PSF_MAX+" pts";
+    var badge=document.getElementById("psfpts"); badge.hidden=true;
     if(!PD){ cma.hidden=true; return; }
     var loc=locIn.value.trim(), ll=loc.toLowerCase();
     if(PSFP && ll!==(PSFP.community||"").toLowerCase() && ll!==(PSFP.area||"").toLowerCase()) PSFP=null; // area changed by hand
@@ -710,7 +710,7 @@ section,.game{scroll-margin-top:110px}
     var d=(PSFV-mean)/mean*100, pct=d<=0?1:d<=10?.75:d<=15?.5:d<=30?.25:0, pts=pct*PSF_MAX;
     var diffTxt = Math.abs(d)<0.5 ? "in line with" : (Math.abs(d).toFixed(0)+"% "+(d<0?"below":"above"));
     PSFR={avg:mean,pts:pts,diffTxt:diffTxt,basis:basis};
-    badge.textContent=(+pts.toFixed(1))+" / "+PSF_MAX+" pts";
+    var rating=pct===1?"Excellent":pct===.75?"Good":pct===.5?"Fair":pct===.25?"Poor":"Overpriced"; badge.textContent=rating; badge.hidden=false;
     var cls=pct>=.75?"ok":pct>=.25?"warn":"bad";
     var head=pct===1?"✅ At or below the average nearby":pct===.75?"👍 Up to 10% above the average":pct===.5?"⚠️ 10–15% above the average":pct===.25?"⚠️ 15–30% above the average":"🚩 More than 30% above the average";
     var list=set?set.slice().sort(function(a,b){return b[7]-a[7];}).slice(0,5).map(function(r){return '<div><span>'+esc(r[1])+' <small style="display:inline;opacity:.7">· '+esc(r[2].replace(/ (l\.?l\.?c\.?|p\.?j\.?s\.?c\.?|fze|fzco|development|developers|developments|real estate|properties|investment)\b.*$/i,""))+'</small></span><b>'+fmt(r[6])+'</b></div>';}).join(""):"";
@@ -719,7 +719,7 @@ section,.game{scroll-margin-top:110px}
       '<div class="cmpbig"><span>You pay<b>'+fmt(PSFV)+'</b></span><span>Average nearby<b>'+fmt(mean)+'</b></span><span>Difference<b>'+(d>0?"+":"")+d.toFixed(1)+'%</b></span></div>'+
       '<div>Compared with: '+esc(basis)+(level==="B"&&g==="A"?' (not enough Grade A projects in this area)':'')+(level==="C"?' (not enough off-plan projects to compare)':'')+'.</div>'+
       (list?'<div class="cmp">'+list+(set.length>5?'<div><span>+ '+(set.length-5)+' more</span><span></span></div>':'')+'</div>':'')+
-      '<div style="margin-top:10px;font-size:17px">🏆 Your price score: <b style="font-size:22px">'+(+pts.toFixed(1))+' / '+PSF_MAX+'</b> points<br><span style="font-size:15px">The price check carries the <b>most weight</b> of any check in your Deal Score.</span></div>'+
+      '<div style="margin-top:10px;font-size:17px">🏆 Your price rating: <b style="font-size:22px">'+rating+'</b><br><span style="font-size:15px">The price check carries the <b>most weight</b> of any check in your Deal Score.</span></div>'+
       '<small>📊 DLD market data · through '+esc(fmtDate(PD.data_through||PD.updated))+'</small>';
     cma.hidden=false;
   }
