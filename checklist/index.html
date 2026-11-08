@@ -338,8 +338,7 @@ section,.game{scroll-margin-top:110px}
   <div class="how3"><b class="h">📊 How we compare your price</b><ol>
    <li><b>Real market data, not adverts.</b> We use every sale registered with the Dubai Land Department, refreshed weekly.</li>
    <li><b>Off-plan only.</b> For each nearby project not handed over yet, we take the median price per sq ft buyers actually paid.</li>
-   <li><b>Like for like.</b> We average similar projects: same developer grade first, then other developers in the area, then the area median if there aren't enough.</li>
-   <li><b>Your score.</b> At or below the average = full 15 points. The further above it, the fewer points.</li></ol></div>
+   <li><b>Like for like.</b> We average similar projects: same developer grade first, then other developers in the area, then the area median if there aren't enough.</li></ol></div>
   <p id="cmahint">Enter your price per sq ft and the area. The average price per sq ft of similar off-plan projects appears here, with your score.</p>
   <div class="dld" id="cma" hidden></div>
  </div></div>
@@ -688,15 +687,14 @@ section,.game{scroll-margin-top:110px}
     PSFR={avg:mean,pts:pts,diffTxt:diffTxt,basis:basis};
     badge.textContent=(+pts.toFixed(1))+" / "+PSF_MAX+" pts";
     var cls=pct>=.75?"ok":pct>=.25?"warn":"bad";
-    var head=pct===1?"✅ At or below the average. Full marks.":pct===.75?"👍 Up to 10% above the average":pct===.5?"⚠️ 10–15% above the average":pct===.25?"⚠️ 15–30% above the average":"🚩 More than 30% above the average";
+    var head=pct===1?"✅ At or below the average nearby":pct===.75?"👍 Up to 10% above the average":pct===.5?"⚠️ 10–15% above the average":pct===.25?"⚠️ 15–30% above the average":"🚩 More than 30% above the average";
     var list=set?set.slice().sort(function(a,b){return b[7]-a[7];}).slice(0,5).map(function(r){return '<div><span>'+esc(r[1])+' <small style="display:inline;opacity:.7">· '+esc(r[2].replace(/ (l\.?l\.?c\.?|p\.?j\.?s\.?c\.?|fze|fzco|development|developers|developments|real estate|properties|investment)\b.*$/i,""))+'</small></span><b>'+fmt(r[6])+'</b></div>';}).join(""):"";
     cma.className="dld "+cls;
     cma.innerHTML='<b class="t">'+head+'</b>'+
       '<div class="cmpbig"><span>You pay<b>'+fmt(PSFV)+'</b></span><span>Average nearby<b>'+fmt(mean)+'</b></span><span>Difference<b>'+(d>0?"+":"")+d.toFixed(1)+'%</b></span></div>'+
       '<div>Compared with: '+esc(basis)+(level==="B"&&g==="A"?' (not enough Grade A projects in this area)':'')+(level==="C"?' (not enough off-plan projects to compare)':'')+'.</div>'+
       (list?'<div class="cmp">'+list+(set.length>5?'<div><span>+ '+(set.length-5)+' more</span><span></span></div>':'')+'</div>':'')+
-      '<div style="margin-top:6px">Score: <b>'+(pct*100)+'%</b> of '+PSF_MAX+' points = <b>'+(+pts.toFixed(1))+'</b>. Full marks at or below the average; up to 10% above = 75%; 10–15% = 50%; 15–30% = 25%; over 30% = 0.</div>'+
-      '<small>Each project\'s figure is the median price per sq ft of its registered sales; the average is across those projects. Off-plan = not handed over yet. Size, floor, view and unit type also change the price, so use this as a guide. Source: '+esc(PD.source)+', data through '+esc(PD.data_through||PD.updated)+'.</small>';
+      '<small>📊 DLD market data · through '+esc(fmtDate(PD.data_through||PD.updated))+'</small>';
     cma.hidden=false;
   }
   function calcFromParts(){ var pr=num(document.getElementById("pprice").value), sz=num(document.getElementById("psize").value); if(pr&&sz){ psfIn.value=Math.round(pr/sz).toLocaleString("en-US"); psfAll(); } }
