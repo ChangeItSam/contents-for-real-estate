@@ -131,7 +131,7 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
 .sheet .err{color:#B42318;font-size:15px;font-weight:600;min-height:20px;margin-top:8px}
 .sheet small{display:block;font-size:13px;color:var(--muted);margin-top:12px;line-height:1.45}
 
-.prog .go{background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--navy);text-decoration:none;font-size:15px;font-weight:800;padding:8px 14px;border-radius:20px;white-space:nowrap}
+.prog .go{margin-left:auto;background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--navy);text-decoration:none;font-size:15px;font-weight:800;padding:8px 14px;border-radius:20px;white-space:nowrap}
 section,.game{scroll-margin-top:110px}
 @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(201,162,74,0)}50%{box-shadow:0 0 0 6px rgba(201,162,74,.55)}}
 .flash{animation:glow 1s ease 3}
@@ -261,7 +261,7 @@ section,.game{scroll-margin-top:110px}
  </div>
 </header>
 
-<div class="prog" id="prog"><div class="pin"><div class="r1"><span class="cnt">✅ <span id="done">0</span>/<span id="tot">20</span><small>checks</small></span><span class="sc">Score <b id="live">0</b>/100</span><a href="#test" class="go">Get result</a></div><div class="bar"><i id="bar"></i></div><div class="r3"><span id="where">📍 Start: pick your project</span><span class="warnp" id="psfwarn" hidden>💲 Price check missing (15 pts)</span></div></div></div>
+<div class="prog" id="prog"><div class="pin"><div class="r1"><span class="cnt">✅ <span id="done">0</span>/<span id="tot">20</span><small>checks</small></span><a href="#test" class="go">Get result</a></div><div class="bar"><i id="bar"></i></div><div class="r3"><span id="where">📍 Start: pick your project</span><span class="warnp" id="psfwarn" hidden>💲 Price check missing (15 pts)</span></div></div></div>
 
 <section class="game">
  <div class="dd">🎲 DEAL <span>or</span> NO DEAL?</div>
@@ -448,7 +448,6 @@ section,.game{scroll-margin-top:110px}
     document.getElementById("bar").style.width = (n / (boxes.length+2) * 100) + "%";
     try { localStorage.setItem(key, JSON.stringify(boxes.map(function(b){ return b.checked; }))); } catch(e) {}
     var ch=document.getElementById("cmahint"), cm=document.getElementById("cma"); if(ch&&cm) ch.hidden=!cm.hidden;
-    if(typeof score==="function"){ document.getElementById("live").textContent=score(); }
     document.getElementById("psfwarn").hidden=!!PSFR;
   }
   boxes.forEach(function(b, i){ b.checked = !!saved[i]; b.addEventListener("change", update); });
