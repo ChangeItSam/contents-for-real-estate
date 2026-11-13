@@ -71,8 +71,10 @@ for s in stations:
     seen.add(name); p = (s["lat"], s["lon"])
     lines = sorted({ln for q, ln in line_pts if km(p, q) < 0.4 and ln})
     metro.append([name, round(p[0], 5), round(p[1], 5), " / ".join(lines)])
-log("metro stations:", len(metro))
-if len(metro) < 40:
+future = [m for m in metro if not m[3]]          # mapped stations not on a running line (e.g. Blue Line works)
+metro = [m for m in metro if m[3]]
+log("metro stations on running lines:", len(metro), "| other mapped stations:", len(future))
+if len(metro) < 30:
     raise SystemExit("too few metro stations, keeping the old file")
 
 # ---------- bus stops and routes
@@ -125,6 +127,16 @@ for n in sorted(names):
     p = geocode(o if isinstance(o, str) else f"{n}, Dubai")
     if p: points[n] = cache[n] = p
     else: missed.append(n)
+# a DLD area that geocoding missed takes the point of the community it mainly belongs to
+try:
+    import csv, io
+    raw = http("https://raw.githubusercontent.com/datadubai/dubai-real-estate-dld/main/data/communities.csv")
+    for r in csv.DictReader(io.StringIO(raw.lstrip("\ufeff"))):
+        a = (r.get("top_area") or "").strip()
+        if a in missed and r["name"] in points:
+            points[a] = [points[r["name"]][0], points[r["name"]][1], "via " + r["name"]]; missed.remove(a)
+except Exception as e:
+    log("top_area fallback failed", repr(e)[:100])
 json.dump(cache, open(cache_f, "w"), indent=0, ensure_ascii=False)
 log("area points:", len(points), "missed:", len(missed), "|", "; ".join(missed[:60]))
 
@@ -145,13 +157,21 @@ bover = over.get("_blue", {}) if isinstance(over.get("_blue"), dict) else {}
 blue = []
 for name, q in BLUE:
     o = bover.get(name)
-    p = [o[0], o[1]] if isinstance(o, list) else (cache.get("blue:" + name) or geocode(q))
+    p = [o[0], o[1]] if isinstance(o, list) else None
+    if not p and name.startswith(("Creek", "Centrepoint")):
+        hit = [m for m in metro if m[0].lower() == name.split(" ")[0].lower()]
+        if hit: p = [hit[0][1], hit[0][2]]
+    if not p:
+        p = cache.get("blue:" + name) or geocode(q) or (geocode("Festival City, Dubai") if "Festival" in name else None)
+        if p and future:
+            f = min(future, key=lambda m: km((p[0], p[1]), (m[1], m[2])))
+            if km((p[0], p[1]), (f[1], f[2])) <= 2: p = [f[1], f[2]]
     if p:
         cache["blue:" + name] = p; blue.append([name, p[0], p[1]])
     else:
         log("blue miss", name)
 json.dump(cache, open(cache_f, "w"), indent=0, ensure_ascii=False)
-log("blue line stations placed:", len(blue))
+log("blue line stations placed:", len(blue), blue)
 
 # ---------- per area summary
 res = {}

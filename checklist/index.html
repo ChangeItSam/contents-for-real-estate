@@ -707,8 +707,8 @@ section,.game{scroll-margin-top:110px}
         '<div class="row"><span>Distance from the area centre</span><b>~'+ta.m[2]+' km · '+walk(ta.m[2])+'</b></div>'+
         (ta.b?'<div class="row"><span>Nearest Blue Line station (opens Sept 2029)</span><b>'+e(ta.b[0])+' · ~'+ta.b[1]+' km</b></div>':'')+
         (ta.b&&ta.b[1]<=2?'<div style="margin-top:4px">🚀 Within about 2 km of a planned Blue Line station: a real growth story once the line opens.</div>':'')+
-        '<div class="row"><span>Bus stops within 800 m</span><b>'+ta.bus[0]+(ta.bus[1]?' · '+ta.bus[1]+' bus routes':'')+'</b></div>'+
-        (ta.bus[2]!=null?'<div class="row"><span>Nearest bus stop</span><b>'+e(ta.bus[3]||"–")+' · ~'+Math.round(ta.bus[2]*1000)+' m</b></div>':'')+
+        (ta.bus[2]!=null&&ta.bus[2]<=0.8?'<div class="row"><span>Nearest mapped bus stop</span><b>'+(ta.bus[3]?e(ta.bus[3])+' · ':'')+'~'+Math.round(ta.bus[2]*1000)+' m</b></div>'+(ta.bus[1]?'<div class="row"><span>Bus routes at mapped stops within 800 m</span><b>'+ta.bus[1]+'</b></div>':''):'')+
+        '<div class="row"><span>Buses</span><b>Check routes from your building in RTA\'s S\'hail app</b></div>'+
         '<div style="margin-top:6px;opacity:.75;font-size:13.5px">Approximate: straight-line distances from the centre of '+e(tn)+', not from your exact building. Check the walk from the building on a map. Map data © OpenStreetMap contributors; Blue Line route as announced by RTA.</div></div>'; }
     // 6. payment plan, exit, break-even
     var pp=xn("xpp"), re=xn("xre"), be=breakEven();
