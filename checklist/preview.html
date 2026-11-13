@@ -297,6 +297,7 @@ section,.game{scroll-margin-top:110px}
 .ans button.on.n{background:#E9EDF3;border-color:#9AA6B8;color:#3A4456}
 
 /* ---------- v2 mobile-first layout ---------- */
+body.kb .prog,body.kb .sticky{display:none !important}
 .rescta{margin:26px -18px 0;border-radius:22px 22px 0 0;text-align:left}
 .rescta .in{padding:26px 20px 30px}
 .foot2{margin-top:30px}
@@ -884,6 +885,10 @@ details.whym[open] summary{margin-bottom:6px}
   function pad(){ var w=document.querySelector(".sticky"), wh=w?w.offsetHeight:0; document.documentElement.style.setProperty("--wah",wh+"px");
     document.body.style.paddingTop="0px"; document.body.style.paddingBottom="0px"; spacer.style.height=(wh+prog.offsetHeight+40)+"px"; }
   pad(); window.addEventListener("resize",pad); setTimeout(pad,800);
+  // while the phone keyboard is open, hide the bottom bars so they don't cover the dropdown or the form
+  var kbT=null;
+  document.addEventListener("focusin",function(e){ var t=e.target; if(t.matches && t.matches("input[type=text],input[type=tel],input[type=month],input:not([type]),select,textarea")){ clearTimeout(kbT); document.body.classList.add("kb"); } });
+  document.addEventListener("focusout",function(){ clearTimeout(kbT); kbT=setTimeout(function(){ var a=document.activeElement; if(!(a && a.matches && a.matches("input[type=text],input[type=tel],input[type=month],input:not([type]),select,textarea"))) document.body.classList.remove("kb"); },150); });
   try{ var ro=new ResizeObserver(pad); ro.observe(prog); var stk=document.querySelector(".sticky"); if(stk) ro.observe(stk); }catch(e){ setInterval(pad,2000); }
   var secs=Array.prototype.slice.call(document.querySelectorAll(".game, section.sec"));
   function where(){ var y=110, cur=null; secs.forEach(function(sx){ if(sx.getBoundingClientRect().top<=y) cur=sx; });
