@@ -297,6 +297,13 @@ section,.game{scroll-margin-top:110px}
 .ans button.on.n{background:#E9EDF3;border-color:#9AA6B8;color:#3A4456}
 
 /* ---------- v2 mobile-first layout ---------- */
+.pcalc{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.pcalc label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700;color:var(--navy)}
+.pcalc input{font:inherit;font-size:17px;padding:11px 12px;border:2px solid var(--gold);border-radius:12px;background:#fff;color:var(--navy);width:100%;min-width:0;min-height:48px}
+.pcalc input:focus{outline:0;border-color:var(--navy)}
+.psfrow .eq{font-size:22px;color:var(--gold)}
+.psfrow input.auto{background:#EAF8EF;border-color:#3DDC84}
+.psfnote{display:block;font-size:12.5px;color:var(--muted);margin-top:6px}
 /* compact bottom progress bar (about half size) */
 .prog{padding:5px 12px !important}
 .prog .r1{gap:8px !important}
@@ -480,9 +487,11 @@ details.whym[open] summary{margin-bottom:6px}
  <div class="kicker">Checks 19–20</div><h2>💲 Is the price right?</h2><p class="lead">The price per square foot you pay decides your profit. Compare it with similar off-plan projects around you.</p>
  <div class="card"><div class="num"><span class="ic">📐</span><span class="n">19–20</span></div><div class="body">
   <span class="q">Check 19</span><h3>What price per sq ft are you paying?</h3>
-  <p>Price ÷ size in sq ft. Use the size in your SPA or floor plan, and check whether it includes the balcony.</p>
-  <div class="psfrow">AED <input id="psf" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 1,850"> / sq ft</div>
-  <details class="psfcalc"><summary>Don't know it? Work it out</summary><div><input id="pprice" type="text" inputmode="decimal" placeholder="Price (AED)"><input id="psize" type="text" inputmode="decimal" placeholder="Size (sq ft)"></div></details>
+  <p>Enter the unit price and size. We work out the price per sq ft for you. Use the size in your SPA or floor plan, and check whether it includes the balcony.</p>
+  <div class="pcalc"><label>Unit price (AED)<input id="pprice" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 1,200,000"></label>
+  <label>Size (sq ft)<input id="psize" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 650"></label></div>
+  <div class="psfrow"><span class="eq">=</span> AED <input id="psf" type="text" inputmode="decimal" autocomplete="off" placeholder="auto"> / sq ft</div>
+  <small class="psfnote" id="psfnote">Already know your price per sq ft? Type it straight into the box above.</small>
   <label class="proj">Where is the property? <small>(filled in when you pick your project at the top)</small><input id="ploc" type="text" list="plocs" autocomplete="off" placeholder="e.g. Jumeirah Village Circle"></label><datalist id="plocs"></datalist>
   <span class="q">Check 20</span><h3>How your price compares <span class="pts" id="psfpts" hidden></span></h3>
   <div class="how3"><b class="h">📊 How we compare your price</b><ol>
@@ -939,7 +948,7 @@ details.whym[open] summary{margin-bottom:6px}
 
   document.getElementById("rclose").addEventListener("click",close);
   document.getElementById("review").addEventListener("click",function(){ close(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
-  document.getElementById("reset").addEventListener("click",function(){ boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc"].forEach(function(i){document.getElementById(i).value="";}); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
+  document.getElementById("reset").addEventListener("click",function(){ boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc"].forEach(function(i){document.getElementById(i).value="";}); document.getElementById("psf").classList.remove("auto"); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
   function confetti(){
     var c=document.getElementById("conf"), x=c.getContext("2d"); c.width=innerWidth; c.height=innerHeight;
     var cols=["#C9A24A","#E8CF8E","#3DDC84","#fff","#25D366"], ps=[];
@@ -1100,7 +1109,11 @@ details.whym[open] summary{margin-bottom:6px}
       '</div><div class="lockov"><span>🔒 Nearby projects, your price rating and the rest of the details are in your <b>full report</b> from Sam.</span></div></div>';
     cma.hidden=false;
   }
-  function calcFromParts(){ var pr=num(document.getElementById("pprice").value), sz=num(document.getElementById("psize").value); if(pr&&sz){ psfIn.value=Math.round(pr/sz).toLocaleString("en-US"); psfAll(); } }
+  function calcFromParts(){ var pr=num(document.getElementById("pprice").value), sz=num(document.getElementById("psize").value);
+    if(pr&&sz){ psfIn.value=Math.round(pr/sz).toLocaleString("en-US"); psfIn.classList.add("auto"); psfAll();
+      [["xprice","pprice"],["xsize","psize"]].forEach(function(p){ var t=document.getElementById(p[0]); if(t && (!t.value.trim() || t.dataset.auto==="1")){ t.value=document.getElementById(p[1]).value; t.dataset.auto="1"; t.dispatchEvent(new Event("change",{bubbles:true})); } }); } }
+  psfIn.addEventListener("input",function(){ psfIn.classList.remove("auto"); });
+  ["xprice","xsize"].forEach(function(i){ var t=document.getElementById(i); t.addEventListener("input",function(){ t.dataset.auto=""; }); });
   function psfAll(){ psfLoad(function(){ psfCalc(); update(); }); PSFV=num(psfIn.value); update(); }
   [psfIn,locIn].forEach(function(el){ el.addEventListener("focus",function(){psfLoad(function(){});}); el.addEventListener("input",psfAll); el.addEventListener("change",psfAll); });
   ["pprice","psize"].forEach(function(i){ document.getElementById(i).addEventListener("input",calcFromParts); });
@@ -1117,7 +1130,7 @@ details.whym[open] summary{margin-bottom:6px}
     boxes.forEach(function(b){ var c=b.closest(".card"); if(seen.indexOf(c)<0){ seen.push(c); var n=(c.querySelector(".n")||{}).textContent||"";
       var cb=boxes.filter(function(x){ return x.closest(".card")===c; });
       steps.push({k:"c"+n,a:c.querySelector(".ticks"),hi:c,t:"Answer every line: Checked, Not known or N/A",done:function(){ return cb.every(function(x){ return stOf(x)!==""; }); }}); } });
-    steps.push({k:"psf",a:psf.closest(".psfrow"),hi:psf.closest(".card"),t:"Enter the price per sq ft you're paying",skip:"Skip",done:function(){ return num(psf.value)>0; }});
+    steps.push({k:"psf",a:psf.closest(".card").querySelector(".pcalc")||psf.closest(".psfrow"),hi:psf.closest(".card"),t:"Enter the unit price and size",skip:"Skip",done:function(){ return num(psf.value)>0; }});
     steps.push({k:"ploc",a:ploc.closest("label"),hi:ploc.closest(".card"),t:"Pick the area from the list",skip:"Skip",done:function(){ return ploc.value.trim().length>1; }});
     Array.prototype.forEach.call(document.querySelectorAll("#moresec .card"),function(c,i){
       steps.push({k:"x"+i,a:c.querySelector(".xf,.ticks"),hi:c,t:"Optional: fill what you know",skip:"Skip",done:function(){ return filled(c); }}); });
