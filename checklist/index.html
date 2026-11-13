@@ -240,6 +240,15 @@ section,.game{scroll-margin-top:110px}
 .rep .big{display:flex;flex-wrap:wrap;gap:6px 22px;margin-bottom:6px}.rep .big b{display:block;font-size:22px;color:#fff}
 .rep .ok{color:#9FF0C0}.rep .tag{font-size:12px;font-weight:800;border-radius:10px;padding:1px 7px;margin-left:6px;white-space:nowrap;background:#FF8A3D;color:#0B1F3A;align-self:flex-start}
 .rep .tag.p{background:#F5C451}
+.xf{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+.xf label{display:flex;flex-direction:column;font-size:14px;font-weight:700;color:var(--navy);gap:4px}
+.xf label.w{grid-column:1/-1}
+.xf input,.xf select{font:inherit;font-size:16px;padding:10px 11px;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--navy);width:100%;min-width:0}
+.xf input:focus,.xf select:focus{outline:0;border-color:var(--gold)}
+.xout{margin-top:12px;display:grid;gap:8px}
+.xo{border-radius:12px;padding:10px 12px;font-size:15.5px;line-height:1.45;border:1.5px solid}
+.xo b{font-size:16.5px}.xo.g{background:#EAF8EF;border-color:#3DDC84;color:#14532D}.xo.a{background:#FFF6E0;border-color:#F5C451;color:#6B4A00}.xo.r{background:#FDECEC;border-color:#F28B8B;color:#7F1D1D}.xo.n{background:#F2F4F8;border-color:#D5DAE3;color:#3A4456}
+@media(max-width:420px){.xf{grid-template-columns:1fr}}
 </style>
 <script>
 // Access gate: the test opens from the Instagram DM link (it carries ?k=...). A plain copied link goes to Instagram first.
@@ -382,6 +391,44 @@ section,.game{scroll-margin-top:110px}
  </div></div>
 </section>
 
+<section class="sec" id="moresec">
+ <div class="kicker">Extra checks · optional</div><h2>🧮 Know your numbers</h2><p class="lead">Not part of your score, but everything here goes into your detailed report, checked against DLD market data.</p>
+ <div class="card"><div class="num"><span class="ic">🔑</span><span class="n">+</span></div><div class="body">
+  <h3>Rent you were promised</h3><p>We compare it with real Ejari rent contracts for the same bedroom type in the same area.</p>
+  <div class="xf"><label>Bedrooms<select id="xbed"><option value="">Choose</option><option>Studio</option><option>1 B/R</option><option>2 B/R</option><option>3 B/R</option><option>4 B/R</option><option>5 B/R</option></select></label>
+  <label>Promised rent (AED / year)<input id="xrent" type="text" inputmode="decimal" placeholder="e.g. 85,000"></label></div>
+ </div></div>
+ <div class="card"><div class="num"><span class="ic">📅</span><span class="n">+</span></div><div class="body">
+  <h3>Handover date in your SPA</h3><p>We compare it with the completion date the developer registered with DLD.</p>
+  <div class="xf"><label class="w">Handover date in the SPA / contract<input id="xspa" type="month"></label></div>
+ </div></div>
+ <div class="card"><div class="num"><span class="ic">💳</span><span class="n">+</span></div><div class="body">
+  <h3>Payment plan and exit</h3><p>How much you pay before the keys, and when you're allowed to sell.</p>
+  <div class="xf"><label>% paid before handover<input id="xpp" type="text" inputmode="decimal" placeholder="e.g. 60"></label>
+  <label>% paid before resale is allowed<input id="xre" type="text" inputmode="decimal" placeholder="e.g. 40"></label>
+  <label class="w">Developer transfer / NOC fee (AED)<input id="xtf" type="text" inputmode="decimal" placeholder="e.g. 5,000"></label></div>
+ </div></div>
+ <div class="card"><div class="num"><span class="ic">📉</span><span class="n">+</span></div><div class="body">
+  <h3>Resale break-even</h3><p>The price you'd need just to get your money back after DLD fee, agent fee, transfer fee and service charges.</p>
+  <div class="xf"><label>Purchase price (AED)<input id="xprice" type="text" inputmode="decimal" placeholder="e.g. 1,200,000"></label>
+  <label>Size (sq ft)<input id="xsize" type="text" inputmode="decimal" placeholder="e.g. 750"></label>
+  <label>Service charge (AED / sq ft / year)<input id="xsc" type="text" inputmode="decimal" placeholder="e.g. 15"></label>
+  <label>Years you hold after handover<input id="xyrs" type="text" inputmode="decimal" placeholder="0 if you sell before"></label></div>
+  <div class="xout" id="xout"></div>
+ </div></div>
+ <div class="card"><div class="num"><span class="ic">🧾</span><span class="n">+</span></div><div class="body">
+  <h3>Also confirmed?</h3><p>Not scored. Tick what you've checked, and anything left open goes on your report.</p>
+  <div class="ticks">
+   <label class="tick xt"><input type="checkbox"><span>Service charge per sq ft confirmed in writing</span></label>
+   <label class="tick xt"><input type="checkbox"><span>Oqood (off-plan registration) can be issued now</span></label>
+   <label class="tick xt"><input type="checkbox"><span>Building permit and approvals confirmed with the developer</span></label>
+   <label class="tick xt"><input type="checkbox"><span>DEWA connection vs district cooling (chiller) fees confirmed</span></label>
+   <label class="tick xt"><input type="checkbox"><span>Schools, hospitals and parks nearby checked</span></label>
+   <label class="tick xt"><input type="checkbox"><span>Flood / drainage risk of the plot asked about</span></label>
+  </div>
+ </div></div>
+</section>
+
 <section class="sec" id="test">
  <div class="submit">
   <div class="dd">🎲 DEAL <span>or</span> NO DEAL?</div>
@@ -478,7 +525,8 @@ section,.game{scroll-margin-top:110px}
   var msg = "Hi Sam, I read your Dubai Off-Plan Checklist. Please send me a shortlist of projects.";
   var url = "https://wa.me/971528728248?text=" + encodeURIComponent(msg);
   document.querySelectorAll(".wa-link").forEach(function(a){ a.href = url; });
-  var boxes = Array.prototype.slice.call(document.querySelectorAll(".tick input"));
+  var boxes = Array.prototype.slice.call(document.querySelectorAll(".tick:not(.xt) input"));
+  var xboxes = Array.prototype.slice.call(document.querySelectorAll(".tick.xt input"));
   var PROJROW = null; var LEADS_URL = "https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec", FROMLINK = false, sentFor = "";
   var key = "sam-dealtest-v3", saved = [], PSFV = 0, PSFR = null, PSF_MAX = 15;
   try { saved = JSON.parse(localStorage.getItem(key) || "[]"); } catch(e) {}
@@ -548,22 +596,117 @@ section,.game{scroll-margin-top:110px}
            psf:PSFV||"",avg:PSFR?PSFR.avg:"",rating:(document.getElementById("psfpts").hidden?"":document.getElementById("psfpts").textContent),link:resultLink(sc)};
     try{ fetch(LEADS_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(d)}).catch(function(){}); }catch(e){}
   }
+  // ---------- Extra checks: calculators (not scored) ----------
+  var XIDS=["xbed","xrent","xspa","xpp","xre","xtf","xprice","xsize","xsc","xyrs"];
+  function xv(id){ return document.getElementById(id).value.trim(); }
+  function xn(id){ var v=xv(id).replace(/[^0-9.]/g,""); return v?+v:0; }
+  function xget(){ var o={}; XIDS.forEach(function(i){ var v=xv(i); if(v) o[i]=v; }); var t=xboxes.map(function(b){return b.checked?"1":"0";}).join(""); if(t.indexOf("1")>=0) o.t=t; return o; }
+  function xset(o){ XIDS.forEach(function(i){ if(o[i]!=null) document.getElementById(i).value=o[i]; }); if(o.t) xboxes.forEach(function(b,i){ b.checked=o.t.charAt(i)==="1"; }); xcalc(); }
+  function aed(n){ return "AED "+Math.round(n).toLocaleString("en-US"); }
+  function ppJudge(pp){ return pp>=80?["r","🚩 "+pp+"% before handover: risky. Most of your money is with the developer before you get the keys."]:pp>60?["a","⚠️ "+pp+"% before handover: on the heavy side. 60/40 or 50/50 is safer."]:["g","✅ "+pp+"% before handover: a safer split."]; }
+  function reJudge(re){ return re>=50?["r","🚩 You can only resell after paying "+re+"%: your money is locked in for a long time."]:re>=30?["a","⚠️ Resale allowed after "+re+"% paid: plan for that before you can exit."]:["g","✅ Resale allowed after "+re+"% paid: a flexible exit."]; }
+  function breakEven(){
+    var P=xn("xprice"), T=xn("xtf"), sc=xn("xsc"), sz=xn("xsize"), y=xn("xyrs");
+    if(!P) return null;
+    var dld=P*0.04, scTot=sc*sz*y, need=(P+dld+T+scTot)/0.98;
+    return {P:P,dld:dld,T:T,sc:scTot,y:y,need:need,pct:(need/P-1)*100};
+  }
+  function xcalc(){
+    var out=document.getElementById("xout"), h="";
+    var pp=xn("xpp"), re=xn("xre"), be=breakEven();
+    if(pp){ var a=ppJudge(pp); h+='<div class="xo '+a[0]+'">'+a[1]+'</div>'; }
+    if(re){ var b=reJudge(re); h+='<div class="xo '+b[0]+'">'+b[1]+(xn("xtf")?' Transfer fee: '+aed(xn("xtf"))+'.':'')+'</div>'; }
+    if(be) h+='<div class="xo n">📉 To break even you\'d need to sell for at least <b>'+aed(be.need)+'</b>, <b>'+be.pct.toFixed(1)+'%</b> above your price.<br><small>DLD fee 4% '+aed(be.dld)+(be.T?' · transfer fee '+aed(be.T):'')+(be.sc?' · service charges '+aed(be.sc)+' ('+be.y+' yr)':'')+' · selling agent 2%. Small admin fees not included.</small></div>';
+    out.innerHTML=h;
+  }
+  XIDS.forEach(function(i){ var el=document.getElementById(i); el.addEventListener("input",xcalc); el.addEventListener("change",xcalc); });
+  // fill price/size from the price-per-sq-ft helper if the buyer used it
+  ["pprice","psize"].forEach(function(i){ document.getElementById(i).addEventListener("change",function(){ var t=i==="pprice"?"xprice":"xsize"; if(!xv(t)){ document.getElementById(t).value=document.getElementById(i).value; xcalc(); } }); });
+
+  // ---------- Detailed report data (data/insights.json) ----------
+  var INS=null, iwait=[], iloading=false;
+  function insLoad(cb){ if(INS) return cb(); iwait.push(cb); if(iloading) return; iloading=true;
+    fetch("data/insights.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){ INS=j; iwait.forEach(function(f){f();}); iwait=[]; })
+      .catch(function(){ INS={d:{},p:{},t:{},r:{}}; iwait.forEach(function(f){f();}); iwait=[]; }); }
+  function monthsBetween(a,b){ var A=a.split("-"),B=b.split("-"); return (+B[0]-A[0])*12+(+B[1]-A[1]); }
+  function spark(t){
+    var v=t.map(function(x){return x[1];}), mn=Math.min.apply(null,v), mx=Math.max.apply(null,v), W=300, H=70, pad=6;
+    var pts=v.map(function(y,i){ return (pad+i*(W-2*pad)/(v.length-1)).toFixed(1)+","+(H-pad-(mx===mn?0.5:(y-mn)/(mx-mn))*(H-2*pad)).toFixed(1); }).join(" ");
+    return '<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:70px;margin-top:6px"><polyline points="'+pts+'" fill="none" stroke="#E8CF8E" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg>'+
+      '<div class="row" style="border:0;font-size:12.5px;opacity:.75"><span>'+fmtMonth(t[0][0])+'</span><span>'+fmtMonth(t[t.length-1][0])+'</span></div>';
+  }
+  function fmtMonth(m){ var p=m.split("-"); return ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][+p[1]-1]+" "+p[0]; }
+  function wavg(a){ var s=0,n=0; a.forEach(function(x){ s+=x[1]*(x[2]||1); n+=(x[2]||1); }); return n?s/n:0; }
+
   function report(sc){
-    var e=function(t){return String(t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
-    var fmtA=function(n){return "AED "+Math.round(n).toLocaleString("en-US");};
-    var CRIT=[0,2,4,6], h='';
-    if(PROJROW){ var r=PROJROW;
+    var e=function(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
+    var CRIT=[0,2,4,6], h='', I=INS||{d:{},p:{},t:{},r:{}};
+    var pn=PROJROW?PROJROW[0]:(PSFP&&PSFP.no), ip=pn&&I.p[pn], dev=ip&&I.d[ip[0]];
+    var comm=(ip&&ip[9])||(PSFP&&PSFP.community)||(PROJROW&&PROJROW[7])||"";
+    var place=comm||(ip&&ip[10])||(PSFP&&PSFP.area)||"";
+    // 1. project record
+    if(PROJROW||ip){ var r=PROJROW||[pn,"","","","","","",""];
       h+='<h4>🏗️ Project record (Dubai Land Department)</h4><div class="box">'+
-        '<div class="row"><span>Project</span><b>'+e(r[1])+'</b></div><div class="row"><span>DLD project no.</span><b>'+e(r[0]||"–")+'</b></div>'+
-        '<div class="row"><span>Developer</span><b>'+e(r[2]||"–")+'</b></div>'+(r[7]?'<div class="row"><span>Area</span><b>'+e(r[7])+'</b></div>':'')+
-        '<div class="row"><span>Status</span><b>'+e(r[3]||"–")+'</b></div>'+(r[4]!==""?'<div class="row"><span>Construction</span><b>'+Math.round(+r[4])+'% complete</b></div>':'')+
-        (r[6]?'<div class="row"><span>Expected completion</span><b>'+e(fmtDate(r[6]))+'</b></div>':'')+'<div class="row"><span>Escrow bank</span><b>'+e(r[5]||"Not listed: ask the developer")+'</b></div></div>'; }
+        '<div class="row"><span>Project</span><b>'+e(r[1]||(PSFP&&PSFP.name))+'</b></div><div class="row"><span>DLD project no.</span><b>'+e(pn||"–")+'</b></div>'+
+        '<div class="row"><span>Developer</span><b>'+e(r[2]||(dev&&dev.name)||"–")+'</b></div>'+(ip&&ip[0]&&/^\d+$/.test(ip[0])?'<div class="row"><span>DLD developer no.</span><b>'+e(ip[0])+' (in the DLD registry)</b></div>':'')+
+        (place?'<div class="row"><span>Area</span><b>'+e(place)+'</b></div>':'')+
+        '<div class="row"><span>Status in DLD</span><b>'+e((ip&&ip[1])||r[3]||"–")+'</b></div>'+
+        ((ip&&ip[2]!=null)||r[4]!==""?'<div class="row"><span>Construction</span><b>'+Math.round(ip&&ip[2]!=null?ip[2]:+r[4])+'% complete</b></div>':'')+
+        ((ip&&ip[3])||r[6]?'<div class="row"><span>DLD completion date</span><b>'+e(fmtDate((ip&&ip[3])||r[6]))+'</b></div>':'')+
+        '<div class="row"><span>Escrow bank</span><b>'+e(r[5]||"Not listed: ask the developer")+'</b></div>'+
+        (ip?'<div class="row"><span>Units in the project</span><b>'+(ip[4]?ip[4].toLocaleString("en-US"):"–")+'</b></div>':'')+'</div>';
+      // sales in this exact project
+      if(ip){ h+='<h4>🧾 Sales registered in this project</h4><div class="box">'+(ip[5]?
+          '<div class="big"><span>Registered sales<b>'+ip[5].toLocaleString("en-US")+'</b></span>'+(ip[6]?'<span>Median price<b>'+aed(ip[6])+'</b></span>':'')+(ip[12]?'<span>Median / sq ft<b>'+aed(ip[12])+'</b></span>':'')+'</div>'+
+          (ip[7]&&ip[8]?'<div>Middle half of sales: '+aed(ip[7])+' to '+aed(ip[8])+'.</div>':'')+
+          (ip[4]?'<div>'+ip[5].toLocaleString("en-US")+' sales registered for '+ip[4].toLocaleString("en-US")+' units (sales include resales).</div>':'')
+          :'<div>No registered sales in this project yet. Ask why, and how many units are really sold.</div>')+'</div>'; }
+      // handover vs SPA
+      var spa=xv("xspa"), dd=(ip&&ip[3])||r[6];
+      if(dd){ var dm=dd.slice(0,7); h+='<h4>📅 Handover date</h4><div class="box"><div class="row"><span>DLD completion date</span><b>'+e(fmtDate(dd))+'</b></div>';
+        if(spa){ var diff=monthsBetween(dm,spa); h+='<div class="row"><span>Your SPA handover</span><b>'+fmtMonth(spa)+'</b></div><div style="margin-top:6px">'+(Math.abs(diff)<=3?"✅ The two dates match (within 3 months).":diff>3?"⚠️ Your SPA allows handover <b>"+diff+" months later</b> than the date registered with DLD. Ask the developer which date is binding and what compensation applies.":"ℹ️ Your SPA date is "+(-diff)+" months earlier than the DLD date. Ask the developer to confirm the real timeline.")+'</div>'; }
+        else h+='<div style="margin-top:6px">Compare this with the handover date in your SPA.</div>';
+        if(dd<new Date().toISOString().slice(0,10) && ip && ip[1]==="Active") h+='<div style="margin-top:6px">🚩 This date has already passed and DLD still lists the project as active (not finished).</div>';
+        h+='</div>'; }
+    }
+    // 2. developer track record
+    if(dev){ h+='<h4>👷 Developer track record</h4><div class="box"><div class="big"><span>Finished<b>'+dev.fin+'</b></span><span>Active<b>'+dev.act+'</b></span><span>Past DLD date<b>'+dev.late+'</b></span><span>Cancelled<b>'+dev.can+'</b></span></div>'+
+        '<div style="opacity:.8;font-size:13.5px">Projects in DLD\'s current project registry. "Past DLD date" = still active after the completion date the developer registered. Older deliveries before the registry may not be counted.</div></div>'; }
+    // 3. price vs market + trend
     if(PSFR){
-      h+='<h4>💲 Your price vs the market</h4><div class="box"><div class="big"><span>You pay<b>'+fmtA(PSFV)+'</b></span><span>Average nearby<b>'+fmtA(PSFR.avg)+'</b></span><span>Difference<b>'+(PSFR.d>0?"+":"")+PSFR.d.toFixed(1)+'%</b></span></div>'+
+      h+='<h4>💲 Your price vs the market</h4><div class="box"><div class="big"><span>You pay<b>'+aed(PSFV)+'</b></span><span>Average nearby<b>'+aed(PSFR.avg)+'</b></span><span>Difference<b>'+(PSFR.d>0?"+":"")+PSFR.d.toFixed(1)+'%</b></span></div>'+
         '<div>Price rating: <b>'+e(PSFR.rating)+'</b>. Compared with '+e(PSFR.basis)+'.</div>'+
-        (PSFR.list.length?'<div style="margin-top:8px">'+PSFR.list.map(function(x){return '<div class="row"><span>'+e(x[0])+'</span><b>'+fmtA(x[1])+'</b></div>';}).join("")+'</div>':'')+
         '<div style="margin-top:6px;opacity:.75;font-size:13.5px">Median price per sq ft actually paid, from DLD registered sales.</div></div>';
     } else h+='<h4>💲 Your price vs the market</h4><div class="box">Not checked yet. Send me the price and size and I\'ll compare it with nearby projects for you.</div>';
+    var t=comm&&I.t[comm], yy=comm&&I.y&&I.y[comm];
+    if(yy&&yy[1]!=null){ h+='<h4>📈 Price trend in '+e(comm)+'</h4><div class="box"><div class="big"><span>Median / sq ft (12 months)<b>'+aed(yy[0])+'</b></span><span>vs the year before<b>'+(yy[1]>0?"+":"")+yy[1].toFixed(1)+'%</b></span></div>'+
+        (t&&t.length>=6?spark(t):'')+
+        '<div style="opacity:.75;font-size:13.5px">From '+(yy[2]||0).toLocaleString("en-US")+' registered sales in the last 12 months. The line shows monthly medians, which jump with big launches, so read the year-on-year figure first.</div></div>'; }
+    // 4. side by side
+    if(PD&&place){ var me=pn&&PD.byNo[pn], g=me&&me[3];
+      var cand=PD.p.filter(function(r){ return r[0]!==pn && (comm?r[4]===comm:r[5]===place); });
+      cand.sort(function(x,y){ return ((g&&y[3]===g)-(g&&x[3]===g)) || (y[7]-x[7]); });
+      var rowsT=(me?[me]:[]).concat(cand.slice(0,3));
+      if(rowsT.length>1){ h+='<h4>⚖️ Side by side with nearby off-plan projects</h4><div class="box" style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13.5px;min-width:470px"><tr style="text-align:left;opacity:.8"><th style="padding:4px">Project</th><th>AED/sq ft</th><th>DLD completion</th><th>Built</th><th>Developer record</th></tr>'+
+        rowsT.map(function(r,k){ var x=I.p[r[0]]||[], dv=x[0]&&I.d[x[0]];
+          return '<tr style="border-top:1px dashed rgba(255,255,255,.15)'+(k===0&&me?';color:#E8CF8E;font-weight:700':'')+'"><td style="padding:5px 4px">'+e(r[1])+(k===0&&me?' (yours)':'')+'</td><td>'+Math.round(r[6]).toLocaleString("en-US")+'</td><td>'+(x[3]?e(fmtMonth(x[3].slice(0,7))):"–")+'</td><td>'+(x[2]!=null?Math.round(x[2])+'%':"–")+'</td><td>'+(dv?dv.fin+' done · '+dv.late+' late':'–')+'</td></tr>'; }).join("")+'</table></div>'; } }
+    // 5. rent check
+    var bed=xv("xbed"), rr=comm&&I.r[comm], rb=rr&&(bed&&rr[bed]||rr.all), pr=xn("xrent");
+    if(rb){ h+='<h4>🔑 Rent check: '+e(comm)+(bed&&rr[bed]?' · '+e(bed):'')+'</h4><div class="box"><div class="big"><span>Median rent (Ejari)<b>'+aed(rb[0])+'/yr</b></span>'+(pr?'<span>You were promised<b>'+aed(pr)+'/yr</b></span><span>Difference<b>'+((pr/rb[0]-1)*100>0?"+":"")+((pr/rb[0]-1)*100).toFixed(0)+'%</b></span>':'')+'</div>'+
+        (pr?'<div>'+(pr>rb[0]*1.15?'🚩 The promised rent is well above what tenants actually pay here. Plan with the median, not the promise.':pr<rb[0]*0.9?'✅ The promised rent is conservative compared with real contracts.':'✅ The promised rent is in line with real contracts.')+'</div>':'')+
+        (rb[2]?'<div>Typical gross yield here: <b>'+rb[2]+'%</b>.'+(xn("xprice")?' At your price and the median rent: <b>'+(rb[0]/xn("xprice")*100).toFixed(1)+'%</b>.':'')+'</div>':'')+
+        '<div style="opacity:.75;font-size:13.5px">From '+(rb[1]||0).toLocaleString("en-US")+' Ejari rent contracts in the last 12 months.</div></div>'; }
+    // 6. payment plan, exit, break-even
+    var pp=xn("xpp"), re=xn("xre"), be=breakEven();
+    if(pp||re||be){ h+='<h4>💳 Payment plan, exit and break-even</h4><div class="box">';
+      if(pp) h+='<div class="row"><span>'+ppJudge(pp)[1]+'</span></div>';
+      if(re) h+='<div class="row"><span>'+reJudge(re)[1]+(xn("xtf")?' Transfer fee: '+aed(xn("xtf"))+'.':'')+'</span></div>';
+      if(be) h+='<div class="row"><span>📉 Break-even resale price: <b>'+aed(be.need)+'</b> ('+be.pct.toFixed(1)+'% above '+aed(be.P)+'). Includes DLD 4%'+(be.T?', transfer fee':'')+(be.sc?', '+be.y+' yr service charges':'')+' and a 2% selling agent fee.</span></div>';
+      h+='</div>'; }
+    // 7. extra checks
+    var xl=xboxes.map(function(b){return {b:b,t:labelOf(b)};}), xo=xl.filter(function(x){return !x.b.checked;}), xd=xl.filter(function(x){return x.b.checked;});
+    h+='<h4>🧾 Extra checks</h4><div class="box">'+xd.map(function(x){return '<div class="row ok"><span>✓ '+e(x.t)+'</span></div>';}).join("")+xo.map(function(x){return '<div class="row"><span>○ '+e(x.t)+'</span><span class="tag p">Open</span></div>';}).join("")+'</div>';
+    // 8. scored checks
     var miss=boxes.map(function(b,i){return {b:b,i:i};}).filter(function(x){return !x.b.checked;}).sort(function(a,b){return b.b.dataset.w-a.b.dataset.w;});
     var conf=boxes.filter(function(b){return b.checked;});
     h+='<h4>❗ Still to confirm ('+miss.length+')</h4>'+(miss.length?'<div class="box">'+miss.map(function(x,k){
@@ -571,8 +714,17 @@ section,.game{scroll-margin-top:110px}
         return '<div class="row"><span>'+e(labelOf(x.b))+'</span>'+tag+'</div>';}).join("")+'</div>':'<div class="box ok">Nothing missing. Every check is confirmed.</div>');
     h+='<h4>✅ Already confirmed ('+conf.length+')</h4>'+(conf.length?'<div class="box">'+conf.map(function(b){return '<div class="row ok"><span>✓ '+e(labelOf(b))+'</span></div>';}).join("")+'</div>':'<div class="box">Nothing confirmed yet.</div>');
     h+='<h4>🧭 Next step</h4><div class="box">'+(sc>=95?"This project passes the key checks. Next: a site or show-room visit and the paperwork, checked together.":sc>=80?"Close the items above before you pay anything. I can help you get each one confirmed with the developer.":"There are real gaps here. Let's go through them together, and I'll show you off-plan projects that pass these checks.")+'</div>';
+    h+='<div style="margin-top:12px;opacity:.7;font-size:12.5px">Data: Dubai Land Department open data via Dubai Data (CC BY 4.0), through '+e(fmtDate((INS&&INS.data_through)||""))+'. Not an official DLD service. For information only, not financial advice.</div>';
     return h;
   }
+  // keep extras on this device between visits; clear on "Start again"
+  (function(){ var XK="sam-dealtest-x";
+    try{ if(!/^#r=/.test(location.hash)){ var o=JSON.parse(localStorage.getItem(XK)||"null"); if(o) xset(o); } }catch(e){}
+    function sv(){ try{ localStorage.setItem(XK,JSON.stringify(xget())); }catch(e){} }
+    XIDS.forEach(function(i){ document.getElementById(i).addEventListener("change",sv); });
+    xboxes.forEach(function(b){ b.addEventListener("change",sv); });
+    document.getElementById("reset").addEventListener("click",function(){ XIDS.forEach(function(i){ document.getElementById(i).value=""; }); xboxes.forEach(function(b){ b.checked=false; }); xcalc(); sv(); });
+  })();
   function close(){ res.hidden=true; document.body.style.overflow=""; }
   var gate=document.getElementById("gate"), who={};
   try{ who=JSON.parse(localStorage.getItem("sam-who")||"{}"); }catch(e){}
@@ -608,7 +760,7 @@ section,.game{scroll-margin-top:110px}
   function resultLink(sc){
     var bits=boxes.map(function(b){return b.checked?"1":"0";}).join("");
     var proj=document.getElementById("proj").value.trim();
-    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||""})))));
+    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",x:xget()})))));
   }
   // shared result link: restore answers and show result directly (after the page has set up)
   setTimeout(function(){
@@ -617,11 +769,12 @@ section,.game{scroll-margin-top:110px}
       var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true;
       boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; });
       document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n;
+      if(o.x) xset(o.x);
       update();
       load(function(){ var q=(o.p||"").toLowerCase(); P.p.some(function(r){ if(r[1].toLowerCase()===q){ PROJROW=r; return true; } }); });
       if(o.v){ document.getElementById("psf").value=o.v; document.getElementById("ploc").value=o.l||""; PSFV=+o.v;
-        psfLoad(function(){ var x=o.pn&&PD.byNo[o.pn]; if(x) PSFP={no:x[0],name:x[1],grade:x[3],community:x[4],area:x[5],psf:x[6]}; psfCalc(); update(); setTimeout(show,300); }); }
-      else setTimeout(show,500);
+        psfLoad(function(){ var x=o.pn&&PD.byNo[o.pn]; if(x) PSFP={no:x[0],name:x[1],grade:x[3],community:x[4],area:x[5],psf:x[6]}; psfCalc(); update(); insLoad(function(){ setTimeout(show,300); }); }); }
+      else psfLoad(function(){ insLoad(function(){ setTimeout(show,300); }); });
     }catch(x){}
   },0);
 
