@@ -1,10 +1,7 @@
-2026-11-13 19:14 UTC
-metro stations: 64
+2026-11-13 19:20 UTC
 overpass fail https://overpass-api.de/api/interpreter 0 <HTTPError 502: 'Bad Gateway'>
+metro stations on running lines: 53 | other mapped stations: 11
 bus stops: 1128 bus routes: 35
-area points: 102 missed: 53 | Al Barsha South Fifth; Al Barsha South Fourth; Al Barshaa South Second; Al Barshaa South Third; Al Goze Fourth; Al Hebiah Fifth; Al Hebiah First; Al Hebiah Fourth; Al Hebiah Second; Al Hebiah Sixth; Al Hebiah Third; Al Khairan First; Al Merkadh; Al Rowaiyah First; Al Safouh First; Al Safouh Second; Al Thanyah Fifth; Al Yelayiss 1; Al Yelayiss 2; Al Yelayiss 5; DAMAC Lagoons; DMCC Master Community; DMCC-EZ1; DMCC-EZ2; Down Town Jabal Ali; Dubai Health Care City Phase 2; Dubai International Financial Center; Dubai Investment Park First; Dubai Investment Park Second; HADAEQ SHEIKH MOHAMMED BIN RASHID - DISRICT 7; International Media Production Zone; Jabal Ali Industrial Second; Jumeirah Golf Estates - Phase B; Jumeriah Beach Residence - JBR; Liwan1; Liwan2; Madinat Badr; Madinat Dubai Almelaheyah; Me'Aisem First; Me'Aisem Second; Meydan Racecourse Community; Mohammed Bin Rashid AL Maktoum City -District -1 Community; Mohammed Bin Rashid AL Maktoum District 11; Nad Al Sheba Gardens; Nad Al Shiba First; Ras Al Khor Industrial First; Sama Al Jadaf; Trade Center Second; Um Suqaim Third; WARSAN FIRST DEVELOPMENT; Warsan Fourth; Zaabeel First; Zaabeel Second
-blue miss Creek (interchange, Al Jaddaf)
-blue miss Dubai Festival City
-blue miss Centrepoint (interchange)
-blue line stations placed: 9
-transit.json written for 102 areas
+area points: 150 missed: 5 | Al Goze Fourth; DAMAC Lagoons; Dubai Health Care City Phase 2; Madinat Badr; Nad Al Sheba Gardens
+blue line stations placed: 12 [['Creek (interchange, Al Jaddaf)', 25.21888, 55.33904], ['Dubai Festival City', 25.20901, 55.35343], ['Dubai Creek Harbour (Emaar Properties Station)', 25.19099, 55.35933], ['Ras Al Khor', 25.17594, 55.3697], ['International City 1 (interchange)', 25.17568, 55.41082], ['International City 2', 25.16194, 55.41086], ['International City 3', 25.13844, 55.40031], ['Dubai Silicon Oasis', 25.12029, 55.38878], ['Academic City', 25.13127, 55.41926], ['Centrepoint (interchange)', 25.23031, 55.39112], ['Mirdif', 25.21342, 55.40971], ['Al Warqa', 25.18906, 55.40942]]
+transit.json written for 150 areas
