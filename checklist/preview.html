@@ -297,6 +297,17 @@ section,.game{scroll-margin-top:110px}
 .ans button.on.n{background:#E9EDF3;border-color:#9AA6B8;color:#3A4456}
 
 /* ---------- v2 mobile-first layout ---------- */
+/* compact bottom progress bar (about half size) */
+.prog{padding:5px 12px !important}
+.prog .r1{gap:8px !important}
+.prog .cnt{font-size:15px !important}.prog .cnt small{display:inline !important;font-size:10.5px !important}
+.prog .hres{font-size:11px !important;padding:4px 9px !important}
+.prog .go{font-size:11.5px !important;padding:5px 11px !important}
+.prog .bar{height:7px !important;margin-top:5px !important}
+.prog .r3{display:none !important}
+.prog .r1 .warnp{font-size:10.5px;color:#FFB25C;text-decoration:underline;cursor:pointer;white-space:nowrap;font-weight:700}
+@media(max-width:389px){.prog .cnt small{display:none !important}.prog .r1{gap:6px !important}.prog .hres{padding:4px 7px !important}}
+.prog::before{content:"";position:absolute;left:0;right:0;top:-26px;height:26px;background:linear-gradient(to top,rgba(255,255,255,.95),rgba(255,255,255,0));pointer-events:none}
 body.kb .prog,body.kb .sticky{display:none !important}
 .rescta{margin:26px -18px 0;border-radius:22px 22px 0 0;text-align:left}
 .rescta .in{padding:26px 20px 30px}
@@ -386,7 +397,7 @@ details.whym[open] summary{margin-bottom:6px}
  <p class="trust">🏛️ Checked against DLD data • <b id="st1b">770</b> projects • Updated daily</p>
 </header>
 
-<div class="prog" id="prog"><div class="pin"><div class="r1"><span class="cnt">✅ <span id="done">0</span>/<span id="tot">20</span><small>answered</small></span><button type="button" class="hres" id="hreset">↺ Reset</button><a href="#test" class="go">Get result</a></div><div class="bar"><i id="bar"></i></div><div class="r3"><span id="where">📍 Start: pick your project</span><span class="warnp" id="psfwarn" hidden>💲 Price check missing</span></div></div></div>
+<div class="prog" id="prog"><div class="pin"><div class="r1"><span class="cnt">✅ <span id="done">0</span>/<span id="tot">20</span><small>answered</small></span><span class="warnp" id="psfwarn" hidden>💲 Price missing</span><button type="button" class="hres" id="hreset">↺ Reset</button><a href="#test" class="go">Get result</a></div><div class="bar"><i id="bar"></i></div><div class="r3"><span id="where">📍 Start: pick your project</span></div></div></div>
 
 <section class="sample">
  <div class="kicker">What you get</div>
@@ -883,7 +894,7 @@ details.whym[open] summary{margin-bottom:6px}
   var prog=document.getElementById("prog");
   var spacer=document.createElement("div"); spacer.id="barspace"; document.body.appendChild(spacer);
   function pad(){ var w=document.querySelector(".sticky"), wh=w?w.offsetHeight:0; document.documentElement.style.setProperty("--wah",wh+"px");
-    document.body.style.paddingTop="0px"; document.body.style.paddingBottom="0px"; spacer.style.height=(wh+prog.offsetHeight+40)+"px"; }
+    document.body.style.paddingTop="0px"; document.body.style.paddingBottom="0px"; spacer.style.height=(wh+prog.offsetHeight+70)+"px"; }
   pad(); window.addEventListener("resize",pad); setTimeout(pad,800);
   // while the phone keyboard is open, hide the bottom bars so they don't cover the dropdown or the form
   var kbT=null;
