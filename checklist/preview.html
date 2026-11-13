@@ -336,9 +336,6 @@ body{background:#fff}
 .btn.bigcta{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;margin-top:12px;font-size:19px;font-weight:800;border-radius:16px;background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--navy);text-decoration:none;border:0}
 .hero2 .trust{font-size:13.5px;color:var(--muted);text-align:center;margin-top:10px}
 .hero2 .feat,.hero2 .sugg,.hero2 .dld,.hero2 .dldsrc{text-align:left}
-.hero2 .feat:not([hidden]){display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;padding:2px 0 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-.hero2 .feat::-webkit-scrollbar{display:none}
-.hero2 .feat>*{flex:none;white-space:nowrap}
 .hero2 .dldsrc{font-size:12.5px;margin-top:4px}
 .sample{margin:22px 18px 0}.sample h2{font-size:24px;color:var(--navy);margin-top:2px}
 .scard{position:relative;margin-top:12px;background:linear-gradient(160deg,var(--navy),#1d3f6b);color:#fff;border-radius:20px;padding:16px}
@@ -992,7 +989,6 @@ details.whym[open] summary{margin-bottom:6px}
     }
     card.hidden=false; psfProject(r); update();
     if(autoCount) mtoast("✅ DLD confirmed "+autoCount+" check"+(autoCount>1?"s":"")+" for you");
-    var ft=document.getElementById("feat"); if(ft) ft.hidden=true;
   }
   // full start-over: also clear the project and its DLD card
   document.getElementById("reset").addEventListener("click",function(){ boxes.forEach(function(b){ b.dataset.st=""; }); update(); pin.value=""; var ft0=document.getElementById("feat"); if(ft0&&ft0.innerHTML) ft0.hidden=false; sg.hidden=true; clearAuto(); card.hidden=true; card.innerHTML="";
