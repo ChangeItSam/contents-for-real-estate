@@ -654,7 +654,7 @@ details.whym[open] summary{margin-bottom:6px}
   try { saved = JSON.parse(localStorage.getItem(key) || "[]"); } catch(e) {}
   function update(){
     var n = boxes.filter(function(b){ return typeof stOf==="function" ? stOf(b)!=="" : b.checked; }).length + (PSFV?1:0) + (PSFR?1:0);
-    if(typeof milestone==="function") milestone(n);
+    try{ if(typeof milestone==="function") milestone(n); }catch(e){}
     document.getElementById("done").textContent = n;
     document.getElementById("bar").style.width = (n / (boxes.length+2) * 100) + "%";
     try { localStorage.setItem(key, JSON.stringify(boxes.map(function(b){ return b.checked; }))); localStorage.setItem(STK, JSON.stringify(boxes.map(stOf))); } catch(e) {}
@@ -1165,8 +1165,8 @@ details.whym[open] summary{margin-bottom:6px}
   })();
   var mt=null; function mtoast(t){ var el=document.getElementById("mtoast"); if(!el){ el=document.createElement("div"); el.id="mtoast"; el.className="mtoast"; document.body.appendChild(el); }
     el.style.top="14px"; el.textContent=t; el.classList.add("on"); clearTimeout(mt); mt=setTimeout(function(){ el.classList.remove("on"); },2600); }
-  var mdone={};
-  function milestone(n){ [[5,"👍 Good start, keep going"],[10,"🔥 Halfway! Your score is forming"],[15,"🏁 Almost there: 5 checks to your result"]].forEach(function(m){
+  var mdone=mdone||{};
+  function milestone(n){ if(!mdone) mdone={}; [[5,"👍 Good start, keep going"],[10,"🔥 Halfway! Your score is forming"],[15,"🏁 Almost there: 5 checks to your result"]].forEach(function(m){
       if(n>=m[0] && !mdone[m[0]]){ mdone[m[0]]=1; if(window.__ready) mtoast(m[1]); } }); }
   setTimeout(function(){ window.__ready=true; },1500);
   document.getElementById("startbtn").addEventListener("click",function(){ document.getElementById("checks").scrollIntoView({behavior:"smooth",block:"start"}); });
