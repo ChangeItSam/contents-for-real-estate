@@ -1,7 +1,7 @@
-name: Refresh DLD project list
+name: Refresh DLD data (daily)
 on:
   schedule:
-    - cron: "17 2 * * 1"   # every Monday 06:17 Dubai
+    - cron: "17 2 * * *"   # every day 06:17 Dubai
   workflow_dispatch:
   push:
     paths:

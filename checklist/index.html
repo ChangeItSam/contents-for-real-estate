@@ -347,7 +347,7 @@ section,.game{scroll-margin-top:110px}
   <div class="wi"><span class="e">💲</span><span><b>The real price per sq ft, not the advertised one.</b> We compare your price with what buyers <b>actually paid</b> in similar off-plan projects nearby (median price per sq ft from registered sales), plus the area median. Developer sites and portals only show asking prices.</span></div>
   <div class="wi"><span class="e">📋</span><span><b>Plus a detailed report from Sam:</b> the developer's DLD track record, sales in your exact project, your promised rent vs real Ejari contracts, nearest metro and Blue Line station, and your payment plan, exit and resale break-even.</span></div>
   <div class="wi"><span class="e">🎯</span><span><b>One clear answer.</b> 20 checks, one Deal Score out of 100: <b>deal (buy)</b> or <b>no deal (skip)</b>?</span></div>
-  <div class="stats3"><span><b id="st1">770</b>DLD-registered projects</span><span><b id="st2">500+</b>off-plan projects with real sale prices</span><span><b>Weekly</b>market data updates · through <b id="st3">Oct 2026</b></span></div>
+  <div class="stats3"><span><b id="st1">770</b>DLD-registered projects</span><span><b id="st2">500+</b>off-plan projects with real sale prices</span><span><b>Daily</b>data check · last <b id="st4">today</b></span><span>DLD data through <b id="st3">Oct 2026</b><br><small style="opacity:.8">DLD publishes sales with a delay</small></span></div>
   <div class="vs">What would take hours across developer websites, property portals and Dubai REST takes about 2 minutes here.</div>
  </div>
  <div class="howto">
@@ -411,7 +411,7 @@ section,.game{scroll-margin-top:110px}
   <label class="proj">Where is the property? <small>(filled in when you pick your project at the top)</small><input id="ploc" type="text" list="plocs" autocomplete="off" placeholder="e.g. Jumeirah Village Circle"></label><datalist id="plocs"></datalist>
   <span class="q">Check 20</span><h3>How your price compares <span class="pts" id="psfpts" hidden></span></h3>
   <div class="how3"><b class="h">📊 How we compare your price</b><ol>
-   <li><b>Real market data, not adverts.</b> We use every sale registered with the Dubai Land Department, refreshed weekly.</li>
+   <li><b>Real market data, not adverts.</b> We use every sale registered with the Dubai Land Department, checked every day for new data.</li>
    <li><b>Off-plan only.</b> For each nearby project not handed over yet, we take the median price per sq ft buyers actually paid.</li>
    <li><b>Like for like.</b> We average similar projects: same developer grade first, then other developers in the area, then the area median if there aren't enough.</li></ol></div>
   <p id="cmahint">Enter your price per sq ft and the area. The average price per sq ft of similar off-plan projects appears here, with your score.</p>
@@ -482,7 +482,7 @@ section,.game{scroll-margin-top:110px}
   </div>
  </div>
  <img class="photo" src="sam-awards.jpg" alt="Sam Surya with his sales awards" loading="lazy">
- <div class="disc"><b>Disclaimer:</b> Data: Dubai Land Department open data via Dubai Data (CC BY 4.0), updated weekly. Not an official DLD service. For information only, not financial advice.</div>
+ <div class="disc"><b>Disclaimer:</b> Data: Dubai Land Department open data via Dubai Data (CC BY 4.0), checked daily. Not an official DLD service. For information only, not financial advice.</div>
 </footer>
 
 </div>
@@ -1002,7 +1002,7 @@ section,.game{scroll-margin-top:110px}
   function psfAll(){ psfLoad(function(){ psfCalc(); update(); }); PSFV=num(psfIn.value); update(); }
   [psfIn,locIn].forEach(function(el){ el.addEventListener("focus",function(){psfLoad(function(){});}); el.addEventListener("input",psfAll); el.addEventListener("change",psfAll); });
   ["pprice","psize"].forEach(function(i){ document.getElementById(i).addEventListener("input",calcFromParts); });
-  fetch("data/status.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){ if(j.rows) document.getElementById("st1").textContent=j.rows; }).catch(function(){});
+  fetch("data/status.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){ if(j.rows) document.getElementById("st1").textContent=j.rows; if(j.checked_at) document.getElementById("st4").textContent=fmtDate(j.checked_at.slice(0,10)); }).catch(function(){});
   psfLoad(function(){ document.getElementById("st2").textContent=PD.p.length; var d=PD.data_through||PD.updated; if(d) document.getElementById("st3").textContent=fmtDate(d); });
   // ---------- Guide: a red arrow on the next thing to fill ----------
   (function(){

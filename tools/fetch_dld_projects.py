@@ -1,4 +1,4 @@
-"""Weekly refresh of the DLD project register for the Deal Test page (runs on GitHub Actions).
+"""Daily refresh of the DLD project register for the Deal Test page (runs on GitHub Actions).
 1) Official Dubai Pulse CSV (DLD open data). 2) Fallback: Dubai Data mirror of the DLD project
 registry (datadubai.ae, CC BY 4.0). Output: checklist/data/projects.json + status.json."""
 import csv, io, json, sys, urllib.request, datetime, os
@@ -6,6 +6,8 @@ OUT = "checklist/data"; os.makedirs(OUT, exist_ok=True)
 SOURCES = [
   ("dubaipulse", "https://www.dubaipulse.gov.ae/dataset/0b782e64-5950-4507-8f6e-02a0c30c7054/resource/db35b0cd-d291-4dde-b176-9b8d5765c7d9/download/projects.csv",
    "Dubai Land Department open data (Dubai Pulse)"),
+  ("datadubai-hf", "https://huggingface.co/datasets/datadubai/dubai-real-estate-dld/resolve/main/data/projects.csv",
+   "Dubai Land Department open data via Dubai Data (datadubai.ae), CC BY 4.0"),
   ("datadubai", "https://raw.githubusercontent.com/datadubai/dubai-real-estate-dld/main/data/projects.csv",
    "Dubai Land Department open data via Dubai Data (datadubai.ae), CC BY 4.0"),
 ]

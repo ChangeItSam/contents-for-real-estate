@@ -1,4 +1,4 @@
-"""Weekly refresh of the extra facts in the Stress Test detailed report. Runs on GitHub Actions.
+"""Daily refresh of the extra facts in the Stress Test detailed report. Runs on GitHub Actions.
 Source: Dubai Land Department open data, cleaned by Dubai Data (datadubai.ae, CC BY 4.0), GitHub mirror.
 Output: checklist/data/insights.json
  - d:  developer track record in DLD's current project registry (finished, active, past DLD completion date, cancelled)
@@ -8,14 +8,22 @@ Output: checklist/data/insights.json
  - y:  per community: median price per sq ft and its year-on-year change (last 12 months vs the year before)
  - r:  per community: median annual Ejari rent, contracts and gross yield, overall and by bedroom type"""
 import csv, io, json, re, datetime, urllib.request
-BASE = "https://raw.githubusercontent.com/datadubai/dubai-real-estate-dld/main/"
+BASES = ["https://huggingface.co/datasets/datadubai/dubai-real-estate-dld/resolve/main/", "https://raw.githubusercontent.com/datadubai/dubai-real-estate-dld/main/"]  # Hugging Face gets new weeks first; GitHub mirror as fallback
 OUT = "checklist/data"
 CREDIT = "Dubai Land Department open data via Dubai Data (datadubai.ae), CC BY 4.0"
 
 def get(path):
-    req = urllib.request.Request(BASE + path, headers={"User-Agent": "Mozilla/5.0 (StressTest insights refresh)"})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        return r.read().decode("utf-8-sig", "replace")
+    last = None
+    for base in BASES:
+        try:
+            req = urllib.request.Request(base + path, headers={"User-Agent": "Mozilla/5.0 (StressTest insights refresh)"})
+            with urllib.request.urlopen(req, timeout=90) as r:
+                txt = r.read().decode("utf-8-sig", "replace")
+            if txt.lstrip()[:15].lower().startswith(("<!doctype", "<html")): raise ValueError("HTML, not data")
+            return txt
+        except Exception as e:
+            last = e; print("source failed:", base, path, repr(e)[:80])
+    raise last
 
 def rows(path):
     return list(csv.DictReader(io.StringIO(get(path))))
