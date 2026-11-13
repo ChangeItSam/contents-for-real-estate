@@ -297,6 +297,8 @@ section,.game{scroll-margin-top:110px}
 .ans button.on.n{background:#E9EDF3;border-color:#9AA6B8;color:#3A4456}
 
 /* ---------- v2 mobile-first layout ---------- */
+.prog{top:auto !important;bottom:var(--wah,58px);box-shadow:0 -6px 18px rgba(0,0,0,.18);padding-top:8px !important;padding-bottom:8px !important}
+section,.game{scroll-margin-top:20px !important}
 body{background:#fff}
 .hero2{padding:18px 18px 24px;background:#fff;border-bottom:1px solid #EEF0F4}
 .hero2 .by{display:flex;align-items:center;gap:10px}
@@ -309,6 +311,10 @@ body{background:#fff}
 .btn.bigcta{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;margin-top:12px;font-size:19px;font-weight:800;border-radius:16px;background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--navy);text-decoration:none;border:0}
 .hero2 .trust{font-size:13.5px;color:var(--muted);text-align:center;margin-top:10px}
 .hero2 .feat,.hero2 .sugg,.hero2 .dld,.hero2 .dldsrc{text-align:left}
+.hero2 .feat:not([hidden]){display:flex;flex-wrap:nowrap;overflow-x:auto;gap:8px;padding:2px 0 6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.hero2 .feat::-webkit-scrollbar{display:none}
+.hero2 .feat>*{flex:none;white-space:nowrap}
+.hero2 .dldsrc{font-size:12.5px;margin-top:4px}
 .sample{margin:22px 18px 0}.sample h2{font-size:24px;color:var(--navy);margin-top:2px}
 .scard{position:relative;margin-top:12px;background:linear-gradient(160deg,var(--navy),#1d3f6b);color:#fff;border-radius:20px;padding:16px}
 .stag{position:absolute;top:12px;right:12px;font-size:11px;font-weight:800;letter-spacing:1.5px;background:rgba(255,255,255,.15);padding:3px 8px;border-radius:10px}
@@ -856,9 +862,10 @@ details.whym[open] summary{margin-bottom:6px}
   nudge.addEventListener("click",function(e){ if(e.target===nudge) nudge.hidden=true; });
   // where am I: section name in the progress header
   var prog=document.getElementById("prog");
-  function pad(){ document.body.style.paddingTop=prog.offsetHeight+"px"; } pad(); window.addEventListener("resize",pad);
+  function pad(){ var w=document.querySelector(".sticky"), wh=w?w.offsetHeight:0; document.documentElement.style.setProperty("--wah",wh+"px");
+    document.body.style.paddingTop="0px"; document.body.style.paddingBottom=(wh+prog.offsetHeight+16)+"px"; } pad(); window.addEventListener("resize",pad); setTimeout(pad,800);
   var secs=Array.prototype.slice.call(document.querySelectorAll(".game, section.sec"));
-  function where(){ var y=prog.offsetHeight+40, cur=null; secs.forEach(function(sx){ if(sx.getBoundingClientRect().top<=y) cur=sx; });
+  function where(){ var y=110, cur=null; secs.forEach(function(sx){ if(sx.getBoundingClientRect().top<=y) cur=sx; });
     var t="📍 Start: pick your project"; if(cur && cur.classList.contains("sec")){ var k=cur.querySelector(".kicker"), h=cur.querySelector("h2"); t="📍 "+(k?k.textContent+": ":"")+(h?h.textContent.replace(/^[^A-Za-z0-9]+/,""):""); if(cur.id==="test") t="🎯 Get your result"; }
     document.getElementById("where").textContent=t; }
   window.addEventListener("scroll",where,{passive:true}); where();
@@ -1087,7 +1094,7 @@ details.whym[open] summary{margin-bottom:6px}
       lab.innerHTML='<span><span class="ar">⬇</span> '+s.t+'</span>'+(s.skip?'<button type="button" class="nxs">'+s.skip+' ›</button>':'');
       s.a.parentNode.insertBefore(lab,s.a); s.hi.classList.add("nx"); lastHi=s.hi;
       var b=lab.querySelector(".nxs"); if(b) b.addEventListener("click",function(){ skipped[s.k]=1; lastEvt="change"; draw(); });
-      if(moved && lastEvt==="change"){ setTimeout(function(){ var r=lab.getBoundingClientRect(); if(r.top>window.innerHeight-140 || r.top<90) lab.scrollIntoView({behavior:"smooth",block:"center"}); },450); }
+      if(moved && lastEvt==="change"){ setTimeout(function(){ var r=lab.getBoundingClientRect(); if(r.top>window.innerHeight-280 || r.top<20) lab.scrollIntoView({behavior:"smooth",block:"center"}); },450); }
     }
     var t=null; function soon(ev){ lastEvt=ev.type; clearTimeout(t); t=setTimeout(draw,ev.type==="change"?350:150); }
     document.addEventListener("change",soon,true); document.addEventListener("input",soon,true);
@@ -1109,7 +1116,7 @@ details.whym[open] summary{margin-bottom:6px}
     });
   })();
   var mt=null; function mtoast(t){ var el=document.getElementById("mtoast"); if(!el){ el=document.createElement("div"); el.id="mtoast"; el.className="mtoast"; document.body.appendChild(el); }
-    el.style.top=(document.getElementById("prog").offsetHeight+10)+"px"; el.textContent=t; el.classList.add("on"); clearTimeout(mt); mt=setTimeout(function(){ el.classList.remove("on"); },2600); }
+    el.style.top="14px"; el.textContent=t; el.classList.add("on"); clearTimeout(mt); mt=setTimeout(function(){ el.classList.remove("on"); },2600); }
   var mdone={};
   function milestone(n){ [[5,"👍 Good start, keep going"],[10,"🔥 Halfway! Your score is forming"],[15,"🏁 Almost there: 5 checks to your result"]].forEach(function(m){
       if(n>=m[0] && !mdone[m[0]]){ mdone[m[0]]=1; if(window.__ready) mtoast(m[1]); } }); }
