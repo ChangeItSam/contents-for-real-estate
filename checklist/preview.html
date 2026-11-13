@@ -574,8 +574,8 @@ details.whym[open] summary{margin-bottom:6px}
 <div class="modal" id="gate" hidden>
  <form class="sheet" id="gateform" novalidate>
   <button type="button" class="x" id="gclose" aria-label="Close">×</button>
-  <div class="tease"><div class="tn"><span id="tscore">0</span><small>/100</small></div><div class="tl">Your Deal Score</div>
-   <p>🔓 Unlock your verdict and full breakdown: <b>price vs area, developer history, rent check, exit plan</b>.</p></div>
+  <div class="tease"><div class="tn"><span id="tscore">?</span><small>/100</small></div><div class="tl">Your Deal Score is ready</div>
+   <p>🔓 Unlock your score, verdict and full breakdown: <b>price vs area, developer history, rent check, exit plan</b>.</p></div>
   <h3>Where should Sam send your report?</h3>
   <label>Your name<input id="gname" type="text" autocomplete="name" placeholder="e.g. Ahmed Khan" required></label>
   <label>WhatsApp number (with country code)<input id="gphone" type="tel" autocomplete="tel" inputmode="tel" placeholder="e.g. +44 7700 900123" required></label>
@@ -879,7 +879,7 @@ details.whym[open] summary{margin-bottom:6px}
   function close(){ res.hidden=true; document.body.style.overflow=""; }
   var gate=document.getElementById("gate"), who={};
   try{ who=JSON.parse(localStorage.getItem("sam-who")||"{}"); }catch(e){}
-  function openGate(){ document.getElementById("tscore").textContent=score(); document.getElementById("gname").value=who.n||""; document.getElementById("gphone").value=who.p||""; gate.hidden=false; setTimeout(function(){document.getElementById(who.n?"gphone":"gname").focus();},50); }
+  function openGate(){ document.getElementById("gname").value=who.n||""; document.getElementById("gphone").value=who.p||""; gate.hidden=false; setTimeout(function(){document.getElementById(who.n?"gphone":"gname").focus();},50); }
   var nudge=document.getElementById("nudge");
   function tryResult(e){ if(e) e.preventDefault(); if(!PSFR){ nudge.hidden=false; } else openGate(); }
   function goPsf(){ nudge.hidden=true; var c=document.querySelector("#psfsec .card"); c.scrollIntoView({behavior:"smooth",block:"start"}); c.classList.remove("flash"); void c.offsetWidth; c.classList.add("flash"); setTimeout(function(){ document.getElementById(PSFV?"ploc":"psf").focus({preventScroll:true}); },600); }
