@@ -114,7 +114,7 @@ ul.hl li:before{content:"✦";position:absolute;left:4px;top:11px;color:var(--go
       (p.gallery&&p.gallery.length?'<h2>Gallery</h2><div class="gal">'+p.gallery.map(function(g){return '<img src="'+esc(g)+'" alt="" loading="lazy">';}).join("")+'</div>':'')+
       (p.regulator_note?'<div class="note">🏛️ '+esc(p.regulator_note)+'</div>':'')+
       '<p class="disc">'+esc(p.disclaimer)+'</p></section>'+
-      '<section><h2>Not sure this is the one?</h2><a class="alt" href="../checklist/?k=hlHVyCSq">🎲 Take the Deal or No Deal test<small>10 checks before you buy any off-plan project</small></a></section>'+
+      '<section><h2>Not sure this is the one?</h2><a class="alt" href="../checklist/?k=hlHVyCSq">🎲 Take the Off-Plan Deal Stress Test<small>10 checks before you buy any off-plan project</small></a></section>'+
       (rest.length?'<section><h2>More projects</h2><div class="more">'+rest.map(function(x){return '<a class="mini" href="#'+esc(x.slug)+'" onclick="setTimeout(function(){location.reload()},10)"><img src="'+esc(x.hero)+'" alt=""><div><b>'+esc(x.name)+'</b><span>'+esc(x.developer)+' · '+esc(x.location)+' · from '+esc(x.price_from)+'</span></div></a>';}).join("")+'</div></section>':'');
     document.getElementById("main").innerHTML=h;
     Array.prototype.forEach.call(document.querySelectorAll(".opt"),function(b){ b.addEventListener("click",function(){ b.classList.toggle("on"); }); });
