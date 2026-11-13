@@ -301,6 +301,7 @@ section,.game{scroll-margin-top:110px}
 .rescta .in{padding:26px 20px 30px}
 .foot2{margin-top:30px}
 #modal{z-index:40}
+#rconf{z-index:45}
 .prog{top:auto !important;bottom:var(--wah,58px);box-shadow:0 -6px 18px rgba(0,0,0,.18);padding-top:8px !important;padding-bottom:8px !important}
 section,.game{scroll-margin-top:20px !important}
 body{background:#fff}
@@ -536,6 +537,16 @@ details.whym[open] summary{margin-bottom:6px}
 
 </div>
 
+
+<div class="modal" id="rconf" hidden>
+ <div class="sheet">
+  <div class="mi">↺</div>
+  <h3>Start over?</h3>
+  <p>This clears your project, every answer and all your numbers on this phone.</p>
+  <button type="button" class="btn go2" id="rcyes">Yes, clear everything</button>
+  <button type="button" class="reset light" id="rcno" style="display:block;margin:12px auto 0">Cancel</button>
+ </div>
+</div>
 
 <div class="modal" id="nudge" hidden>
  <div class="sheet">
@@ -869,8 +880,11 @@ details.whym[open] summary{margin-bottom:6px}
   nudge.addEventListener("click",function(e){ if(e.target===nudge) nudge.hidden=true; });
   // where am I: section name in the progress header
   var prog=document.getElementById("prog");
+  var spacer=document.createElement("div"); spacer.id="barspace"; document.body.appendChild(spacer);
   function pad(){ var w=document.querySelector(".sticky"), wh=w?w.offsetHeight:0; document.documentElement.style.setProperty("--wah",wh+"px");
-    document.body.style.paddingTop="0px"; document.body.style.paddingBottom=(wh+prog.offsetHeight+16)+"px"; } pad(); window.addEventListener("resize",pad); setTimeout(pad,800);
+    document.body.style.paddingTop="0px"; document.body.style.paddingBottom="0px"; spacer.style.height=(wh+prog.offsetHeight+40)+"px"; }
+  pad(); window.addEventListener("resize",pad); setTimeout(pad,800);
+  try{ var ro=new ResizeObserver(pad); ro.observe(prog); var stk=document.querySelector(".sticky"); if(stk) ro.observe(stk); }catch(e){ setInterval(pad,2000); }
   var secs=Array.prototype.slice.call(document.querySelectorAll(".game, section.sec"));
   function where(){ var y=110, cur=null; secs.forEach(function(sx){ if(sx.getBoundingClientRect().top<=y) cur=sx; });
     var t="📍 Start: pick your project"; if(cur && cur.classList.contains("sec")){ var k=cur.querySelector(".kicker"), h=cur.querySelector("h2"); t="📍 "+(k?k.textContent+": ":"")+(h?h.textContent.replace(/^[^A-Za-z0-9]+/,""):""); if(cur.id==="test") t="🎯 Get your result"; }
@@ -958,10 +972,12 @@ details.whym[open] summary{margin-bottom:6px}
   // full start-over: also clear the project and its DLD card
   document.getElementById("reset").addEventListener("click",function(){ boxes.forEach(function(b){ b.dataset.st=""; }); update(); pin.value=""; var ft0=document.getElementById("feat"); if(ft0&&ft0.innerHTML) ft0.hidden=false; sg.hidden=true; clearAuto(); card.hidden=true; card.innerHTML="";
     var cm=document.getElementById("cma"); if(cm) cm.hidden=true; window.scrollTo({top:0,behavior:"smooth"}); });
-  (function(){ var hb=document.getElementById("hreset"), tm=null;
-    hb.addEventListener("click",function(){
-      if(!hb.classList.contains("sure")){ hb.classList.add("sure"); hb.textContent="Tap again to clear"; clearTimeout(tm); tm=setTimeout(function(){ hb.classList.remove("sure"); hb.textContent="↺ Reset"; },3000); return; }
-      clearTimeout(tm); hb.classList.remove("sure"); hb.textContent="↺ Reset"; document.getElementById("reset").click(); });
+  (function(){ var hb=document.getElementById("hreset"), rc=document.getElementById("rconf");
+    hb.addEventListener("click",function(){ rc.hidden=false; });
+    document.getElementById("rcno").addEventListener("click",function(){ rc.hidden=true; });
+    rc.addEventListener("click",function(e){ if(e.target===rc) rc.hidden=true; });
+    document.getElementById("rcyes").addEventListener("click",function(){ rc.hidden=true; document.getElementById("reset").click();
+      setTimeout(function(){ if(typeof mtoast==="function") mtoast("↺ All cleared. Start again from the top"); },400); });
   })();
   function search(){
     var q=pin.value.trim().toLowerCase(); if(q.length<2){ sg.hidden=true; return; }
