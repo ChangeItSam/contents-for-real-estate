@@ -297,6 +297,10 @@ section,.game{scroll-margin-top:110px}
 .ans button.on.n{background:#E9EDF3;border-color:#9AA6B8;color:#3A4456}
 
 /* ---------- v2 mobile-first layout ---------- */
+.rescta{margin:26px -18px 0;border-radius:22px 22px 0 0;text-align:left}
+.rescta .in{padding:26px 20px 30px}
+.foot2{margin-top:30px}
+#modal{z-index:40}
 .prog{top:auto !important;bottom:var(--wah,58px);box-shadow:0 -6px 18px rgba(0,0,0,.18);padding-top:8px !important;padding-bottom:8px !important}
 section,.game{scroll-margin-top:20px !important}
 body{background:#fff}
@@ -524,20 +528,7 @@ details.whym[open] summary{margin-bottom:6px}
  </div>
 </section>
 
-<footer class="cta">
- <div class="in">
-  <div class="kicker">Your next step</div>
-  <h2>Want projects that already<br><span>pass all 20 checks? 🎯</span></h2>
-  <p>I work with Dubai's leading developers on <b style="color:#fff">off-plan projects only</b>. Tell me your budget and the area you like, and I'll send you a shortlist with full payment plans, free.</p>
-  <div class="contact">
-   <b class="nm">Sam Surya</b>
-   <div class="r"><svg class="lg"><use href="#wa"/></svg><a class="wa-link" href="#">WhatsApp: <b>+971 52 872 8248</b></a></div>
-   <div class="r"><svg class="lg"><use href="#ig"/></svg><a href="https://www.instagram.com/samtherealrealtor/">Instagram: <b>@SamtheRealRealtor</b></a></div>
-   <a class="btn wa-link" href="#"><svg class="lg"><use href="#waw"/></svg>WhatsApp me for a shortlist</a>
-   <a class="btn ig" href="https://www.instagram.com/samtherealrealtor/"><svg class="lg"><use href="#igw"/></svg>Follow @SamtheRealRealtor</a>
-   <button class="btn pdf" type="button" id="getpdf">📥 Get the PDF on WhatsApp</button>
-  </div>
- </div>
+<footer class="cta foot2">
  <img class="photo" src="sam-awards.jpg" alt="Sam Surya with his sales awards" loading="lazy">
  <div class="disc"><b>Disclaimer:</b> Data: Dubai Land Department open data via Dubai Data (CC BY 4.0), checked daily. Not an official DLD service. For information only, not financial advice.</div>
 </footer>
@@ -586,6 +577,21 @@ details.whym[open] summary{margin-bottom:6px}
    <a class="btn pulse" id="share" href="#"><svg class="lg"><use href="#waw"/></svg>WhatsApp Sam now</a>
    <a class="btn callb" id="callb" href="tel:+971528728248">📞 Call Sam · +971 52 872 8248</a>
    <button type="button" class="reset light" id="review">Review my answers</button>
+  <div class="cta rescta">
+ <div class="in">
+  <div class="kicker">Your next step</div>
+  <h2>Want projects that already<br><span>pass all 20 checks? 🎯</span></h2>
+  <p>I work with Dubai's leading developers on <b style="color:#fff">off-plan projects only</b>. Tell me your budget and the area you like, and I'll send you a shortlist with full payment plans, free.</p>
+  <div class="contact">
+   <b class="nm">Sam Surya</b>
+   <div class="r"><svg class="lg"><use href="#wa"/></svg><a class="wa-link" href="#">WhatsApp: <b>+971 52 872 8248</b></a></div>
+   <div class="r"><svg class="lg"><use href="#ig"/></svg><a href="https://www.instagram.com/samtherealrealtor/">Instagram: <b>@SamtheRealRealtor</b></a></div>
+   <a class="btn wa-link" href="#"><svg class="lg"><use href="#waw"/></svg>WhatsApp me for a shortlist</a>
+   <a class="btn ig" href="https://www.instagram.com/samtherealrealtor/"><svg class="lg"><use href="#igw"/></svg>Follow @SamtheRealRealtor</a>
+   <button class="btn pdf" type="button" id="getpdf">📥 Get the PDF on WhatsApp</button>
+  </div>
+ </div>
+  </div>
   </div>
  </div>
 </div>
@@ -608,7 +614,7 @@ details.whym[open] summary{margin-bottom:6px}
 
 <script>
 (function(){
-  var msg = "Hi Sam, I read your Dubai Off-Plan Checklist. Please send me a shortlist of projects.";
+  var msg = "Hi Sam, I took your Off-Plan Deal Stress Test. Please send me a shortlist of projects that pass all 20 checks.";
   var url = "https://wa.me/971528728248?text=" + encodeURIComponent(msg);
   document.querySelectorAll(".wa-link").forEach(function(a){ a.href = url; });
   var boxes = Array.prototype.slice.call(document.querySelectorAll(".tick:not(.xt) input"));
