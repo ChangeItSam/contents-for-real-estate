@@ -259,6 +259,11 @@ section,.game{scroll-margin-top:110px}
 .nxl .nxs{background:rgba(255,255,255,.2);border:0;color:#fff;font:inherit;font-size:13.5px;font-weight:700;border-radius:14px;padding:3px 10px;cursor:pointer}
 .dd .nw{white-space:nowrap;font-weight:inherit}
 .dd small{font-size:.55em;letter-spacing:1px;opacity:.85;font-weight:800}
+.blurw{position:relative;margin-top:10px;border-radius:12px;overflow:hidden}
+.blurw .blur{filter:blur(6px);user-select:none;pointer-events:none;opacity:.85}
+.lockov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:14px;font-size:15.5px;font-weight:700;color:#0B1F3A;background:rgba(255,255,255,.35)}
+.lockov span{background:rgba(255,255,255,.9);border-radius:12px;padding:10px 12px;box-shadow:0 2px 10px rgba(11,31,58,.12);max-width:300px}
+.lockov b{color:#B8860B}
 </style>
 <script>
 // Access gate: the test opens from the Instagram DM link (it carries ?k=...). A plain copied link goes to Instagram first.
@@ -691,6 +696,7 @@ section,.game{scroll-margin-top:110px}
     if(PSFR){
       h+='<h4>💲 Your price vs the market</h4><div class="box"><div class="big"><span>You pay<b>'+aed(PSFV)+'</b></span><span>Average nearby<b>'+aed(PSFR.avg)+'</b></span><span>Difference<b>'+(PSFR.d>0?"+":"")+PSFR.d.toFixed(1)+'%</b></span></div>'+
         '<div>Price rating: <b>'+e(PSFR.rating)+'</b>. Compared with '+e(PSFR.basis)+'.</div>'+
+        (PSFR.list&&PSFR.list.length?'<div style="margin-top:8px">'+PSFR.list.map(function(x){return '<div class="row"><span>'+e(x[0])+'</span><b>'+aed(x[1])+'/sq ft</b></div>';}).join("")+'</div>':'')+
         '<div style="margin-top:6px;opacity:.75;font-size:13.5px">Median price per sq ft actually paid, from DLD registered sales.</div></div>';
     } else h+='<h4>💲 Your price vs the market</h4><div class="box">Not checked yet. Send me the price and size and I\'ll compare it with nearby projects for you.</div>';
     var t=comm&&I.t[comm], yy=comm&&I.y&&I.y[comm];
@@ -946,7 +952,7 @@ section,.game{scroll-margin-top:110px}
     var d=(PSFV-mean)/mean*100, pct=d<=0?1:d<=10?.75:d<=15?.5:d<=30?.25:0, pts=pct*PSF_MAX;
     var diffTxt = Math.abs(d)<0.5 ? "in line with" : (Math.abs(d).toFixed(0)+"% "+(d<0?"below":"above"));
     PSFR={avg:mean,pts:pts,diffTxt:diffTxt,basis:basis,d:d,rating:(pct===1?"Excellent":pct===.75?"Good":pct===.5?"Fair":pct===.25?"Poor":"Overpriced"),list:set?set.slice().sort(function(a,b){return b[7]-a[7];}).slice(0,6).map(function(r){return [r[1],r[6]];}):[]};
-    var rating=pct===1?"Excellent":pct===.75?"Good":pct===.5?"Fair":pct===.25?"Poor":"Overpriced"; badge.textContent=rating; badge.hidden=false;
+    var rating=pct===1?"Excellent":pct===.75?"Good":pct===.5?"Fair":pct===.25?"Poor":"Overpriced"; badge.textContent=rating; badge.hidden=true;
     var cls=pct>=.75?"ok":pct>=.25?"warn":"bad";
     var head=pct===1?"✅ At or below the average nearby":pct===.75?"👍 Up to 10% above the average":pct===.5?"⚠️ 10–15% above the average":pct===.25?"⚠️ 15–30% above the average":"🚩 More than 30% above the average";
     var list=set?set.slice().sort(function(a,b){return b[7]-a[7];}).slice(0,5).map(function(r){return '<div><span>'+esc(r[1])+' <small style="display:inline;opacity:.7">· '+esc(r[2].replace(/ (l\.?l\.?c\.?|p\.?j\.?s\.?c\.?|fze|fzco|development|developers|developments|real estate|properties|investment)\b.*$/i,""))+'</small></span><b>'+fmt(r[6])+'</b></div>';}).join(""):"";
@@ -954,9 +960,11 @@ section,.game{scroll-margin-top:110px}
     cma.innerHTML='<b class="t">'+head+'</b>'+
       '<div class="cmpbig"><span>You pay<b>'+fmt(PSFV)+'</b></span><span>Average nearby<b>'+fmt(mean)+'</b></span><span>Difference<b>'+(d>0?"+":"")+d.toFixed(1)+'%</b></span></div>'+
       '<div>Compared with: '+esc(basis)+(level==="B"&&g==="A"?' (not enough Grade A projects in this area)':'')+(level==="C"?' (not enough off-plan projects to compare)':'')+'.</div>'+
+      '<div class="blurw"><div class="blur" aria-hidden="true">'+
       (list?'<div class="cmp">'+list+(set.length>5?'<div><span>+ '+(set.length-5)+' more</span><span></span></div>':'')+'</div>':'')+
       '<div style="margin-top:10px;font-size:17px">🏆 Your price rating: <b style="font-size:22px">'+rating+'</b><br><span style="font-size:15px">The price check carries the <b>most weight</b> of any check in your Deal Score.</span></div>'+
-      '<small>📊 DLD market data · through '+esc(fmtDate(PD.data_through||PD.updated))+'</small>';
+      '<small>📊 DLD market data · through '+esc(fmtDate(PD.data_through||PD.updated))+'</small>'+
+      '</div><div class="lockov"><span>🔒 Nearby projects, your price rating and the rest of the details are in your <b>full report</b> from Sam.</span></div></div>';
     cma.hidden=false;
   }
   function calcFromParts(){ var pr=num(document.getElementById("pprice").value), sz=num(document.getElementById("psize").value); if(pr&&sz){ psfIn.value=Math.round(pr/sz).toLocaleString("en-US"); psfAll(); } }
