@@ -134,7 +134,9 @@ button.btn.pdf{border:2px solid var(--gold);background:transparent}
 .sheet .err{color:#B42318;font-size:15px;font-weight:600;min-height:20px;margin-top:8px}
 .sheet small{display:block;font-size:13px;color:var(--muted);margin-top:12px;line-height:1.45}
 
-.prog .go{margin-left:auto;background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--navy);text-decoration:none;font-size:15px;font-weight:800;padding:8px 14px;border-radius:20px;white-space:nowrap}
+.prog .hres{margin-left:auto;background:transparent;border:1.5px solid rgba(255,255,255,.45);color:#fff;font:inherit;font-size:14px;font-weight:700;border-radius:20px;padding:7px 11px;cursor:pointer;white-space:nowrap}
+.prog .hres.sure{background:#E53935;border-color:#E53935}
+.prog .go{background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--navy);text-decoration:none;font-size:15px;font-weight:800;padding:8px 14px;border-radius:20px;white-space:nowrap}
 section,.game{scroll-margin-top:110px}
 @keyframes glow{0%,100%{box-shadow:0 0 0 0 rgba(201,162,74,0)}50%{box-shadow:0 0 0 6px rgba(201,162,74,.55)}}
 .flash{animation:glow 1s ease 3}
@@ -314,7 +316,7 @@ section,.game{scroll-margin-top:110px}
  </div>
 </header>
 
-<div class="prog" id="prog"><div class="pin"><div class="r1"><span class="cnt">✅ <span id="done">0</span>/<span id="tot">20</span><small>checks</small></span><a href="#test" class="go">Get result</a></div><div class="bar"><i id="bar"></i></div><div class="r3"><span id="where">📍 Start: pick your project</span><span class="warnp" id="psfwarn" hidden>💲 Price check missing</span></div></div></div>
+<div class="prog" id="prog"><div class="pin"><div class="r1"><span class="cnt">✅ <span id="done">0</span>/<span id="tot">20</span><small>checks</small></span><button type="button" class="hres" id="hreset">↺ Reset</button><a href="#test" class="go">Get result</a></div><div class="bar"><i id="bar"></i></div><div class="r3"><span id="where">📍 Start: pick your project</span><span class="warnp" id="psfwarn" hidden>💲 Price check missing</span></div></div></div>
 
 <section class="game">
  <div class="dd">🎲 DEAL <span>or</span> NO DEAL?</div>
@@ -842,6 +844,14 @@ section,.game{scroll-margin-top:110px}
     }
     card.hidden=false; psfProject(r); update();
   }
+  // full start-over: also clear the project and its DLD card
+  document.getElementById("reset").addEventListener("click",function(){ pin.value=""; sg.hidden=true; clearAuto(); card.hidden=true; card.innerHTML="";
+    var cm=document.getElementById("cma"); if(cm) cm.hidden=true; window.scrollTo({top:0,behavior:"smooth"}); });
+  (function(){ var hb=document.getElementById("hreset"), tm=null;
+    hb.addEventListener("click",function(){
+      if(!hb.classList.contains("sure")){ hb.classList.add("sure"); hb.textContent="Tap again to clear"; clearTimeout(tm); tm=setTimeout(function(){ hb.classList.remove("sure"); hb.textContent="↺ Reset"; },3000); return; }
+      clearTimeout(tm); hb.classList.remove("sure"); hb.textContent="↺ Reset"; document.getElementById("reset").click(); });
+  })();
   function search(){
     var q=pin.value.trim().toLowerCase(); if(q.length<2){ sg.hidden=true; return; }
     load(function(){
