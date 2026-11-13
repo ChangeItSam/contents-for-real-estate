@@ -265,6 +265,11 @@ section,.game{scroll-margin-top:110px}
 .lockov span{background:rgba(255,255,255,.9);border-radius:12px;padding:10px 12px;box-shadow:0 2px 10px rgba(11,31,58,.12);max-width:300px}
 .lockov b{color:#B8860B}
 .tick .cn{flex:none;display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;border-radius:12px;background:var(--navy);color:#E8CF8E;font-size:12.5px;font-weight:800;margin-right:2px}
+.ans{display:flex;flex-wrap:wrap;gap:5px;margin:2px 0 12px 0}
+.ans button{font:inherit;font-size:12.5px;font-weight:700;border:1.5px solid var(--line);background:#fff;color:#5A6474;border-radius:14px;padding:4px 7px;cursor:pointer;white-space:nowrap}
+.ans button.on.y{background:#EAF8EF;border-color:#3DDC84;color:#14532D}
+.ans button.on.u{background:#FFF6E0;border-color:#F5C451;color:#6B4A00}
+.ans button.on.n{background:#E9EDF3;border-color:#9AA6B8;color:#3A4456}
 </style>
 <script>
 // Access gate: the test opens from the Instagram DM link (it carries ?k=...). A plain copied link goes to Instagram first.
@@ -285,6 +290,11 @@ section,.game{scroll-margin-top:110px}
 .lockgate a.igb{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:20px;padding:15px;border-radius:40px;font-weight:800;font-size:19px;color:#fff;text-decoration:none;background:linear-gradient(90deg,#f58529,#dd2a7b,#8134af)}
 .lockgate small{display:block;color:#9FB0C8;font-size:14px;margin-top:14px}
 .dd small{font-size:.55em;letter-spacing:1px;opacity:.85;font-weight:800}
+.ans{display:flex;flex-wrap:wrap;gap:5px;margin:2px 0 12px 0}
+.ans button{font:inherit;font-size:12.5px;font-weight:700;border:1.5px solid var(--line);background:#fff;color:#5A6474;border-radius:14px;padding:4px 7px;cursor:pointer;white-space:nowrap}
+.ans button.on.y{background:#EAF8EF;border-color:#3DDC84;color:#14532D}
+.ans button.on.u{background:#FFF6E0;border-color:#F5C451;color:#6B4A00}
+.ans button.on.n{background:#E9EDF3;border-color:#9AA6B8;color:#3A4456}
 </style>
 </head>
 <body>
@@ -553,11 +563,28 @@ section,.game{scroll-margin-top:110px}
     var n = boxes.filter(function(b){ return b.checked; }).length + (PSFV?1:0) + (PSFR?1:0);
     document.getElementById("done").textContent = n;
     document.getElementById("bar").style.width = (n / (boxes.length+2) * 100) + "%";
-    try { localStorage.setItem(key, JSON.stringify(boxes.map(function(b){ return b.checked; }))); } catch(e) {}
+    try { localStorage.setItem(key, JSON.stringify(boxes.map(function(b){ return b.checked; }))); localStorage.setItem(STK, JSON.stringify(boxes.map(stOf))); } catch(e) {}
+    if(typeof paintAns==="function") paintAns();
     var ch=document.getElementById("cmahint"), cm=document.getElementById("cma"); if(ch&&cm) ch.hidden=!cm.hidden;
     document.getElementById("psfwarn").hidden=!!PSFR;
   }
-  boxes.forEach(function(b, i){ b.checked = !!saved[i]; b.addEventListener("change", update); });
+  var STK="sam-dealtest-st", savedSt=[]; try{ savedSt=JSON.parse(localStorage.getItem(STK)||"[]"); }catch(e){}
+  var CRITI=[0,2,4,6];
+  var NA_OK=[3,7,8,16]; // can genuinely not apply: progress claim at launch, agent checks when buying direct, resale rules when holding long term
+  function stOf(b){ return b.checked?"y":(b.dataset.st||""); }
+  function paintAns(){ boxes.forEach(function(b){ var r=b._ans; if(!r) return; var v=stOf(b);
+    Array.prototype.forEach.call(r.children,function(x){ x.classList.toggle("on",x.dataset.v===v); }); }); }
+  boxes.forEach(function(b, i){
+    b.checked = !!saved[i]; if(!b.checked && (savedSt[i]==="u"||(savedSt[i]==="n"&&NA_OK.indexOf(i)>=0))) b.dataset.st=savedSt[i];
+    b.addEventListener("change", function(){ if(b.checked) b.dataset.st=""; });
+    b.addEventListener("change", update);
+    var row=document.createElement("div"); row.className="ans";
+    row.innerHTML='<button type="button" class="y" data-v="y">✅ Checked</button><button type="button" class="u" data-v="u">❓ Not known</button>'+(NA_OK.indexOf(i)>=0?'<button type="button" class="n" data-v="n">N/A</button>':'');
+    row.addEventListener("click",function(ev){ var t=ev.target.closest("button"); if(!t) return; var v=t.dataset.v, same=stOf(b)===v;
+      if(v==="y"){ b.checked=!same; b.dataset.st=""; } else { b.checked=false; b.dataset.st=same?"":v; }
+      b.dispatchEvent(new Event("change",{bubbles:true})); });
+    b.closest("label").insertAdjacentElement("afterend",row); b._ans=row;
+  });
   document.getElementById("tot").textContent = boxes.length + 2;
   update();
 
@@ -571,7 +598,8 @@ section,.game{scroll-margin-top:110px}
     {min:0,v:"NO DEAL (SKIP) ❌",c:"#FF6B6B",t:"Too many key checks are missing. Walk away for now and look at other projects, or get these answers first."}];
   var res=document.getElementById("res"), lastScore=0, lastTier=null;
   function ticks(){ return boxes.reduce(function(s,b){return s+(b.checked?+b.dataset.w:0);},0); }
-  function score(){ return Math.round(ticks()*(100-PSF_MAX)/100+(PSFR?PSFR.pts:0)); }
+  function naW(){ return boxes.reduce(function(s,b){return s+(stOf(b)==="n"?+b.dataset.w:0);},0); }
+  function score(){ var base=100-naW(), t=base>0?ticks()/base*100:0; return Math.round(t*(100-PSF_MAX)/100+(PSFR?PSFR.pts:0)); }
   function labelOf(b){ return b.parentNode.querySelector("span").textContent; }
   function show(){
     var sc=score(), tier=TIERS.filter(function(x){return sc>=x.min;})[0];
@@ -596,7 +624,7 @@ section,.game{scroll-margin-top:110px}
       function reveal(){
         var v=document.getElementById("verdict"); v.textContent=tier.v; v.style.color=tier.c; v.classList.remove("show"); void v.offsetWidth; v.classList.add("show");
         document.getElementById("vtext").textContent=tier.t;
-        var miss=boxes.filter(function(b){return !b.checked;}).sort(function(a,b){return b.dataset.w-a.dataset.w;});
+        var miss=boxes.filter(function(b){return !b.checked && stOf(b)!=="n";}).sort(function(a,b){return b.dataset.w-a.dataset.w;});
         var g=document.getElementById("gaps");
         var pend=document.getElementById("pend"), cw=document.getElementById("cwait");
         if(FROMLINK){ g.className="rep"; g.innerHTML=report(sc); pend.hidden=true; cw.innerHTML="💬 <b>Questions about your report?</b> Let's talk it through."; }
@@ -740,11 +768,13 @@ section,.game{scroll-margin-top:110px}
     var xl=xboxes.map(function(b){return {b:b,t:labelOf(b)};}), xo=xl.filter(function(x){return !x.b.checked;}), xd=xl.filter(function(x){return x.b.checked;});
     h+='<h4>🧾 Extra checks</h4><div class="box">'+xd.map(function(x){return '<div class="row ok"><span>✓ '+e(x.t)+'</span></div>';}).join("")+xo.map(function(x){return '<div class="row"><span>○ '+e(x.t)+'</span><span class="tag p">Open</span></div>';}).join("")+'</div>';
     // 8. scored checks
-    var miss=boxes.map(function(b,i){return {b:b,i:i};}).filter(function(x){return !x.b.checked;}).sort(function(a,b){return b.b.dataset.w-a.b.dataset.w;});
+    var miss=boxes.map(function(b,i){return {b:b,i:i};}).filter(function(x){return !x.b.checked && stOf(x.b)!=="n";}).sort(function(a,b){return b.b.dataset.w-a.b.dataset.w;});
     var conf=boxes.filter(function(b){return b.checked;});
     h+='<h4>❗ Still to confirm ('+miss.length+')</h4>'+(miss.length?'<div class="box">'+miss.map(function(x,k){
         var tag=CRIT.indexOf(x.i)>=0?'<span class="tag">Must-have</span>':(k<3?'<span class="tag p">Priority</span>':'');
-        return '<div class="row"><span>'+e(labelOf(x.b))+'</span>'+tag+'</div>';}).join("")+'</div>':'<div class="box ok">Nothing missing. Every check is confirmed.</div>');
+        return '<div class="row"><span>'+e(labelOf(x.b))+(stOf(x.b)==="u"?' <i style="opacity:.75">(not known)</i>':'')+'</span>'+tag+'</div>';}).join("")+'</div>':'<div class="box ok">Nothing missing. Every check is confirmed.</div>');
+    var nas=boxes.filter(function(b){return stOf(b)==="n";});
+    if(nas.length) h+='<h4>➖ Marked not applicable ('+nas.length+')</h4><div class="box">'+nas.map(function(b){return '<div class="row"><span>'+e(labelOf(b))+'</span></div>';}).join("")+'</div>';
     h+='<h4>✅ Already confirmed ('+conf.length+')</h4>'+(conf.length?'<div class="box">'+conf.map(function(b){return '<div class="row ok"><span>✓ '+e(labelOf(b))+'</span></div>';}).join("")+'</div>':'<div class="box">Nothing confirmed yet.</div>');
     h+='<h4>🧭 Next step</h4><div class="box">'+(sc>=95?"This project passes the key checks. Next: a site or show-room visit and the paperwork, checked together.":sc>=80?"Close the items above before you pay anything. I can help you get each one confirmed with the developer.":"There are real gaps here. Let's go through them together, and I'll show you off-plan projects that pass these checks.")+'</div>';
     h+='<div style="margin-top:12px;opacity:.7;font-size:12.5px">Data: Dubai Land Department open data via Dubai Data (CC BY 4.0), through '+e(fmtDate((INS&&INS.data_through)||""))+'. Not an official DLD service. For information only, not financial advice.</div>';
@@ -793,14 +823,14 @@ section,.game{scroll-margin-top:110px}
   function resultLink(sc){
     var bits=boxes.map(function(b){return b.checked?"1":"0";}).join("");
     var proj=document.getElementById("proj").value.trim();
-    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",x:xget()})))));
+    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget()})))));
   }
   // shared result link: restore answers and show result directly (after the page has set up)
   setTimeout(function(){
     var m=location.hash.match(/^#r=(.+)$/); if(!m) return;
     try{
       var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true;
-      boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; });
+      boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; var v=o.s&&o.s.charAt(i); b.dataset.st=(!b.checked&&(v==="u"||(v==="n"&&NA_OK.indexOf(i)>=0)))?v:""; });
       document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n;
       if(o.x) xset(o.x);
       update();
@@ -856,7 +886,7 @@ section,.game{scroll-margin-top:110px}
     card.hidden=false; psfProject(r); update();
   }
   // full start-over: also clear the project and its DLD card
-  document.getElementById("reset").addEventListener("click",function(){ pin.value=""; sg.hidden=true; clearAuto(); card.hidden=true; card.innerHTML="";
+  document.getElementById("reset").addEventListener("click",function(){ boxes.forEach(function(b){ b.dataset.st=""; }); update(); pin.value=""; sg.hidden=true; clearAuto(); card.hidden=true; card.innerHTML="";
     var cm=document.getElementById("cma"); if(cm) cm.hidden=true; window.scrollTo({top:0,behavior:"smooth"}); });
   (function(){ var hb=document.getElementById("hreset"), tm=null;
     hb.addEventListener("click",function(){
@@ -983,7 +1013,8 @@ section,.game{scroll-margin-top:110px}
     steps.push({k:"proj",a:proj.closest("label"),hi:proj.closest("label"),t:"Start here: type your project",done:function(){ return proj.value.trim().length>1; }});
     var seen=[];
     boxes.forEach(function(b){ var c=b.closest(".card"); if(seen.indexOf(c)<0){ seen.push(c); var n=(c.querySelector(".n")||{}).textContent||"";
-      steps.push({k:"c"+n,a:c.querySelector(".ticks"),hi:c,t:"Tick what you've confirmed",skip:"None confirmed? Skip",done:function(){ return filled(c); }}); } });
+      var cb=boxes.filter(function(x){ return x.closest(".card")===c; });
+      steps.push({k:"c"+n,a:c.querySelector(".ticks"),hi:c,t:"Answer every line: Checked, Not known or N/A",done:function(){ return cb.every(function(x){ return stOf(x)!==""; }); }}); } });
     steps.push({k:"psf",a:psf.closest(".psfrow"),hi:psf.closest(".card"),t:"Enter the price per sq ft you're paying",skip:"Skip",done:function(){ return num(psf.value)>0; }});
     steps.push({k:"ploc",a:ploc.closest("label"),hi:ploc.closest(".card"),t:"Pick the area from the list",skip:"Skip",done:function(){ return ploc.value.trim().length>1; }});
     Array.prototype.forEach.call(document.querySelectorAll("#moresec .card"),function(c,i){
