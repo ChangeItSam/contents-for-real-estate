@@ -249,6 +249,12 @@ section,.game{scroll-margin-top:110px}
 .xo{border-radius:12px;padding:10px 12px;font-size:15.5px;line-height:1.45;border:1.5px solid}
 .xo b{font-size:16.5px}.xo.g{background:#EAF8EF;border-color:#3DDC84;color:#14532D}.xo.a{background:#FFF6E0;border-color:#F5C451;color:#6B4A00}.xo.r{background:#FDECEC;border-color:#F28B8B;color:#7F1D1D}.xo.n{background:#F2F4F8;border-color:#D5DAE3;color:#3A4456}
 @media(max-width:420px){.xf{grid-template-columns:1fr}}
+.nx{outline:3px solid #E53935;outline-offset:4px;border-radius:16px;animation:nxp 1.6s ease-in-out infinite}
+@keyframes nxp{0%,100%{outline-color:#E53935}50%{outline-color:rgba(229,57,53,.35)}}
+.nxl{display:flex;align-items:center;flex-wrap:wrap;gap:8px;background:#E53935;color:#fff;font-weight:800;font-size:15.5px;border-radius:22px;padding:7px 12px;margin:8px 0;width:max-content;max-width:100%;box-shadow:0 4px 12px rgba(229,57,53,.35)}
+.nxl .ar{display:inline-block;font-size:18px;animation:nxb .9s ease-in-out infinite}
+@keyframes nxb{0%,100%{transform:translateY(-2px)}50%{transform:translateY(4px)}}
+.nxl .nxs{background:rgba(255,255,255,.2);border:0;color:#fff;font:inherit;font-size:13.5px;font-weight:700;border-radius:14px;padding:3px 10px;cursor:pointer}
 </style>
 <script>
 // Access gate: the test opens from the Instagram DM link (it carries ?k=...). A plain copied link goes to Instagram first.
@@ -945,6 +951,40 @@ section,.game{scroll-margin-top:110px}
   ["pprice","psize"].forEach(function(i){ document.getElementById(i).addEventListener("input",calcFromParts); });
   fetch("data/status.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){ if(j.rows) document.getElementById("st1").textContent=j.rows; }).catch(function(){});
   psfLoad(function(){ document.getElementById("st2").textContent=PD.p.length; var d=PD.data_through||PD.updated; if(d) document.getElementById("st3").textContent=fmtDate(d); });
+  // ---------- Guide: a red arrow on the next thing to fill ----------
+  (function(){
+    var steps=[], skipped={}, cur=-1, lab=null, lastHi=null, lastEvt="";
+    function sc(el){ return el.closest(".card")||el; }
+    function filled(card){ var ok=false; Array.prototype.forEach.call(card.querySelectorAll("input,select"),function(i){ if(i.type==="checkbox"){ if(i.checked) ok=true; } else if(i.value.trim()) ok=true; }); return ok; }
+    var proj=document.getElementById("proj"), psf=document.getElementById("psf"), ploc=document.getElementById("ploc");
+    steps.push({k:"proj",a:proj.closest("label"),hi:proj.closest("label"),t:"Start here: type your project",done:function(){ return proj.value.trim().length>1; }});
+    var seen=[];
+    boxes.forEach(function(b){ var c=b.closest(".card"); if(seen.indexOf(c)<0){ seen.push(c); var n=(c.querySelector(".n")||{}).textContent||"";
+      steps.push({k:"c"+n,a:c.querySelector(".ticks"),hi:c,t:"Tick what you've confirmed",skip:"None confirmed? Skip",done:function(){ return filled(c); }}); } });
+    steps.push({k:"psf",a:psf.closest(".psfrow"),hi:psf.closest(".card"),t:"Enter the price per sq ft you're paying",skip:"Skip",done:function(){ return num(psf.value)>0; }});
+    steps.push({k:"ploc",a:ploc.closest("label"),hi:ploc.closest(".card"),t:"Pick the area from the list",skip:"Skip",done:function(){ return ploc.value.trim().length>1; }});
+    Array.prototype.forEach.call(document.querySelectorAll("#moresec .card"),function(c,i){
+      steps.push({k:"x"+i,a:c.querySelector(".xf,.ticks"),hi:c,t:"Optional: fill what you know",skip:"Skip",done:function(){ return filled(c); }}); });
+    var sub=document.getElementById("submit");
+    steps.push({k:"sub",a:sub,hi:sub,t:"All set? Tap here for your result",done:function(){ return false; }});
+    function next(){ for(var i=0;i<steps.length;i++){ if(!skipped[steps[i].k] && !steps[i].done()) return i; } return steps.length-1; }
+    function draw(){
+      if(document.documentElement.className.indexOf("locked")>=0 || FROMLINK) return;
+      var i=next(); if(i===cur) return;
+      var moved=cur>=0 && i>cur; cur=i; var s=steps[i];
+      if(lastHi) lastHi.classList.remove("nx");
+      if(!lab){ lab=document.createElement("div"); lab.className="nxl"; }
+      lab.innerHTML='<span><span class="ar">⬇</span> '+s.t+'</span>'+(s.skip?'<button type="button" class="nxs">'+s.skip+' ›</button>':'');
+      s.a.parentNode.insertBefore(lab,s.a); s.hi.classList.add("nx"); lastHi=s.hi;
+      var b=lab.querySelector(".nxs"); if(b) b.addEventListener("click",function(){ skipped[s.k]=1; lastEvt="change"; draw(); });
+      if(moved && lastEvt==="change"){ setTimeout(function(){ var r=lab.getBoundingClientRect(); if(r.top>window.innerHeight-140 || r.top<90) lab.scrollIntoView({behavior:"smooth",block:"center"}); },450); }
+    }
+    var t=null; function soon(ev){ lastEvt=ev.type; clearTimeout(t); t=setTimeout(draw,ev.type==="change"?350:150); }
+    document.addEventListener("change",soon,true); document.addEventListener("input",soon,true);
+    document.getElementById("sugg").addEventListener("click",function(){ lastEvt="change"; setTimeout(draw,500); });
+    document.getElementById("reset").addEventListener("click",function(){ skipped={}; cur=-1; setTimeout(draw,200); });
+    setTimeout(draw,300);
+  })();
   var modal=document.getElementById("modal");
   document.getElementById("getpdf").addEventListener("click",function(){document.getElementById("fname").value=document.getElementById("fname").value||who.n||"";document.getElementById("fphone").value=document.getElementById("fphone").value||who.p||"";modal.hidden=false;setTimeout(function(){document.getElementById("fname").focus();},50);});
   document.getElementById("close").addEventListener("click",function(){modal.hidden=true;});
