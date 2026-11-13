@@ -425,6 +425,7 @@ section,.game{scroll-margin-top:110px}
    <label class="tick xt"><input type="checkbox"><span>DEWA connection vs district cooling (chiller) fees confirmed</span></label>
    <label class="tick xt"><input type="checkbox"><span>Schools, hospitals and parks nearby checked</span></label>
    <label class="tick xt"><input type="checkbox"><span>Flood / drainage risk of the plot asked about</span></label>
+   <label class="tick xt"><input type="checkbox"><span>Nearest metro station and bus routes checked from the exact building</span></label>
   </div>
  </div></div>
 </section>
@@ -625,9 +626,11 @@ section,.game{scroll-margin-top:110px}
 
   // ---------- Detailed report data (data/insights.json) ----------
   var INS=null, iwait=[], iloading=false;
+  var TR=null;
   function insLoad(cb){ if(INS) return cb(); iwait.push(cb); if(iloading) return; iloading=true;
-    fetch("data/insights.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){ INS=j; iwait.forEach(function(f){f();}); iwait=[]; })
-      .catch(function(){ INS={d:{},p:{},t:{},r:{}}; iwait.forEach(function(f){f();}); iwait=[]; }); }
+    var done=function(){ if(INS&&TR){ iwait.forEach(function(f){f();}); iwait=[]; } };
+    fetch("data/insights.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){ INS=j; done(); }).catch(function(){ INS={d:{},p:{},t:{},r:{}}; done(); });
+    fetch("data/transit.json",{cache:"no-cache"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ TR=j; done(); }).catch(function(){ TR={a:{}}; done(); }); }
   function monthsBetween(a,b){ var A=a.split("-"),B=b.split("-"); return (+B[0]-A[0])*12+(+B[1]-A[1]); }
   function spark(t){
     var v=t.map(function(x){return x[1];}), mn=Math.min.apply(null,v), mx=Math.max.apply(null,v), W=300, H=70, pad=6;
@@ -696,6 +699,17 @@ section,.game{scroll-margin-top:110px}
         (pr?'<div>'+(pr>rb[0]*1.15?'🚩 The promised rent is well above what tenants actually pay here. Plan with the median, not the promise.':pr<rb[0]*0.9?'✅ The promised rent is conservative compared with real contracts.':'✅ The promised rent is in line with real contracts.')+'</div>':'')+
         (rb[2]?'<div>Typical gross yield here: <b>'+rb[2]+'%</b>.'+(xn("xprice")?' At your price and the median rent: <b>'+(rb[0]/xn("xprice")*100).toFixed(1)+'%</b>.':'')+'</div>':'')+
         '<div style="opacity:.75;font-size:13.5px">From '+(rb[1]||0).toLocaleString("en-US")+' Ejari rent contracts in the last 12 months.</div></div>'; }
+    // 5b. getting around (approximate, from the centre of the area)
+    var ta=TR&&TR.a&&(TR.a[comm]||TR.a[(ip&&ip[10])||""]||TR.a[place]), tn=TR&&TR.a&&(TR.a[comm]?comm:(ip&&ip[10]&&TR.a[ip[10]])?ip[10]:place);
+    if(ta){ var walk=function(k){ return k<=0.8?"about "+Math.round(k*1000/80)+" min walk":k<=2?"short drive or bus ride":"drive or bus needed"; };
+      h+='<h4>🚇 Getting around: '+e(tn)+'</h4><div class="box">'+
+        '<div class="row"><span>Nearest metro station</span><b>'+e(ta.m[0])+(ta.m[1]?' ('+e(ta.m[1])+')':'')+'</b></div>'+
+        '<div class="row"><span>Distance from the area centre</span><b>~'+ta.m[2]+' km · '+walk(ta.m[2])+'</b></div>'+
+        (ta.b?'<div class="row"><span>Nearest Blue Line station (opens Sept 2029)</span><b>'+e(ta.b[0])+' · ~'+ta.b[1]+' km</b></div>':'')+
+        (ta.b&&ta.b[1]<=2?'<div style="margin-top:4px">🚀 Within about 2 km of a planned Blue Line station: a real growth story once the line opens.</div>':'')+
+        '<div class="row"><span>Bus stops within 800 m</span><b>'+ta.bus[0]+(ta.bus[1]?' · '+ta.bus[1]+' bus routes':'')+'</b></div>'+
+        (ta.bus[2]!=null?'<div class="row"><span>Nearest bus stop</span><b>'+e(ta.bus[3]||"–")+' · ~'+Math.round(ta.bus[2]*1000)+' m</b></div>':'')+
+        '<div style="margin-top:6px;opacity:.75;font-size:13.5px">Approximate: straight-line distances from the centre of '+e(tn)+', not from your exact building. Check the walk from the building on a map. Map data © OpenStreetMap contributors; Blue Line route as announced by RTA.</div></div>'; }
     // 6. payment plan, exit, break-even
     var pp=xn("xpp"), re=xn("xre"), be=breakEven();
     if(pp||re||be){ h+='<h4>💳 Payment plan, exit and break-even</h4><div class="box">';

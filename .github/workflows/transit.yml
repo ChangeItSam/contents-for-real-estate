@@ -1,0 +1,30 @@
+name: Refresh transport data (metro, Blue Line, bus)
+on:
+  schedule:
+    - cron: "41 3 2 * *"   # 2nd of every month, 07:41 Dubai
+  workflow_dispatch:
+  push:
+    paths:
+      - "tools/fetch_transit.py"
+      - "checklist/data/place_overrides.json"
+      - ".github/workflows/transit.yml"
+permissions:
+  contents: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python tools/fetch_transit.py
+        continue-on-error: true
+      - name: Commit if changed
+        if: always()
+        run: |
+          git config user.name "transit-refresh-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add checklist/data/transit.json checklist/data/transit_log.txt checklist/data/place_points.json 2>/dev/null || true
+          git diff --cached --quiet || (git commit -m "Refresh transport data" && git pull --rebase -q && git push)

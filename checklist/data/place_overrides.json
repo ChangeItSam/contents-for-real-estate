@@ -1,0 +1,4 @@
+{
+ "_how_to_edit": "Fix an area's centre point used for metro and bus distances. Use \"Area name\": [latitude, longitude], or \"Area name\": \"better search text, Dubai\". Blue Line station spots go under _blue as \"Station name\": [latitude, longitude].",
+ "_blue": {}
+}
