@@ -26,5 +26,5 @@ jobs:
         run: |
           git config user.name "transit-refresh-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add checklist/data/transit.json checklist/data/transit_log.txt checklist/data/place_points.json 2>/dev/null || true
+          for f in transit.json transit_log.txt place_points.json; do [ -f checklist/data/$f ] && git add checklist/data/$f; done; true
           git diff --cached --quiet || (git commit -m "Refresh transport data" && git pull --rebase -q && git push)
