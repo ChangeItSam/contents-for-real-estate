@@ -26,7 +26,7 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
 .ph{height:150px;background:linear-gradient(135deg,var(--navy),#1F4A7A);display:flex;align-items:flex-end;justify-content:space-between;padding:14px 16px;color:#fff;position:relative}
 .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .ph .sh{position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,31,58,0) 30%,rgba(11,31,58,.85))}
-.ph b{position:relative;font-size:24px;font-weight:800;line-height:1.1}
+.ph .nm{position:relative}.ph b{display:block;font-size:24px;font-weight:800;line-height:1.1}.ph em{display:block;font-style:normal;font-size:15px;font-weight:700;color:var(--gold2);margin-top:4px}
 .ph span{position:relative;font-size:13px;font-weight:800;background:var(--gold);color:var(--navy);border-radius:20px;padding:3px 10px;white-space:nowrap}
 .body{padding:14px 16px 16px}
 .meta{color:var(--muted);font-size:15px}
@@ -75,7 +75,8 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
     var rows=(p.dld||[]).map(function(n){ return DLD[n]; }).filter(Boolean);
     if(!rows.length) return p.eoi? '<div class="badge eoi">⏳ <b>EOI / pre-launch</b>: not registered with DLD yet. Ask me for the launch date and the booking terms.</div>'
       : '<div class="badge eoi">📋 DLD project number, escrow bank and handover date for the phase with units: ask me on WhatsApp.</div>';
-    var r=rows[0], banks={}; rows.forEach(function(x){ if(x[5]) banks[x[5]]=1; });
+    var r=rows[0], banks={}; function bk(b){ return String(b).replace(/\s*\(Public Joint Stock Company\)/i,"").replace(/[\s\/]*\(?P\.?\s?J\.?\s?S\.?\s?C\.?\)?\.?$/i,"").replace(/\s*\(Psc\)|\s+Psc$|\s+P S C$/i,"").replace(/\s+/g," ").trim(); }
+    rows.forEach(function(x){ if(x[5]) banks[bk(x[5])]=1; });
     var pct=Math.round(rows.reduce(function(s,x){return s+(+x[4]||0);},0)/rows.length);
     var ends=rows.map(function(x){return x[6];}).filter(Boolean).sort();
     return '<div class="badge ok">✅ <b>Registered with DLD</b>'+
@@ -86,8 +87,8 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
   }
   function card(p){
     var title=p.name+(p.dev?" by "+p.dev:"");
-    return '<div class="card"><div class="ph">'+(p.img?'<img src="'+e(p.img)+'" alt="'+e(p.name)+'" loading="lazy">':'')+'<div class="sh"></div><b>'+e(p.name)+'</b><span>'+e(p.dev||"")+'</span></div>'+
-      '<div class="body"><div class="meta">'+(p.area?'📍 <b>'+e(p.area)+'</b>':'')+'</div>'+badge(p)+
+    return '<div class="card"><div class="ph">'+(p.img?'<img src="'+e(p.img)+'" alt="'+e(p.name)+'" loading="lazy">':'')+'<div class="sh"></div><div class="nm"><b>'+e(p.name)+'</b><em>📍 '+e(p.area||"Location: ask me")+'</em></div><span>'+e(p.dev||"")+'</span></div>'+
+      '<div class="body">'+badge(p)+
       ((p.price||p.plan)?'<div class="pp">'+(p.price?'<div>From<b>'+e(p.price)+'</b></div>':'')+(p.plan?'<div>Payment plan<b>'+e(p.plan)+'</b></div>':'')+'</div>':'')+
       '<a class="btn" href="'+wa("Hi Sam, I saw "+title+" on your 20-check list. Please send me the price list, payment plan and floor plans.")+'">💬 Price list & floor plans on WhatsApp</a></div></div>';
   }
@@ -98,6 +99,7 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
     document.getElementById("list").innerHTML=list.length? list.map(card).join("") : '<div class="empty">New projects coming soon. Ask me on WhatsApp what\'s available now.</div>';
   }
   Array.prototype.forEach.call(document.querySelectorAll("#tabs button"),function(b){ b.addEventListener("click",function(){ CAT=b.dataset.c; try{ history.replaceState(null,"","#"+CAT); }catch(x){} render(); }); });
+  window.addEventListener("hashchange",function(){ var h=(location.hash||"").replace("#",""); if(["villa","townhouse","apartment"].indexOf(h)>=0 && h!==CAT){ CAT=h; render(); } });
   document.getElementById("wa").href=wa("Hi Sam, I'm looking at your projects that passed the 20 checks.");
   Promise.all([
     fetch("picks.json",{cache:"no-cache"}).then(function(r){return r.json();}),

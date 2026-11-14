@@ -5,7 +5,7 @@
    "cat": "villa",
    "name": "The Oasis · Mareva",
    "dev": "Emaar",
-   "area": "The Oasis, Dubai",
+   "area": "The Oasis, Me'Aisem Second (Dubailand)",
    "dld": [
     "4269",
     "4270"
@@ -47,7 +47,7 @@
    "cat": "villa",
    "name": "The Wilds",
    "dev": "Aldar",
-   "area": "Dubai",
+   "area": "Wadi Al Safa 3 (Dubailand)",
    "dld": [
     "4377"
    ],
@@ -62,7 +62,7 @@
    "cat": "villa",
    "name": "Elwood Estates",
    "dev": "Sobha",
-   "area": "Dubai",
+   "area": "Al Yufrah 1 (Dubailand)",
    "dld": [
     "3602"
    ],
@@ -77,7 +77,7 @@
    "cat": "townhouse",
    "name": "Greenz by Danube",
    "dev": "Danube",
-   "area": "",
+   "area": "Al Rowaiyah First",
    "dld": [
     "4430"
    ],
@@ -92,7 +92,7 @@
    "cat": "townhouse",
    "name": "Damac Islands",
    "dev": "Damac",
-   "area": "Dubailand",
+   "area": "Al Yelayiss 1 (Dubailand)",
    "dld": [
     "3693",
     "3800",
@@ -112,7 +112,7 @@
    "cat": "townhouse",
    "name": "Violet",
    "dev": "Damac",
-   "area": "Damac Hills 2",
+   "area": "Damac Hills 2 (Dubailand)",
    "dld": [],
    "added": "2026-11-14",
    "available": true,
@@ -138,7 +138,7 @@
    "cat": "townhouse",
    "name": "Sobha Sanctuary",
    "dev": "Sobha",
-   "area": "Dubai",
+   "area": "Al Yufrah 1 (Dubailand)",
    "dld": [
     "4531",
     "4532"
@@ -169,7 +169,7 @@
    "cat": "apartment",
    "name": "Haven by Aldar",
    "dev": "Aldar",
-   "area": "Dubai",
+   "area": "Wadi Al Safa 5 (Dubailand)",
    "dld": [
     "2873",
     "2874"
@@ -211,7 +211,7 @@
    "cat": "apartment",
    "name": "Cove by Imtiaz",
    "dev": "Imtiaz",
-   "area": "Dubai Land Residence Complex",
+   "area": "Dubailand Residence Complex",
    "dld": [
     "3675",
     "3705",
