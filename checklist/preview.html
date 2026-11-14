@@ -278,7 +278,7 @@ section,.game{scroll-margin-top:110px}
 .eoi small{display:block;font-size:13.5px;color:#7A6230;margin-top:2px}
 html:not(.eoion) .ans .eoin{display:none}
 .ans button.on.n{background:#0B1F3A!important;border-color:#0B1F3A!important;color:#fff!important}.ans button.on.n::before{content:"✓ ";color:#E9C46A}
-.holdnx{margin-top:12px;position:relative}.holdnx button{width:100%;font:inherit;font-weight:800;font-size:16px;border:0;border-radius:14px;padding:12px 14px;background:linear-gradient(135deg,#E9C46A,#C9A24A);color:#0B1F3A;cursor:pointer;box-shadow:0 4px 14px rgba(201,162,74,.35)}.holdnx i{display:block;height:4px;border-radius:4px;background:#C9A24A;margin-top:6px;transform-origin:left;animation:holdbar 5s linear forwards}@keyframes holdbar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.holdnx{margin-top:12px;position:relative}.holdnx button{width:100%;font:inherit;font-weight:800;font-size:16px;border:0;border-radius:14px;padding:12px 14px;background:linear-gradient(135deg,#E9C46A,#C9A24A);color:#0B1F3A;cursor:pointer;box-shadow:0 4px 14px rgba(201,162,74,.35)}.holdnx i{display:block;height:4px;border-radius:4px;background:#C9A24A;margin-top:6px;transform-origin:left;animation:holdbar 10s linear forwards}@keyframes holdbar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 .eoinote{background:#FFF6E3;color:#6B4E12;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:15px;line-height:1.45}
 </style>
 <script>
@@ -1045,7 +1045,7 @@ html:not(.eoion) .ans .eoin{display:none}
     var w=document.createElement("div"); w.className="holdnx"; w.innerHTML='<button type="button">Take me to the next check ⬇</button><i></i>'; el.appendChild(w);
     setTimeout(function(){ var r=el.getBoundingClientRect(); if(r.top<70 || r.bottom>window.innerHeight-150) el.scrollIntoView({behavior:"smooth",block:r.height>window.innerHeight-220?"start":"center"}); },120);
     var h={w:w}; function go(){ if(HOLD!==h) return; holdClear(); if(after) after(); else if(window.guideGo) window.guideGo(el); }
-    h.t=setTimeout(go,5000); HOLD=h; w.querySelector("button").addEventListener("click",go); }
+    h.t=setTimeout(go,10000); HOLD=h; w.querySelector("button").addEventListener("click",go); }
   function needLaunch(){ var b=document.getElementById("devbox"); return EOI && b && !b.hidden && (!DEVSEL || !LAUNCH); }
   function goLaunch(){ var b=document.getElementById("devbox"), q=DEVSEL?b.querySelector(".launchq"):b; q.scrollIntoView({behavior:"smooth",block:"center"}); q.classList.remove("flash"); void q.offsetWidth; q.classList.add("flash"); if(typeof mtoast==="function") mtoast(DEVSEL?"📅 Tap: is the launch date announced?":"👷 Pick the developer first"); }
   function tryResult(e){ if(e) e.preventDefault(); if(needLaunch()){ goLaunch(); return; } if(!PSFR){ nudge.hidden=false; } else openGate(); }
