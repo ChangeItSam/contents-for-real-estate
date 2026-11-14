@@ -383,6 +383,11 @@ html:not(.eoion) .ans .eoin{display:none}
 .tick:not(.xt)>input{display:none!important}
 .tick:not(.xt){cursor:default;pointer-events:none}
 .tick:not(.xt) .auto{pointer-events:auto}
+.devbox{margin:8px 0 6px}.devbox[hidden]{display:none!important}.devbox .plab{display:block;font-weight:800;color:var(--navy);font-size:16px}.devbox .plab small{font-weight:600;color:var(--muted)}
+#devin{display:block;width:100%;margin-top:6px;font:inherit;font-size:17px;padding:12px 14px;border:2px solid var(--gold);border-radius:12px;background:#fff;color:var(--navy);min-height:50px}
+.devstat{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0}.devstat span{background:rgba(255,255,255,.7);border-radius:10px;padding:6px 4px;text-align:center;font-size:12.5px;line-height:1.25}.devstat b{display:block;font-size:20px}
+.devstat .bn{filter:blur(7px);user-select:none}.devlock{font-size:14.5px;font-weight:700;margin-bottom:4px}
+@media(max-width:420px){.devstat{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
 <body>
@@ -462,7 +467,7 @@ html:not(.eoion) .ans .eoin{display:none}
 
 <section class="sec" id="checks">
  <div class="kicker">Checks 1–4</div><h2>🛡️ Is it safe?</h2><p class="lead">Dubai protects off-plan buyers well. Make sure you're inside that protection.</p>
- <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>Open the official <b>Dubai REST</b> app (Dubai Land Department) and search the developer. Look at their completed projects and on-time handovers.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label><label class="eoi" id="eoiwrap"><input type="checkbox" id="eoi"><span><b>🟡 Not found in DLD? Tick if this project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and they're marked N/A instead of costing you marks. Check them again before you pay the booking amount.</small></span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>Open the official <b>Dubai REST</b> app (Dubai Land Department) and search the developer. Look at their completed projects and on-time handovers.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label><label class="eoi" id="eoiwrap"><input type="checkbox" id="eoi"><span><b>🟡 Not found in DLD? Tick if this project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and they're marked N/A instead of costing you marks. Check them again before you pay the booking amount.</small></span></label><div id="devbox" class="devbox" hidden><label class="plab" for="devin">👷 Who is the developer? <small>(type 2+ letters, then pick from the list)</small></label><input id="devin" type="text" autocomplete="off" placeholder="e.g. Azizi, Binghatti, Emaar"><div id="devsg" class="sugg" hidden></div><div id="devcard" class="dld" hidden></div></div></div></div></div>
  <div class="card"><div class="num"><span class="ic">🏗️</span><span class="n">3–4</span></div><div class="body"><h3>The exact project is registered, not just the developer</h3><p>Every off-plan project has its own registration. Ask for the <b>project number</b> and search it on Dubai REST to see its status and construction progress.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="10"><b class="cn">3</b><span>Project number verified on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="4"><b class="cn">4</b><span>Construction progress (%) matches what you were told</span></label></div></div></div>
 </section>
 
@@ -714,6 +719,38 @@ html:not(.eoion) .ans .eoin{display:none}
     if(fill) EOI_IDX.forEach(function(i){ var b=boxes[i]; if(EOI){ if(!b.checked) b.dataset.st="n"; } else if(b.dataset.st==="n") b.dataset.st=""; });
     update(); }
   setEoi(EOI,false);
+  // ---------- EOI: developer lookup in DLD's registry (insights.json d) ----------
+  var DEVSEL=null, devAuto=[], devIn=document.getElementById("devin"), devSg=document.getElementById("devsg"), devCard=document.getElementById("devcard"), devBox=document.getElementById("devbox");
+  function dEsc(t){ return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+  function devBoxShow(){ devBox.hidden=!(EOI && !DLDFOUND); }
+  function devClear(){ devAuto.forEach(function(i){ var b=boxes[i]; b.checked=false; var t=b.closest("label").querySelector(".auto"); if(t) t.remove(); }); devAuto=[]; DEVSEL=null; devCard.hidden=true; devCard.innerHTML="";
+    try{ localStorage.removeItem("sam-dealtest-dev"); }catch(e){} update(); }
+  function devTick(i){ var b=boxes[i]; if(b.checked) return; b.checked=true; b.dataset.st=""; devAuto.push(i);
+    var t=document.createElement("span"); t.className="auto"; t.textContent="✓ DLD"; b.closest("label").querySelector("span").appendChild(t); }
+  function devCardHtml(d){
+    var tot=d.fin+d.act+d.can;
+    function c(n,l){ return '<span><b class="bn" aria-hidden="true">'+n+'</b>'+l+'</span>'; }
+    return '<b class="t">✅ Developer found in Dubai Land Department records</b><div><b>'+dEsc(d.name)+'</b></div>'+
+      '<div class="devstat">'+c(tot,"Total projects")+c(d.fin,"Handed over")+c(d.act,"Under construction")+c(d.late,"Past DLD date")+c(d.can,"Cancelled")+'</div>'+
+      '<div class="devlock">🔒 The numbers are in your <b>full report</b> from Sam.</div>'+
+      '<small>We ticked lines 1 and 2 for you (<span class="auto">✓ DLD</span>). Confirm on the Dubai REST app.</small>'; }
+  function devPick(no,quiet){ insLoad(function(){ var d=INS.d&&INS.d[no]; if(!d) return; devClear();
+      DEVSEL={no:no,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devSg.hidden=true;
+      devCard.className="dld "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false;
+      devTick(0); devTick(1); try{ localStorage.setItem("sam-dealtest-dev",no); }catch(e){} update();
+      if(!quiet && typeof mtoast==="function") mtoast("✅ DLD confirmed the developer: 2 checks done"); }); }
+  function devSearch(){ var q=devIn.value.trim().toLowerCase(); if(q.length<2){ devSg.hidden=true; return; }
+    insLoad(function(){ var hits=[]; Object.keys(INS.d||{}).forEach(function(k){ var d=INS.d[k]; if(String(d.name).toLowerCase().indexOf(q)>=0) hits.push([k,d]); });
+      hits.sort(function(a,b){ var sa=String(a[1].name).toLowerCase().indexOf(q)===0, sb=String(b[1].name).toLowerCase().indexOf(q)===0; return (sb-sa) || ((b[1].fin+b[1].act)-(a[1].fin+a[1].act)); }); hits=hits.slice(0,8);
+      if(!hits.length){ devSg.innerHTML='<button type="button" disabled>Not in DLD\'s developer registry. Check the name on the Dubai REST app.</button>'; devSg.hidden=false; return; }
+      devSg.innerHTML=hits.map(function(h){ return '<button type="button" data-no="'+dEsc(h[0])+'">'+dEsc(h[1].name)+'<small>Registered developer in DLD records</small></button>'; }).join("");
+      devSg.hidden=false;
+      Array.prototype.forEach.call(devSg.querySelectorAll("button[data-no]"),function(b){ b.addEventListener("click",function(){ devPick(b.dataset.no); }); }); }); }
+  devIn.addEventListener("input",function(){ if(DEVSEL) devClear(); devSearch(); });
+  devIn.addEventListener("focus",function(){ insLoad(function(){}); });
+  eoiBox.addEventListener("change",function(){ devBoxShow(); if(!EOI && DEVSEL){ devClear(); devIn.value=""; } });
+  devBoxShow();
+  setTimeout(function(){ if(FROMLINK) return; var n=null; try{ n=localStorage.getItem("sam-dealtest-dev"); }catch(e){} if(n && EOI && !DLDFOUND) devPick(n,true); },50);
   eoiBox.addEventListener("change",function(){ setEoi(eoiBox.checked,true); });
   update();
 
@@ -821,7 +858,7 @@ html:not(.eoion) .ans .eoin{display:none}
   function report(sc){
     var e=function(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
     var CRIT=[0,2,4,6], h='', I=INS||{d:{},p:{},t:{},r:{}};
-    var pn=PROJROW?PROJROW[0]:(PSFP&&PSFP.no), ip=pn&&I.p[pn], dev=ip&&I.d[ip[0]];
+    var pn=PROJROW?PROJROW[0]:(PSFP&&PSFP.no), ip=pn&&I.p[pn], dev=(ip&&I.d[ip[0]])||DEVSEL;
     var comm=(ip&&ip[9])||(PSFP&&PSFP.community)||(PROJROW&&PROJROW[7])||"";
     var place=comm||(ip&&ip[10])||(PSFP&&PSFP.area)||"";
     // 1. project record
@@ -851,7 +888,7 @@ html:not(.eoion) .ans .eoin{display:none}
         h+='</div>'; }
     }
     // 2. developer track record
-    if(dev){ h+='<h4>👷 Developer track record</h4><div class="box"><div class="big"><span>Finished<b>'+dev.fin+'</b></span><span>Active<b>'+dev.act+'</b></span><span>Past DLD date<b>'+dev.late+'</b></span><span>Cancelled<b>'+dev.can+'</b></span></div>'+
+    if(dev){ h+='<h4>👷 Developer track record</h4><div class="box">'+(dev.name?'<div style="margin-bottom:6px"><b>'+e(dev.name)+'</b> · '+(dev.fin+dev.act+dev.can)+' projects in DLD records</div>':'')+'<div class="big"><span>Handed over<b>'+dev.fin+'</b></span><span>Under construction<b>'+dev.act+'</b></span><span>Past DLD date<b>'+dev.late+'</b></span><span>Cancelled<b>'+dev.can+'</b></span></div>'+
         '<div style="opacity:.8;font-size:13.5px">Projects in DLD\'s current project registry. "Past DLD date" = still active after the completion date the developer registered. Older deliveries before the registry may not be counted.</div></div>'; }
     // 3. price vs market + trend
     if(PSFR){
@@ -963,13 +1000,13 @@ html:not(.eoion) .ans .eoin{display:none}
   function resultLink(sc){
     var bits=boxes.map(function(b){return b.checked?"1":"0";}).join("");
     var proj=document.getElementById("proj").value.trim();
-    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0})))));
+    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0,dv:DEVSEL?DEVSEL.no:""})))));
   }
   // shared result link: restore answers and show result directly (after the page has set up)
   setTimeout(function(){
     var m=location.hash.match(/^#r=(.+)$/); if(!m) return;
     try{
-      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true; setEoi(o.e===1,false);
+      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true; setEoi(o.e===1,false); devBoxShow(); if(o.dv) insLoad(function(){ var d=INS.d&&INS.d[o.dv]; if(d){ DEVSEL={no:o.dv,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devCard.className="dld "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false; } });
       boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; var v=o.s&&o.s.charAt(i); b.dataset.st=(!b.checked&&(v==="u"||(v==="n"&&naOK(i))))?v:""; });
       document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n;
       if(o.x) xset(o.x);
@@ -983,7 +1020,7 @@ html:not(.eoion) .ans .eoin{display:none}
 
   document.getElementById("rclose").addEventListener("click",close);
   document.getElementById("review").addEventListener("click",function(){ close(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
-  document.getElementById("reset").addEventListener("click",function(){ setEoi(false,false); boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc"].forEach(function(i){document.getElementById(i).value="";}); document.getElementById("psf").classList.remove("auto"); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
+  document.getElementById("reset").addEventListener("click",function(){ devClear(); devIn.value=""; setEoi(false,false); devBoxShow(); boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc"].forEach(function(i){document.getElementById(i).value="";}); document.getElementById("psf").classList.remove("auto"); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
   function confetti(){
     var c=document.getElementById("conf"), x=c.getContext("2d"); c.width=innerWidth; c.height=innerHeight;
     var cols=["#C9A24A","#E8CF8E","#3DDC84","#fff","#25D366"], ps=[];
@@ -1008,7 +1045,7 @@ html:not(.eoion) .ans .eoin{display:none}
       var lb=boxes[i].closest("label"); lb.classList.remove("pop"); void lb.offsetWidth; lb.classList.add("pop"); autoCount++; } }
   function fmtDate(d){ if(!d) return ""; var x=new Date(d); return isNaN(x)?d:x.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}); }
   var autoCount=0;
-  function eoiShow(found){ DLDFOUND=!!found; var w=document.getElementById("eoiwrap"); if(w) w.hidden=DLDFOUND; if(DLDFOUND && EOI) setEoi(false,true); }
+  function eoiShow(found){ DLDFOUND=!!found; var w=document.getElementById("eoiwrap"); if(w) w.hidden=DLDFOUND; if(DLDFOUND && EOI) setEoi(false,true); if(DLDFOUND && DEVSEL){ devClear(); devIn.value=""; } devBoxShow(); }
   function pick(r){ autoCount=0;
     eoiShow(true);
     var no=r[0],name=r[1],dev=r[2],st=(r[3]||"").toLowerCase(),pct=r[4],escb=r[5],end=r[6],area=r[7];
@@ -1049,7 +1086,7 @@ html:not(.eoion) .ans .eoin{display:none}
         var fm=FEAT.filter(function(f){ var n=f.name.toLowerCase(); return n.indexOf(q)>=0||q.indexOf(n)>=0; })[0];
         if(fm){ sg.hidden=true; newLaunch(fm.name); return; }
         sg.innerHTML='<button type="button" disabled>No match in DLD projects with sales records. Check it on Dubai REST.</button><button type="button" class="eoigo">🟡 It\'s in EOI / pre-launch phase ›<small>Not registered with DLD yet? Tap to mark it and go to that box.</small></button>'; sg.hidden=false;
-        sg.querySelector(".eoigo").addEventListener("click",function(){ sg.hidden=true; eoiShow(false); if(!EOI) setEoi(true,true);
+        sg.querySelector(".eoigo").addEventListener("click",function(){ sg.hidden=true; eoiShow(false); if(!EOI) setEoi(true,true); devBoxShow();
           var w=document.getElementById("eoiwrap"); w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); }); return; }
       sg.innerHTML=hits.map(function(r,k){return '<button type="button" data-k="'+k+'">'+esc(r[1])+'<small>'+esc([r[7],r[2],r[3]].filter(Boolean).join(" · "))+'</small></button>';}).join("");
       sg.hidden=false; try{ sg.scrollIntoView({block:"nearest",behavior:"smooth"}); }catch(e){}
