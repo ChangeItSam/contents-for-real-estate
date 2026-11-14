@@ -209,15 +209,15 @@
   },
   {
    "cat": "apartment",
-   "name": "Binghatti apartments",
-   "dev": "Binghatti",
+   "name": "Archive",
+   "dev": "Imtiaz",
    "area": "",
    "dld": [],
    "added": "2026-11-14",
    "available": true,
    "price": "",
    "plan": "",
-   "note": "Project to confirm",
+   "note": "'Archive' not in DLD registry under Imtiaz (17 Imtiaz projects checked 14 Nov 2026); ask Sam for DLD no.",
    "eoi": false
   }
  ]
