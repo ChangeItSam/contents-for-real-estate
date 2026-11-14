@@ -209,15 +209,20 @@
   },
   {
    "cat": "apartment",
-   "name": "Archive",
+   "name": "Cove by Imtiaz",
    "dev": "Imtiaz",
-   "area": "",
-   "dld": [],
+   "area": "Dubai Land Residence Complex",
+   "dld": [
+    "3675",
+    "3705",
+    "3803",
+    "3774"
+   ],
    "added": "2026-11-14",
    "available": true,
    "price": "",
    "plan": "",
-   "note": "'Archive' not in DLD registry under Imtiaz (17 Imtiaz projects checked 14 Nov 2026); ask Sam for DLD no.",
+   "note": "Cove Boulevard 3675, Cove Edition 5 3705, Cove Edition 6 3803, Cove Grand 3774; confirm phase",
    "eoi": false
   }
  ]
