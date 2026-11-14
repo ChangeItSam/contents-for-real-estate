@@ -383,11 +383,10 @@ html:not(.eoion) .ans .eoin{display:none}
 .tick:not(.xt)>input{display:none!important}
 .tick:not(.xt){cursor:default;pointer-events:none}
 .tick:not(.xt) .auto{pointer-events:auto}
-.devbox{margin:8px 0 6px}.devbox[hidden]{display:none!important}.devbox .plab{display:block;font-weight:800;color:var(--navy);font-size:16px}.devbox .plab small{font-weight:600;color:var(--muted)}
+.devbox{margin:8px 0 6px}.devcard{margin:6px 0 10px}.devbox[hidden]{display:none!important}.devbox .plab{display:block;font-weight:800;color:var(--navy);font-size:16px}.devbox .plab small{font-weight:600;color:var(--muted)}
 #devin{display:block;width:100%;margin-top:6px;font:inherit;font-size:17px;padding:12px 14px;border:2px solid var(--gold);border-radius:12px;background:#fff;color:var(--navy);min-height:50px}
-.devstat{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0}.devstat span{background:rgba(255,255,255,.7);border-radius:10px;padding:6px 4px;text-align:center;font-size:12.5px;line-height:1.25}.devstat b{display:block;font-size:20px}
+.devstat{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.devstat span{background:rgba(255,255,255,.7);border-radius:10px;padding:6px 4px;text-align:center;font-size:12.5px;line-height:1.25}.devstat b{display:block;font-size:20px}
 .devstat .bn{filter:blur(7px);user-select:none}.devlock{font-size:14.5px;font-weight:700;margin-bottom:4px}
-@media(max-width:420px){.devstat{grid-template-columns:repeat(3,1fr)}}
 </style>
 </head>
 <body>
@@ -467,38 +466,38 @@ html:not(.eoion) .ans .eoin{display:none}
 
 <section class="sec" id="checks">
  <div class="kicker">Checks 1–4</div><h2>🛡️ Is it safe?</h2><p class="lead">Dubai protects off-plan buyers well. Make sure you're inside that protection.</p>
- <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>Open the official <b>Dubai REST</b> app (Dubai Land Department) and search the developer. Look at their completed projects and on-time handovers.</p><div class="ticks"><div id="devbox" class="devbox" hidden><label class="plab" for="devin">👷 EOI project: who is the developer? <small>(type 2+ letters, then pick from the list)</small></label><input id="devin" type="text" autocomplete="off" placeholder="e.g. Azizi, Binghatti, Emaar"><div id="devsg" class="sugg" hidden></div><div id="devcard" class="dld" hidden></div></div><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label><label class="eoi" id="eoiwrap"><input type="checkbox" id="eoi"><span><b>🟡 Not found in DLD? Tick if this project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and they're marked N/A instead of costing you marks. Check them again before you pay the booking amount.</small></span></label></div></div></div>
- <div class="card"><div class="num"><span class="ic">🏗️</span><span class="n">3–4</span></div><div class="body"><h3>The exact project is registered, not just the developer</h3><p>Every off-plan project has its own registration. Ask for the <b>project number</b> and search it on Dubai REST to see its status and construction progress.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="10"><b class="cn">3</b><span>Project number verified on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="4"><b class="cn">4</b><span>Construction progress (%) matches what you were told</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>A developer registered with RERA is accountable to the regulator, and their delivery record is the best guide to whether your building gets finished on time. You don't need to search any registry: we check the developer against Dubai Land Department records as soon as you pick your project, or type the developer's name for an EOI project. Your full report shows how many projects they've handed over, how many are under construction, delayed or cancelled.</p><div class="ticks"><div id="devbox" class="devbox" hidden><label class="plab" for="devin">👷 EOI project: who is the developer? <small>(type 2+ letters, then pick from the list)</small></label><input id="devin" type="text" autocomplete="off" placeholder="e.g. Azizi, Binghatti, Emaar"><div id="devsg" class="sugg" hidden></div></div><div id="devcard" class="dld devcard" hidden></div><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label><label class="eoi" id="eoiwrap"><input type="checkbox" id="eoi"><span><b>🟡 Not found in DLD? Tick if this project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and they're marked N/A instead of costing you marks. Check them again before you pay the booking amount.</small></span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏗️</span><span class="n">3–4</span></div><div class="body"><h3>The exact project is registered, not just the developer</h3><p>A good developer isn't enough. Every off-plan project needs its own DLD registration before it can legally be sold, and without it your payments and your unit aren't protected. Pick your project at the top and we pull its registration, status and construction progress from DLD records for you. Not registered yet? Mark it as EOI / pre-launch and we check the developer instead.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="10"><b class="cn">3</b><span>Project number verified on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="4"><b class="cn">4</b><span>Construction progress (%) matches what you were told</span></label></div></div></div>
 </section>
 
 <section class="sec">
  <div class="kicker">Checks 5–9</div><h2>🔐 Protect your money</h2><p class="lead">Where your money goes and who you deal with.</p>
- <div class="card"><div class="num"><span class="ic">🏦</span><span class="n">5–7</span></div><div class="body"><h3>Your money goes into the project's escrow account</h3><p>By law (<b>Law No. 8 of 2007</b>), off-plan payments go into a regulated escrow account for that project, not the developer's company account.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><b class="cn">5</b><span>Project has an escrow account registered with DLD</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">6</b><span>Escrow bank &amp; account shown on <b>your</b> payment instructions</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">7</b><span>They match the project's escrow on DLD / Dubai REST</span></label></div><div class="tip warn">⚠️ Never pay a deposit into a personal or general company account.</div></div></div>
- <div class="card"><div class="num"><span class="ic">🪪</span><span class="n">8–9</span></div><div class="body"><h3>Your agent is licensed</h3><p>Ask for the agent's <b>BRN</b> (Broker Registration Number) and verify it on Dubai REST.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="5"><b class="cn">8</b><span>Agent BRN verified</span></label><label class="tick"><input type="checkbox" data-w="2"><b class="cn">9</b><span>Agency and agent named on the paperwork</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏦</span><span class="n">5–7</span></div><div class="body"><h3>Your money goes into the project's escrow account</h3><p>By law (<b>Law No. 8 of 2007</b>), off-plan payments go into a regulated escrow account for that project, not the developer's company account. When your project is registered, we show you its escrow bank from DLD records, so the only thing left for you is to check that the account on your payment instructions matches it.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><b class="cn">5</b><span>Project has an escrow account registered with DLD</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">6</b><span>Escrow bank &amp; account shown on <b>your</b> payment instructions</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">7</b><span>They match the project's escrow on DLD / Dubai REST</span></label></div><div class="tip warn">⚠️ Never pay a deposit into a personal or general company account.</div></div></div>
+ <div class="card"><div class="num"><span class="ic">🪪</span><span class="n">8–9</span></div><div class="body"><h3>Your agent is licensed</h3><p>Only a RERA-licensed agent can legally sell you property, and a licensed agent is answerable to the regulator if something goes wrong. This is the one thing we can't look up for you: ask your agent for their BRN (Broker Registration Number), and make sure the agency and the agent are named on your paperwork.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="5"><b class="cn">8</b><span>Agent BRN verified</span></label><label class="tick"><input type="checkbox" data-w="2"><b class="cn">9</b><span>Agency and agent named on the paperwork</span></label></div></div></div>
 </section>
 
 <section class="sec">
  <div class="kicker">Check 10</div><h2>💰 Know the real cost</h2><p class="lead">The price is not the whole story.</p>
  <div class="card"><div class="num"><span class="ic">💰</span><span class="n">10</span></div><div class="body"><h3>You know the full cost, not just the price</h3><div class="costs"><div style="flex:5;background:#0B1F3A">DLD ~4%</div><div style="flex:10;background:#C9A24A">Deposit 10–20%</div><div style="flex:5;background:#5B6678">Handover</div></div><p>Oqood is usually paid at booking (some launches cover or share it, so ask). At handover budget for DEWA, cooling (if any) and service charges. Get any agency fee in writing.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="6"><b class="cn">10</b><span>Total cash needed at booking calculated</span></label></div></div></div>
- <div class="card tipc"><div class="num"><span class="ic">📱</span><span class="n">TIP</span></div><div class="body"><h3>Your #1 free tool: the Dubai REST app</h3><p>Free on the App Store and Google Play, from the Dubai Land Department. Checks 1 to 4 take about <b>10 minutes</b> in the app. If a project or agent isn't there, walk away.</p></div></div>
+ <div class="card tipc"><div class="num"><span class="ic">📱</span><span class="n">TIP</span></div><div class="body"><h3>We do the DLD checks for you</h3><p>Checks 1 to 4 normally mean searching the developer, the project and the escrow account one by one in the Dubai REST app and on developer websites. Here they're pulled from Dubai Land Department records the moment you pick your project. If a project isn't in DLD records and isn't in its EOI / pre-launch phase, walk away.</p></div></div>
 </section>
 
 <section class="sec">
  <div class="kicker">Checks 11–14</div><h2>📈 Is it right for you?</h2><p class="lead">It has to fit your cash flow and your contract.</p>
- <div class="card"><div class="num"><span class="ic">📅</span><span class="n">11–12</span></div><div class="body"><h3>The payment plan fits your cash flow</h3><p>Write down every milestone: how much and when. Is it linked to dates or to construction progress? Is there a <b>post-handover</b> plan?</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="4"><b class="cn">11</b><span>Every instalment and date listed</span></label><label class="tick"><input type="checkbox" data-w="6"><b class="cn">12</b><span>You can pay each one even if your plans change</span></label></div></div></div>
- <div class="card"><div class="num"><span class="ic">📝</span><span class="n">13–14</span></div><div class="body"><h3>The SPA (Sale &amp; Purchase Agreement) is clear</h3><p>Check unit number, size, floor plan, finishes, payment schedule, the <b>expected completion date</b> and what happens if handover is late.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="4"><b class="cn">13</b><span>Unit, size and specs match the brochure</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">14</b><span>Completion date and delay terms understood</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">📅</span><span class="n">11–12</span></div><div class="body"><h3>The payment plan fits your cash flow</h3><p>Most buyers who get into trouble didn't pick a bad project; they ran short of cash between milestones. Write down every payment: how much and when, whether it's tied to dates or to construction progress, and whether there's a post-handover plan. Add it in the calculator below and we work out how much you pay before the keys.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="4"><b class="cn">11</b><span>Every instalment and date listed</span></label><label class="tick"><input type="checkbox" data-w="6"><b class="cn">12</b><span>You can pay each one even if your plans change</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">📝</span><span class="n">13–14</span></div><div class="body"><h3>The SPA (Sale &amp; Purchase Agreement) is clear</h3><p>The SPA is what the developer legally owes you; the brochure isn't. Make sure it states the unit number, size, floor plan, finishes, payment schedule, the completion date and what happens if handover is late. Add your SPA handover date below and we compare it with the completion date the developer registered with DLD.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="4"><b class="cn">13</b><span>Unit, size and specs match the brochure</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">14</b><span>Completion date and delay terms understood</span></label></div></div></div>
 </section>
 
 <section class="sec">
  <div class="kicker">Checks 15–17</div><h2>⚖️ Lock in your rights</h2><p class="lead">Registration and the fine print.</p>
- <div class="card"><div class="num"><span class="ic">📜</span><span class="n">15</span></div><div class="body"><h3>Your purchase is registered (Oqood)</h3><p>Oqood is the DLD's interim registration of your off-plan purchase. It protects your rights during construction and becomes your <b>title deed</b> at handover.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="9"><b class="cn">15</b><span>Developer confirms your purchase will be registered (Oqood) with DLD</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">📜</span><span class="n">15</span></div><div class="body"><h3>Your purchase is registered (Oqood)</h3><p>Oqood is DLD's interim registration of your off-plan purchase. It records the unit in your name during construction, protects your rights if anything goes wrong, and becomes your title deed at handover. Ask the developer to confirm in writing that it will be issued, and when.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="9"><b class="cn">15</b><span>Developer confirms your purchase will be registered (Oqood) with DLD</span></label></div></div></div>
  <div class="card"><div class="num"><span class="ic">⚖️</span><span class="n">16–17</span></div><div class="body"><h3>You know the risk if you stop paying</h3><p>If a buyer defaults, Dubai rules let the developer keep part of what was paid, depending on construction progress. Know the terms <b>before</b> you sign.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="5"><b class="cn">16</b><span>Default and cancellation terms understood</span></label><label class="tick"><input type="checkbox" data-w="3"><b class="cn">17</b><span>Resale rules known (when you can sell, NOC fee)</span></label></div></div></div>
 </section>
 
 <section class="sec">
  <div class="kicker">Check 18</div><h2>🧭 Plan your way out</h2><p class="lead">Know your exit before you commit.</p>
- <div class="card"><div class="num"><span class="ic">🚪</span><span class="n">18</span></div><div class="body"><h3>Your exit plan makes sense</h3><p>🏠 <b>Live</b> · 🔑 <b>Rent</b>: compare rents for similar ready units · 💸 <b>Sell</b>: check real resale prices on DLD data.</p><div class="tip">🌟 <b>Golden Visa:</b> property worth AED 2M+ can qualify for the 10-year UAE Golden Visa, off-plan included. Confirm current DLD conditions for your case.</div><div class="ticks"><label class="tick"><input type="checkbox" data-w="6"><b class="cn">18</b><span>Exit plan chosen and numbers checked</span></label></div></div></div>
- <div class="card rule"><div class="num"><span class="ic">🔐</span><span class="n">RULE</span></div><div class="body"><h3>The golden rule</h3><p>No Dubai REST listing, no escrow account, no Oqood? <b style="color:#E8CF8E">No deal (skip).</b> A good project passes all 20 checks easily.</p></div></div>
+ <div class="card"><div class="num"><span class="ic">🚪</span><span class="n">18</span></div><div class="body"><h3>Your exit plan makes sense</h3><p>🏠 <b>Live</b> · 🔑 <b>Rent</b>: we compare the rent you were promised with real Ejari contracts · 💸 <b>Sell</b>: your report shows real prices paid from DLD data.</p><div class="tip">🌟 <b>Golden Visa:</b> property worth AED 2M+ can qualify for the 10-year UAE Golden Visa, off-plan included. Confirm current DLD conditions for your case.</div><div class="ticks"><label class="tick"><input type="checkbox" data-w="6"><b class="cn">18</b><span>Exit plan chosen and numbers checked</span></label></div></div></div>
+ <div class="card rule"><div class="num"><span class="ic">🔐</span><span class="n">RULE</span></div><div class="body"><h3>The golden rule</h3><p>No DLD registration, no escrow account, no Oqood? <b style="color:#E8CF8E">No deal (skip).</b> A good project passes all 20 checks easily.</p></div></div>
 </section>
 
 <section class="sec" id="psfsec">
@@ -727,21 +726,21 @@ html:not(.eoion) .ans .eoin{display:none}
     try{ localStorage.removeItem("sam-dealtest-dev"); }catch(e){} update(); }
   function devTick(i){ var b=boxes[i]; if(b.checked) return; b.checked=true; b.dataset.st=""; devAuto.push(i);
     var t=document.createElement("span"); t.className="auto"; t.textContent="✓ DLD"; b.closest("label").querySelector("span").appendChild(t); }
-  function devCardHtml(d){
+  function devCardHtml(d,foot){
     var tot=d.fin+d.act+d.can;
     function c(n,l){ return '<span><b class="bn" aria-hidden="true">'+n+'</b>'+l+'</span>'; }
     return '<b class="t">✅ Developer found in Dubai Land Department records</b><div><b>'+dEsc(d.name)+'</b></div>'+
       '<div class="devstat">'+c(tot,"Total projects")+c(d.fin,"Handed over")+c(d.act,"Under construction")+c(d.late,"Past DLD date")+c(d.can,"Cancelled")+'</div>'+
       '<div class="devlock">🔒 The numbers are in your <b>full report</b> from Sam.</div>'+
-      '<small>We ticked lines 1 and 2 for you (<span class="auto">✓ DLD</span>). Confirm on the Dubai REST app.</small>'; }
+      '<small>'+(foot||'We ticked lines 1 and 2 for you (<span class="auto">✓ DLD</span>).')+'</small>'; }
   function devPick(no,quiet){ insLoad(function(){ var d=INS.d&&INS.d[no]; if(!d) return; devClear();
       DEVSEL={no:no,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devSg.hidden=true;
-      devCard.className="dld "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false;
+      devCard.className="dld devcard "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false;
       devTick(0); devTick(1); try{ localStorage.setItem("sam-dealtest-dev",no); }catch(e){} update();
       if(!quiet && typeof mtoast==="function") mtoast("✅ DLD confirmed the developer: 2 checks done"); }); }
   var devNF=null;
   function devNotFound(name){ clearTimeout(devNF); devNF=setTimeout(function(){ if(DEVSEL || devIn.value.trim()!==name) return;
-      devCard.className="dld bad"; devCard.innerHTML='<b class="t">🚩 RED FLAG: developer not found in Dubai Land Department records</b><div>No registered developer matches "<b>'+dEsc(name)+'</b>". Ask for the developer\'s exact legal name and RERA number, and check it on the Dubai REST app before you pay anything, including the EOI.</div>';
+      devCard.className="dld devcard bad"; devCard.innerHTML='<b class="t">🚩 RED FLAG: developer not found in Dubai Land Department records</b><div>No registered developer matches "<b>'+dEsc(name)+'</b>". Ask for the developer\'s exact legal name and RERA number, and check it on the Dubai REST app before you pay anything, including the EOI.</div>';
       devCard.hidden=false; [0,1].forEach(function(i){ var b=boxes[i]; if(!b.checked && !b.dataset.st){ b.dataset.st="u"; devAutoU.push(i); } }); update(); },900); }
   var devAutoU=[];
   function devSearch(){ var q=devIn.value.trim().toLowerCase(); if(q.length<2){ devSg.hidden=true; return; }
@@ -1011,7 +1010,7 @@ html:not(.eoion) .ans .eoin{display:none}
   setTimeout(function(){
     var m=location.hash.match(/^#r=(.+)$/); if(!m) return;
     try{
-      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true; setEoi(o.e===1,false); devBoxShow(); if(o.dv) insLoad(function(){ var d=INS.d&&INS.d[o.dv]; if(d){ DEVSEL={no:o.dv,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devCard.className="dld "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false; } });
+      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true; setEoi(o.e===1,false); devBoxShow(); if(o.dv) insLoad(function(){ var d=INS.d&&INS.d[o.dv]; if(d){ DEVSEL={no:o.dv,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devCard.className="dld devcard "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false; } });
       boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; var v=o.s&&o.s.charAt(i); b.dataset.st=(!b.checked&&(v==="u"||(v==="n"&&naOK(i))))?v:""; });
       document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n;
       if(o.x) xset(o.x);
@@ -1057,7 +1056,7 @@ html:not(.eoion) .ans .eoin{display:none}
     pin.value=name; sg.hidden=true; clearAuto();
     var info='<div class="row2"><span>🏗️ DLD project no. <b>'+esc(no||"–")+'</b></span><span>👷 '+esc(dev||"–")+'</span>'+(area?'<span>📍 '+esc(area)+'</span>':'')+'</div>'+
       '<div class="row2"><span>📊 '+(pct!==""?esc(Math.round(+pct))+'% complete':'progress n/a')+'</span>'+(end?'<span>📅 Completion '+esc(fmtDate(end))+'</span>':'')+'<span>🏦 Escrow: '+esc(escb||"not listed")+'</span></div>';
-    var src='<small>Source: '+esc(P.source)+', updated '+esc(P.updated)+'. Always confirm the live status on the Dubai REST app.</small>';
+    var src='<small>Source: '+esc(P.source)+', updated '+esc(P.updated)+'.</small>';
     if(st.indexOf("cancel")>=0){
       card.className="dld bad"; card.innerHTML='<b class="t">🚩 CANCELLED in DLD records</b>'+info+'<b>Do not pay anything for this project.</b>'+src;
     } else {
@@ -1070,6 +1069,10 @@ html:not(.eoion) .ans .eoin{display:none}
       var lab=boxes[PROG].parentNode; if(pct!==""){ var h=document.createElement("span"); h.className="hint"; h.textContent="DLD says "+Math.round(+pct)+"% complete. Does that match what you were told?"; lab.querySelector("span").appendChild(h); }
     }
     card.hidden=false; psfProject(r); update();
+    (function(no){ insLoad(function(){ if(!DLDFOUND || pin.value!==name) return; var ip=INS.p&&INS.p[no], d=ip&&INS.d&&INS.d[ip[0]]; if(!d) return;
+      var D={no:ip[0],name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0};
+      if(st.indexOf("cancel")<0){ tickAuto(1); update(); }
+      devCard.className="dld devcard "+(D.can?"warn":"ok"); devCard.innerHTML=devCardHtml(D,'The project is registered with DLD, so we ticked the developer lines for you (<span class="auto">✓ DLD</span>).'); devCard.hidden=false; }); })(no);
     if(autoCount) mtoast("✅ DLD confirmed "+autoCount+" check"+(autoCount>1?"s":"")+" for you");
   }
   // full start-over: also clear the project and its DLD card
@@ -1090,7 +1093,7 @@ html:not(.eoion) .ans .eoin{display:none}
       if(!hits.length){
         var fm=FEAT.filter(function(f){ var n=f.name.toLowerCase(); return n.indexOf(q)>=0||q.indexOf(n)>=0; })[0];
         if(fm){ sg.hidden=true; newLaunch(fm.name); return; }
-        sg.innerHTML='<button type="button" disabled>No match in DLD projects with sales records. Check it on Dubai REST.</button><button type="button" class="eoigo">🟡 It\'s in EOI / pre-launch phase ›<small>Not registered with DLD yet? Tap to mark it and go to that box.</small></button>'; sg.hidden=false;
+        sg.innerHTML='<button type="button" disabled>No match in DLD records yet.</button><button type="button" class="eoigo">🟡 It\'s in EOI / pre-launch phase ›<small>Not registered with DLD yet? Tap to mark it and go to that box.</small></button>'; sg.hidden=false;
         sg.querySelector(".eoigo").addEventListener("click",function(){ sg.hidden=true; eoiShow(false); if(!EOI) setEoi(true,true); devBoxShow();
           var w=document.getElementById("devbox"); w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); }); return; }
       sg.innerHTML=hits.map(function(r,k){return '<button type="button" data-k="'+k+'">'+esc(r[1])+'<small>'+esc([r[7],r[2],r[3]].filter(Boolean).join(" · "))+'</small></button>';}).join("");
@@ -1099,7 +1102,7 @@ html:not(.eoion) .ans .eoin{display:none}
     });
   }
   pin.addEventListener("focus",function(){ load(function(){}); });
-  pin.addEventListener("input",function(){ if(DLDFOUND) eoiShow(false); if(auto.length){ clearAuto(); card.hidden=true; } search(); });
+  pin.addEventListener("input",function(){ if(!DEVSEL){ devCard.hidden=true; devCard.innerHTML=""; } if(DLDFOUND) eoiShow(false); if(auto.length){ clearAuto(); card.hidden=true; } search(); });
 
   // ---------- featured projects: typing hint + chips (edit data/featured.json) ----------
   var FEAT=[];
@@ -1107,7 +1110,7 @@ html:not(.eoion) .ans .eoin{display:none}
     clearAuto();
     var m="Hi Sam, I'm checking "+name+" on your Off-Plan Deal Stress Test. Can you send me its DLD project registration and escrow details?";
     card.className="dld warn";
-    card.innerHTML='<b class="t">🆕 '+esc(name)+': new launch</b>New launches appear in DLD sales records only after the first sales are registered, so we can\'t auto-check it yet. Ask for the <b>DLD project number and escrow account</b>, then verify them on Dubai REST and tick the boxes yourself.'+
+    card.innerHTML='<b class="t">🆕 '+esc(name)+': new launch</b>New launches appear in DLD sales records only after the first sales are registered, so we can\'t auto-check it yet. Until then, ask the developer for the <b>DLD project number and escrow account</b>, or ask Sam and he\'ll check it for you.'+
       '<a class="btn" style="margin-top:10px;font-size:17px;padding:11px 14px" href="https://wa.me/971528728248?text='+encodeURIComponent(m)+'"><svg class="lg"><use href="#waw"/></svg>Ask Sam for the DLD details</a>';
     card.hidden=false;
   }
