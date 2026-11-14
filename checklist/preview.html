@@ -279,6 +279,7 @@ section,.game{scroll-margin-top:110px}
 html:not(.eoion) .ans .eoin{display:none}
 .ans button.on.n{background:#0B1F3A!important;border-color:#0B1F3A!important;color:#fff!important}.ans button.on.n::before{content:"✓ ";color:#E9C46A}
 .holdnx{margin-top:12px;position:relative}.holdnx button{width:100%;font:inherit;font-weight:800;font-size:16px;border:0;border-radius:14px;padding:12px 14px;background:linear-gradient(135deg,#E9C46A,#C9A24A);color:#0B1F3A;cursor:pointer;box-shadow:0 4px 14px rgba(201,162,74,.35)}.holdnx i{display:block;height:4px;border-radius:4px;background:#C9A24A;margin-top:6px;transform-origin:left;animation:holdbar 10s linear forwards}@keyframes holdbar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.xfrom{background:#F4EFE3;border:1.5px solid #E2D3AE;border-radius:12px;padding:10px 12px;margin:8px 0 10px;font-size:15px;color:#0B1F3A;line-height:1.45}.xfrom a{color:#8A6A1F;font-weight:800}
 .eoinote{background:#FFF6E3;color:#6B4E12;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:15px;line-height:1.45}
 </style>
 <script>
@@ -568,8 +569,9 @@ html:not(.eoion) .ans .eoin{display:none}
  </div></div>
  <div class="card"><div class="num"><span class="ic">📉</span><span class="n">+</span></div><div class="body">
   <h3>Resale break-even</h3><p>The price you'd need just to get your money back after DLD fee, any agent fee, transfer fee and service charges.</p>
-  <div class="xf"><label>Purchase price (AED)<input id="xprice" type="text" inputmode="decimal" placeholder="e.g. 1,200,000"></label>
-  <label>Size (sq ft)<input id="xsize" type="text" inputmode="decimal" placeholder="e.g. 750"></label>
+  <div class="xfrom" id="xfrom">💲 Using your price from <b>Check 19</b>: <span id="xfromv">enter the unit price and size there first</span> · <a href="#psfsec" id="xfromgo">edit</a></div>
+  <div class="xf"><label style="display:none!important">Purchase price (AED)<input id="xprice" type="text" inputmode="decimal"></label>
+  <label style="display:none!important">Size (sq ft)<input id="xsize" type="text" inputmode="decimal"></label>
   <label>Service charge (AED / sq ft / year)<input id="xsc" type="text" inputmode="decimal" placeholder="e.g. 15"></label>
   <label>Years you hold after handover<input id="xyrs" type="text" inputmode="decimal" placeholder="0 if you sell before"></label>
   <label>Selling agent fee % (if applicable)<input id="xag" type="text" inputmode="decimal" placeholder="e.g. 2, or leave blank"></label></div>
@@ -1319,6 +1321,15 @@ html:not(.eoion) .ans .eoin{display:none}
   ["pprice","psize"].forEach(function(i){ document.getElementById(i).addEventListener("input",calcFromParts); });
   fetch("data/status.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){ if(j.rows) document.getElementById("st1").textContent=j.rows; if(j.checked_at) document.getElementById("st4").textContent=fmtDate(j.checked_at.slice(0,10)); }).catch(function(){});
   psfLoad(function(){ document.getElementById("st2").textContent=PD.p.length; var d=PD.data_through||PD.updated; if(d) document.getElementById("st3").textContent=fmtDate(d); });
+  // Break-even uses the price and size typed once in Check 19
+  (function(){ var pp=document.getElementById("pprice"), ps=document.getElementById("psize"), xp=document.getElementById("xprice"), xs=document.getElementById("xsize"), v=document.getElementById("xfromv");
+    function sync(){ xp.value=pp.value; xs.value=ps.value; xp.dataset.auto="1"; xs.dataset.auto="1";
+      var P=num(pp.value), S=num(ps.value);
+      v.innerHTML=(P&&S)?'<b>AED '+P.toLocaleString("en-US")+'</b> · <b>'+S.toLocaleString("en-US")+' sq ft</b>':'enter the unit price and size there first';
+      [xp,xs].forEach(function(t){ t.dispatchEvent(new Event("input")); t.dispatchEvent(new Event("change")); }); }
+    [pp,ps].forEach(function(i){ i.addEventListener("input",sync); i.addEventListener("change",sync); });
+    document.getElementById("xfromgo").addEventListener("click",function(e){ e.preventDefault(); var c=pp.closest(".card"); c.scrollIntoView({behavior:"smooth",block:"center"}); setTimeout(function(){ pp.focus({preventScroll:true}); },500); });
+    setTimeout(sync,300); })();
   // ---------- Guide: a red arrow on the next thing to fill ----------
   (function(){
     var steps=[], skipped={}, cur=-1, lab=null, lastHi=null, lastEvt="";
