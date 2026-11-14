@@ -388,6 +388,10 @@ html:not(.eoion) .ans .eoin{display:none}
 .devstat{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.devstat span{background:rgba(255,255,255,.7);border-radius:10px;padding:6px 4px;text-align:center;font-size:12.5px;line-height:1.25}.devstat b{display:block;font-size:20px}
 .devstat .bn{filter:blur(7px);user-select:none}.devlock{font-size:14.5px;font-weight:700;margin-bottom:4px}
 .launchq{margin-top:12px}.launchq .plab{font-weight:800;color:var(--navy);font-size:16px}.ans.lq{margin-top:6px}
+.sugg button.nfm{color:#8A1F1F;font-weight:700;opacity:1}
+.taphere{display:inline-block;background:#E53935;color:#fff;font-size:13.5px;font-weight:800;border-radius:14px;padding:3px 10px;margin:0 0 6px;box-shadow:0 3px 10px rgba(229,57,53,.35);animation:tapb 1.2s ease-in-out infinite}
+.sugg button.eoigo{display:block}.sugg button.eoigo .taphere{display:table}
+@keyframes tapb{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 </style>
 </head>
 <body>
@@ -1106,7 +1110,7 @@ html:not(.eoion) .ans .eoin{display:none}
       if(!hits.length){
         var fm=FEAT.filter(function(f){ var n=f.name.toLowerCase(); return n.indexOf(q)>=0||q.indexOf(n)>=0; })[0];
         if(fm){ sg.hidden=true; newLaunch(fm.name); return; }
-        sg.innerHTML='<button type="button" disabled>No match in DLD records yet.</button><button type="button" class="eoigo">🟡 It\'s in EOI / pre-launch phase ›<small>Not registered with DLD yet? Tap to mark it and go to that box.</small></button>'; sg.hidden=false;
+        sg.innerHTML='<button type="button" disabled class="nfm">Not found in DLD records. Tap below if it\'s in EOI / pre-launch phase.</button><button type="button" class="eoigo"><span class="taphere">👆 Tap here</span>🟡 It\'s in EOI / pre-launch phase ›<small>Not registered with DLD yet? Tap to mark it and go to that box.</small></button>'; sg.hidden=false;
         sg.querySelector(".eoigo").addEventListener("click",function(){ sg.hidden=true; eoiShow(false); if(!EOI) setEoi(true,true); devBoxShow();
           var w=document.getElementById("devbox"); w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); }); return; }
       sg.innerHTML=hits.map(function(r,k){return '<button type="button" data-k="'+k+'">'+esc(r[1])+'<small>'+esc([r[7],r[2],r[3]].filter(Boolean).join(" · "))+'</small></button>';}).join("");
