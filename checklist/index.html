@@ -270,6 +270,7 @@ section,.game{scroll-margin-top:110px}
 .ans button.on.y{background:#EAF8EF;border-color:#3DDC84;color:#14532D}
 .ans button.on.u{background:#FFF6E0;border-color:#F5C451;color:#6B4A00}
 .ans button.on.n{background:#E9EDF3;border-color:#9AA6B8;color:#3A4456}
+.eoi[hidden]{display:none!important}
 .eoi{display:flex;gap:10px;align-items:flex-start;background:#FFF6E3;border:1.5px dashed var(--gold);border-radius:12px;padding:10px 12px;margin:10px 0 4px;font-size:15.5px;line-height:1.45;color:#6B4E12;cursor:pointer}
 .eoi input{flex:none;width:22px;height:22px;margin-top:1px;accent-color:#C9A24A}
 .eoi small{display:block;font-size:13.5px;color:#7A6230;margin-top:2px}
@@ -300,6 +301,7 @@ html:not(.eoion) .ans .eoin{display:none}
 .ans button.on.y{background:#EAF8EF;border-color:#3DDC84;color:#14532D}
 .ans button.on.u{background:#FFF6E0;border-color:#F5C451;color:#6B4A00}
 .ans button.on.n{background:#E9EDF3;border-color:#9AA6B8;color:#3A4456}
+.eoi[hidden]{display:none!important}
 .eoi{display:flex;gap:10px;align-items:flex-start;background:#FFF6E3;border:1.5px dashed var(--gold);border-radius:12px;padding:10px 12px;margin:10px 0 4px;font-size:15.5px;line-height:1.45;color:#6B4E12;cursor:pointer}
 .eoi input{flex:none;width:22px;height:22px;margin-top:1px;accent-color:#C9A24A}
 .eoi small{display:block;font-size:13.5px;color:#7A6230;margin-top:2px}
@@ -377,8 +379,8 @@ html:not(.eoion) .ans .eoin{display:none}
 
 <section class="sec">
  <div class="kicker">Checks 1–4</div><h2>🛡️ Is it safe?</h2><p class="lead">Dubai protects off-plan buyers well. Make sure you're inside that protection.</p>
- <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>Open the official <b>Dubai REST</b> app (Dubai Land Department) and search the developer. Look at their completed projects and on-time handovers.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label></div></div></div>
- <div class="card"><div class="num"><span class="ic">🏗️</span><span class="n">3–4</span></div><div class="body"><h3>The exact project is registered, not just the developer</h3><p>Every off-plan project has its own registration. Ask for the <b>project number</b> and search it on Dubai REST to see its status and construction progress.</p><label class="eoi"><input type="checkbox" id="eoi"><span><b>🟡 This project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and they're marked N/A instead of costing you marks. Check them again before you pay the booking amount.</small></span></label><div class="ticks"><label class="tick"><input type="checkbox" data-w="10"><b class="cn">3</b><span>Project number verified on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="4"><b class="cn">4</b><span>Construction progress (%) matches what you were told</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>Open the official <b>Dubai REST</b> app (Dubai Land Department) and search the developer. Look at their completed projects and on-time handovers.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label><label class="eoi" id="eoiwrap"><input type="checkbox" id="eoi"><span><b>🟡 Not found in DLD? Tick if this project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and they're marked N/A instead of costing you marks. Check them again before you pay the booking amount.</small></span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏗️</span><span class="n">3–4</span></div><div class="body"><h3>The exact project is registered, not just the developer</h3><p>Every off-plan project has its own registration. Ask for the <b>project number</b> and search it on Dubai REST to see its status and construction progress.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="10"><b class="cn">3</b><span>Project number verified on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="4"><b class="cn">4</b><span>Construction progress (%) matches what you were told</span></label></div></div></div>
 </section>
 
 <section class="sec">
@@ -581,6 +583,7 @@ html:not(.eoion) .ans .eoin{display:none}
   }
   var STK="sam-dealtest-st", savedSt=[]; try{ savedSt=JSON.parse(localStorage.getItem(STK)||"[]"); }catch(e){}
   var CRITI=[0,2,4,6];
+  var DLDFOUND=false;
   var EOI_IDX=[2,4,5,6,14], EOI=false; try{ EOI=localStorage.getItem("sam-dealtest-eoi")==="1"; }catch(e){}
   function naOK(i){ return NA_OK.indexOf(i)>=0 || (EOI && EOI_IDX.indexOf(i)>=0); }
   var NA_OK=[3,7,8,16]; // can genuinely not apply: progress claim at launch, agent checks when buying direct, resale rules when holding long term
@@ -857,7 +860,7 @@ html:not(.eoion) .ans .eoin{display:none}
       document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n;
       if(o.x) xset(o.x);
       update();
-      load(function(){ var q=(o.p||"").toLowerCase(); P.p.some(function(r){ if(r[1].toLowerCase()===q){ PROJROW=r; return true; } }); });
+      load(function(){ var q=(o.p||"").toLowerCase(); P.p.some(function(r){ if(r[1].toLowerCase()===q){ PROJROW=r; eoiShow(true); return true; } }); });
       if(o.v){ document.getElementById("psf").value=o.v; document.getElementById("ploc").value=o.l||""; PSFV=+o.v;
         psfLoad(function(){ var x=o.pn&&PD.byNo[o.pn]; if(x) PSFP={no:x[0],name:x[1],grade:x[3],community:x[4],area:x[5],psf:x[6]}; psfCalc(); update(); insLoad(function(){ setTimeout(show,300); }); }); }
       else psfLoad(function(){ insLoad(function(){ setTimeout(show,300); }); });
@@ -889,7 +892,9 @@ html:not(.eoion) .ans .eoin{display:none}
   function tickAuto(i){ if(!boxes[i].checked){ boxes[i].checked=true; auto.push(i);
       var s=document.createElement("span"); s.className="auto"; s.textContent="✓ DLD"; boxes[i].parentNode.querySelector("span").appendChild(s);} }
   function fmtDate(d){ if(!d) return ""; var x=new Date(d); return isNaN(x)?d:x.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}); }
+  function eoiShow(found){ DLDFOUND=!!found; var w=document.getElementById("eoiwrap"); if(w) w.hidden=DLDFOUND; if(DLDFOUND && EOI) setEoi(false,true); }
   function pick(r){
+    eoiShow(true);
     var no=r[0],name=r[1],dev=r[2],st=(r[3]||"").toLowerCase(),pct=r[4],escb=r[5],end=r[6],area=r[7];
     pin.value=name; sg.hidden=true; clearAuto();
     var info='<div class="row2"><span>🏗️ DLD project no. <b>'+esc(no||"–")+'</b></span><span>👷 '+esc(dev||"–")+'</span>'+(area?'<span>📍 '+esc(area)+'</span>':'')+'</div>'+
@@ -909,7 +914,7 @@ html:not(.eoion) .ans .eoin{display:none}
     card.hidden=false; psfProject(r); update();
   }
   // full start-over: also clear the project and its DLD card
-  document.getElementById("reset").addEventListener("click",function(){ boxes.forEach(function(b){ b.dataset.st=""; }); update(); pin.value=""; sg.hidden=true; clearAuto(); card.hidden=true; card.innerHTML="";
+  document.getElementById("reset").addEventListener("click",function(){ boxes.forEach(function(b){ b.dataset.st=""; }); update(); pin.value=""; eoiShow(false); sg.hidden=true; clearAuto(); card.hidden=true; card.innerHTML="";
     var cm=document.getElementById("cma"); if(cm) cm.hidden=true; window.scrollTo({top:0,behavior:"smooth"}); });
   (function(){ var hb=document.getElementById("hreset"), tm=null;
     hb.addEventListener("click",function(){
@@ -931,7 +936,7 @@ html:not(.eoion) .ans .eoin{display:none}
     });
   }
   pin.addEventListener("focus",function(){ load(function(){}); });
-  pin.addEventListener("input",function(){ if(auto.length){ clearAuto(); card.hidden=true; } search(); });
+  pin.addEventListener("input",function(){ if(DLDFOUND) eoiShow(false); if(auto.length){ clearAuto(); card.hidden=true; } search(); });
 
   // ---------- featured projects: typing hint + chips (edit data/featured.json) ----------
   var FEAT=[];
