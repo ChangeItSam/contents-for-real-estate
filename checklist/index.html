@@ -725,6 +725,7 @@ html:not(.eoion) .ans .eoin{display:none}
   function setEoi(on,fill){ EOI=!!on; eoiBox.checked=EOI; document.documentElement.classList.toggle("eoion",EOI);
     try{ localStorage.setItem("sam-dealtest-eoi",EOI?"1":""); }catch(e){}
     if(fill) EOI_IDX.forEach(function(i){ var b=boxes[i]; if(EOI){ if(!b.checked) b.dataset.st="n"; } else if(b.dataset.st==="n") b.dataset.st=""; });
+    if(typeof devBox!=="undefined" && devBox) devBoxShow();   // ticking the EOI box itself must also open the developer + launch-date questions
     update(); }
   setEoi(EOI,false);
   // ---------- EOI: developer lookup in DLD's registry (insights.json d) ----------
