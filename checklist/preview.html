@@ -392,6 +392,9 @@ html:not(.eoion) .ans .eoin{display:none}
 .taphere{display:inline-block;background:#E53935;color:#fff;font-size:13.5px;font-weight:800;border-radius:14px;padding:3px 10px;margin:0 0 6px;box-shadow:0 3px 10px rgba(229,57,53,.35);animation:tapb 1.2s ease-in-out infinite}
 .sugg button.eoigo{display:block}.sugg button.eoigo .taphere{display:table}
 @keyframes tapb{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.sugg button.nfm{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tapbelow{flex:none;background:#E53935;color:#fff;font-size:14px;font-weight:800;border-radius:16px;padding:5px 11px;box-shadow:0 3px 10px rgba(229,57,53,.35);animation:tapd 1.1s ease-in-out infinite;white-space:nowrap}
+@keyframes tapd{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 </style>
 </head>
 <body>
@@ -1110,7 +1113,7 @@ html:not(.eoion) .ans .eoin{display:none}
       if(!hits.length){
         var fm=FEAT.filter(function(f){ var n=f.name.toLowerCase(); return n.indexOf(q)>=0||q.indexOf(n)>=0; })[0];
         if(fm){ sg.hidden=true; newLaunch(fm.name); return; }
-        sg.innerHTML='<button type="button" disabled class="nfm">Not found in DLD records. Tap below if it\'s in EOI / pre-launch phase.</button><button type="button" class="eoigo"><span class="taphere">👆 Tap here</span>🟡 It\'s in EOI / pre-launch phase ›<small>Not registered with DLD yet? Tap to mark it and go to that box.</small></button>'; sg.hidden=false;
+        sg.innerHTML='<button type="button" disabled class="nfm"><span>Not found in DLD records. In EOI / pre-launch phase?</span><span class="tapbelow">⬇ Tap below</span></button><button type="button" class="eoigo">🟡 It\'s in EOI / pre-launch phase ›<small>Not registered with DLD yet? Tap to mark it and go to that box.</small></button>'; sg.hidden=false;
         sg.querySelector(".eoigo").addEventListener("click",function(){ sg.hidden=true; eoiShow(false); if(!EOI) setEoi(true,true); devBoxShow();
           var w=document.getElementById("devbox"); w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); }); return; }
       sg.innerHTML=hits.map(function(r,k){return '<button type="button" data-k="'+k+'">'+esc(r[1])+'<small>'+esc([r[7],r[2],r[3]].filter(Boolean).join(" · "))+'</small></button>';}).join("");
