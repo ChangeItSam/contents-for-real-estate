@@ -771,7 +771,8 @@ html:not(.eoion) .ans .eoin{display:none}
       DEVSEL={no:no,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devSg.hidden=true;
       devCard.className="dld devcard "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false;
       devTick(0); devTick(1); try{ localStorage.setItem("sam-dealtest-dev",no); }catch(e){} update();
-      if(!quiet && typeof mtoast==="function") mtoast("✅ DLD confirmed the developer: 2 checks done"); }); }
+      if(!quiet && typeof mtoast==="function") mtoast("✅ DLD confirmed the developer: 2 checks done");
+      if(!quiet && !LAUNCH){ var lq=document.querySelector("#devbox .launchq"); if(lq) setTimeout(function(){ lq.scrollIntoView({behavior:"smooth",block:"center"}); lq.classList.remove("flash"); void lq.offsetWidth; lq.classList.add("flash"); },300); } }); }
   // Brands that register projects with DLD under a different company name
   // Brands that register projects with DLD under a different company name
   var DEV_ALIAS={"nakheel":["1510","103","880"],"meraas":["1510","1076"],"meera":["1510","1076"],"dubai properties":["1510"],"dubai property":["1510"],"meydan":["1510","1181"],"dubai holding":["1510","103","880","1076","1181"],"dhre":["1510"]};
@@ -1036,7 +1037,9 @@ html:not(.eoion) .ans .eoin{display:none}
   try{ who=JSON.parse(localStorage.getItem("sam-who")||"{}"); }catch(e){}
   function openGate(){ document.getElementById("gname").value=who.n||""; document.getElementById("gphone").value=who.p||""; gate.hidden=false; setTimeout(function(){document.getElementById(who.n?"gphone":"gname").focus();},50); }
   var nudge=document.getElementById("nudge");
-  function tryResult(e){ if(e) e.preventDefault(); if(!PSFR){ nudge.hidden=false; } else openGate(); }
+  function needLaunch(){ var b=document.getElementById("devbox"); return EOI && b && !b.hidden && (!DEVSEL || !LAUNCH); }
+  function goLaunch(){ var b=document.getElementById("devbox"), q=DEVSEL?b.querySelector(".launchq"):b; q.scrollIntoView({behavior:"smooth",block:"center"}); q.classList.remove("flash"); void q.offsetWidth; q.classList.add("flash"); if(typeof mtoast==="function") mtoast(DEVSEL?"📅 Tap: is the launch date announced?":"👷 Pick the developer first"); }
+  function tryResult(e){ if(e) e.preventDefault(); if(needLaunch()){ goLaunch(); return; } if(!PSFR){ nudge.hidden=false; } else openGate(); }
   function goPsf(){ nudge.hidden=true; var c=document.querySelector("#psfsec .card"); c.scrollIntoView({behavior:"smooth",block:"start"}); c.classList.remove("flash"); void c.offsetWidth; c.classList.add("flash"); setTimeout(function(){ document.getElementById(PSFV?"ploc":"psf").focus({preventScroll:true}); },600); }
   document.getElementById("submit").addEventListener("click",tryResult);
   document.querySelector(".prog .go").addEventListener("click",tryResult);
@@ -1317,7 +1320,8 @@ html:not(.eoion) .ans .eoin{display:none}
     var seen=[];
     boxes.forEach(function(b){ var c=b.closest(".card"); if(seen.indexOf(c)<0){ seen.push(c); var n=(c.querySelector(".n")||{}).textContent||"";
       var cb=boxes.filter(function(x){ return x.closest(".card")===c; });
-      steps.push({k:"c"+n,a:c.querySelector(".ticks"),hi:c,t:"Answer every line: Checked, Not known or N/A",done:function(){ return cb.every(function(x){ return stOf(x)!==""; }); }}); } });
+      var hasDev=!!c.querySelector("#devbox");
+      steps.push({k:"c"+n,a:c.querySelector(".ticks"),hi:c,t:"Answer every line: Checked, Not known or N/A",done:function(){ if(hasDev && needLaunch()) return false; return cb.every(function(x){ return stOf(x)!==""; }); }}); } });
     steps.push({k:"psf",a:psf.closest(".card").querySelector(".pcalc")||psf.closest(".psfrow"),hi:psf.closest(".card"),t:"Enter the unit price and size",skip:"Skip",done:function(){ return num(psf.value)>0; }});
     steps.push({k:"ploc",a:ploc.closest("label"),hi:ploc.closest(".card"),t:"Pick the area from the list",skip:"Skip",done:function(){ return ploc.value.trim().length>1; }});
     Array.prototype.forEach.call(document.querySelectorAll("#moresec .card"),function(c,i){
@@ -1339,6 +1343,7 @@ html:not(.eoion) .ans .eoin{display:none}
     var t=null; function soon(ev){ lastEvt=ev.type; clearTimeout(t); t=setTimeout(draw,ev.type==="change"?350:150); }
     document.addEventListener("change",soon,true); document.addEventListener("input",soon,true);
     document.getElementById("sugg").addEventListener("click",function(){ lastEvt="change"; setTimeout(draw,500); });
+    Array.prototype.forEach.call(document.querySelectorAll(".ans.lq button"),function(bt){ bt.addEventListener("click",function(){ lastEvt="change"; setTimeout(draw,600); }); });
     document.getElementById("reset").addEventListener("click",function(){ skipped={}; cur=-1; setTimeout(draw,200); });
     setTimeout(draw,300);
   })();
