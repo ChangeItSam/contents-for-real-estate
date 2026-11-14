@@ -1,5 +1,5 @@
 {
- "_how": "Sam's projects that passed the 20-check Stress Test. RULE (Sam, 14 Nov 2026): each type (villa / townhouse / apartment) shows 5 projects: 3 pinned top-developer projects (pin: true) that never move unless Sam moves them or they sell out (available: false), plus the 2 most recently added non-pinned projects (by 'added' date), which rotate as Sam posts a new project reel each day: add the reel's project here with today's date and it takes a rotating slot, pushing the oldest rotating one off the page (it stays in this file). 'dld' = DLD project numbers (the page reads construction %, escrow bank and completion date from ../checklist/data/projects.json); leave [] if not registered; eoi true = EOI / pre-launch.",
+ "_how": "Sam's projects that passed the 20-check Stress Test. RULE (Sam, 14-15 Nov 2026): each type (villa / townhouse / apartment) shows 5 projects: 2 pinned top-developer projects (pin: true) that never move unless Sam moves them or they sell out (available: false), plus the 3 most recently added non-pinned projects (by 'added' date), which rotate as Sam posts a new project reel each day: add the reel's project here with today's date and it takes a rotating slot, pushing the oldest rotating one off the page (it stays in this file). 'dld' = DLD project numbers (the page reads construction %, escrow bank and completion date from ../checklist/data/projects.json); leave [] if not registered; eoi true = EOI / pre-launch.",
  "p": [
   {
    "cat": "villa",
@@ -76,7 +76,7 @@
    "plan": "",
    "note": "Sobha villa project to confirm",
    "eoi": false,
-   "pin": true
+   "pin": false
   },
   {
    "cat": "townhouse",
@@ -92,7 +92,7 @@
    "plan": "",
    "note": "",
    "eoi": false,
-   "pin": true
+   "pin": false
   },
   {
    "cat": "townhouse",
@@ -205,7 +205,7 @@
    "plan": "",
    "note": "Not in DLD registry as 'Everly' (checked 14 Nov 2026); ask Sam for DLD no.",
    "eoi": false,
-   "pin": true
+   "pin": false
   },
   {
    "cat": "apartment",
