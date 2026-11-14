@@ -408,6 +408,7 @@ html:not(.eoion) .ans .eoin{display:none}
 .why3{text-align:left;margin:16px 0 4px}.w3h{font-size:13px;font-weight:800;letter-spacing:1.5px;color:#E8CF8E;text-transform:uppercase;margin-bottom:6px}.w3{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:9px 12px;margin-bottom:6px;font-size:16px;color:#fff}.w3.y{border-color:rgba(61,220,132,.6)}.w3.n{border-color:rgba(255,107,107,.6)}.w3.w{border-color:rgba(245,196,81,.6)}
 .grule{text-align:left;background:rgba(232,207,142,.12);border:1px solid rgba(232,207,142,.45);border-radius:12px;padding:10px 12px;margin:10px 0;font-size:15px;color:#E3E9F2}
 .fullcta{margin-top:22px;text-align:center}.fullcta h3{font-size:24px;color:#fff;margin:0}.fullcta p{font-size:15px;color:#C8D2E2;margin:6px 0 0}.fullcta small{display:block;font-size:13px;color:#9FB0C8;margin-top:10px}
+.spad{display:flex;gap:8px;margin-top:6px}.spad select{flex:1;min-width:0}
 .passlink{display:block;margin-top:12px;color:#E8CF8E;font-weight:700;font-size:15.5px}
 </style>
 </head>
@@ -553,7 +554,7 @@ html:not(.eoion) .ans .eoin{display:none}
  </div></div>
  <div class="card"><div class="num"><span class="ic">📅</span><span class="n">+</span></div><div class="body">
   <h3>Handover date in your SPA</h3><p>We compare it with the completion date the developer registered with DLD.</p>
-  <div class="xf"><label class="w">Handover date in the SPA / contract<input id="xspa" type="month"></label></div>
+  <div class="xf"><label class="w">Handover date in the SPA / contract<span class="spad"><select id="xspam" aria-label="Handover month"><option value="">Month</option><option value="01">Jan</option><option value="02">Feb</option><option value="03">Mar</option><option value="04">Apr</option><option value="05">May</option><option value="06">Jun</option><option value="07">Jul</option><option value="08">Aug</option><option value="09">Sep</option><option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option></select><select id="xspay" aria-label="Handover year"><option value="">Year</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option><option value="2032">2032</option><option value="2033">2033</option><option value="2034">2034</option><option value="2035">2035</option></select></span><input id="xspa" type="hidden"></label></div>
  </div></div>
  <div class="card"><div class="num"><span class="ic">💳</span><span class="n">+</span></div><div class="body">
   <h3>Payment plan and exit</h3><p>How much you pay before the keys, and when you're allowed to sell.</p>
@@ -889,8 +890,14 @@ html:not(.eoion) .ans .eoin{display:none}
     var dld=P*0.04, scTot=sc*sz*y, need=(P+dld+T+scTot)/(1-ag/100);
     return {P:P,dld:dld,T:T,sc:scTot,y:y,ag:ag,need:need,pct:(need/P-1)*100};
   }
+  // handover date: two plain selects instead of the native month picker (iOS Safari crashed on it)
+  function spaSync(){ var v=document.getElementById("xspa").value, m=document.getElementById("xspam"), y=document.getElementById("xspay");
+    if(/^\d{4}-\d{2}$/.test(v)){ if(m.value!==v.slice(5)) m.value=v.slice(5); if(y.value!==v.slice(0,4)) y.value=v.slice(0,4); } else if(!v && m.value && y.value){ m.value=""; y.value=""; } }
+  ["xspam","xspay"].forEach(function(i){ document.getElementById(i).addEventListener("change",function(){ var m=document.getElementById("xspam").value, y=document.getElementById("xspay").value, h=document.getElementById("xspa");
+    h.value=(m&&y)?y+"-"+m:""; h.dispatchEvent(new Event("change")); }); });
   function xcalc(){
     var out=document.getElementById("xout"), h="";
+    spaSync();
     var pp=xn("xpp"), re=xn("xre"), be=breakEven();
     if(pp){ var a=ppJudge(pp); h+='<div class="xo '+a[0]+'">'+a[1]+'</div>'; }
     if(re){ var b=reJudge(re); h+='<div class="xo '+b[0]+'">'+b[1]+(xn("xtf")?' Transfer fee: '+aed(xn("xtf"))+'.':'')+'</div>'; }
