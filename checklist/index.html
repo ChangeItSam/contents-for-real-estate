@@ -271,6 +271,7 @@ section,.game{scroll-margin-top:110px}
 .ans button.on.u{background:#FFF6E0;border-color:#F5C451;color:#6B4A00}
 .ans button.on.n{background:#E9EDF3;border-color:#9AA6B8;color:#3A4456}
 .eoi[hidden]{display:none!important}
+.sugg button.eoigo{background:#FFF6E3;color:#6B4E12;font-weight:800}.sugg button.eoigo small{font-weight:500}
 .eoi{display:flex;gap:10px;align-items:flex-start;background:#FFF6E3;border:1.5px dashed var(--gold);border-radius:12px;padding:10px 12px;margin:10px 0 4px;font-size:15.5px;line-height:1.45;color:#6B4E12;cursor:pointer}
 .eoi input{flex:none;width:22px;height:22px;margin-top:1px;accent-color:#C9A24A}
 .eoi small{display:block;font-size:13.5px;color:#7A6230;margin-top:2px}
@@ -929,7 +930,9 @@ html:not(.eoion) .ans .eoin{display:none}
       if(!hits.length){
         var fm=FEAT.filter(function(f){ var n=f.name.toLowerCase(); return n.indexOf(q)>=0||q.indexOf(n)>=0; })[0];
         if(fm){ sg.hidden=true; newLaunch(fm.name); return; }
-        sg.innerHTML='<button type="button" disabled>No match in DLD projects with sales records. Check it on Dubai REST.</button>'; sg.hidden=false; return; }
+        sg.innerHTML='<button type="button" disabled>No match in DLD projects with sales records. Check it on Dubai REST.</button><button type="button" class="eoigo">🟡 It\'s in EOI / pre-launch phase ›<small>Not registered with DLD yet? Tap to mark it and go to that box.</small></button>'; sg.hidden=false;
+        sg.querySelector(".eoigo").addEventListener("click",function(){ sg.hidden=true; eoiShow(false); if(!EOI) setEoi(true,true);
+          var w=document.getElementById("eoiwrap"); w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); }); return; }
       sg.innerHTML=hits.map(function(r,k){return '<button type="button" data-k="'+k+'">'+esc(r[1])+'<small>'+esc([r[7],r[2],r[3]].filter(Boolean).join(" · "))+'</small></button>';}).join("");
       sg.hidden=false; try{ sg.scrollIntoView({block:"nearest",behavior:"smooth"}); }catch(e){}
       Array.prototype.forEach.call(sg.querySelectorAll("button[data-k]"),function(b){ b.addEventListener("click",function(){ pick(hits[+b.dataset.k]); }); });
