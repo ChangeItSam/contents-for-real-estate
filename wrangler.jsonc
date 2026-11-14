@@ -1,0 +1,10 @@
+// Cloudflare: serve this repo as a static site on samsuryarealty.com (no server code)
+{
+  "name": "samsuryarealty",
+  "compatibility_date": "2026-11-01",
+  "assets": {
+    "directory": "./",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  }
+}
