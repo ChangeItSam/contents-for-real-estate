@@ -467,7 +467,7 @@ html:not(.eoion) .ans .eoin{display:none}
 
 <section class="sec" id="checks">
  <div class="kicker">Checks 1–4</div><h2>🛡️ Is it safe?</h2><p class="lead">Dubai protects off-plan buyers well. Make sure you're inside that protection.</p>
- <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>Open the official <b>Dubai REST</b> app (Dubai Land Department) and search the developer. Look at their completed projects and on-time handovers.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label><label class="eoi" id="eoiwrap"><input type="checkbox" id="eoi"><span><b>🟡 Not found in DLD? Tick if this project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and they're marked N/A instead of costing you marks. Check them again before you pay the booking amount.</small></span></label><div id="devbox" class="devbox" hidden><label class="plab" for="devin">👷 Who is the developer? <small>(type 2+ letters, then pick from the list)</small></label><input id="devin" type="text" autocomplete="off" placeholder="e.g. Azizi, Binghatti, Emaar"><div id="devsg" class="sugg" hidden></div><div id="devcard" class="dld" hidden></div></div></div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>Open the official <b>Dubai REST</b> app (Dubai Land Department) and search the developer. Look at their completed projects and on-time handovers.</p><div class="ticks"><div id="devbox" class="devbox" hidden><label class="plab" for="devin">👷 EOI project: who is the developer? <small>(type 2+ letters, then pick from the list)</small></label><input id="devin" type="text" autocomplete="off" placeholder="e.g. Azizi, Binghatti, Emaar"><div id="devsg" class="sugg" hidden></div><div id="devcard" class="dld" hidden></div></div><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label><label class="eoi" id="eoiwrap"><input type="checkbox" id="eoi"><span><b>🟡 Not found in DLD? Tick if this project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and they're marked N/A instead of costing you marks. Check them again before you pay the booking amount.</small></span></label></div></div></div>
  <div class="card"><div class="num"><span class="ic">🏗️</span><span class="n">3–4</span></div><div class="body"><h3>The exact project is registered, not just the developer</h3><p>Every off-plan project has its own registration. Ask for the <b>project number</b> and search it on Dubai REST to see its status and construction progress.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="10"><b class="cn">3</b><span>Project number verified on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="4"><b class="cn">4</b><span>Construction progress (%) matches what you were told</span></label></div></div></div>
 </section>
 
@@ -723,7 +723,7 @@ html:not(.eoion) .ans .eoin{display:none}
   var DEVSEL=null, devAuto=[], devIn=document.getElementById("devin"), devSg=document.getElementById("devsg"), devCard=document.getElementById("devcard"), devBox=document.getElementById("devbox");
   function dEsc(t){ return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
   function devBoxShow(){ devBox.hidden=!(EOI && !DLDFOUND); }
-  function devClear(){ devAuto.forEach(function(i){ var b=boxes[i]; b.checked=false; var t=b.closest("label").querySelector(".auto"); if(t) t.remove(); }); devAuto=[]; DEVSEL=null; devCard.hidden=true; devCard.innerHTML="";
+  function devClear(){ clearTimeout(devNF); devAutoU.forEach(function(i){ if(boxes[i].dataset.st==="u") boxes[i].dataset.st=""; }); devAutoU=[]; devAuto.forEach(function(i){ var b=boxes[i]; b.checked=false; var t=b.closest("label").querySelector(".auto"); if(t) t.remove(); }); devAuto=[]; DEVSEL=null; devCard.hidden=true; devCard.innerHTML="";
     try{ localStorage.removeItem("sam-dealtest-dev"); }catch(e){} update(); }
   function devTick(i){ var b=boxes[i]; if(b.checked) return; b.checked=true; b.dataset.st=""; devAuto.push(i);
     var t=document.createElement("span"); t.className="auto"; t.textContent="✓ DLD"; b.closest("label").querySelector("span").appendChild(t); }
@@ -739,14 +739,19 @@ html:not(.eoion) .ans .eoin{display:none}
       devCard.className="dld "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false;
       devTick(0); devTick(1); try{ localStorage.setItem("sam-dealtest-dev",no); }catch(e){} update();
       if(!quiet && typeof mtoast==="function") mtoast("✅ DLD confirmed the developer: 2 checks done"); }); }
+  var devNF=null;
+  function devNotFound(name){ clearTimeout(devNF); devNF=setTimeout(function(){ if(DEVSEL || devIn.value.trim()!==name) return;
+      devCard.className="dld bad"; devCard.innerHTML='<b class="t">🚩 RED FLAG: developer not found in Dubai Land Department records</b><div>No registered developer matches "<b>'+dEsc(name)+'</b>". Ask for the developer\'s exact legal name and RERA number, and check it on the Dubai REST app before you pay anything, including the EOI.</div>';
+      devCard.hidden=false; [0,1].forEach(function(i){ var b=boxes[i]; if(!b.checked && !b.dataset.st){ b.dataset.st="u"; devAutoU.push(i); } }); update(); },900); }
+  var devAutoU=[];
   function devSearch(){ var q=devIn.value.trim().toLowerCase(); if(q.length<2){ devSg.hidden=true; return; }
     insLoad(function(){ var hits=[]; Object.keys(INS.d||{}).forEach(function(k){ var d=INS.d[k]; if(String(d.name).toLowerCase().indexOf(q)>=0) hits.push([k,d]); });
       hits.sort(function(a,b){ var sa=String(a[1].name).toLowerCase().indexOf(q)===0, sb=String(b[1].name).toLowerCase().indexOf(q)===0; return (sb-sa) || ((b[1].fin+b[1].act)-(a[1].fin+a[1].act)); }); hits=hits.slice(0,8);
-      if(!hits.length){ devSg.innerHTML='<button type="button" disabled>Not in DLD\'s developer registry. Check the name on the Dubai REST app.</button>'; devSg.hidden=false; return; }
+      if(!hits.length){ devSg.hidden=true; devNotFound(devIn.value.trim()); return; }
       devSg.innerHTML=hits.map(function(h){ return '<button type="button" data-no="'+dEsc(h[0])+'">'+dEsc(h[1].name)+'<small>Registered developer in DLD records</small></button>'; }).join("");
       devSg.hidden=false;
       Array.prototype.forEach.call(devSg.querySelectorAll("button[data-no]"),function(b){ b.addEventListener("click",function(){ devPick(b.dataset.no); }); }); }); }
-  devIn.addEventListener("input",function(){ if(DEVSEL) devClear(); devSearch(); });
+  devIn.addEventListener("input",function(){ devClear(); devSearch(); });
   devIn.addEventListener("focus",function(){ insLoad(function(){}); });
   eoiBox.addEventListener("change",function(){ devBoxShow(); if(!EOI && DEVSEL){ devClear(); devIn.value=""; } });
   devBoxShow();
@@ -1087,7 +1092,7 @@ html:not(.eoion) .ans .eoin{display:none}
         if(fm){ sg.hidden=true; newLaunch(fm.name); return; }
         sg.innerHTML='<button type="button" disabled>No match in DLD projects with sales records. Check it on Dubai REST.</button><button type="button" class="eoigo">🟡 It\'s in EOI / pre-launch phase ›<small>Not registered with DLD yet? Tap to mark it and go to that box.</small></button>'; sg.hidden=false;
         sg.querySelector(".eoigo").addEventListener("click",function(){ sg.hidden=true; eoiShow(false); if(!EOI) setEoi(true,true); devBoxShow();
-          var w=document.getElementById("eoiwrap"); w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); }); return; }
+          var w=document.getElementById("devbox"); w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); }); return; }
       sg.innerHTML=hits.map(function(r,k){return '<button type="button" data-k="'+k+'">'+esc(r[1])+'<small>'+esc([r[7],r[2],r[3]].filter(Boolean).join(" · "))+'</small></button>';}).join("");
       sg.hidden=false; try{ sg.scrollIntoView({block:"nearest",behavior:"smooth"}); }catch(e){}
       Array.prototype.forEach.call(sg.querySelectorAll("button[data-k]"),function(b){ b.addEventListener("click",function(){ pick(hits[+b.dataset.k]); }); });
