@@ -107,7 +107,7 @@
   },
   {
    "cat": "townhouse",
-   "name": "Damac Hills 2",
+   "name": "Violet",
    "dev": "Damac",
    "area": "Damac Hills 2",
    "dld": [],
@@ -115,7 +115,7 @@
    "available": true,
    "price": "",
    "plan": "",
-   "note": "Phase to confirm",
+   "note": "Not found in DLD registry as 'Violet' (only La Violeta 2 by another developer); ask Sam for DLD no.",
    "eoi": false
   },
   {
