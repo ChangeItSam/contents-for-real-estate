@@ -280,6 +280,9 @@ html:not(.eoion) .ans .eoin{display:none}
 .ans button.on.n{background:#0B1F3A!important;border-color:#0B1F3A!important;color:#fff!important}.ans button.on.n::before{content:"✓ ";color:#E9C46A}
 .holdnx{margin-top:12px;position:relative}.holdnx button{width:100%;font:inherit;font-weight:800;font-size:16px;border:0;border-radius:14px;padding:12px 14px;background:linear-gradient(135deg,#E9C46A,#C9A24A);color:#0B1F3A;cursor:pointer;box-shadow:0 4px 14px rgba(201,162,74,.35)}.holdnx i{display:block;height:4px;border-radius:4px;background:#C9A24A;margin-top:6px;transform-origin:left;animation:holdbar 10s linear forwards}@keyframes holdbar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 .xfrom{background:#F4EFE3;border:1.5px solid #E2D3AE;border-radius:12px;padding:10px 12px;margin:8px 0 10px;font-size:15px;color:#0B1F3A;line-height:1.45}.xfrom a{color:#8A6A1F;font-weight:800}
+.mgsplit{background:#0B1F3A;color:#fff;border-radius:14px;padding:12px 14px;margin:8px 0 12px;font-size:15px;line-height:1.5}.mgsplit .bar{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:8px 0 6px}.mgsplit .bar i{display:block}.mgsplit b{color:#E9C46A}
+.mgsrc{display:block;margin-top:10px;font-size:11.5px;color:#6B7280;line-height:1.45}#mgcard select{width:100%;font:inherit;font-size:15px;padding:10px;border:1.5px solid var(--line);border-radius:12px;background:#fff;margin-top:4px}
+.mgrow{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed #D8DEE8}.mgrow:last-child{border-bottom:0}.mgrow b{white-space:nowrap}
 .eoinote{background:#FFF6E3;color:#6B4E12;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:15px;line-height:1.45}
 </style>
 <script>
@@ -576,6 +579,20 @@ html:not(.eoion) .ans .eoin{display:none}
   <label>Years you hold after handover<input id="xyrs" type="text" inputmode="decimal" placeholder="0 if you sell before"></label>
   <label>Selling agent fee % (if applicable)<input id="xag" type="text" inputmode="decimal" placeholder="e.g. 2, or leave blank"></label></div>
   <div class="xout" id="xout"></div>
+ </div></div>
+ <div class="card" id="mgcard"><div class="num"><span class="ic">🏦</span><span class="n">+</span></div><div class="body">
+  <h3>Payment plan &amp; mortgage at handover</h3><p>How much you pay while it's being built, how much is due at handover, and what a mortgage on the handover amount would cost you each month.</p>
+  <div class="mgsplit" id="mgsplit">Enter the price in <b>Check 19</b> and "% paid before handover" above to see your split.</div>
+  <div class="xf">
+  <label class="w">Your situation<select id="mgtype"><option value="80">UAE resident · first home (bank lends up to 80%)</option><option value="60">UAE resident · investment / 2nd home (up to 60%)</option><option value="50">Living outside UAE (banks usually 50–60%)</option><option value="85">UAE national · first home (up to 85%)</option><option value="0">Paying cash, no mortgage</option></select></label>
+  <label>Loan amount (AED)<input id="mgloan" type="text" inputmode="decimal" placeholder="auto"></label>
+  <label>Loan years (max 25)<input id="mgyrs" type="text" inputmode="decimal" value="25"></label>
+  <label>Fixed rate %<input id="mgrate" type="text" inputmode="decimal" value="4.0"></label>
+  <label>Fixed for (years)<input id="mgfix" type="text" inputmode="decimal" value="3"></label>
+  <label class="w">After the fixed period: 3-month EIBOR + bank margin %<input id="mgmar" type="text" inputmode="decimal" value="1.5"></label>
+  </div>
+  <div class="xout" id="mgout"></div>
+  <small class="mgsrc">Rates as of mid-Nov 2026: UAE Central Bank Base Rate 3.90%; 3-month EIBOR 4.32% (CBUAE, 9 Nov 2026). Fixed offers seen from ~3.75–4% for strong salary-transfer profiles, many 4.5–5.8%. Central Bank rules: max 25 years; residents' first home up to 80% (≤ AED 5M, 70% above); investment 60%; monthly debts max 50% of income. Nobody knows future rates: we show today's EIBOR and a +2% stress case. Your bank's offer decides.</small>
  </div></div>
  <div class="card"><div class="num"><span class="ic">🧾</span><span class="n">+</span></div><div class="body">
   <h3>Also confirmed?</h3><p>Not scored. Tick what you've checked, and anything left open goes on your report.</p>
@@ -1330,6 +1347,42 @@ html:not(.eoion) .ans .eoin{display:none}
     [pp,ps].forEach(function(i){ i.addEventListener("input",sync); i.addEventListener("change",sync); });
     document.getElementById("xfromgo").addEventListener("click",function(e){ e.preventDefault(); var c=pp.closest(".card"); c.scrollIntoView({behavior:"smooth",block:"center"}); setTimeout(function(){ pp.focus({preventScroll:true}); },500); });
     setTimeout(sync,300); })();
+  // ---------- Payment plan split + mortgage at handover ----------
+  (function(){ var EIBOR=4.32;
+    function n(id){ var e=document.getElementById(id); return e?(+String(e.value).replace(/[^0-9.]/g,"")||0):0; }
+    function A(x){ return "AED "+Math.round(x).toLocaleString("en-US"); }
+    function pmt(P,r,y){ if(!P||!y) return 0; var i=r/1200, k=y*12; return i?P*i/(1-Math.pow(1+i,-k)):P/k; }
+    function bal(P,r,y,m){ var i=r/1200, p=pmt(P,r,y); return i?P*Math.pow(1+i,m)-p*(Math.pow(1+i,m)-1)/i:P-p*m; }
+    var loanIn=document.getElementById("mgloan"), out=document.getElementById("mgout"), sp=document.getElementById("mgsplit"), typ=document.getElementById("mgtype");
+    loanIn.addEventListener("input",function(){ loanIn.dataset.man=loanIn.value.trim()?"1":""; });
+    typ.addEventListener("change",function(){ loanIn.dataset.man=""; });
+    function run(){
+      var P=n("pprice")||n("xprice"), pp=Math.min(n("xpp"),100), ho=100-pp, hoA=P*ho/100;
+      if(P && document.getElementById("xpp").value.trim()){
+        sp.innerHTML='<div>🏗️ During construction: <b>'+pp+'% = '+A(P*pp/100)+'</b></div><div class="bar"><i style="flex:'+pp+';background:#C9A24A"></i><i style="flex:'+ho+';background:#3DDC84"></i></div><div>🔑 On handover: <b>'+ho+'% = '+A(hoA)+'</b></div>';
+      } else sp.innerHTML=P?'Enter <b>% paid before handover</b> above (e.g. 60) to see your split.':'Enter the price in <b>Check 19</b> and "% paid before handover" above to see your split.';
+      var ltv=+typ.value; if(ltv && P>5000000){ ltv={80:70,85:75}[ltv]||ltv; }
+      if(!P){ out.innerHTML=""; return; }
+      if(!ltv){ out.innerHTML='<div class="xo n">💵 Paying cash: you need <b>'+A(hoA)+'</b> ready at handover, plus about 4% DLD fee if not already paid.</div>'; loanIn.value=""; return; }
+      var maxL=P*ltv/100, auto=Math.min(hoA||maxL,maxL);
+      if(loanIn.dataset.man!=="1") loanIn.value=Math.round(auto).toLocaleString("en-US");
+      var L=Math.min(n("mgloan"),maxL), y=Math.min(n("mgyrs")||25,25), r=n("mgrate"), f=Math.min(n("mgfix"),y), m=n("mgmar"), r2=EIBOR+m;
+      if(!L){ out.innerHTML=""; return; }
+      var p1=pmt(L,r,y), B=bal(L,r,y,f*12), p2=pmt(B,r2,y-f), p3=pmt(B,r2+2,y-f), tot=p1*f*12+p2*(y-f)*12, fees=L*0.0025+290+L*0.01;
+      var cash=Math.max(hoA-L,0)+fees;
+      out.innerHTML='<div class="xo n">'+
+        (n("mgloan")>maxL?'<div style="color:#B42318;font-weight:700">⚠️ Max loan for this situation is '+ltv+'% of the price = '+A(maxL)+'.</div>':'')+
+        '<div class="mgrow"><span>🏦 Loan</span><b>'+A(L)+' · '+y+' yrs</b></div>'+
+        '<div class="mgrow"><span>📅 Monthly, first '+f+' yrs at '+r.toFixed(2)+'%</span><b>'+A(p1)+'</b></div>'+
+        (y>f?'<div class="mgrow"><span>📈 After that, at today\'s EIBOR + '+m+'% = '+r2.toFixed(2)+'%</span><b>'+A(p2)+'</b></div>'+
+        '<div class="mgrow"><span>⚠️ If rates rise 2% ('+(r2+2).toFixed(2)+'%)</span><b>'+A(p3)+'</b></div>':'')+
+        '<div class="mgrow"><span>💸 Total interest over the loan (today\'s rates)</span><b>'+A(tot-L)+'</b></div>'+
+        '<div class="mgrow"><span>🔑 Cash you need at handover<br><small>handover balance not covered by the loan + mortgage registration 0.25% + AED 290 + ~1% bank fee</small></span><b>'+A(cash)+'</b></div>'+
+        '<div class="mgrow"><span>👤 Income needed (installment ≤ 50% of salary)</span><b>'+A(p1*2)+'/month+</b></div></div>';
+    }
+    ["pprice","psize","xpp","mgloan","mgyrs","mgrate","mgfix","mgmar"].forEach(function(id){ var e=document.getElementById(id); if(e){ e.addEventListener("input",run); e.addEventListener("change",run); } });
+    typ.addEventListener("change",run); setTimeout(run,400);
+  })();
   // ---------- Guide: a red arrow on the next thing to fill ----------
   (function(){
     var steps=[], skipped={}, cur=-1, lab=null, lastHi=null, lastEvt="";
