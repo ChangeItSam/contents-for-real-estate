@@ -3,15 +3,18 @@
  "p": [
   {
    "cat": "villa",
-   "name": "The Oasis",
+   "name": "The Oasis · Mareva",
    "dev": "Emaar",
    "area": "The Oasis, Dubai",
-   "dld": [],
+   "dld": [
+    "4269",
+    "4270"
+   ],
    "added": "2026-11-14",
    "available": true,
    "price": "",
    "plan": "",
-   "note": "Phase to confirm",
+   "note": "Mareva The Oasis 4269 + Mareva 2 The Oasis 4270 (Emaar Development); confirm the phase Sam sells",
    "eoi": false
   },
   {
