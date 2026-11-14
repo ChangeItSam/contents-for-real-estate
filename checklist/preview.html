@@ -534,7 +534,7 @@ html:not(.eoion) .ans .eoin{display:none}
   <label>Size (sq ft)<input id="psize" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 650"></label></div>
   <div class="psfrow"><span class="eq">=</span> AED <input id="psf" type="text" inputmode="decimal" autocomplete="off" placeholder="auto"> / sq ft</div>
   <small class="psfnote" id="psfnote">Already know your price per sq ft? Type it straight into the box above.</small>
-  <label class="proj">Where is the property? <small>(filled in when you pick your project at the top)</small><input id="ploc" type="text" list="plocs" autocomplete="off" placeholder="e.g. Jumeirah Village Circle"></label><datalist id="plocs"></datalist>
+  <label class="proj">Where is the property? <small>(filled in when you pick your project at the top)</small><input id="ploc" type="text" autocomplete="off" placeholder="Tap to choose, or type the area"></label><div id="plocsg" class="sugg" hidden></div><datalist id="plocs"></datalist>
   <span class="q">Check 20</span><h3>How your price compares <span class="pts" id="psfpts" hidden></span></h3>
   <div class="how3"><b class="h">📊 How we compare your price</b><ol>
    <li><b>Real market data, not adverts.</b> We use every sale registered with the Dubai Land Department, checked every day for new data.</li>
@@ -1284,6 +1284,20 @@ html:not(.eoion) .ans .eoin{display:none}
   ["xprice","xsize"].forEach(function(i){ var t=document.getElementById(i); t.addEventListener("input",function(){ t.dataset.auto=""; }); });
   function psfAll(){ psfLoad(function(){ psfCalc(); update(); }); PSFV=num(psfIn.value); update(); }
   [psfIn,locIn].forEach(function(el){ el.addEventListener("focus",function(){psfLoad(function(){});}); el.addEventListener("input",psfAll); el.addEventListener("change",psfAll); });
+  // area picker: a real list of options under the box (iPhone Safari hides <datalist> suggestions)
+  var locSg=document.getElementById("plocsg"), LOCS=[];
+  function locList(){ var q=locIn.value.trim().toLowerCase(), all=LOCS, hits;
+    if(!all.length) return;
+    if(!q) hits=all.slice(0,8);
+    else { var st=[], co=[]; all.forEach(function(n){ var l=n.toLowerCase(); if(l===q) return; if(l.indexOf(q)===0) st.push(n); else if(l.indexOf(q)>0) co.push(n); }); hits=st.concat(co).slice(0,8); }
+    if(!hits.length){ locSg.hidden=true; return; }
+    locSg.innerHTML=(q?"":'<button type="button" disabled style="color:#5B6678;font-size:13px;font-weight:700;cursor:default">Popular areas · or type to search</button>')+hits.map(function(n){ return '<button type="button" data-loc="'+esc(n)+'">'+esc(n)+'</button>'; }).join("");
+    locSg.hidden=false;
+    Array.prototype.forEach.call(locSg.querySelectorAll("button[data-loc]"),function(bt){ bt.addEventListener("click",function(){ locIn.value=bt.dataset.loc; locSg.hidden=true; psfAll(); update(); locIn.dispatchEvent(new Event("change")); }); }); }
+  function locReady(cb){ psfLoad(function(){ if(!LOCS.length){ var seen={}; Object.keys(PD.c).concat(Object.keys(PD.a)).forEach(function(n){ if(!seen[n.toLowerCase()]){ seen[n.toLowerCase()]=1; LOCS.push(n);} }); } cb(); }); }
+  locIn.addEventListener("focus",function(){ locReady(locList); });
+  locIn.addEventListener("input",function(){ locReady(locList); });
+  locIn.addEventListener("blur",function(){ setTimeout(function(){ locSg.hidden=true; },250); });
   ["pprice","psize"].forEach(function(i){ document.getElementById(i).addEventListener("input",calcFromParts); });
   fetch("data/status.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){ if(j.rows) document.getElementById("st1").textContent=j.rows; if(j.checked_at) document.getElementById("st4").textContent=fmtDate(j.checked_at.slice(0,10)); }).catch(function(){});
   psfLoad(function(){ document.getElementById("st2").textContent=PD.p.length; var d=PD.data_through||PD.updated; if(d) document.getElementById("st3").textContent=fmtDate(d); });
