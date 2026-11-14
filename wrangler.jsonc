@@ -1,7 +1,9 @@
 // Cloudflare: serve this repo as a static site on samsuryarealty.com (no server code)
 {
-  "name": "samsuryarealty",
+  "name": "contents-for-real-estate",
   "compatibility_date": "2026-11-01",
+  "workers_dev": false,
+  "preview_urls": false,
   "assets": {
     "directory": "./",
     "not_found_handling": "404-page",
