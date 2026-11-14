@@ -666,17 +666,25 @@ details.whym[open] summary{margin-bottom:6px}
   var CRITI=[0,2,4,6];
   var NA_OK=[3,7,8,16]; // can genuinely not apply: progress claim at launch, agent checks when buying direct, resale rules when holding long term
   function stOf(b){ return b.checked?"y":(b.dataset.st||""); }
+  // after an answer, bring the next unanswered line of the same card into view if it is hidden behind the bottom bars
+  function showNextLine(b){ setTimeout(function(){
+      var card=b.closest(".card"); if(!card) return;
+      var nxt=boxes.filter(function(x){ return x.closest(".card")===card && stOf(x)===""; })[0]; if(!nxt) return;
+      var row=nxt._ans||nxt.closest("label"), r=row.getBoundingClientRect();
+      var bars=(document.getElementById("prog")||{offsetHeight:0}).offsetHeight+((document.querySelector(".sticky")||{offsetHeight:0}).offsetHeight);
+      if(r.bottom>window.innerHeight-bars-16 || r.top<60) window.scrollBy({top:r.bottom-(window.innerHeight-bars-90),behavior:"smooth"});
+    },260); }
   function paintAns(){ boxes.forEach(function(b){ var r=b._ans; if(!r) return; var v=stOf(b);
     Array.prototype.forEach.call(r.children,function(x){ x.classList.toggle("on",x.dataset.v===v); }); }); }
   boxes.forEach(function(b, i){
     b.checked = !!saved[i]; if(!b.checked && (savedSt[i]==="u"||(savedSt[i]==="n"&&NA_OK.indexOf(i)>=0))) b.dataset.st=savedSt[i];
-    b.addEventListener("change", function(){ if(b.checked) b.dataset.st=""; });
+    b.addEventListener("change", function(ev){ if(b.checked) b.dataset.st=""; if(ev.isTrusted) showNextLine(b); });
     b.addEventListener("change", update);
     var row=document.createElement("div"); row.className="ans";
     row.innerHTML='<button type="button" class="y" data-v="y">✅ Checked</button><button type="button" class="u" data-v="u">❓ Not known</button>'+(NA_OK.indexOf(i)>=0?'<button type="button" class="n" data-v="n">N/A</button>':'');
     row.addEventListener("click",function(ev){ var t=ev.target.closest("button"); if(!t) return; var v=t.dataset.v, same=stOf(b)===v;
       if(v==="y"){ b.checked=!same; b.dataset.st=""; } else { b.checked=false; b.dataset.st=same?"":v; }
-      b.dispatchEvent(new Event("change",{bubbles:true})); });
+      b.dispatchEvent(new Event("change",{bubbles:true})); showNextLine(b); });
     b.closest("label").insertAdjacentElement("afterend",row); b._ans=row;
   });
   document.getElementById("tot").textContent = boxes.length + 2;
