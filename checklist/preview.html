@@ -518,11 +518,12 @@ details.whym[open] summary{margin-bottom:6px}
   <label class="w">Developer transfer / NOC fee (AED)<input id="xtf" type="text" inputmode="decimal" placeholder="e.g. 5,000"></label></div>
  </div></div>
  <div class="card"><div class="num"><span class="ic">📉</span><span class="n">+</span></div><div class="body">
-  <h3>Resale break-even</h3><p>The price you'd need just to get your money back after DLD fee, agent fee, transfer fee and service charges.</p>
+  <h3>Resale break-even</h3><p>The price you'd need just to get your money back after DLD fee, any agent fee, transfer fee and service charges.</p>
   <div class="xf"><label>Purchase price (AED)<input id="xprice" type="text" inputmode="decimal" placeholder="e.g. 1,200,000"></label>
   <label>Size (sq ft)<input id="xsize" type="text" inputmode="decimal" placeholder="e.g. 750"></label>
   <label>Service charge (AED / sq ft / year)<input id="xsc" type="text" inputmode="decimal" placeholder="e.g. 15"></label>
-  <label>Years you hold after handover<input id="xyrs" type="text" inputmode="decimal" placeholder="0 if you sell before"></label></div>
+  <label>Years you hold after handover<input id="xyrs" type="text" inputmode="decimal" placeholder="0 if you sell before"></label>
+  <label>Selling agent fee % (if applicable)<input id="xag" type="text" inputmode="decimal" placeholder="e.g. 2, or leave blank"></label></div>
   <div class="xout" id="xout"></div>
  </div></div>
  <div class="card"><div class="num"><span class="ic">🧾</span><span class="n">+</span></div><div class="body">
@@ -746,7 +747,7 @@ details.whym[open] summary{margin-bottom:6px}
     try{ fetch(LEADS_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(d)}).catch(function(){}); }catch(e){}
   }
   // ---------- Extra checks: calculators (not scored) ----------
-  var XIDS=["xbed","xrent","xspa","xpp","xre","xtf","xprice","xsize","xsc","xyrs"];
+  var XIDS=["xbed","xrent","xspa","xpp","xre","xtf","xprice","xsize","xsc","xyrs","xag"];
   function xv(id){ return document.getElementById(id).value.trim(); }
   function xn(id){ var v=xv(id).replace(/[^0-9.]/g,""); return v?+v:0; }
   function xget(){ var o={}; XIDS.forEach(function(i){ var v=xv(i); if(v) o[i]=v; }); var t=xboxes.map(function(b){return b.checked?"1":"0";}).join(""); if(t.indexOf("1")>=0) o.t=t; return o; }
@@ -755,17 +756,17 @@ details.whym[open] summary{margin-bottom:6px}
   function ppJudge(pp){ return pp>=80?["r","🚩 "+pp+"% before handover: risky. Most of your money is with the developer before you get the keys."]:pp>60?["a","⚠️ "+pp+"% before handover: on the heavy side. 60/40 or 50/50 is safer."]:["g","✅ "+pp+"% before handover: a safer split."]; }
   function reJudge(re){ return re>=50?["r","🚩 You can only resell after paying "+re+"%: your money is locked in for a long time."]:re>=30?["a","⚠️ Resale allowed after "+re+"% paid: plan for that before you can exit."]:["g","✅ Resale allowed after "+re+"% paid: a flexible exit."]; }
   function breakEven(){
-    var P=xn("xprice"), T=xn("xtf"), sc=xn("xsc"), sz=xn("xsize"), y=xn("xyrs");
+    var P=xn("xprice"), T=xn("xtf"), sc=xn("xsc"), sz=xn("xsize"), y=xn("xyrs"), ag=Math.min(xn("xag"),20);
     if(!P) return null;
-    var dld=P*0.04, scTot=sc*sz*y, need=(P+dld+T+scTot)/0.98;
-    return {P:P,dld:dld,T:T,sc:scTot,y:y,need:need,pct:(need/P-1)*100};
+    var dld=P*0.04, scTot=sc*sz*y, need=(P+dld+T+scTot)/(1-ag/100);
+    return {P:P,dld:dld,T:T,sc:scTot,y:y,ag:ag,need:need,pct:(need/P-1)*100};
   }
   function xcalc(){
     var out=document.getElementById("xout"), h="";
     var pp=xn("xpp"), re=xn("xre"), be=breakEven();
     if(pp){ var a=ppJudge(pp); h+='<div class="xo '+a[0]+'">'+a[1]+'</div>'; }
     if(re){ var b=reJudge(re); h+='<div class="xo '+b[0]+'">'+b[1]+(xn("xtf")?' Transfer fee: '+aed(xn("xtf"))+'.':'')+'</div>'; }
-    if(be) h+='<div class="xo n">📉 To break even you\'d need to sell for at least <b>'+aed(be.need)+'</b>, <b>'+be.pct.toFixed(1)+'%</b> above your price.<br><small>DLD fee 4% '+aed(be.dld)+(be.T?' · transfer fee '+aed(be.T):'')+(be.sc?' · service charges '+aed(be.sc)+' ('+be.y+' yr)':'')+' · selling agent 2%. Small admin fees not included.</small></div>';
+    if(be) h+='<div class="xo n">📉 To break even you\'d need to sell for at least <b>'+aed(be.need)+'</b>, <b>'+be.pct.toFixed(1)+'%</b> above your price.<br><small>DLD fee 4% '+aed(be.dld)+(be.T?' · transfer fee '+aed(be.T):'')+(be.sc?' · service charges '+aed(be.sc)+' ('+be.y+' yr)':'')+(be.ag?' · selling agent '+be.ag+'%':' · no agent fee')+'. Small admin fees not included.</small></div>';
     out.innerHTML=h;
   }
   XIDS.forEach(function(i){ var el=document.getElementById(i); el.addEventListener("input",xcalc); el.addEventListener("change",xcalc); });
@@ -864,7 +865,7 @@ details.whym[open] summary{margin-bottom:6px}
     if(pp||re||be){ h+='<h4>💳 Payment plan, exit and break-even</h4><div class="box">';
       if(pp) h+='<div class="row"><span>'+ppJudge(pp)[1]+'</span></div>';
       if(re) h+='<div class="row"><span>'+reJudge(re)[1]+(xn("xtf")?' Transfer fee: '+aed(xn("xtf"))+'.':'')+'</span></div>';
-      if(be) h+='<div class="row"><span>📉 Break-even resale price: <b>'+aed(be.need)+'</b> ('+be.pct.toFixed(1)+'% above '+aed(be.P)+'). Includes DLD 4%'+(be.T?', transfer fee':'')+(be.sc?', '+be.y+' yr service charges':'')+' and a 2% selling agent fee.</span></div>';
+      if(be) h+='<div class="row"><span>📉 Break-even resale price: <b>'+aed(be.need)+'</b> ('+be.pct.toFixed(1)+'% above '+aed(be.P)+'). Includes DLD 4%'+(be.T?', transfer fee':'')+(be.sc?', '+be.y+' yr service charges':'')+(be.ag?' and a '+be.ag+'% selling agent fee':'')+'.</span></div>';
       h+='</div>'; }
     // 7. extra checks
     var xl=xboxes.map(function(b){return {b:b,t:labelOf(b)};}), xo=xl.filter(function(x){return !x.b.checked;}), xd=xl.filter(function(x){return x.b.checked;});
@@ -1138,7 +1139,7 @@ details.whym[open] summary{margin-bottom:6px}
   (function(){
     var steps=[], skipped={}, cur=-1, lab=null, lastHi=null, lastEvt="";
     function sc(el){ return el.closest(".card")||el; }
-    function filled(card){ var ok=false; Array.prototype.forEach.call(card.querySelectorAll("input,select"),function(i){ if(i.type==="checkbox"){ if(i.checked) ok=true; } else if(i.value.trim()) ok=true; }); return ok; }
+    function filled(card){ var ok=true; Array.prototype.forEach.call(card.querySelectorAll("input,select"),function(i){ if(i.id==="xag") return; if(i.type==="checkbox"){ if(!i.checked) ok=false; } else if(!i.value.trim()) ok=false; }); return ok; }
     var proj=document.getElementById("proj"), psf=document.getElementById("psf"), ploc=document.getElementById("ploc");
     steps.push({k:"proj",a:proj.closest("label"),hi:proj.closest("label"),t:"Start here: type your project",skip:"Not listed? Skip",done:function(){ return proj.value.trim().length>1; }});
     var seen=[];
