@@ -302,6 +302,78 @@ html:not(.eoion) .ans .eoin{display:none}
 .ans button.on.y{background:#EAF8EF;border-color:#3DDC84;color:#14532D}
 .ans button.on.u{background:#FFF6E0;border-color:#F5C451;color:#6B4A00}
 .ans button.on.n{background:#E9EDF3;border-color:#9AA6B8;color:#3A4456}
+
+/* ---------- v2 mobile-first layout ---------- */
+.pcalc{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.pcalc label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700;color:var(--navy)}
+.pcalc input{font:inherit;font-size:17px;padding:11px 12px;border:2px solid var(--gold);border-radius:12px;background:#fff;color:var(--navy);width:100%;min-width:0;min-height:48px}
+.pcalc input:focus{outline:0;border-color:var(--navy)}
+.psfrow .eq{font-size:22px;color:var(--gold)}
+.psfrow input.auto{background:#EAF8EF;border-color:#3DDC84}
+.psfnote{display:block;font-size:12.5px;color:var(--muted);margin-top:6px}
+/* compact bottom progress bar (about half size) */
+.prog{padding:5px 12px !important}
+.prog .r1{gap:8px !important}
+.prog .cnt{font-size:15px !important}.prog .cnt small{display:inline !important;font-size:10.5px !important}
+.prog .hres{font-size:11px !important;padding:4px 9px !important}
+.prog .go{font-size:11.5px !important;padding:5px 11px !important}
+.prog .bar{height:7px !important;margin-top:5px !important}
+.prog .r3{display:none !important}
+.prog .r1 .warnp{font-size:10.5px;color:#FFB25C;text-decoration:underline;cursor:pointer;white-space:nowrap;font-weight:700}
+@media(max-width:389px){.prog .cnt small{display:none !important}.prog .r1{gap:6px !important}.prog .hres{padding:4px 7px !important}}
+.prog::before{content:"";position:absolute;left:0;right:0;top:-26px;height:26px;background:linear-gradient(to top,rgba(255,255,255,.95),rgba(255,255,255,0));pointer-events:none}
+body.kb .prog,body.kb .sticky{display:none !important}
+.rescta{margin:26px -18px 0;border-radius:22px 22px 0 0;text-align:left}
+.rescta .in{padding:26px 20px 30px}
+.foot2{margin-top:30px}
+#modal{z-index:40}
+#rconf{z-index:45}
+.prog{top:auto !important;bottom:var(--wah,58px);box-shadow:0 -6px 18px rgba(0,0,0,.18);padding-top:8px !important;padding-bottom:8px !important}
+section,.game{scroll-margin-top:20px !important}
+body{background:#fff}
+.hero2{padding:18px 18px 24px;background:#fff;border-bottom:1px solid #EEF0F4}
+.hero2 .by{display:flex;align-items:center;gap:10px}
+.hero2 .by img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
+.hero2 .by b{display:block;font-size:15px;color:var(--navy)}.hero2 .by span{display:block;font-size:12.5px;color:var(--muted);line-height:1.35}
+.hero2 h1{font-size:32px;line-height:1.1;color:var(--navy);margin-top:16px;letter-spacing:-.5px}
+.hero2 .sub2{font-size:18px;color:#3A4456;margin-top:8px}.hero2 .sub2 .g{color:#16A34A}.hero2 .sub2 .r{color:#DC2626}
+.hero2 .proj.hp{margin-top:16px;display:block}.hero2 .proj.hp input{font-size:18px;padding:15px 14px;border:2px solid var(--gold);border-radius:14px;width:100%;min-height:54px}
+.hero2 .plab{display:block;font-size:15.5px;font-weight:800;color:var(--navy);margin-bottom:6px}.hero2 .plab small{font-weight:600;color:var(--muted);font-size:13px}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.btn.bigcta{display:flex;align-items:center;justify-content:center;width:100%;min-height:56px;margin-top:12px;font-size:19px;font-weight:800;border-radius:16px;background:linear-gradient(90deg,var(--gold),var(--gold2));color:var(--navy);text-decoration:none;border:0}
+.hero2 .trust{font-size:13.5px;color:var(--muted);text-align:center;margin-top:10px}
+.hero2 .feat,.hero2 .sugg,.hero2 .dld,.hero2 .dldsrc{text-align:left}
+.hero2 .dldsrc{font-size:12.5px;margin-top:4px}
+.sample{margin:22px 18px 0}.sample h2{font-size:24px;color:var(--navy);margin-top:2px}
+.scard{position:relative;margin-top:12px;background:linear-gradient(160deg,var(--navy),#1d3f6b);color:#fff;border-radius:20px;padding:16px}
+.stag{position:absolute;top:12px;right:12px;font-size:11px;font-weight:800;letter-spacing:1.5px;background:rgba(255,255,255,.15);padding:3px 8px;border-radius:10px}
+.srow{display:flex;align-items:center;gap:14px}
+.sring{position:relative;width:86px;height:86px;flex:none}.sring svg{width:100%;height:100%}
+.sring b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:900;margin-top:-6px}.sring span{position:absolute;left:0;right:0;bottom:20px;text-align:center;font-size:11px;color:#C8D2E2}
+.sv{font-size:20px;font-weight:900;color:#3DDC84}.sl{font-size:15px;color:#D5DDEA;margin-top:2px}
+.sblur{margin-top:12px;filter:blur(4px);user-select:none;font-size:14.5px;color:#D5DDEA;display:grid;gap:6px}
+.sinc{list-style:none;margin-top:12px;display:grid;gap:6px;font-size:16px;color:#3A4456}
+.game{background:#fff;border:1px solid #E9ECF1;text-align:left;padding:4px 16px}
+.more summary{cursor:pointer;font-weight:800;color:var(--navy);font-size:16px;padding:12px 0;list-style:none}
+.more summary::-webkit-details-marker{display:none}
+.more[open] summary{border-bottom:1px solid #EEF0F4;margin-bottom:12px}
+.card{background:#fff;border:1px solid #E9ECF1;box-shadow:0 2px 8px rgba(11,31,58,.05);padding:16px 14px;gap:12px}
+.num{width:44px}
+.card h3{font-size:18px}
+details.whym{margin-top:8px}details.whym summary{cursor:pointer;color:#8A6D1D;font-weight:700;font-size:14.5px;list-style:none;min-height:32px;display:flex;align-items:center}
+details.whym summary::-webkit-details-marker{display:none}
+details.whym[open] summary{margin-bottom:6px}
+.ans{gap:6px}.ans button{min-height:44px;flex:1 1 0;font-size:14px;padding:6px 6px}
+.tick{min-height:40px;align-items:center}
+.pop{animation:popg 1.2s ease}
+@keyframes popg{0%{background:rgba(61,220,132,0)}25%{background:rgba(61,220,132,.28)}100%{background:rgba(61,220,132,0)}}
+.pop .auto{display:inline-block;animation:popb .7s ease}
+@keyframes popb{0%{transform:scale(.3)}60%{transform:scale(1.35)}100%{transform:scale(1)}}
+.mtoast{position:fixed;left:50%;transform:translate(-50%,-12px);opacity:0;z-index:30;background:var(--navy);color:#fff;font-weight:800;font-size:15.5px;padding:11px 16px;border-radius:24px;box-shadow:0 8px 24px rgba(0,0,0,.25);transition:all .35s;pointer-events:none;white-space:nowrap;max-width:92vw;overflow:hidden;text-overflow:ellipsis}
+.mtoast.on{opacity:1;transform:translate(-50%,0)}
+.tease{background:#F7F4EC;border-radius:16px;padding:14px;margin:4px 0 12px;text-align:center}
+.tease .tn{font-size:44px;font-weight:900;color:var(--navy);line-height:1}.tease .tn small{display:inline;font-size:18px;color:var(--muted);margin:0 0 0 2px}
+.tease .tl{font-weight:800;color:var(--navy);margin-top:2px}.tease p{font-size:14.5px;color:#3A4456;margin-top:6px}
 .eoi[hidden]{display:none!important}
 .eoi{display:flex;gap:10px;align-items:flex-start;background:#FFF6E3;border:1.5px dashed var(--gold);border-radius:12px;padding:10px 12px;margin:10px 0 4px;font-size:15.5px;line-height:1.45;color:#6B4E12;cursor:pointer}
 .eoi input{flex:none;width:22px;height:22px;margin-top:1px;accent-color:#C9A24A}
@@ -332,28 +404,37 @@ html:not(.eoion) .ans .eoin{display:none}
 
 <div class="wrap">
 
-<header class="hero">
- <div class="in">
-  <div class="top"><div class="brand">Sam Surya · Dubai Off-Plan</div><div class="pill">FREE OFF-PLAN STRESS TEST · 2026</div></div>
-  <h1>Dubai Off-Plan<br><span>Deal Stress Test</span></h1>
-  <p class="sub">✅ 20 checks plus real DLD market data, before you put a single dirham into an off-plan property in Dubai.</p>
-  <div class="chips"><div class="chip">🏗️ Developer &amp; project</div><div class="chip">🏦 Escrow protection</div><div class="chip">💲 Price vs market</div><div class="chip">🔑 Rent check</div><div class="chip">📄 Contract &amp; Oqood</div><div class="chip">🚇 Metro &amp; Blue Line</div><div class="chip">🚪 Exit &amp; break-even</div></div>
- </div>
- <svg class="sky" viewBox="0 0 800 260" preserveAspectRatio="none" aria-hidden="true">
-  <defs><linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9A24A" stop-opacity=".55"/><stop offset="1" stop-color="#C9A24A" stop-opacity=".15"/></linearGradient></defs>
-  <g fill="url(#gg)"><rect x="20" y="170" width="40" height="90"/><rect x="65" y="140" width="34" height="120"/><rect x="104" y="185" width="46" height="75"/><rect x="155" y="120" width="30" height="140"/><polygon points="190,260 190,110 205,80 220,110 220,260"/><rect x="226" y="160" width="44" height="100"/><rect x="276" y="135" width="28" height="125"/><polygon points="372,260 378,150 384,150 388,90 393,90 396,40 398,6 400,40 403,90 408,90 412,150 418,150 424,260"/><rect x="432" y="150" width="36" height="110"/><rect x="474" y="125" width="30" height="135"/><path d="M520 260 L520 95 Q575 150 560 260 Z"/><rect x="580" y="170" width="40" height="90"/><rect x="626" y="140" width="32" height="120"/><polygon points="664,260 664,130 680,100 696,130 696,260"/><rect x="702" y="175" width="40" height="85"/><rect x="746" y="150" width="34" height="110"/></g>
-  <rect x="0" y="256" width="800" height="4" fill="#C9A24A"/>
- </svg>
- <div class="me">
-  <div class="row"><img src="sam.jpg?v=2" alt="Sam Surya"><div><b>Sam Surya</b><div class="t">Principal Property Advisor</div>
-   <div class="links"><a class="wa-link" href="#"><svg class="lg"><use href="#wa"/></svg>+971 52 872 8248</a><a href="https://www.instagram.com/samtherealrealtor/"><svg class="lg"><use href="#ig"/></svg>@SamtheRealRealtor</a></div></div></div>
-  <div class="stats"><div><b>200+</b><span>Clients</span></div><div><b>600M+</b><span>In sales</span></div><div><b>50%</b><span>Referrals</span></div></div>
- </div>
+<header class="hero2">
+ <div class="by"><img src="sam.jpg?v=2" alt="Sam Surya"><div><b>By Sam Surya</b><span>Principal Property Advisor · 200+ clients · AED 600M+ sold</span></div></div>
+ <h1>Off-Plan Deal Stress Test</h1>
+ <p class="sub2">2 minutes. 20 checks. One answer: <b class="g">DEAL</b> or <b class="r">NO DEAL</b>.</p>
+ <label class="proj hp"><span class="plab">Which project are you checking? <small>(type 2+ letters, then pick it from the list)</small></span><input id="proj" type="text" autocomplete="off" placeholder="Type your project name..."></label>
+ <div class="sugg" id="sugg" hidden></div>
+ <div class="feat" id="feat" hidden></div>
+ <div class="dld" id="dld" hidden></div>
+ <p class="dldsrc" id="dldsrc">🏛️ We check the project against Dubai Land Department records and tick what they confirm.</p>
+ <button type="button" class="btn bigcta" id="startbtn">Get My Deal Score</button>
+ <p class="trust">🏛️ Checked against DLD data • <b id="st1b">770</b> projects • Updated daily</p>
 </header>
 
-<div class="prog" id="prog"><div class="pin"><div class="r1"><span class="cnt">✅ <span id="done">0</span>/<span id="tot">20</span><small>checks</small></span><button type="button" class="hres" id="hreset">↺ Reset</button><a href="#test" class="go">Get result</a></div><div class="bar"><i id="bar"></i></div><div class="r3"><span id="where">📍 Start: pick your project</span><span class="warnp" id="psfwarn" hidden>💲 Price check missing</span></div></div></div>
+<div class="prog" id="prog"><div class="pin"><div class="r1"><span class="cnt">✅ <span id="done">0</span>/<span id="tot">20</span><small>answered</small></span><span class="warnp" id="psfwarn" hidden>💲 Price missing</span><button type="button" class="hres" id="hreset">↺ Reset</button><a href="#test" class="go">Get result</a></div><div class="bar"><i id="bar"></i></div><div class="r3"><span id="where">📍 Start: pick your project</span></div></div></div>
+
+<section class="sample">
+ <div class="kicker">What you get</div>
+ <h2>See a sample report</h2>
+ <div class="scard">
+  <span class="stag">SAMPLE</span>
+  <div class="srow"><div class="sring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.15)" stroke-width="10"/><circle cx="60" cy="60" r="52" fill="none" stroke="#3DDC84" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="13" transform="rotate(-90 60 60)"/></svg><b>96</b><span>/100</span></div>
+  <div><div class="sv">DEAL (BUY) ✅</div><div class="sl">Price 8% below the area average</div></div></div>
+  <div class="sblur" aria-hidden="true"><div>👷 Developer: 14 finished · 0 cancelled</div><div>🔑 Rent: AED 72,000 vs Ejari AED 70,000</div><div>🚇 Metro: 1.2 km · Blue Line 2029</div><div>📉 Break-even resale: AED 1,089,000</div></div>
+ </div>
+ <ul class="sinc"><li>👷 Developer's DLD track record</li><li>💲 Your real price vs the area</li><li>🔑 Promised rent vs real Ejari contracts</li><li>🚇 Nearest metro and Blue Line</li><li>💳 Payment plan, exit and resale break-even</li></ul>
+ <a class="btn bigcta" href="#checks" id="samplecta">Get my report like this →</a>
+</section>
 
 <section class="game">
+ <details class="more"><summary>How it works and where the data comes from ▾</summary>
+
  <div class="dd">🎲 <b class="nw">DEAL <small>(BUY)</small></b> <span>or</span> <b class="nw">NO DEAL <small>(SKIP)</small>?</b></div>
  <h2>Take the 2-minute Off-Plan Deal Stress Test</h2>
  <p>Thinking about an off-plan project? Tick only what you have <b>actually confirmed</b>. Then tap <b>Get my result</b> to find out: <b>deal (buy)</b>, or <b>no deal (skip)</b>?</p>
@@ -374,14 +455,12 @@ html:not(.eoion) .ans .eoin{display:none}
    <li>Do your due diligence, tick only what you've <b>confirmed</b>, then tap <b>Get my result</b>.</li>
   </ol>
  </div>
- <label class="proj">Which project are you checking? <small>(type 2+ letters)</small><input id="proj" type="text" autocomplete="off" placeholder="e.g. Azizi Venice, Sobha Hartland"></label>
- <div class="sugg" id="sugg" hidden></div>
- <div class="feat" id="feat" hidden></div>
- <div class="dld" id="dld" hidden></div>
- <p class="dldsrc" id="dldsrc">🏛️ We check the project against Dubai Land Department records and tick what they confirm.</p>
+
+
+ </details>
 </section>
 
-<section class="sec">
+<section class="sec" id="checks">
  <div class="kicker">Checks 1–4</div><h2>🛡️ Is it safe?</h2><p class="lead">Dubai protects off-plan buyers well. Make sure you're inside that protection.</p>
  <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>Open the official <b>Dubai REST</b> app (Dubai Land Department) and search the developer. Look at their completed projects and on-time handovers.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label><label class="eoi" id="eoiwrap"><input type="checkbox" id="eoi"><span><b>🟡 Not found in DLD? Tick if this project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and they're marked N/A instead of costing you marks. Check them again before you pay the booking amount.</small></span></label></div></div></div>
  <div class="card"><div class="num"><span class="ic">🏗️</span><span class="n">3–4</span></div><div class="body"><h3>The exact project is registered, not just the developer</h3><p>Every off-plan project has its own registration. Ask for the <b>project number</b> and search it on Dubai REST to see its status and construction progress.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="10"><b class="cn">3</b><span>Project number verified on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="4"><b class="cn">4</b><span>Construction progress (%) matches what you were told</span></label></div></div></div>
@@ -421,9 +500,11 @@ html:not(.eoion) .ans .eoin{display:none}
  <div class="kicker">Checks 19–20</div><h2>💲 Is the price right?</h2><p class="lead">The price per square foot you pay decides your profit. Compare it with similar off-plan projects around you.</p>
  <div class="card"><div class="num"><span class="ic">📐</span><span class="n">19–20</span></div><div class="body">
   <span class="q">Check 19</span><h3>What price per sq ft are you paying?</h3>
-  <p>Price ÷ size in sq ft. Use the size in your SPA or floor plan, and check whether it includes the balcony.</p>
-  <div class="psfrow">AED <input id="psf" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 1,850"> / sq ft</div>
-  <details class="psfcalc"><summary>Don't know it? Work it out</summary><div><input id="pprice" type="text" inputmode="decimal" placeholder="Price (AED)"><input id="psize" type="text" inputmode="decimal" placeholder="Size (sq ft)"></div></details>
+  <p>Enter the unit price and size. We work out the price per sq ft for you. Use the size in your SPA or floor plan, and check whether it includes the balcony.</p>
+  <div class="pcalc"><label>Unit price (AED)<input id="pprice" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 1,200,000"></label>
+  <label>Size (sq ft)<input id="psize" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 650"></label></div>
+  <div class="psfrow"><span class="eq">=</span> AED <input id="psf" type="text" inputmode="decimal" autocomplete="off" placeholder="auto"> / sq ft</div>
+  <small class="psfnote" id="psfnote">Already know your price per sq ft? Type it straight into the box above.</small>
   <label class="proj">Where is the property? <small>(filled in when you pick your project at the top)</small><input id="ploc" type="text" list="plocs" autocomplete="off" placeholder="e.g. Jumeirah Village Circle"></label><datalist id="plocs"></datalist>
   <span class="q">Check 20</span><h3>How your price compares <span class="pts" id="psfpts" hidden></span></h3>
   <div class="how3"><b class="h">📊 How we compare your price</b><ol>
@@ -484,26 +565,23 @@ html:not(.eoion) .ans .eoin{display:none}
  </div>
 </section>
 
-<footer class="cta">
- <div class="in">
-  <div class="kicker">Your next step</div>
-  <h2>Want projects that already<br><span>pass all 20 checks? 🎯</span></h2>
-  <p>I work with Dubai's leading developers on <b style="color:#fff">off-plan projects only</b>. Tell me your budget and the area you like, and I'll send you a shortlist with full payment plans, free.</p>
-  <div class="contact">
-   <b class="nm">Sam Surya</b>
-   <div class="r"><svg class="lg"><use href="#wa"/></svg><a class="wa-link" href="#">WhatsApp: <b>+971 52 872 8248</b></a></div>
-   <div class="r"><svg class="lg"><use href="#ig"/></svg><a href="https://www.instagram.com/samtherealrealtor/">Instagram: <b>@SamtheRealRealtor</b></a></div>
-   <a class="btn wa-link" href="#"><svg class="lg"><use href="#waw"/></svg>WhatsApp me for a shortlist</a>
-   <a class="btn ig" href="https://www.instagram.com/samtherealrealtor/"><svg class="lg"><use href="#igw"/></svg>Follow @SamtheRealRealtor</a>
-   <button class="btn pdf" type="button" id="getpdf">📥 Get the PDF on WhatsApp</button>
-  </div>
- </div>
+<footer class="cta foot2">
  <img class="photo" src="sam-awards.jpg" alt="Sam Surya with his sales awards" loading="lazy">
  <div class="disc"><b>Disclaimer:</b> Data: Dubai Land Department open data via Dubai Data (CC BY 4.0), checked daily. Not an official DLD service. For information only, not financial advice.</div>
 </footer>
 
 </div>
 
+
+<div class="modal" id="rconf" hidden>
+ <div class="sheet">
+  <div class="mi">↺</div>
+  <h3>Start over?</h3>
+  <p>This clears your project, every answer and all your numbers on this phone.</p>
+  <button type="button" class="btn go2" id="rcyes">Yes, clear everything</button>
+  <button type="button" class="reset light" id="rcno" style="display:block;margin:12px auto 0">Cancel</button>
+ </div>
+</div>
 
 <div class="modal" id="nudge" hidden>
  <div class="sheet">
@@ -519,13 +597,13 @@ html:not(.eoion) .ans .eoin{display:none}
 <div class="modal" id="gate" hidden>
  <form class="sheet" id="gateform" novalidate>
   <button type="button" class="x" id="gclose" aria-label="Close">×</button>
-  <div class="mi">🎲</div>
-  <h3>Your result is ready!</h3>
-  <p>Enter your name and WhatsApp number to see your Deal Score. You'll get a link to your result on WhatsApp to keep.</p>
+  <div class="tease"><div class="tn"><span id="tscore">?</span><small>/100</small></div><div class="tl">Your Deal Score is ready</div>
+   <p>🔓 Unlock your score, verdict and full breakdown: <b>price vs area, developer history, rent check, exit plan</b>.</p></div>
+  <h3>Where should Sam send your report?</h3>
   <label>Your name<input id="gname" type="text" autocomplete="name" placeholder="e.g. Ahmed Khan" required></label>
   <label>WhatsApp number (with country code)<input id="gphone" type="tel" autocomplete="tel" inputmode="tel" placeholder="e.g. +44 7700 900123" required></label>
   <div class="err" id="gerr"></div>
-  <button class="btn go2" type="submit">🎯 Show my result</button>
+  <button class="btn go2" type="submit">📲 Send my report on WhatsApp</button>
   <small>Your details are only used to send you your result and Dubai property updates. Reply STOP any time.</small>
  </form>
 </div>
@@ -546,6 +624,21 @@ html:not(.eoion) .ans .eoin{display:none}
    <a class="btn pulse" id="share" href="#"><svg class="lg"><use href="#waw"/></svg>WhatsApp Sam now</a>
    <a class="btn callb" id="callb" href="tel:+971528728248">📞 Call Sam · +971 52 872 8248</a>
    <button type="button" class="reset light" id="review">Review my answers</button>
+  <div class="cta rescta">
+ <div class="in">
+  <div class="kicker">Your next step</div>
+  <h2>Want projects that already<br><span>pass all 20 checks? 🎯</span></h2>
+  <p>I work with Dubai's leading developers on <b style="color:#fff">off-plan projects only</b>. Tell me your budget and the area you like, and I'll send you a shortlist with full payment plans, free.</p>
+  <div class="contact">
+   <b class="nm">Sam Surya</b>
+   <div class="r"><svg class="lg"><use href="#wa"/></svg><a class="wa-link" href="#">WhatsApp: <b>+971 52 872 8248</b></a></div>
+   <div class="r"><svg class="lg"><use href="#ig"/></svg><a href="https://www.instagram.com/samtherealrealtor/">Instagram: <b>@SamtheRealRealtor</b></a></div>
+   <a class="btn wa-link" href="#"><svg class="lg"><use href="#waw"/></svg>WhatsApp me for a shortlist</a>
+   <a class="btn ig" href="https://www.instagram.com/samtherealrealtor/"><svg class="lg"><use href="#igw"/></svg>Follow @SamtheRealRealtor</a>
+   <button class="btn pdf" type="button" id="getpdf">📥 Get the PDF on WhatsApp</button>
+  </div>
+ </div>
+  </div>
   </div>
  </div>
 </div>
@@ -568,7 +661,7 @@ html:not(.eoion) .ans .eoin{display:none}
 
 <script>
 (function(){
-  var msg = "Hi Sam, I read your Dubai Off-Plan Checklist. Please send me a shortlist of projects.";
+  var msg = "Hi Sam, I took your Off-Plan Deal Stress Test. Please send me a shortlist of projects that pass all 20 checks.";
   var url = "https://wa.me/971528728248?text=" + encodeURIComponent(msg);
   document.querySelectorAll(".wa-link").forEach(function(a){ a.href = url; });
   var boxes = Array.prototype.slice.call(document.querySelectorAll(".tick:not(.xt) input"));
@@ -577,7 +670,8 @@ html:not(.eoion) .ans .eoin{display:none}
   var key = "sam-dealtest-v3", saved = [], PSFV = 0, PSFR = null, PSF_MAX = 15;
   try { saved = JSON.parse(localStorage.getItem(key) || "[]"); } catch(e) {}
   function update(){
-    var n = boxes.filter(function(b){ return b.checked; }).length + (PSFV?1:0) + (PSFR?1:0);
+    var n = boxes.filter(function(b){ return typeof stOf==="function" ? stOf(b)!=="" : b.checked; }).length + (PSFV?1:0) + (PSFR?1:0);
+    try{ if(typeof milestone==="function") milestone(n); }catch(e){}
     document.getElementById("done").textContent = n;
     document.getElementById("bar").style.width = (n / (boxes.length+2) * 100) + "%";
     try { localStorage.setItem(key, JSON.stringify(boxes.map(function(b){ return b.checked; }))); localStorage.setItem(STK, JSON.stringify(boxes.map(stOf))); } catch(e) {}
@@ -592,17 +686,25 @@ html:not(.eoion) .ans .eoin{display:none}
   function naOK(i){ return NA_OK.indexOf(i)>=0 || (EOI && EOI_IDX.indexOf(i)>=0); }
   var NA_OK=[3,7,8,16]; // can genuinely not apply: progress claim at launch, agent checks when buying direct, resale rules when holding long term
   function stOf(b){ return b.checked?"y":(b.dataset.st||""); }
+  // after an answer, bring the next unanswered line of the same card into view if it is hidden behind the bottom bars
+  function showNextLine(b){ setTimeout(function(){
+      var card=b.closest(".card"); if(!card) return;
+      var nxt=boxes.filter(function(x){ return x.closest(".card")===card && stOf(x)===""; })[0]; if(!nxt) return;
+      var row=nxt._ans||nxt.closest("label"), r=row.getBoundingClientRect();
+      var bars=(document.getElementById("prog")||{offsetHeight:0}).offsetHeight+((document.querySelector(".sticky")||{offsetHeight:0}).offsetHeight);
+      if(r.bottom>window.innerHeight-bars-16 || r.top<60) window.scrollBy({top:r.bottom-(window.innerHeight-bars-90),behavior:"smooth"});
+    },260); }
   function paintAns(){ boxes.forEach(function(b){ var r=b._ans; if(!r) return; var v=stOf(b);
     Array.prototype.forEach.call(r.children,function(x){ x.classList.toggle("on",x.dataset.v===v); }); }); }
   boxes.forEach(function(b, i){
     b.checked = !!saved[i]; if(!b.checked && (savedSt[i]==="u"||(savedSt[i]==="n"&&naOK(i)))) b.dataset.st=savedSt[i];
-    b.addEventListener("change", function(){ if(b.checked) b.dataset.st=""; });
+    b.addEventListener("change", function(ev){ if(b.checked) b.dataset.st=""; if(ev.isTrusted) showNextLine(b); });
     b.addEventListener("change", update);
     var row=document.createElement("div"); row.className="ans";
     row.innerHTML='<button type="button" class="y" data-v="y">✅ Checked</button><button type="button" class="u" data-v="u">❓ Not known</button>'+(NA_OK.indexOf(i)>=0?'<button type="button" class="n" data-v="n">N/A</button>':EOI_IDX.indexOf(i)>=0?'<button type="button" class="n eoin" data-v="n">N/A</button>':'');
     row.addEventListener("click",function(ev){ var t=ev.target.closest("button"); if(!t) return; var v=t.dataset.v, same=stOf(b)===v;
       if(v==="y"){ b.checked=!same; b.dataset.st=""; } else { b.checked=false; b.dataset.st=same?"":v; }
-      b.dispatchEvent(new Event("change",{bubbles:true})); });
+      b.dispatchEvent(new Event("change",{bubbles:true})); showNextLine(b); });
     b.closest("label").insertAdjacentElement("afterend",row); b._ans=row;
   });
   document.getElementById("tot").textContent = boxes.length + 2;
@@ -834,9 +936,17 @@ html:not(.eoion) .ans .eoin{display:none}
   nudge.addEventListener("click",function(e){ if(e.target===nudge) nudge.hidden=true; });
   // where am I: section name in the progress header
   var prog=document.getElementById("prog");
-  function pad(){ document.body.style.paddingTop=prog.offsetHeight+"px"; } pad(); window.addEventListener("resize",pad);
+  var spacer=document.createElement("div"); spacer.id="barspace"; document.body.appendChild(spacer);
+  function pad(){ var w=document.querySelector(".sticky"), wh=w?w.offsetHeight:0; document.documentElement.style.setProperty("--wah",wh+"px");
+    document.body.style.paddingTop="0px"; document.body.style.paddingBottom="0px"; spacer.style.height=(wh+prog.offsetHeight+70)+"px"; }
+  pad(); window.addEventListener("resize",pad); setTimeout(pad,800);
+  // while the phone keyboard is open, hide the bottom bars so they don't cover the dropdown or the form
+  var kbT=null;
+  document.addEventListener("focusin",function(e){ var t=e.target; if(t.matches && t.matches("input[type=text],input[type=tel],input[type=month],input:not([type]),select,textarea")){ clearTimeout(kbT); document.body.classList.add("kb"); } });
+  document.addEventListener("focusout",function(){ clearTimeout(kbT); kbT=setTimeout(function(){ var a=document.activeElement; if(!(a && a.matches && a.matches("input[type=text],input[type=tel],input[type=month],input:not([type]),select,textarea"))) document.body.classList.remove("kb"); },150); });
+  try{ var ro=new ResizeObserver(pad); ro.observe(prog); var stk=document.querySelector(".sticky"); if(stk) ro.observe(stk); }catch(e){ setInterval(pad,2000); }
   var secs=Array.prototype.slice.call(document.querySelectorAll(".game, section.sec"));
-  function where(){ var y=prog.offsetHeight+40, cur=null; secs.forEach(function(sx){ if(sx.getBoundingClientRect().top<=y) cur=sx; });
+  function where(){ var y=110, cur=null; secs.forEach(function(sx){ if(sx.getBoundingClientRect().top<=y) cur=sx; });
     var t="📍 Start: pick your project"; if(cur && cur.classList.contains("sec")){ var k=cur.querySelector(".kicker"), h=cur.querySelector("h2"); t="📍 "+(k?k.textContent+": ":"")+(h?h.textContent.replace(/^[^A-Za-z0-9]+/,""):""); if(cur.id==="test") t="🎯 Get your result"; }
     document.getElementById("where").textContent=t; }
   window.addEventListener("scroll",where,{passive:true}); where();
@@ -873,7 +983,7 @@ html:not(.eoion) .ans .eoin{display:none}
 
   document.getElementById("rclose").addEventListener("click",close);
   document.getElementById("review").addEventListener("click",function(){ close(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
-  document.getElementById("reset").addEventListener("click",function(){ setEoi(false,false); boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc"].forEach(function(i){document.getElementById(i).value="";}); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
+  document.getElementById("reset").addEventListener("click",function(){ setEoi(false,false); boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc"].forEach(function(i){document.getElementById(i).value="";}); document.getElementById("psf").classList.remove("auto"); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
   function confetti(){
     var c=document.getElementById("conf"), x=c.getContext("2d"); c.width=innerWidth; c.height=innerHeight;
     var cols=["#C9A24A","#E8CF8E","#3DDC84","#fff","#25D366"], ps=[];
@@ -894,10 +1004,12 @@ html:not(.eoion) .ans .eoin{display:none}
   function clearAuto(){ auto.forEach(function(i){ boxes[i].checked=false; var s=boxes[i].parentNode.querySelector(".auto"); if(s) s.remove(); }); auto=[];
     var h=document.querySelector(".hint"); if(h) h.remove(); update(); }
   function tickAuto(i){ if(!boxes[i].checked){ boxes[i].checked=true; auto.push(i);
-      var s=document.createElement("span"); s.className="auto"; s.textContent="✓ DLD"; boxes[i].parentNode.querySelector("span").appendChild(s);} }
+      var s=document.createElement("span"); s.className="auto"; s.textContent="✓ DLD"; boxes[i].parentNode.querySelector("span").appendChild(s);
+      var lb=boxes[i].closest("label"); lb.classList.remove("pop"); void lb.offsetWidth; lb.classList.add("pop"); autoCount++; } }
   function fmtDate(d){ if(!d) return ""; var x=new Date(d); return isNaN(x)?d:x.toLocaleDateString("en-GB",{day:"numeric",month:"short",year:"numeric"}); }
+  var autoCount=0;
   function eoiShow(found){ DLDFOUND=!!found; var w=document.getElementById("eoiwrap"); if(w) w.hidden=DLDFOUND; if(DLDFOUND && EOI) setEoi(false,true); }
-  function pick(r){
+  function pick(r){ autoCount=0;
     eoiShow(true);
     var no=r[0],name=r[1],dev=r[2],st=(r[3]||"").toLowerCase(),pct=r[4],escb=r[5],end=r[6],area=r[7];
     pin.value=name; sg.hidden=true; clearAuto();
@@ -916,14 +1028,17 @@ html:not(.eoion) .ans .eoin{display:none}
       var lab=boxes[PROG].parentNode; if(pct!==""){ var h=document.createElement("span"); h.className="hint"; h.textContent="DLD says "+Math.round(+pct)+"% complete. Does that match what you were told?"; lab.querySelector("span").appendChild(h); }
     }
     card.hidden=false; psfProject(r); update();
+    if(autoCount) mtoast("✅ DLD confirmed "+autoCount+" check"+(autoCount>1?"s":"")+" for you");
   }
   // full start-over: also clear the project and its DLD card
-  document.getElementById("reset").addEventListener("click",function(){ boxes.forEach(function(b){ b.dataset.st=""; }); update(); pin.value=""; eoiShow(false); sg.hidden=true; clearAuto(); card.hidden=true; card.innerHTML="";
+  document.getElementById("reset").addEventListener("click",function(){ boxes.forEach(function(b){ b.dataset.st=""; }); update(); pin.value=""; eoiShow(false); var ft0=document.getElementById("feat"); if(ft0&&ft0.innerHTML) ft0.hidden=false; sg.hidden=true; clearAuto(); card.hidden=true; card.innerHTML="";
     var cm=document.getElementById("cma"); if(cm) cm.hidden=true; window.scrollTo({top:0,behavior:"smooth"}); });
-  (function(){ var hb=document.getElementById("hreset"), tm=null;
-    hb.addEventListener("click",function(){
-      if(!hb.classList.contains("sure")){ hb.classList.add("sure"); hb.textContent="Tap again to clear"; clearTimeout(tm); tm=setTimeout(function(){ hb.classList.remove("sure"); hb.textContent="↺ Reset"; },3000); return; }
-      clearTimeout(tm); hb.classList.remove("sure"); hb.textContent="↺ Reset"; document.getElementById("reset").click(); });
+  (function(){ var hb=document.getElementById("hreset"), rc=document.getElementById("rconf");
+    hb.addEventListener("click",function(){ rc.hidden=false; });
+    document.getElementById("rcno").addEventListener("click",function(){ rc.hidden=true; });
+    rc.addEventListener("click",function(e){ if(e.target===rc) rc.hidden=true; });
+    document.getElementById("rcyes").addEventListener("click",function(){ rc.hidden=true; document.getElementById("reset").click();
+      setTimeout(function(){ if(typeof mtoast==="function") mtoast("↺ All cleared. Start again from the top"); },400); });
   })();
   function search(){
     var q=pin.value.trim().toLowerCase(); if(q.length<2){ sg.hidden=true; return; }
@@ -1043,7 +1158,11 @@ html:not(.eoion) .ans .eoin{display:none}
       '</div><div class="lockov"><span>🔒 Nearby projects, your price rating and the rest of the details are in your <b>full report</b> from Sam.</span></div></div>';
     cma.hidden=false;
   }
-  function calcFromParts(){ var pr=num(document.getElementById("pprice").value), sz=num(document.getElementById("psize").value); if(pr&&sz){ psfIn.value=Math.round(pr/sz).toLocaleString("en-US"); psfAll(); } }
+  function calcFromParts(){ var pr=num(document.getElementById("pprice").value), sz=num(document.getElementById("psize").value);
+    if(pr&&sz){ psfIn.value=Math.round(pr/sz).toLocaleString("en-US"); psfIn.classList.add("auto"); psfAll();
+      [["xprice","pprice"],["xsize","psize"]].forEach(function(p){ var t=document.getElementById(p[0]); if(t && (!t.value.trim() || t.dataset.auto==="1")){ t.value=document.getElementById(p[1]).value; t.dataset.auto="1"; t.dispatchEvent(new Event("change",{bubbles:true})); } }); } }
+  psfIn.addEventListener("input",function(){ psfIn.classList.remove("auto"); });
+  ["xprice","xsize"].forEach(function(i){ var t=document.getElementById(i); t.addEventListener("input",function(){ t.dataset.auto=""; }); });
   function psfAll(){ psfLoad(function(){ psfCalc(); update(); }); PSFV=num(psfIn.value); update(); }
   [psfIn,locIn].forEach(function(el){ el.addEventListener("focus",function(){psfLoad(function(){});}); el.addEventListener("input",psfAll); el.addEventListener("change",psfAll); });
   ["pprice","psize"].forEach(function(i){ document.getElementById(i).addEventListener("input",calcFromParts); });
@@ -1055,12 +1174,12 @@ html:not(.eoion) .ans .eoin{display:none}
     function sc(el){ return el.closest(".card")||el; }
     function filled(card){ var ok=true; Array.prototype.forEach.call(card.querySelectorAll("input,select"),function(i){ if(i.id==="xag") return; if(i.type==="checkbox"){ if(!i.checked) ok=false; } else if(!i.value.trim()) ok=false; }); return ok; }
     var proj=document.getElementById("proj"), psf=document.getElementById("psf"), ploc=document.getElementById("ploc");
-    steps.push({k:"proj",a:proj.closest("label"),hi:proj.closest("label"),t:"Start here: type your project",done:function(){ return proj.value.trim().length>1; }});
+    steps.push({k:"proj",a:proj.closest("label"),hi:proj.closest("label"),t:"Start here: type your project",skip:"Not listed? Skip",done:function(){ return proj.value.trim().length>1; }});
     var seen=[];
     boxes.forEach(function(b){ var c=b.closest(".card"); if(seen.indexOf(c)<0){ seen.push(c); var n=(c.querySelector(".n")||{}).textContent||"";
       var cb=boxes.filter(function(x){ return x.closest(".card")===c; });
       steps.push({k:"c"+n,a:c.querySelector(".ticks"),hi:c,t:"Answer every line: Checked, Not known or N/A",done:function(){ return cb.every(function(x){ return stOf(x)!==""; }); }}); } });
-    steps.push({k:"psf",a:psf.closest(".psfrow"),hi:psf.closest(".card"),t:"Enter the price per sq ft you're paying",skip:"Skip",done:function(){ return num(psf.value)>0; }});
+    steps.push({k:"psf",a:psf.closest(".card").querySelector(".pcalc")||psf.closest(".psfrow"),hi:psf.closest(".card"),t:"Enter the unit price and size",skip:"Skip",done:function(){ return num(psf.value)>0; }});
     steps.push({k:"ploc",a:ploc.closest("label"),hi:ploc.closest(".card"),t:"Pick the area from the list",skip:"Skip",done:function(){ return ploc.value.trim().length>1; }});
     Array.prototype.forEach.call(document.querySelectorAll("#moresec .card"),function(c,i){
       steps.push({k:"x"+i,a:c.querySelector(".xf,.ticks"),hi:c,t:"Optional: fill what you know",skip:"Skip",done:function(){ return filled(c); }}); });
@@ -1076,7 +1195,7 @@ html:not(.eoion) .ans .eoin{display:none}
       lab.innerHTML='<span><span class="ar">⬇</span> '+s.t+'</span>'+(s.skip?'<button type="button" class="nxs">'+s.skip+' ›</button>':'');
       s.a.parentNode.insertBefore(lab,s.a); s.hi.classList.add("nx"); lastHi=s.hi;
       var b=lab.querySelector(".nxs"); if(b) b.addEventListener("click",function(){ skipped[s.k]=1; lastEvt="change"; draw(); });
-      if(moved && lastEvt==="change"){ setTimeout(function(){ var r=lab.getBoundingClientRect(); if(r.top>window.innerHeight-140 || r.top<90) lab.scrollIntoView({behavior:"smooth",block:"center"}); },450); }
+      if(moved && lastEvt==="change"){ setTimeout(function(){ var r=lab.getBoundingClientRect(); if(r.top>window.innerHeight-280 || r.top<20) lab.scrollIntoView({behavior:"smooth",block:"center"}); },450); }
     }
     var t=null; function soon(ev){ lastEvt=ev.type; clearTimeout(t); t=setTimeout(draw,ev.type==="change"?350:150); }
     document.addEventListener("change",soon,true); document.addEventListener("input",soon,true);
@@ -1084,6 +1203,27 @@ html:not(.eoion) .ans .eoin{display:none}
     document.getElementById("reset").addEventListener("click",function(){ skipped={}; cur=-1; setTimeout(draw,200); });
     setTimeout(draw,300);
   })();
+
+  // ---------- v2: collapse explanations, milestones, start button ----------
+  (function(){
+    Array.prototype.forEach.call(document.querySelectorAll("section.sec .card .body"),function(b){
+      var card=b.closest(".card"); if(card.closest("#psfsec")||card.closest("#moresec")) return;
+      var keep=b.querySelector("h3"), ticks=b.querySelector(".ticks"), extra=[];
+      Array.prototype.forEach.call(b.children,function(c){ if(c!==keep && c!==ticks && !c.classList.contains("eoi")) extra.push(c); });
+      if(!extra.length) return;
+      var d=document.createElement("details"); d.className="whym"; d.innerHTML="<summary>Why this matters ▾</summary>";
+      extra.forEach(function(c){ d.appendChild(c); });
+      if(ticks) ticks.insertAdjacentElement("afterend",d); else b.appendChild(d);
+    });
+  })();
+  var mt=null; function mtoast(t){ var el=document.getElementById("mtoast"); if(!el){ el=document.createElement("div"); el.id="mtoast"; el.className="mtoast"; document.body.appendChild(el); }
+    el.style.top="14px"; el.textContent=t; el.classList.add("on"); clearTimeout(mt); mt=setTimeout(function(){ el.classList.remove("on"); },2600); }
+  var mdone=mdone||{};
+  function milestone(n){ if(!mdone) mdone={}; [[5,"👍 Good start, keep going"],[10,"🔥 Halfway! Your score is forming"],[15,"🏁 Almost there: 5 checks to your result"]].forEach(function(m){
+      if(n>=m[0] && !mdone[m[0]]){ mdone[m[0]]=1; if(window.__ready) mtoast(m[1]); } }); }
+  setTimeout(function(){ window.__ready=true; },1500);
+  document.getElementById("startbtn").addEventListener("click",function(){ document.getElementById("checks").scrollIntoView({behavior:"smooth",block:"start"}); });
+  try{ fetch("data/status.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){ if(j.rows) document.getElementById("st1b").textContent=j.rows; }); }catch(e){}
   var modal=document.getElementById("modal");
   document.getElementById("getpdf").addEventListener("click",function(){document.getElementById("fname").value=document.getElementById("fname").value||who.n||"";document.getElementById("fphone").value=document.getElementById("fphone").value||who.p||"";modal.hidden=false;setTimeout(function(){document.getElementById("fname").focus();},50);});
   document.getElementById("close").addEventListener("click",function(){modal.hidden=true;});
