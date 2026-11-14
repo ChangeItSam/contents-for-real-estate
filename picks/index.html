@@ -94,8 +94,10 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
   }
   function render(){
     Array.prototype.forEach.call(document.querySelectorAll("#tabs button"),function(b){ b.classList.toggle("on",b.dataset.c===CAT); });
-    var list=PICKS.filter(function(p){ return p.cat===CAT && p.available!==false; })
-      .sort(function(a,b){ return (b.added||"").localeCompare(a.added||""); }).slice(0,SHOW);
+    // 3 pinned top-developer projects stay put; the other 2 slots rotate to the newest project reels
+    var live=PICKS.filter(function(p){ return p.cat===CAT && p.available!==false; }), byNew=function(a,b){ return (b.added||"").localeCompare(a.added||""); };
+    var pins=live.filter(function(p){ return p.pin; }).slice(0,3), rest=live.filter(function(p){ return !p.pin; }).sort(byNew);
+    var list=pins.concat(rest).slice(0,SHOW);
     document.getElementById("list").innerHTML=list.length? list.map(card).join("") : '<div class="empty">New projects coming soon. Ask me on WhatsApp what\'s available now.</div>';
   }
   Array.prototype.forEach.call(document.querySelectorAll("#tabs button"),function(b){ b.addEventListener("click",function(){ CAT=b.dataset.c; try{ history.replaceState(null,"","#"+CAT); }catch(x){} render(); }); });

@@ -1,5 +1,5 @@
 {
- "_how": "Sam's projects that passed the 20-check Stress Test. The page shows, per type, the 5 most recently added projects that still have stock (available: true). Set available to false when a project sells out; add new ones with today's date in 'added'. 'dld' = DLD project numbers (the page reads construction %, escrow bank and completion date from ../checklist/data/projects.json); leave it [] for EOI / pre-launch projects. Set eoi true for EOI / pre-launch projects with no DLD registration yet.",
+ "_how": "Sam's projects that passed the 20-check Stress Test. RULE (Sam, 14 Nov 2026): each type (villa / townhouse / apartment) shows 5 projects: 3 pinned top-developer projects (pin: true) that never move unless Sam moves them or they sell out (available: false), plus the 2 most recently added non-pinned projects (by 'added' date), which rotate as Sam posts a new project reel each day: add the reel's project here with today's date and it takes a rotating slot, pushing the oldest rotating one off the page (it stays in this file). 'dld' = DLD project numbers (the page reads construction %, escrow bank and completion date from ../checklist/data/projects.json); leave [] if not registered; eoi true = EOI / pre-launch.",
  "p": [
   {
    "cat": "villa",
@@ -15,7 +15,8 @@
    "price": "",
    "plan": "",
    "note": "Mareva The Oasis 4269 + Mareva 2 The Oasis 4270 (Emaar Development); confirm the phase Sam sells",
-   "eoi": false
+   "eoi": false,
+   "pin": true
   },
   {
    "cat": "villa",
@@ -28,7 +29,8 @@
    "price": "",
    "plan": "",
    "note": "",
-   "eoi": true
+   "eoi": true,
+   "pin": false
   },
   {
    "cat": "villa",
@@ -41,7 +43,8 @@
    "price": "",
    "plan": "",
    "note": "",
-   "eoi": true
+   "eoi": true,
+   "pin": false
   },
   {
    "cat": "villa",
@@ -56,7 +59,8 @@
    "price": "",
    "plan": "",
    "note": "",
-   "eoi": false
+   "eoi": false,
+   "pin": true
   },
   {
    "cat": "villa",
@@ -71,7 +75,8 @@
    "price": "",
    "plan": "",
    "note": "Sobha villa project to confirm",
-   "eoi": false
+   "eoi": false,
+   "pin": true
   },
   {
    "cat": "townhouse",
@@ -86,7 +91,8 @@
    "price": "",
    "plan": "",
    "note": "",
-   "eoi": false
+   "eoi": false,
+   "pin": true
   },
   {
    "cat": "townhouse",
@@ -106,7 +112,8 @@
    "price": "",
    "plan": "",
    "note": "Phase to confirm",
-   "eoi": false
+   "eoi": false,
+   "pin": true
   },
   {
    "cat": "townhouse",
@@ -119,7 +126,8 @@
    "price": "",
    "plan": "",
    "note": "Not found in DLD registry as 'Violet' (only La Violeta 2 by another developer); ask Sam for DLD no.",
-   "eoi": false
+   "eoi": false,
+   "pin": false
   },
   {
    "cat": "townhouse",
@@ -132,7 +140,8 @@
    "price": "",
    "plan": "",
    "note": "Not in DLD registry under 'Tilal' yet (checked 14 Nov 2026)",
-   "eoi": true
+   "eoi": true,
+   "pin": false
   },
   {
    "cat": "townhouse",
@@ -148,7 +157,8 @@
    "price": "",
    "plan": "",
    "note": "",
-   "eoi": false
+   "eoi": false,
+   "pin": true
   },
   {
    "cat": "apartment",
@@ -163,7 +173,8 @@
    "price": "",
    "plan": "",
    "note": "",
-   "eoi": false
+   "eoi": false,
+   "pin": true
   },
   {
    "cat": "apartment",
@@ -179,7 +190,8 @@
    "price": "",
    "plan": "",
    "note": "Aldar project to confirm",
-   "eoi": false
+   "eoi": false,
+   "pin": true
   },
   {
    "cat": "apartment",
@@ -192,7 +204,8 @@
    "price": "",
    "plan": "",
    "note": "Not in DLD registry as 'Everly' (checked 14 Nov 2026); ask Sam for DLD no.",
-   "eoi": false
+   "eoi": false,
+   "pin": true
   },
   {
    "cat": "apartment",
@@ -205,7 +218,8 @@
    "price": "",
    "plan": "",
    "note": "Only Samana record in Down Town Jabal Ali is Samana Business Hub (4394); confirm before linking",
-   "eoi": false
+   "eoi": false,
+   "pin": false
   },
   {
    "cat": "apartment",
@@ -223,7 +237,8 @@
    "price": "",
    "plan": "",
    "note": "Cove Boulevard 3675, Cove Edition 5 3705, Cove Edition 6 3803, Cove Grand 3774; confirm phase",
-   "eoi": false
+   "eoi": false,
+   "pin": false
   }
  ]
 }
