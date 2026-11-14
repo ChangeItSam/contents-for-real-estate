@@ -1072,7 +1072,18 @@ details.whym[open] summary{margin-bottom:6px}
   function psfProject(r){ psfLoad(function(){
       var x=PD.byNo[r[0]];
       PSFP = x ? {no:x[0],name:x[1],grade:x[3],community:x[4],area:x[5],psf:x[6]} : {no:r[0],name:r[1],grade:null,community:r[7]||"",area:""};
-      locIn.value=PSFP.community||PSFP.area||locIn.value; psfCalc(); update(); }); }
+      // always replace the area for the newly picked project, using a name the price data knows
+      function known(){ return (PSFP.community&&PD.c[PSFP.community])?PSFP.community:(PSFP.area&&PD.a[PSFP.area])?PSFP.area:""; }
+      function apply(v){ locIn.value=v||""; psfCalc(); update(); }
+      var k=known();
+      if(k) return apply(k);
+      // not in the price data (e.g. handed over): use the project's DLD community or area from the insights file
+      fetch("data/insights.json",{cache:"no-cache"}).then(function(q){return q.json();}).then(function(j){
+        var ip=j.p&&j.p[r[0]]; if(!ip) return apply(PSFP.community||"");
+        if(ip[9]&&PD.c[ip[9]]){ PSFP.community=ip[9]; } else if(ip[10]&&PD.a[ip[10]]){ PSFP.community=""; PSFP.area=ip[10]; }
+        apply(known()||PSFP.community||"");
+      }).catch(function(){ apply(PSFP.community||""); });
+    }); }
   function fmt(n){ return "AED "+Math.round(n).toLocaleString("en-US"); }
   function psfCalc(){
     PSFV=num(psfIn.value); PSFR=null;
