@@ -278,6 +278,7 @@ section,.game{scroll-margin-top:110px}
 .eoi small{display:block;font-size:13.5px;color:#7A6230;margin-top:2px}
 html:not(.eoion) .ans .eoin{display:none}
 .ans button.on.n{background:#0B1F3A!important;border-color:#0B1F3A!important;color:#fff!important}.ans button.on.n::before{content:"✓ ";color:#E9C46A}
+.holdnx{margin-top:12px;position:relative}.holdnx button{width:100%;font:inherit;font-weight:800;font-size:16px;border:0;border-radius:14px;padding:12px 14px;background:linear-gradient(135deg,#E9C46A,#C9A24A);color:#0B1F3A;cursor:pointer;box-shadow:0 4px 14px rgba(201,162,74,.35)}.holdnx i{display:block;height:4px;border-radius:4px;background:#C9A24A;margin-top:6px;transform-origin:left;animation:holdbar 5s linear forwards}@keyframes holdbar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
 .eoinote{background:#FFF6E3;color:#6B4E12;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:15px;line-height:1.45}
 </style>
 <script>
@@ -773,7 +774,7 @@ html:not(.eoion) .ans .eoin{display:none}
       devCard.className="dld devcard "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false;
       devTick(0); devTick(1); try{ localStorage.setItem("sam-dealtest-dev",no); }catch(e){} update();
       if(!quiet && typeof mtoast==="function") mtoast("✅ DLD confirmed the developer: 2 checks done");
-      if(!quiet && !LAUNCH){ var lq=document.querySelector("#devbox .launchq"); if(lq) setTimeout(function(){ lq.scrollIntoView({behavior:"smooth",block:"center"}); lq.classList.remove("flash"); void lq.offsetWidth; lq.classList.add("flash"); },300); } }); }
+      if(!quiet) holdNext(devCard,function(){ if(needLaunch()) goLaunch(); else if(window.guideGo) window.guideGo(devCard); }); }); }
   // Brands that register projects with DLD under a different company name
   // Brands that register projects with DLD under a different company name
   var DEV_ALIAS={"nakheel":["1510","103","880"],"meraas":["1510","1076"],"meera":["1510","1076"],"dubai properties":["1510"],"dubai property":["1510"],"meydan":["1510","1181"],"dubai holding":["1510","103","880","1076","1181"],"dhre":["1510"]};
@@ -1038,6 +1039,13 @@ html:not(.eoion) .ans .eoin{display:none}
   try{ who=JSON.parse(localStorage.getItem("sam-who")||"{}"); }catch(e){}
   function openGate(){ document.getElementById("gname").value=who.n||""; document.getElementById("gphone").value=who.p||""; gate.hidden=false; setTimeout(function(){document.getElementById(who.n?"gphone":"gname").focus();},50); }
   var nudge=document.getElementById("nudge");
+  var HOLD=null;
+  function holdClear(){ if(!HOLD) return; clearTimeout(HOLD.t); if(HOLD.w && HOLD.w.parentNode) HOLD.w.parentNode.removeChild(HOLD.w); HOLD=null; }
+  function holdNext(el,after){ if(!el || el.hidden || FROMLINK) return; holdClear();
+    var w=document.createElement("div"); w.className="holdnx"; w.innerHTML='<button type="button">Take me to the next check ⬇</button><i></i>'; el.appendChild(w);
+    setTimeout(function(){ var r=el.getBoundingClientRect(); if(r.top<70 || r.bottom>window.innerHeight-150) el.scrollIntoView({behavior:"smooth",block:r.height>window.innerHeight-220?"start":"center"}); },120);
+    var h={w:w}; function go(){ if(HOLD!==h) return; holdClear(); if(after) after(); else if(window.guideGo) window.guideGo(el); }
+    h.t=setTimeout(go,5000); HOLD=h; w.querySelector("button").addEventListener("click",go); }
   function needLaunch(){ var b=document.getElementById("devbox"); return EOI && b && !b.hidden && (!DEVSEL || !LAUNCH); }
   function goLaunch(){ var b=document.getElementById("devbox"), q=DEVSEL?b.querySelector(".launchq"):b; q.scrollIntoView({behavior:"smooth",block:"center"}); q.classList.remove("flash"); void q.offsetWidth; q.classList.add("flash"); if(typeof mtoast==="function") mtoast(DEVSEL?"📅 Tap: is the launch date announced?":"👷 Pick the developer first"); }
   function tryResult(e){ if(e) e.preventDefault(); if(needLaunch()){ goLaunch(); return; } if(!PSFR){ nudge.hidden=false; } else openGate(); }
@@ -1151,7 +1159,7 @@ html:not(.eoion) .ans .eoin{display:none}
         else { if(!boxes[PROG].checked){ boxes[PROG].dataset.st="n"; autoN=true; } h.textContent="DLD records show construction hasn't started yet. Details in your full report."; }
         lab.querySelector("span").appendChild(h); }
     }
-    card.hidden=false; psfProject(r); update();
+    card.hidden=false; psfProject(r); update(); holdNext(card);
     (function(no){ insLoad(function(){ if(!DLDFOUND || pin.value!==name) return; var ip=INS.p&&INS.p[no], d=ip&&INS.d&&INS.d[ip[0]]; if(!d) return;
       var D={no:ip[0],name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0};
       if(st.indexOf("cancel")<0){ tickAuto(1); update(); }
@@ -1195,7 +1203,7 @@ html:not(.eoion) .ans .eoin{display:none}
     card.className="dld warn";
     card.innerHTML='<b class="t">🆕 '+esc(name)+': new launch</b>New launches appear in DLD sales records only after the first sales are registered, so we can\'t auto-check it yet. Until then, ask the developer for the <b>DLD project number and escrow account</b>, or ask Sam and he\'ll check it for you.'+
       '<a class="btn" style="margin-top:10px;font-size:17px;padding:11px 14px" href="https://wa.me/971528728248?text='+encodeURIComponent(m)+'"><svg class="lg"><use href="#waw"/></svg>Ask Sam for the DLD details</a>';
-    card.hidden=false;
+    card.hidden=false; holdNext(card);
   }
   function getj(u){ return fetch(u,{cache:"no-cache"}).then(function(r){return r.ok?r.json():{featured:[]};}).catch(function(){return {featured:[]};}); }
   Promise.all([getj("data/featured.json"),getj("data/featured_auto.json")]).then(function(js){
@@ -1303,7 +1311,7 @@ html:not(.eoion) .ans .eoin{display:none}
     if(!hits.length){ locSg.hidden=true; return; }
     locSg.innerHTML=(q?"":'<button type="button" disabled style="color:#5B6678;font-size:13px;font-weight:700;cursor:default">Popular areas · or type to search</button>')+hits.map(function(n){ return '<button type="button" data-loc="'+esc(n)+'">'+esc(n)+'</button>'; }).join("");
     locSg.hidden=false;
-    Array.prototype.forEach.call(locSg.querySelectorAll("button[data-loc]"),function(bt){ bt.addEventListener("click",function(){ locIn.value=bt.dataset.loc; locSg.hidden=true; psfAll(); update(); locIn.dispatchEvent(new Event("change")); }); }); }
+    Array.prototype.forEach.call(locSg.querySelectorAll("button[data-loc]"),function(bt){ bt.addEventListener("click",function(){ locIn.value=bt.dataset.loc; locSg.hidden=true; psfAll(); update(); locIn.dispatchEvent(new Event("change")); setTimeout(function(){ holdNext(document.getElementById("cma")); },400); }); }); }
   function locReady(cb){ psfLoad(function(){ if(!LOCS.length){ var seen={}; Object.keys(PD.c).concat(Object.keys(PD.a)).forEach(function(n){ if(!seen[n.toLowerCase()]){ seen[n.toLowerCase()]=1; LOCS.push(n);} }); } cb(); }); }
   locIn.addEventListener("focus",function(){ locReady(locList); });
   locIn.addEventListener("input",function(){ locReady(locList); });
@@ -1329,7 +1337,10 @@ html:not(.eoion) .ans .eoin{display:none}
       steps.push({k:"x"+i,a:c.querySelector(".xf,.ticks"),hi:c,t:"Optional: fill what you know",skip:"Skip",done:function(){ return filled(c); }}); });
     var sub=document.getElementById("submit");
     steps.push({k:"sub",a:sub,hi:sub,t:"All set? Tap here for your result",done:function(){ return false; }});
-    function next(){ for(var i=0;i<steps.length;i++){ if(!skipped[steps[i].k] && !steps[i].done()) return i; } return steps.length-1; }
+    var FROM=null;
+    function after(s){ return !FROM || FROM===s.hi || s.hi.contains(FROM) || !!(FROM.compareDocumentPosition(s.hi)&4); }
+    function next(){ var i; if(FROM){ for(i=0;i<steps.length;i++){ if(!skipped[steps[i].k] && after(steps[i]) && !steps[i].done()) return i; } }
+      for(i=0;i<steps.length;i++){ if(!skipped[steps[i].k] && !steps[i].done()) return i; } return steps.length-1; }
     function draw(){
       if(document.documentElement.className.indexOf("locked")>=0 || FROMLINK) return;
       var i=next(); if(i===cur) return;
@@ -1339,8 +1350,9 @@ html:not(.eoion) .ans .eoin{display:none}
       lab.innerHTML='<span><span class="ar">⬇</span> '+s.t+'</span>'+(s.skip?'<button type="button" class="nxs">'+s.skip+' ›</button>':'');
       s.a.parentNode.insertBefore(lab,s.a); s.hi.classList.add("nx"); lastHi=s.hi;
       var b=lab.querySelector(".nxs"); if(b) b.addEventListener("click",function(){ skipped[s.k]=1; lastEvt="change"; draw(); });
-      if(moved && lastEvt==="change"){ setTimeout(function(){ var r=lab.getBoundingClientRect(); if(r.top>window.innerHeight-280 || r.top<20) lab.scrollIntoView({behavior:"smooth",block:"center"}); },450); }
+      if(moved && lastEvt==="change" && !HOLD){ setTimeout(function(){ var r=lab.getBoundingClientRect(); if(r.top>window.innerHeight-280 || r.top<20) lab.scrollIntoView({behavior:"smooth",block:"center"}); },450); }
     }
+    window.guideGo=function(from){ FROM=from||null; cur=-1; draw(); FROM=null; if(lab && lab.parentNode) lab.scrollIntoView({behavior:"smooth",block:"center"}); };
     var t=null; function soon(ev){ lastEvt=ev.type; clearTimeout(t); t=setTimeout(draw,ev.type==="change"?350:150); }
     document.addEventListener("change",soon,true); document.addEventListener("input",soon,true);
     document.getElementById("sugg").addEventListener("click",function(){ lastEvt="change"; setTimeout(draw,500); });
