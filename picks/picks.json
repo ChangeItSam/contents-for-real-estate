@@ -183,7 +183,7 @@
   },
   {
    "cat": "apartment",
-   "name": "Ellington apartments",
+   "name": "Everly Place",
    "dev": "Ellington",
    "area": "",
    "dld": [],
@@ -191,7 +191,7 @@
    "available": true,
    "price": "",
    "plan": "",
-   "note": "Project to confirm",
+   "note": "Not in DLD registry as 'Everly' (checked 14 Nov 2026); ask Sam for DLD no.",
    "eoi": false
   },
   {
