@@ -270,6 +270,11 @@ section,.game{scroll-margin-top:110px}
 .ans button.on.y{background:#EAF8EF;border-color:#3DDC84;color:#14532D}
 .ans button.on.u{background:#FFF6E0;border-color:#F5C451;color:#6B4A00}
 .ans button.on.n{background:#E9EDF3;border-color:#9AA6B8;color:#3A4456}
+.eoi{display:flex;gap:10px;align-items:flex-start;background:#FFF6E3;border:1.5px dashed var(--gold);border-radius:12px;padding:10px 12px;margin:10px 0 4px;font-size:15.5px;line-height:1.45;color:#6B4E12;cursor:pointer}
+.eoi input{flex:none;width:22px;height:22px;margin-top:1px;accent-color:#C9A24A}
+.eoi small{display:block;font-size:13.5px;color:#7A6230;margin-top:2px}
+html:not(.eoion) .ans .eoin{display:none}
+.eoinote{background:#FFF6E3;color:#6B4E12;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:15px;line-height:1.45}
 </style>
 <script>
 // Access gate: the test opens from the Instagram DM link (it carries ?k=...). A plain copied link goes to Instagram first.
@@ -367,6 +372,11 @@ details.whym[open] summary{margin-bottom:6px}
 .tease{background:#F7F4EC;border-radius:16px;padding:14px;margin:4px 0 12px;text-align:center}
 .tease .tn{font-size:44px;font-weight:900;color:var(--navy);line-height:1}.tease .tn small{display:inline;font-size:18px;color:var(--muted);margin:0 0 0 2px}
 .tease .tl{font-weight:800;color:var(--navy);margin-top:2px}.tease p{font-size:14.5px;color:#3A4456;margin-top:6px}
+.eoi{display:flex;gap:10px;align-items:flex-start;background:#FFF6E3;border:1.5px dashed var(--gold);border-radius:12px;padding:10px 12px;margin:10px 0 4px;font-size:15.5px;line-height:1.45;color:#6B4E12;cursor:pointer}
+.eoi input{flex:none;width:22px;height:22px;margin-top:1px;accent-color:#C9A24A}
+.eoi small{display:block;font-size:13.5px;color:#7A6230;margin-top:2px}
+html:not(.eoion) .ans .eoin{display:none}
+.eoinote{background:#FFF6E3;color:#6B4E12;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:15px;line-height:1.45}
 </style>
 </head>
 <body>
@@ -447,7 +457,7 @@ details.whym[open] summary{margin-bottom:6px}
 <section class="sec" id="checks">
  <div class="kicker">Checks 1–4</div><h2>🛡️ Is it safe?</h2><p class="lead">Dubai protects off-plan buyers well. Make sure you're inside that protection.</p>
  <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>Open the official <b>Dubai REST</b> app (Dubai Land Department) and search the developer. Look at their completed projects and on-time handovers.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label></div></div></div>
- <div class="card"><div class="num"><span class="ic">🏗️</span><span class="n">3–4</span></div><div class="body"><h3>The exact project is registered, not just the developer</h3><p>Every off-plan project has its own registration. Ask for the <b>project number</b> and search it on Dubai REST to see its status and construction progress.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="10"><b class="cn">3</b><span>Project number verified on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="4"><b class="cn">4</b><span>Construction progress (%) matches what you were told</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏗️</span><span class="n">3–4</span></div><div class="body"><h3>The exact project is registered, not just the developer</h3><p>Every off-plan project has its own registration. Ask for the <b>project number</b> and search it on Dubai REST to see its status and construction progress.</p><label class="eoi"><input type="checkbox" id="eoi"><span><b>🟡 This project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and they're marked N/A instead of costing you marks. Check them again before you pay the booking amount.</small></span></label><div class="ticks"><label class="tick"><input type="checkbox" data-w="10"><b class="cn">3</b><span>Project number verified on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="4"><b class="cn">4</b><span>Construction progress (%) matches what you were told</span></label></div></div></div>
 </section>
 
 <section class="sec">
@@ -665,6 +675,8 @@ details.whym[open] summary{margin-bottom:6px}
   }
   var STK="sam-dealtest-st", savedSt=[]; try{ savedSt=JSON.parse(localStorage.getItem(STK)||"[]"); }catch(e){}
   var CRITI=[0,2,4,6];
+  var EOI_IDX=[2,4,5,6,14], EOI=false; try{ EOI=localStorage.getItem("sam-dealtest-eoi")==="1"; }catch(e){}
+  function naOK(i){ return NA_OK.indexOf(i)>=0 || (EOI && EOI_IDX.indexOf(i)>=0); }
   var NA_OK=[3,7,8,16]; // can genuinely not apply: progress claim at launch, agent checks when buying direct, resale rules when holding long term
   function stOf(b){ return b.checked?"y":(b.dataset.st||""); }
   // after an answer, bring the next unanswered line of the same card into view if it is hidden behind the bottom bars
@@ -678,17 +690,24 @@ details.whym[open] summary{margin-bottom:6px}
   function paintAns(){ boxes.forEach(function(b){ var r=b._ans; if(!r) return; var v=stOf(b);
     Array.prototype.forEach.call(r.children,function(x){ x.classList.toggle("on",x.dataset.v===v); }); }); }
   boxes.forEach(function(b, i){
-    b.checked = !!saved[i]; if(!b.checked && (savedSt[i]==="u"||(savedSt[i]==="n"&&NA_OK.indexOf(i)>=0))) b.dataset.st=savedSt[i];
+    b.checked = !!saved[i]; if(!b.checked && (savedSt[i]==="u"||(savedSt[i]==="n"&&naOK(i)))) b.dataset.st=savedSt[i];
     b.addEventListener("change", function(ev){ if(b.checked) b.dataset.st=""; if(ev.isTrusted) showNextLine(b); });
     b.addEventListener("change", update);
     var row=document.createElement("div"); row.className="ans";
-    row.innerHTML='<button type="button" class="y" data-v="y">✅ Checked</button><button type="button" class="u" data-v="u">❓ Not known</button>'+(NA_OK.indexOf(i)>=0?'<button type="button" class="n" data-v="n">N/A</button>':'');
+    row.innerHTML='<button type="button" class="y" data-v="y">✅ Checked</button><button type="button" class="u" data-v="u">❓ Not known</button>'+(NA_OK.indexOf(i)>=0?'<button type="button" class="n" data-v="n">N/A</button>':EOI_IDX.indexOf(i)>=0?'<button type="button" class="n eoin" data-v="n">N/A</button>':'');
     row.addEventListener("click",function(ev){ var t=ev.target.closest("button"); if(!t) return; var v=t.dataset.v, same=stOf(b)===v;
       if(v==="y"){ b.checked=!same; b.dataset.st=""; } else { b.checked=false; b.dataset.st=same?"":v; }
       b.dispatchEvent(new Event("change",{bubbles:true})); showNextLine(b); });
     b.closest("label").insertAdjacentElement("afterend",row); b._ans=row;
   });
   document.getElementById("tot").textContent = boxes.length + 2;
+  var eoiBox=document.getElementById("eoi");
+  function setEoi(on,fill){ EOI=!!on; eoiBox.checked=EOI; document.documentElement.classList.toggle("eoion",EOI);
+    try{ localStorage.setItem("sam-dealtest-eoi",EOI?"1":""); }catch(e){}
+    if(fill) EOI_IDX.forEach(function(i){ var b=boxes[i]; if(EOI){ if(!b.checked) b.dataset.st="n"; } else if(b.dataset.st==="n") b.dataset.st=""; });
+    update(); }
+  setEoi(EOI,false);
+  eoiBox.addEventListener("change",function(){ setEoi(eoiBox.checked,true); });
   update();
 
 
@@ -707,6 +726,8 @@ details.whym[open] summary{margin-bottom:6px}
   function show(){
     var sc=score(), tier=TIERS.filter(function(x){return sc>=x.min;})[0];
     var CRIT=[0,2,4,6], redflag=CRIT.some(function(i){return !boxes[i].checked;});
+    var eoiOnly=EOI && boxes[0].checked && CRIT.every(function(i){ return boxes[i].checked || (EOI_IDX.indexOf(i)>=0 && stOf(boxes[i])==="n"); });
+    if(redflag && eoiOnly && sc>=70){ tier={v:"EOI STAGE ⏳",c:"#F5C451",t:"Good so far for a pre-launch project. It isn't registered with DLD yet, so the project number and escrow account can't be confirmed today. Keep your EOI amount refundable, and don't pay the booking amount until both are confirmed on Dubai REST."}; redflag=false; }
     if(redflag && sc>=70){ tier={v:"RED FLAG 🚩",c:"#FF8A3D",t:"Your score looks good, but a must-have is missing: the developer, the project registration or the escrow account is not confirmed. Don't pay anything until it is. Consult a broker and proceed with caution."}; }
     lastScore=sc; lastTier=tier;
     sendLead(sc,tier);
@@ -797,6 +818,7 @@ details.whym[open] summary{margin-bottom:6px}
     var comm=(ip&&ip[9])||(PSFP&&PSFP.community)||(PROJROW&&PROJROW[7])||"";
     var place=comm||(ip&&ip[10])||(PSFP&&PSFP.area)||"";
     // 1. project record
+    if(EOI) h+='<h4>🟡 EOI / pre-launch phase</h4><div class="box"><div class="row"><span>This project is not registered with DLD yet, so the project number, escrow account and Oqood were left out of your score. Before you pay the booking amount, ask for the DLD project number and escrow account, check them on Dubai REST, and keep your EOI amount refundable until then.</span></div></div>';
     if(PROJROW||ip){ var r=PROJROW||[pn,"","","","","","",""];
       h+='<h4>🏗️ Project record (Dubai Land Department)</h4><div class="box">'+
         '<div class="row"><span>Project</span><b>'+e(r[1]||(PSFP&&PSFP.name))+'</b></div><div class="row"><span>DLD project no.</span><b>'+e(pn||"–")+'</b></div>'+
@@ -934,14 +956,14 @@ details.whym[open] summary{margin-bottom:6px}
   function resultLink(sc){
     var bits=boxes.map(function(b){return b.checked?"1":"0";}).join("");
     var proj=document.getElementById("proj").value.trim();
-    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget()})))));
+    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0})))));
   }
   // shared result link: restore answers and show result directly (after the page has set up)
   setTimeout(function(){
     var m=location.hash.match(/^#r=(.+)$/); if(!m) return;
     try{
-      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true;
-      boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; var v=o.s&&o.s.charAt(i); b.dataset.st=(!b.checked&&(v==="u"||(v==="n"&&NA_OK.indexOf(i)>=0)))?v:""; });
+      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true; setEoi(o.e===1,false);
+      boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; var v=o.s&&o.s.charAt(i); b.dataset.st=(!b.checked&&(v==="u"||(v==="n"&&naOK(i))))?v:""; });
       document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n;
       if(o.x) xset(o.x);
       update();
@@ -954,7 +976,7 @@ details.whym[open] summary{margin-bottom:6px}
 
   document.getElementById("rclose").addEventListener("click",close);
   document.getElementById("review").addEventListener("click",function(){ close(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
-  document.getElementById("reset").addEventListener("click",function(){ boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc"].forEach(function(i){document.getElementById(i).value="";}); document.getElementById("psf").classList.remove("auto"); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
+  document.getElementById("reset").addEventListener("click",function(){ setEoi(false,false); boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc"].forEach(function(i){document.getElementById(i).value="";}); document.getElementById("psf").classList.remove("auto"); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
   function confetti(){
     var c=document.getElementById("conf"), x=c.getContext("2d"); c.width=innerWidth; c.height=innerHeight;
     var cols=["#C9A24A","#E8CF8E","#3DDC84","#fff","#25D366"], ps=[];
@@ -1176,7 +1198,7 @@ details.whym[open] summary{margin-bottom:6px}
     Array.prototype.forEach.call(document.querySelectorAll("section.sec .card .body"),function(b){
       var card=b.closest(".card"); if(card.closest("#psfsec")||card.closest("#moresec")) return;
       var keep=b.querySelector("h3"), ticks=b.querySelector(".ticks"), extra=[];
-      Array.prototype.forEach.call(b.children,function(c){ if(c!==keep && c!==ticks) extra.push(c); });
+      Array.prototype.forEach.call(b.children,function(c){ if(c!==keep && c!==ticks && !c.classList.contains("eoi")) extra.push(c); });
       if(!extra.length) return;
       var d=document.createElement("details"); d.className="whym"; d.innerHTML="<summary>Why this matters ▾</summary>";
       extra.forEach(function(c){ d.appendChild(c); });
