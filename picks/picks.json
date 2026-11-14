@@ -72,11 +72,11 @@
   },
   {
    "cat": "townhouse",
-   "name": "Breez by Danube",
+   "name": "Greenz by Danube",
    "dev": "Danube",
-   "area": "Dubai Maritime City",
+   "area": "",
    "dld": [
-    "4081"
+    "4430"
    ],
    "added": "2026-11-14",
    "available": true,
@@ -120,7 +120,7 @@
   },
   {
    "cat": "townhouse",
-   "name": "Binghatti townhouses",
+   "name": "Tilal by Binghatti",
    "dev": "Binghatti",
    "area": "",
    "dld": [],
@@ -128,8 +128,8 @@
    "available": true,
    "price": "",
    "plan": "",
-   "note": "Project to confirm",
-   "eoi": false
+   "note": "Not in DLD registry under 'Tilal' yet (checked 14 Nov 2026)",
+   "eoi": true
   },
   {
    "cat": "townhouse",
