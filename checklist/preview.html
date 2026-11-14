@@ -387,6 +387,7 @@ html:not(.eoion) .ans .eoin{display:none}
 #devin{display:block;width:100%;margin-top:6px;font:inherit;font-size:17px;padding:12px 14px;border:2px solid var(--gold);border-radius:12px;background:#fff;color:var(--navy);min-height:50px}
 .devstat{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.devstat span{background:rgba(255,255,255,.7);border-radius:10px;padding:6px 4px;text-align:center;font-size:12.5px;line-height:1.25}.devstat b{display:block;font-size:20px}
 .devstat .bn{filter:blur(7px);user-select:none}.devlock{font-size:14.5px;font-weight:700;margin-bottom:4px}
+.launchq{margin-top:12px}.launchq .plab{font-weight:800;color:var(--navy);font-size:16px}.ans.lq{margin-top:6px}
 </style>
 </head>
 <body>
@@ -466,7 +467,7 @@ html:not(.eoion) .ans .eoin{display:none}
 
 <section class="sec" id="checks">
  <div class="kicker">Checks 1–4</div><h2>🛡️ Is it safe?</h2><p class="lead">Dubai protects off-plan buyers well. Make sure you're inside that protection.</p>
- <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>A developer registered with RERA is accountable to the regulator, and their delivery record is the best guide to whether your building gets finished on time. You don't need to search any registry: we check the developer against Dubai Land Department records as soon as you pick your project, or type the developer's name for an EOI project. Your full report shows how many projects they've handed over, how many are under construction, delayed or cancelled.</p><div class="ticks"><div id="devbox" class="devbox" hidden><label class="plab" for="devin">👷 EOI project: who is the developer? <small>(type 2+ letters, then pick from the list)</small></label><input id="devin" type="text" autocomplete="off" placeholder="e.g. Azizi, Binghatti, Emaar"><div id="devsg" class="sugg" hidden></div></div><div id="devcard" class="dld devcard" hidden></div><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label><label class="eoi" id="eoiwrap"><input type="checkbox" id="eoi"><span><b>🟡 Not found in DLD? Tick if this project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and they're marked N/A instead of costing you marks. Check them again before you pay the booking amount.</small></span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>A developer registered with RERA is accountable to the regulator, and their delivery record is the best guide to whether your building gets finished on time. You don't need to search any registry: we check the developer against Dubai Land Department records as soon as you pick your project, or type the developer's name for an EOI project. Your full report shows how many projects they've handed over, how many are under construction, delayed or cancelled.</p><div class="ticks"><div id="devbox" class="devbox" hidden><label class="plab" for="devin">👷 EOI project: who is the developer? <small>(type 2+ letters, then pick from the list)</small></label><input id="devin" type="text" autocomplete="off" placeholder="e.g. Azizi, Binghatti, Emaar"><div id="devsg" class="sugg" hidden></div><div class="launchq"><div class="plab">📅 Has the developer officially announced the launch date?</div><div class="ans lq"><button type="button" data-l="y">✅ Yes, announced</button><button type="button" data-l="n">⏳ Not yet</button></div></div></div><div id="devcard" class="dld devcard" hidden></div><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label><label class="eoi" id="eoiwrap"><input type="checkbox" id="eoi"><span><b>🟡 Not found in DLD? Tick if this project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and tell us the developer: those lines are then judged on the developer's DLD record and whether the launch date is announced. Check them again before you pay the booking amount.</small></span></label></div></div></div>
  <div class="card"><div class="num"><span class="ic">🏗️</span><span class="n">3–4</span></div><div class="body"><h3>The exact project is registered, not just the developer</h3><p>A good developer isn't enough. Every off-plan project needs its own DLD registration before it can legally be sold, and without it your payments and your unit aren't protected. Pick your project at the top and we pull its registration, status and construction progress from DLD records for you. Not registered yet? Mark it as EOI / pre-launch and we check the developer instead.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="10"><b class="cn">3</b><span>Project number verified on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="4"><b class="cn">4</b><span>Construction progress (%) matches what you were told</span></label></div></div></div>
 </section>
 
@@ -754,6 +755,10 @@ html:not(.eoion) .ans .eoin{display:none}
   devIn.addEventListener("focus",function(){ insLoad(function(){}); });
   eoiBox.addEventListener("change",function(){ devBoxShow(); if(!EOI && DEVSEL){ devClear(); devIn.value=""; } });
   devBoxShow();
+  var lqBtns=Array.prototype.slice.call(document.querySelectorAll(".ans.lq button"));
+  function setLaunch(v){ LAUNCH=v||""; try{ localStorage.setItem("sam-dealtest-launch",LAUNCH); }catch(e){} lqBtns.forEach(function(b){ b.classList.toggle("on",b.dataset.l===LAUNCH); }); update(); }
+  lqBtns.forEach(function(b){ b.addEventListener("click",function(){ setLaunch(LAUNCH===b.dataset.l?"":b.dataset.l); }); });
+  setLaunch(LAUNCH);
   setTimeout(function(){ if(FROMLINK) return; var n=null; try{ n=localStorage.getItem("sam-dealtest-dev"); }catch(e){} if(n && EOI && !DLDFOUND) devPick(n,true); },50);
   eoiBox.addEventListener("change",function(){ setEoi(eoiBox.checked,true); });
   update();
@@ -767,15 +772,23 @@ html:not(.eoion) .ans .eoin{display:none}
     {min:70,v:"CONSULT A BROKER 🧐",c:"#F59E51",t:"Proceed with caution. There are real gaps here. Talk to a licensed broker and get the missing answers before you commit."},
     {min:0,v:"NO DEAL (SKIP) ❌",c:"#FF6B6B",t:"Too many key checks are missing. Walk away for now and look at other projects, or get these answers first."}];
   var res=document.getElementById("res"), lastScore=0, lastTier=null;
-  function ticks(){ return boxes.reduce(function(s,b){return s+(b.checked?+b.dataset.w:0);},0); }
-  function naW(){ return boxes.reduce(function(s,b){return s+(stOf(b)==="n"?+b.dataset.w:0);},0); }
+  // EOI: the registration lines are not skipped. They earn at most half their points,
+  // scaled by the developer's DLD record and whether the launch date is announced.
+  var LAUNCH=""; try{ LAUNCH=localStorage.getItem("sam-dealtest-launch")||""; }catch(e){}
+  function devRep(d){ if(!d) return 0; var tot=d.fin+d.act, lateR=tot?d.late/tot:0;
+    var r=d.fin>=5?1:d.fin>=1?0.75:0.5; if(lateR>0.4) r-=0.25; if(d.can>0) r-=0.25; return Math.max(0.25,r); }
+  function eoiLine(i){ return EOI && EOI_IDX.indexOf(i)>=0 && !boxes[i].checked && stOf(boxes[i])==="n"; }
+  function eoiCredit(){ if(!EOI) return 0; var w=0; boxes.forEach(function(b,i){ if(eoiLine(i)) w+=+b.dataset.w; });
+    return w*0.5*devRep(typeof DEVSEL!=="undefined"?DEVSEL:null)*(LAUNCH==="y"?1:0.5); }
+  function ticks(){ return boxes.reduce(function(s,b){return s+(b.checked?+b.dataset.w:0);},0)+eoiCredit(); }
+  function naW(){ return boxes.reduce(function(s,b,i){return s+(stOf(b)==="n"&&!eoiLine(i)?+b.dataset.w:0);},0); }
   function score(){ var base=100-naW(), t=base>0?ticks()/base*100:0; return Math.round(t*(100-PSF_MAX)/100+(PSFR?PSFR.pts:0)); }
   function labelOf(b){ return b.parentNode.querySelector("span").textContent; }
   function show(){
     var sc=score(), tier=TIERS.filter(function(x){return sc>=x.min;})[0];
     var CRIT=[0,2,4,6], redflag=CRIT.some(function(i){return !boxes[i].checked;});
     var eoiOnly=EOI && boxes[0].checked && CRIT.every(function(i){ return boxes[i].checked || (EOI_IDX.indexOf(i)>=0 && stOf(boxes[i])==="n"); });
-    if(redflag && eoiOnly && sc>=70){ tier={v:"EOI STAGE ⏳",c:"#F5C451",t:"Good so far for a pre-launch project. It isn't registered with DLD yet, so the project number and escrow account can't be confirmed today. Keep your EOI amount refundable, and don't pay the booking amount until both are confirmed on Dubai REST."}; redflag=false; }
+    if(eoiOnly){ redflag=false; tier={v:tier.v,c:tier.c,t:tier.t+" This project is still in its EOI / pre-launch phase: "+(LAUNCH==="y"?"the launch date is announced, but":"the launch date isn't officially announced yet, and")+" the project number and escrow account can't be confirmed until it's registered with DLD. Keep your EOI amount refundable until they are."}; }
     if(redflag && sc>=70){ tier={v:"RED FLAG 🚩",c:"#FF8A3D",t:"Your score looks good, but a must-have is missing: the developer, the project registration or the escrow account is not confirmed. Don't pay anything until it is. Consult a broker and proceed with caution."}; }
     lastScore=sc; lastTier=tier;
     sendLead(sc,tier);
@@ -866,7 +879,7 @@ html:not(.eoion) .ans .eoin{display:none}
     var comm=(ip&&ip[9])||(PSFP&&PSFP.community)||(PROJROW&&PROJROW[7])||"";
     var place=comm||(ip&&ip[10])||(PSFP&&PSFP.area)||"";
     // 1. project record
-    if(EOI) h+='<h4>🟡 EOI / pre-launch phase</h4><div class="box"><div class="row"><span>This project is not registered with DLD yet, so the project number, escrow account and Oqood were left out of your score. Before you pay the booking amount, ask for the DLD project number and escrow account, check them on Dubai REST, and keep your EOI amount refundable until then.</span></div></div>';
+    if(EOI) h+='<h4>🟡 EOI / pre-launch phase</h4><div class="box"><div class="row"><span>Launch date</span><b>'+(LAUNCH==="y"?"Officially announced":"Not announced yet")+'</b></div><div class="row"><span>This project is not registered with DLD yet, so the project number, escrow account and Oqood can only get partial credit in your score, based on the developer\'s DLD record and whether the launch date is announced. Before you pay the booking amount, ask for the DLD project number and escrow account, check them on Dubai REST, and keep your EOI amount refundable until then.</span></div></div>';
     if(PROJROW||ip){ var r=PROJROW||[pn,"","","","","","",""];
       h+='<h4>🏗️ Project record (Dubai Land Department)</h4><div class="box">'+
         '<div class="row"><span>Project</span><b>'+e(r[1]||(PSFP&&PSFP.name))+'</b></div><div class="row"><span>DLD project no.</span><b>'+e(pn||"–")+'</b></div>'+
@@ -1004,13 +1017,13 @@ html:not(.eoion) .ans .eoin{display:none}
   function resultLink(sc){
     var bits=boxes.map(function(b){return b.checked?"1":"0";}).join("");
     var proj=document.getElementById("proj").value.trim();
-    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0,dv:DEVSEL?DEVSEL.no:""})))));
+    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0,dv:DEVSEL?DEVSEL.no:"",la:LAUNCH})))));
   }
   // shared result link: restore answers and show result directly (after the page has set up)
   setTimeout(function(){
     var m=location.hash.match(/^#r=(.+)$/); if(!m) return;
     try{
-      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true; setEoi(o.e===1,false); devBoxShow(); if(o.dv) insLoad(function(){ var d=INS.d&&INS.d[o.dv]; if(d){ DEVSEL={no:o.dv,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devCard.className="dld devcard "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false; } });
+      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true; setEoi(o.e===1,false); devBoxShow(); setLaunch(o.la||""); if(o.dv) insLoad(function(){ var d=INS.d&&INS.d[o.dv]; if(d){ DEVSEL={no:o.dv,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devCard.className="dld devcard "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false; } });
       boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; var v=o.s&&o.s.charAt(i); b.dataset.st=(!b.checked&&(v==="u"||(v==="n"&&naOK(i))))?v:""; });
       document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n;
       if(o.x) xset(o.x);
@@ -1024,7 +1037,7 @@ html:not(.eoion) .ans .eoin{display:none}
 
   document.getElementById("rclose").addEventListener("click",close);
   document.getElementById("review").addEventListener("click",function(){ close(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
-  document.getElementById("reset").addEventListener("click",function(){ devClear(); devIn.value=""; setEoi(false,false); devBoxShow(); boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc"].forEach(function(i){document.getElementById(i).value="";}); document.getElementById("psf").classList.remove("auto"); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
+  document.getElementById("reset").addEventListener("click",function(){ devClear(); devIn.value=""; setLaunch(""); setEoi(false,false); devBoxShow(); boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc"].forEach(function(i){document.getElementById(i).value="";}); document.getElementById("psf").classList.remove("auto"); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
   function confetti(){
     var c=document.getElementById("conf"), x=c.getContext("2d"); c.width=innerWidth; c.height=innerHeight;
     var cols=["#C9A24A","#E8CF8E","#3DDC84","#fff","#25D366"], ps=[];
