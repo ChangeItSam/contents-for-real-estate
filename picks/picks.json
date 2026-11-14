@@ -1,0 +1,221 @@
+{
+ "_how": "Sam's projects that passed the 20-check Stress Test. The page shows, per type, the 5 most recently added projects that still have stock (available: true). Set available to false when a project sells out; add new ones with today's date in 'added'. 'dld' = DLD project numbers (the page reads construction %, escrow bank and completion date from ../checklist/data/projects.json); leave it [] for EOI / pre-launch projects. Set eoi true for EOI / pre-launch projects with no DLD registration yet.",
+ "p": [
+  {
+   "cat": "villa",
+   "name": "The Oasis",
+   "dev": "Emaar",
+   "area": "The Oasis, Dubai",
+   "dld": [],
+   "added": "2026-11-14",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "Phase to confirm",
+   "eoi": false
+  },
+  {
+   "cat": "villa",
+   "name": "Hayat 8",
+   "dev": "Hayat",
+   "area": "Dubai South",
+   "dld": [],
+   "added": "2026-11-14",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "",
+   "eoi": true
+  },
+  {
+   "cat": "villa",
+   "name": "Palm Springs",
+   "dev": "",
+   "area": "",
+   "dld": [],
+   "added": "2026-11-14",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "",
+   "eoi": true
+  },
+  {
+   "cat": "villa",
+   "name": "The Wilds",
+   "dev": "Aldar",
+   "area": "Dubai",
+   "dld": [
+    "4377"
+   ],
+   "added": "2026-11-14",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "",
+   "eoi": false
+  },
+  {
+   "cat": "villa",
+   "name": "Elwood Estates",
+   "dev": "Sobha",
+   "area": "Dubai",
+   "dld": [
+    "3602"
+   ],
+   "added": "2026-11-14",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "Sobha villa project to confirm",
+   "eoi": false
+  },
+  {
+   "cat": "townhouse",
+   "name": "Breez by Danube",
+   "dev": "Danube",
+   "area": "Dubai Maritime City",
+   "dld": [
+    "4081"
+   ],
+   "added": "2026-11-14",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "",
+   "eoi": false
+  },
+  {
+   "cat": "townhouse",
+   "name": "Damac Islands",
+   "dev": "Damac",
+   "area": "Dubailand",
+   "dld": [
+    "3693",
+    "3800",
+    "4369",
+    "4243",
+    "4244",
+    "4294"
+   ],
+   "added": "2026-11-14",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "Phase to confirm",
+   "eoi": false
+  },
+  {
+   "cat": "townhouse",
+   "name": "Damac Hills 2",
+   "dev": "Damac",
+   "area": "Damac Hills 2",
+   "dld": [],
+   "added": "2026-11-14",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "Phase to confirm",
+   "eoi": false
+  },
+  {
+   "cat": "townhouse",
+   "name": "Binghatti townhouses",
+   "dev": "Binghatti",
+   "area": "",
+   "dld": [],
+   "added": "2026-11-14",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "Project to confirm",
+   "eoi": false
+  },
+  {
+   "cat": "townhouse",
+   "name": "Sobha Sanctuary",
+   "dev": "Sobha",
+   "area": "Dubai",
+   "dld": [
+    "4531",
+    "4532"
+   ],
+   "added": "2026-11-14",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "",
+   "eoi": false
+  },
+  {
+   "cat": "apartment",
+   "name": "Valia",
+   "dev": "Emaar",
+   "area": "Dubai Creek Harbour",
+   "dld": [
+    "4448"
+   ],
+   "added": "2026-11-14",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "",
+   "eoi": false
+  },
+  {
+   "cat": "apartment",
+   "name": "Haven by Aldar",
+   "dev": "Aldar",
+   "area": "Dubai",
+   "dld": [
+    "2873",
+    "2874"
+   ],
+   "added": "2026-11-14",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "Aldar project to confirm",
+   "eoi": false
+  },
+  {
+   "cat": "apartment",
+   "name": "Ellington apartments",
+   "dev": "Ellington",
+   "area": "",
+   "dld": [],
+   "added": "2026-11-14",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "Project to confirm",
+   "eoi": false
+  },
+  {
+   "cat": "apartment",
+   "name": "Damac apartments",
+   "dev": "Damac",
+   "area": "",
+   "dld": [],
+   "added": "2026-11-14",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "Project to confirm",
+   "eoi": false
+  },
+  {
+   "cat": "apartment",
+   "name": "Binghatti apartments",
+   "dev": "Binghatti",
+   "area": "",
+   "dld": [],
+   "added": "2026-11-14",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "Project to confirm",
+   "eoi": false
+  }
+ ]
+}
