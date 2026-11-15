@@ -749,7 +749,7 @@ html:not(.eoion) .ans .eoin{display:none}
   var STK="sam-dealtest-st", savedSt=[]; try{ savedSt=JSON.parse(localStorage.getItem(STK)||"[]"); }catch(e){}
   var CRITI=[0,2,4,6];
   var DLDFOUND=false;
-  var EOI_IDX=[2,4,5,6,14], EOI=false; try{ EOI=localStorage.getItem("sam-dealtest-eoi")==="1"; }catch(e){}
+  var EOI_IDX=[2,3,4,5,6,14], EOI=false; try{ EOI=localStorage.getItem("sam-dealtest-eoi")==="1"; }catch(e){}
   function naOK(i){ return NA_OK.indexOf(i)>=0 || (EOI && EOI_IDX.indexOf(i)>=0); }
   var NA_OK=[3,7,8,16]; // can genuinely not apply: progress claim at launch, agent checks when buying direct, resale rules when holding long term
   function stOf(b){ return b.checked?"y":(b.dataset.st||""); }
