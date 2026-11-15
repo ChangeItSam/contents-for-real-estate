@@ -223,20 +223,17 @@
   },
   {
    "cat": "apartment",
-   "name": "Cove by Imtiaz",
+   "name": "Cove Edition 6 by Imtiaz",
    "dev": "Imtiaz",
    "area": "Dubailand Residence Complex",
    "dld": [
-    "3675",
-    "3705",
-    "3803",
-    "3774"
+    "3803"
    ],
    "added": "2026-11-14",
    "available": true,
    "price": "",
    "plan": "",
-   "note": "Cove Boulevard 3675, Cove Edition 5 3705, Cove Edition 6 3803, Cove Grand 3774; confirm phase",
+   "note": "Latest Cove phase registered with DLD (30 Jun 2025)",
    "eoi": false,
    "pin": false
   }
