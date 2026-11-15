@@ -1,5 +1,5 @@
 {
- "_how": "Sam's projects that passed the 20-check Stress Test. RULE (Sam, 14-15 Nov 2026): each type (villa / townhouse / apartment) shows 5 projects: 2 pinned top-developer projects (pin: true) that never move unless Sam moves them or they sell out (available: false), plus the 3 most recently added non-pinned projects (by 'added' date), which rotate as Sam posts a new project reel each day: add the reel's project here with today's date and it takes a rotating slot, pushing the oldest rotating one off the page (it stays in this file). 'dld' = DLD project numbers (the page reads construction %, escrow bank and completion date from ../checklist/data/projects.json); leave [] if not registered; eoi true = EOI / pre-launch.",
+ "_how": "Sam's projects that passed the 20-check Stress Test. RULE (Sam, 14-15 Nov 2026): each type (villa / townhouse / apartment) shows 5 projects: 2 pinned top-developer projects (pin: true) that never move unless Sam moves them or they sell out (available: false), plus the 3 most recently added non-pinned projects (by 'added' date), which rotate as Sam posts a new project reel each day: add the reel's project here with today's date and it takes a rotating slot, pushing the oldest rotating one off the page (it stays in this file). 'dld' = DLD project numbers (the page reads construction %, escrow bank and completion date from ../checklist/data/projects.json); leave [] if not registered; eoi true = EOI / pre-launch. PROJECT PAGE: samsuryarealty.com/picks/?p=<slug> shows one project (reel glimpse from 'gallery' images or 'img', DLD badge, price/plan, 'Get the brochure on WhatsApp'). Each project reel gets its own BROCHURE/DETAILS/PRICE comment rule pointing to its project page; the general rule points to /picks/.",
  "p": [
   {
    "cat": "villa",
@@ -16,7 +16,10 @@
    "plan": "",
    "note": "Mareva The Oasis 4269 + Mareva 2 The Oasis 4270 (Emaar Development); confirm the phase Sam sells",
    "eoi": false,
-   "pin": true
+   "pin": true,
+   "slug": "the-oasis-mareva",
+   "gallery": [],
+   "reel": ""
   },
   {
    "cat": "villa",
@@ -30,7 +33,10 @@
    "plan": "",
    "note": "",
    "eoi": true,
-   "pin": false
+   "pin": false,
+   "slug": "hayat-8",
+   "gallery": [],
+   "reel": ""
   },
   {
    "cat": "villa",
@@ -44,7 +50,10 @@
    "plan": "",
    "note": "",
    "eoi": true,
-   "pin": false
+   "pin": false,
+   "slug": "palm-springs",
+   "gallery": [],
+   "reel": ""
   },
   {
    "cat": "villa",
@@ -60,7 +69,10 @@
    "plan": "",
    "note": "",
    "eoi": false,
-   "pin": true
+   "pin": true,
+   "slug": "the-wilds",
+   "gallery": [],
+   "reel": ""
   },
   {
    "cat": "villa",
@@ -76,7 +88,10 @@
    "plan": "",
    "note": "Sobha villa project to confirm",
    "eoi": false,
-   "pin": false
+   "pin": false,
+   "slug": "elwood-estates",
+   "gallery": [],
+   "reel": ""
   },
   {
    "cat": "townhouse",
@@ -92,7 +107,10 @@
    "plan": "",
    "note": "",
    "eoi": false,
-   "pin": false
+   "pin": false,
+   "slug": "greenz-by-danube",
+   "gallery": [],
+   "reel": ""
   },
   {
    "cat": "townhouse",
@@ -113,7 +131,10 @@
    "plan": "",
    "note": "Phase to confirm",
    "eoi": false,
-   "pin": true
+   "pin": true,
+   "slug": "damac-islands",
+   "gallery": [],
+   "reel": ""
   },
   {
    "cat": "townhouse",
@@ -127,7 +148,10 @@
    "plan": "",
    "note": "Not found in DLD registry as 'Violet' (only La Violeta 2 by another developer); ask Sam for DLD no.",
    "eoi": false,
-   "pin": false
+   "pin": false,
+   "slug": "violet",
+   "gallery": [],
+   "reel": ""
   },
   {
    "cat": "townhouse",
@@ -141,7 +165,10 @@
    "plan": "",
    "note": "Not in DLD registry under 'Tilal' yet (checked 14 Nov 2026)",
    "eoi": true,
-   "pin": false
+   "pin": false,
+   "slug": "tilal-by-binghatti",
+   "gallery": [],
+   "reel": ""
   },
   {
    "cat": "townhouse",
@@ -158,7 +185,10 @@
    "plan": "",
    "note": "",
    "eoi": false,
-   "pin": true
+   "pin": true,
+   "slug": "sobha-sanctuary",
+   "gallery": [],
+   "reel": ""
   },
   {
    "cat": "apartment",
@@ -174,7 +204,10 @@
    "plan": "",
    "note": "",
    "eoi": false,
-   "pin": true
+   "pin": true,
+   "slug": "valia",
+   "gallery": [],
+   "reel": ""
   },
   {
    "cat": "apartment",
@@ -191,7 +224,10 @@
    "plan": "",
    "note": "Aldar project to confirm",
    "eoi": false,
-   "pin": true
+   "pin": true,
+   "slug": "haven-by-aldar",
+   "gallery": [],
+   "reel": ""
   },
   {
    "cat": "apartment",
@@ -205,7 +241,10 @@
    "plan": "",
    "note": "Not in DLD registry as 'Everly' (checked 14 Nov 2026); ask Sam for DLD no.",
    "eoi": false,
-   "pin": false
+   "pin": false,
+   "slug": "everly-place",
+   "gallery": [],
+   "reel": ""
   },
   {
    "cat": "apartment",
@@ -219,7 +258,10 @@
    "plan": "",
    "note": "Only Samana record in Down Town Jabal Ali is Samana Business Hub (4394); confirm before linking",
    "eoi": false,
-   "pin": false
+   "pin": false,
+   "slug": "samana-downtown-jebel-ali-1",
+   "gallery": [],
+   "reel": ""
   },
   {
    "cat": "apartment",
@@ -235,7 +277,10 @@
    "plan": "",
    "note": "Latest Cove phase registered with DLD (30 Jun 2025)",
    "eoi": false,
-   "pin": false
+   "pin": false,
+   "slug": "cove-edition-6-by-imtiaz",
+   "gallery": [],
+   "reel": ""
   }
  ]
 }

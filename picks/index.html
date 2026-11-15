@@ -46,6 +46,16 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
 .foot a{color:#8A6D1D;font-weight:700}
 .sticky{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--wa);color:#fff;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:10px;padding:14px 12px calc(14px + env(safe-area-inset-bottom));font-weight:800;font-size:17px}
 .sticky small{background:rgba(255,255,255,.22);border-radius:30px;padding:3px 12px;font-size:15px;white-space:nowrap}
+.one .hero{display:none}.one .tabs{display:none}
+.pv{padding:14px}
+.gal{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;border-radius:20px;margin-bottom:12px}
+.gal img{flex:0 0 86%;height:300px;object-fit:cover;border-radius:18px;scroll-snap-align:center}
+.gal.one1 img{flex-basis:100%}
+.pvh{background:linear-gradient(170deg,var(--navy),var(--navy2));color:#fff;border-radius:20px;padding:18px 16px;margin-bottom:12px}
+.pvh .pill{margin-bottom:8px}.pvh h1{font-size:26px;line-height:1.15;font-weight:800}.pvh em{display:block;font-style:normal;color:var(--gold2);font-weight:700;margin-top:6px}
+.bro{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--wa);color:#fff;text-decoration:none;font-weight:800;font-size:18px;border-radius:16px;padding:16px 14px;margin-top:12px;box-shadow:0 8px 20px rgba(37,211,102,.35)}
+.bro2{display:block;text-align:center;margin-top:10px;font-weight:700;color:var(--navy);text-decoration:none;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px}
+.bro3{display:block;text-align:center;margin-top:10px;font-weight:800;color:var(--navy);text-decoration:none;background:linear-gradient(135deg,var(--gold2),var(--gold));border-radius:14px;padding:12px}
 </style>
 </head>
 <body>
@@ -61,6 +71,7 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
   <button type="button" data-c="townhouse">🏘️ Townhouses</button>
   <button type="button" data-c="apartment">🏢 Apartments</button>
 </div>
+<div class="pv" id="pv" hidden></div>
 <div class="list" id="list"><div class="empty">Loading…</div></div>
 <p class="foot">DLD details (project number, escrow bank, construction and completion date) come from Dubai Land Department open data via Dubai Data (CC BY 4.0), updated daily. Prices and availability change: confirm on WhatsApp before you decide. Not financial advice. <a href="../checklist/">Check any other project with the free Stress Test ›</a></p>
 </div>
@@ -87,13 +98,29 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
       (ends.length?'<div><span>DLD completion date</span><b>'+e(fmtDate(ends[ends.length-1]))+'</b></div>':'')+'</div>';
   }
   function card(p){
-    var title=p.name+(p.dev?" by "+p.dev:"");
+    var title=p.name+(p.dev && p.name.toLowerCase().indexOf(p.dev.toLowerCase())<0?" by "+p.dev:"");
     return '<div class="card"><div class="ph">'+(p.img?'<img src="'+e(p.img)+'" alt="'+e(p.name)+'" loading="lazy">':'')+'<div class="sh"></div><div class="nm"><b>'+e(p.name)+'</b><em>📍 '+e(p.area||"Location: ask me")+'</em></div><span>'+e(p.dev||"")+'</span></div>'+
       '<div class="body">'+badge(p)+
       ((p.price||p.plan)?'<div class="pp">'+(p.price?'<div>From<b>'+e(p.price)+'</b></div>':'')+(p.plan?'<div>Payment plan<b>'+e(p.plan)+'</b></div>':'')+'</div>':'')+
       '<a class="btn" href="'+wa("Hi Sam, I saw "+title+" on your 20-check list. Please send me the price list, payment plan and floor plans.")+'">💬 Price list & floor plans on WhatsApp</a></div></div>';
   }
+  var ONE=""; try{ ONE=(new URLSearchParams(location.search).get("p")||"").toLowerCase(); }catch(x){}
+  function one(p){
+    document.body.classList.add("one"); document.getElementById("list").style.display="none";
+    var title=p.name+(p.dev && p.name.toLowerCase().indexOf(p.dev.toLowerCase())<0?" by "+p.dev:""), imgs=(p.gallery&&p.gallery.length?p.gallery:(p.img?[p.img]:[]));
+    document.title=p.name+" | Sam Surya";
+    var h=(imgs.length?'<div class="gal'+(imgs.length===1?' one1':'')+'">'+imgs.map(function(u){ return '<img src="'+e(u)+'" alt="'+e(p.name)+'" loading="lazy">'; }).join("")+'</div>':'')+
+      '<div class="pvh"><span class="pill">✅ Passed the 20 checks</span><h1>'+e(p.name)+'</h1><em>'+(p.dev?e(p.dev)+' · ':'')+'📍 '+e(p.area||"Location: ask me")+'</em></div>'+
+      '<div class="card"><div class="body">'+badge(p)+
+      ((p.price||p.plan)?'<div class="pp">'+(p.price?'<div>From<b>'+e(p.price)+'</b></div>':'')+(p.plan?'<div>Payment plan<b>'+e(p.plan)+'</b></div>':'')+'</div>':'')+
+      '<a class="bro" href="'+wa("Hi Sam, I saw your reel on "+title+". Please send me the brochure, payment plan and floor plans.")+'">📄 Get the brochure on WhatsApp</a>'+
+      '<a class="bro3" href="../checklist/">🎲 Buy or skip? Take my free Stress Test</a>'+
+      '<a class="bro2" href="./#'+e(p.cat)+'">See all projects that passed the 20 checks →</a></div></div>';
+    var pv=document.getElementById("pv"); pv.innerHTML=h; pv.hidden=false;
+    document.getElementById("wa").href=wa("Hi Sam, I saw your reel on "+title+". Please send me the brochure.");
+  }
   function render(){
+    if(ONE){ var m=PICKS.filter(function(p){ return (p.slug||"")===ONE; })[0]; if(m){ one(m); return; } }
     Array.prototype.forEach.call(document.querySelectorAll("#tabs button"),function(b){ b.classList.toggle("on",b.dataset.c===CAT); });
     // 2 pinned top-developer projects stay put; the other 3 slots rotate to the newest project reels
     var live=PICKS.filter(function(p){ return p.cat===CAT && p.available!==false; }), byNew=function(a,b){ return (b.added||"").localeCompare(a.added||""); };
