@@ -289,6 +289,7 @@ html:not(.eoion) .ans .eoin{display:none}
 .mgskip{font-size:13.5px;color:#6B7280;margin:6px 0 10px}.mgskip a{color:#8A6A1F;font-weight:800}
 [hidden]{display:none!important}
 .esc7{background:#EEF6FF;border:1.5px solid #B9D6F7;border-radius:12px;padding:10px 12px;margin:6px 0 10px;font-size:14.5px;line-height:1.5;color:#0B1F3A}.esc7 small{display:block;margin-top:6px;font-size:11px;color:#6B7280}
+#xrentl{grid-column:1/-1}
 .eoinote{background:#FFF6E3;color:#6B4E12;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:15px;line-height:1.45}
 </style>
 <script>
@@ -564,8 +565,8 @@ html:not(.eoion) .ans .eoin{display:none}
  <div class="kicker">Bonus · not counted in the 20 checks</div><h2>🧮 Know your numbers</h2><p class="lead">Not part of your score, but everything here goes into your detailed report, checked against DLD market data.</p>
  <div class="card"><div class="num"><span class="ic">🔑</span><span class="n">+</span></div><div class="body">
   <h3>Rent you were promised</h3><p>We compare it with real Ejari rent contracts for the same bedroom type in the same area.</p>
-  <div class="xf"><label>Bedrooms<select id="xbed"><option value="">Choose</option><option>Studio</option><option>1 B/R</option><option>2 B/R</option><option>3 B/R</option><option>4 B/R</option><option>5 B/R</option></select></label>
-  <label>Promised rent (AED / year)<input id="xrent" type="text" inputmode="decimal" placeholder="e.g. 85,000"></label></div>
+  <div class="xf"><label>Property type<select id="xptype"><option value="">Choose</option><option>Apartment</option><option>Townhouse</option><option>Villa</option><option>Plot</option></select></label><label id="xbedl">Bedrooms<select id="xbed"><option value="">Choose</option><option>Studio</option><option>1 B/R</option><option>2 B/R</option><option>3 B/R</option><option>4 B/R</option><option>5 B/R</option><option>6 B/R</option><option>Duplex</option><option>Penthouse</option><option>Mansion (7+ B/R)</option></select></label>
+  <label id="xrentl">Promised rent (AED / year)<input id="xrent" type="text" inputmode="decimal" placeholder="e.g. 85,000"></label></div>
  </div></div>
  <div class="card"><div class="num"><span class="ic">📅</span><span class="n">+</span></div><div class="body">
   <h3>Handover date in your SPA</h3><p>We compare it with the completion date the developer registered with DLD.</p>
@@ -914,7 +915,7 @@ html:not(.eoion) .ans .eoin{display:none}
     try{ fetch(LEADS_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(d)}).catch(function(){}); }catch(e){}
   }
   // ---------- Extra checks: calculators (not scored) ----------
-  var XIDS=["xbed","xrent","xspa","xpp","xho","xpost","xre","xtf","xprice","xsize","xsc","xyrs","xag"];
+  var XIDS=["xptype","xbed","xrent","xspa","xpp","xho","xpost","xre","xtf","xprice","xsize","xsc","xyrs","xag"];
   function xv(id){ return document.getElementById(id).value.trim(); }
   function xn(id){ var v=xv(id).replace(/[^0-9.]/g,""); return v?+v:0; }
   function xget(){ var o={}; XIDS.forEach(function(i){ var v=xv(i); if(v) o[i]=v; }); var t=xboxes.map(function(b){return b.checked?"1":"0";}).join(""); if(t.indexOf("1")>=0) o.t=t; return o; }
@@ -1430,11 +1431,27 @@ html:not(.eoion) .ans .eoin{display:none}
     ids.forEach(function(id){ var e=document.getElementById(id); if(e) e.addEventListener("blur",function(){ setTimeout(function(){
       var a=document.activeElement; if(a && ids.indexOf(a.id)>=0) return;
       var c=document.getElementById("cma"), l=document.getElementById("ploc"); if(c && !c.hidden && l && l.value.trim() && num(document.getElementById("psf").value)>0) holdNext(c); },300); }); }); })();
+  // Property type decides the bedroom choices (how Dubai listings are typed)
+  (function(){ var T=document.getElementById("xptype"), B=document.getElementById("xbed"), BL=document.getElementById("xbedl"), RL=document.getElementById("xrentl");
+    var OPT={"":["Studio","1 B/R","2 B/R","3 B/R","4 B/R","5 B/R","6 B/R","Duplex","Penthouse","Mansion (7+ B/R)"],
+      "Apartment":["Studio","1 B/R","2 B/R","3 B/R","4 B/R","Duplex","Penthouse"],
+      "Townhouse":["2 B/R","3 B/R","4 B/R","5 B/R"],
+      "Villa":["3 B/R","4 B/R","5 B/R","6 B/R","Mansion (7+ B/R)"],"Plot":[]};
+    var note=null;
+    function build(){ var t=T.value, cur=B.value, o=OPT[t]||OPT[""];
+      B.innerHTML='<option value="">Choose</option>'+o.map(function(x){ return '<option'+(x===cur?' selected':'')+'>'+x+'</option>'; }).join("");
+      if(o.indexOf(cur)<0) B.value="";
+      var plot=t==="Plot"; BL.style.display=plot?"none":""; RL.style.display=plot?"none":"";
+      if(plot){ B.value=""; document.getElementById("xrent").value=""; }
+      if(!note){ note=document.createElement("div"); note.className="xo n"; note.style.marginTop="8px"; note.textContent="🏗️ Plots are bought to build on, not rented, so there's no rent check for a plot."; BL.parentNode.parentNode.insertBefore(note,BL.parentNode.nextSibling); }
+      note.hidden=!plot; }
+    T.addEventListener("change",function(){ build(); B.dispatchEvent(new Event("change")); });
+    setTimeout(build,350); })();
   // ---------- Guide: a red arrow on the next thing to fill ----------
   (function(){
     var steps=[], skipped={}, cur=-1, lab=null, lastHi=null, lastEvt="";
     function sc(el){ return el.closest(".card")||el; }
-    function filled(card){ var ok=true; Array.prototype.forEach.call(card.querySelectorAll("input,select"),function(i){ if(i.id==="xag"||i.id==="xpost") return; if(i.type==="checkbox"){ if(!i.checked) ok=false; } else if(!i.value.trim()) ok=false; }); return ok; }
+    function filled(card){ var ok=true; Array.prototype.forEach.call(card.querySelectorAll("input,select"),function(i){ if(i.id==="xag"||i.id==="xpost"||!i.offsetParent) return; if(i.type==="checkbox"){ if(!i.checked) ok=false; } else if(!i.value.trim()) ok=false; }); return ok; }
     var proj=document.getElementById("proj"), psf=document.getElementById("psf"), ploc=document.getElementById("ploc");
     steps.push({k:"proj",a:proj.closest("label"),hi:proj.closest("label"),t:"Start here: type your project. Not found? Type the full project name, then tap “It\'s in EOI / pre-launch phase”",done:function(){ return proj.value.trim().length>1; }});
     var seen=[];
