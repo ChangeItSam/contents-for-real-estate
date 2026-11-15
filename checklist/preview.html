@@ -585,6 +585,7 @@ html:not(.eoion) .ans .eoin{display:none}
   <h3>Mortgage for your handover payment</h3><p>What a bank loan for the handover amount would cost you each month.</p>
   <div class="xf">
   <label class="w">Your situation<select id="mgtype"><option value="80">UAE resident · first home (bank lends up to 80%)</option><option value="60">UAE resident · investment / 2nd home (up to 60%)</option><option value="50">Living outside UAE (banks usually 50–60%)</option><option value="85">UAE national · first home (up to 85%)</option><option value="0">Paying cash, no mortgage</option></select></label>
+  <label>Borrow % of the price<input id="mgpct" type="text" inputmode="decimal" placeholder="auto"></label>
   <label>Loan amount (AED)<input id="mgloan" type="text" inputmode="decimal" placeholder="auto"></label>
   <label>Loan years (max 25)<input id="mgyrs" type="text" inputmode="decimal" value="25"></label>
   <label>Fixed rate %<input id="mgrate" type="text" inputmode="decimal" value="4.0"></label>
@@ -1378,7 +1379,10 @@ html:not(.eoion) .ans .eoin{display:none}
     function bal(P,r,y,m){ var i=r/1200, p=pmt(P,r,y); return i?P*Math.pow(1+i,m)-p*(Math.pow(1+i,m)-1)/i:P-p*m; }
     var loanIn=document.getElementById("mgloan"), out=document.getElementById("mgout"), sp=document.getElementById("mgsplit"), typ=document.getElementById("mgtype");
     loanIn.addEventListener("input",function(){ loanIn.dataset.man=loanIn.value.trim()?"1":""; });
-    typ.addEventListener("change",function(){ loanIn.dataset.man=""; });
+    var pctIn=document.getElementById("mgpct");
+    loanIn.addEventListener("input",function(){ pctIn.dataset.man=""; });
+    pctIn.addEventListener("input",function(){ pctIn.dataset.man=pctIn.value.trim()?"1":""; loanIn.dataset.man=""; });
+    typ.addEventListener("change",function(){ loanIn.dataset.man=""; pctIn.dataset.man=""; });
     function run(){
       var P=n("pprice")||n("xprice"), pp=Math.min(n("xpp"),100), ho=Math.min(n("xho"),100), po=Math.min(n("xpost"),100), hoA=P*ho/100;
       var hoTyped=document.getElementById("xho").value.trim()!=="" && ho>0;
@@ -1387,7 +1391,8 @@ html:not(.eoion) .ans .eoin{display:none}
         '<div>🏗️ Construction <b>'+pp+'%</b>'+(P?' = '+A(P*pp/100):'')+'</div><div>🔑 Handover <b>'+ho+'%</b>'+(P?' = '+A(hoA):'')+'</div>'+(po?'<div>📆 Post-handover <b>'+po+'%</b>'+(P?' = '+A(P*po/100):'')+'</div>':'')+
         (tot && Math.abs(tot-100)>0.01?'<div style="color:#FFB4A9;font-weight:700;margin-top:4px">⚠️ These add up to '+tot+'%, should be 100%.</div>':'');
       var ask=document.getElementById("mgask"), card=document.getElementById("mgcard"), skipEl=document.getElementById("mgskip");
-      document.getElementById("mgq").innerHTML='🏦 Would you like me to calculate a mortgage for your <b>'+ho+'% handover payment</b>'+(P?' (<b>'+A(hoA)+'</b>)':'')+'?';
+      var finP=ho+po, finA=P*finP/100;
+      document.getElementById("mgq").innerHTML='🏦 Would you like me to calculate a mortgage for your <b>'+(po?ho+'% handover + '+po+'% post-handover':ho+'% handover payment')+'</b>'+(P?' (<b>'+A(finA)+'</b>)':'')+'?';
       var st=MGST();
       ask.hidden=!(hoTyped && st===""); card.hidden=!(hoTyped && st==="y"); skipEl.hidden=!(hoTyped && st==="n");
       if(false){
@@ -1395,13 +1400,16 @@ html:not(.eoion) .ans .eoin{display:none}
       }
       var ltv=+typ.value; if(ltv && P>5000000){ ltv={80:70,85:75}[ltv]||ltv; }
       if(!P){ out.innerHTML=""; return; }
-      if(!ltv){ out.innerHTML='<div class="xo n">💵 Paying cash: you need <b>'+A(hoA)+'</b> ready at handover, plus about 4% DLD fee if not already paid.</div>'; loanIn.value=""; return; }
-      var maxL=P*ltv/100, auto=Math.min(hoA||maxL,maxL);
-      if(loanIn.dataset.man!=="1") loanIn.value=Math.round(auto).toLocaleString("en-US");
+      if(!ltv){ out.innerHTML='<div class="xo n">💵 Paying cash: you need <b>'+A(hoA)+'</b> ready at handover'+(po?' and <b>'+A(P*po/100)+'</b> after handover':'')+', plus about 4% DLD fee if not already paid.</div>'; loanIn.value=""; pctIn.value=""; return; }
+      var maxL=P*ltv/100;
+      var pct=pctIn.dataset.man==="1"?n("mgpct"):Math.min(finP||ltv,ltv);
+      if(pctIn.dataset.man!=="1" && loanIn.dataset.man!=="1") pctIn.value=String(Math.round(pct*10)/10);
+      if(loanIn.dataset.man!=="1") loanIn.value=Math.round(P*pct/100).toLocaleString("en-US");
+      else if(pctIn.dataset.man!=="1") pctIn.value=String(Math.round(n("mgloan")/P*1000)/10);
       var L=Math.min(n("mgloan"),maxL), y=Math.min(n("mgyrs")||25,25), r=n("mgrate"), f=Math.min(n("mgfix"),y), m=n("mgmar"), r2=EIBOR+m;
       if(!L){ out.innerHTML=""; return; }
       var p1=pmt(L,r,y), B=bal(L,r,y,f*12), p2=pmt(B,r2,y-f), p3=pmt(B,r2+2,y-f), tot=p1*f*12+p2*(y-f)*12, fees=L*0.0025+290+L*0.01;
-      var cash=Math.max(hoA-L,0)+fees;
+      var cash=Math.max(finA-L,0)+fees;
       out.innerHTML='<div class="xo n">'+
         (n("mgloan")>maxL?'<div style="color:#B42318;font-weight:700">⚠️ Max loan for this situation is '+ltv+'% of the price = '+A(maxL)+'.</div>':'')+
         '<div class="mgrow"><span>🏦 Loan</span><b>'+A(L)+' · '+y+' yrs</b></div>'+
@@ -1409,10 +1417,10 @@ html:not(.eoion) .ans .eoin{display:none}
         (y>f?'<div class="mgrow"><span>📈 After that, at today\'s EIBOR + '+m+'% = '+r2.toFixed(2)+'%</span><b>'+A(p2)+'</b></div>'+
         '<div class="mgrow"><span>⚠️ If rates rise 2% ('+(r2+2).toFixed(2)+'%)</span><b>'+A(p3)+'</b></div>':'')+
         '<div class="mgrow"><span>💸 Total interest over the loan (today\'s rates)</span><b>'+A(tot-L)+'</b></div>'+
-        '<div class="mgrow"><span>🔑 Cash you need at handover<br><small>handover balance not covered by the loan + mortgage registration 0.25% + AED 290 + ~1% bank fee</small></span><b>'+A(cash)+'</b></div>'+
+        '<div class="mgrow"><span>🔑 Cash you need at handover<br><small>handover (+ post-handover) amount not covered by the loan + mortgage registration 0.25% + AED 290 + ~1% bank fee</small></span><b>'+A(cash)+'</b></div>'+
         '<div class="mgrow"><span>👤 Income needed (installment ≤ 50% of salary)</span><b>'+A(p1*2)+'/month+</b></div></div>';
     }
-    ["pprice","psize","xpp","xho","xpost","mgloan","mgyrs","mgrate","mgfix","mgmar"].forEach(function(id){ var e=document.getElementById(id); if(e){ e.addEventListener("input",run); e.addEventListener("change",run); } });
+    ["pprice","psize","xpp","xho","xpost","mgpct","mgloan","mgyrs","mgrate","mgfix","mgmar"].forEach(function(id){ var e=document.getElementById(id); if(e){ e.addEventListener("input",run); e.addEventListener("change",run); } });
     typ.addEventListener("change",run); setTimeout(run,400);
   })();
 
