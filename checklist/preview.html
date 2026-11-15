@@ -1421,7 +1421,7 @@ html:not(.eoion) .ans .eoin{display:none}
     function sc(el){ return el.closest(".card")||el; }
     function filled(card){ var ok=true; Array.prototype.forEach.call(card.querySelectorAll("input,select"),function(i){ if(i.id==="xag"||i.id==="xpost") return; if(i.type==="checkbox"){ if(!i.checked) ok=false; } else if(!i.value.trim()) ok=false; }); return ok; }
     var proj=document.getElementById("proj"), psf=document.getElementById("psf"), ploc=document.getElementById("ploc");
-    steps.push({k:"proj",a:proj.closest("label"),hi:proj.closest("label"),t:"Start here: type your project",skip:"Not listed? Skip",done:function(){ return proj.value.trim().length>1; }});
+    steps.push({k:"proj",a:proj.closest("label"),hi:proj.closest("label"),t:"Start here: type your project. Not found? Type the full project name, then tap “It\'s in EOI / pre-launch phase”",done:function(){ return proj.value.trim().length>1; }});
     var seen=[];
     boxes.forEach(function(b){ var c=b.closest(".card"); if(seen.indexOf(c)<0){ seen.push(c); var n=(c.querySelector(".n")||{}).textContent||"";
       var cb=boxes.filter(function(x){ return x.closest(".card")===c; });
@@ -1495,6 +1495,6 @@ html:not(.eoion) .ans .eoin{display:none}
   });
 })();
 </script>
-<div style="text-align:center;font-size:10px;color:#B8BFCB;padding:4px 0 90px">preview build 15-Nov-esc7b</div>
+<div style="text-align:center;font-size:10px;color:#B8BFCB;padding:4px 0 90px">preview build 15-Nov-proj1</div>
 </body>
 </html>
