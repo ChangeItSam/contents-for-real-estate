@@ -288,6 +288,7 @@ html:not(.eoion) .ans .eoin{display:none}
 .mgbtns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}.mgbtns button{flex:1 1 140px;font:inherit;font-weight:800;font-size:15px;border-radius:12px;padding:11px 10px;cursor:pointer}#mgyes{background:linear-gradient(135deg,#E9C46A,#C9A24A);border:0;color:#0B1F3A}#mgno{background:#fff;border:1.5px solid #D8DEE8;color:#475467}
 .mgskip{font-size:13.5px;color:#6B7280;margin:6px 0 10px}.mgskip a{color:#8A6A1F;font-weight:800}
 [hidden]{display:none!important}
+.esc7{background:#EEF6FF;border:1.5px solid #B9D6F7;border-radius:12px;padding:10px 12px;margin:6px 0 10px;font-size:14.5px;line-height:1.5;color:#0B1F3A}.esc7 small{display:block;margin-top:6px;font-size:11px;color:#6B7280}
 .eoinote{background:#FFF6E3;color:#6B4E12;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:15px;line-height:1.45}
 </style>
 <script>
@@ -1158,7 +1159,7 @@ html:not(.eoion) .ans .eoin{display:none}
       var w=waiters; waiters=[]; w.forEach(function(f){f();});}).catch(function(){loading=false; waiters=[];}); }
   var autoN=false;
   function clearAuto(){ if(autoN){ if(boxes[PROG].dataset.st==="u") boxes[PROG].dataset.st=""; autoN=false; } auto.forEach(function(i){ boxes[i].checked=false; var s=boxes[i].parentNode.querySelector(".auto"); if(s) s.remove(); }); auto=[];
-    var h=document.querySelector(".hint"); if(h) h.remove(); update(); }
+    Array.prototype.forEach.call(document.querySelectorAll(".hint,.esc7"),function(h){ h.remove(); }); update(); }
   function tickAuto(i){ if(!boxes[i].checked){ boxes[i].checked=true; auto.push(i);
       var s=document.createElement("span"); s.className="auto"; s.textContent="✓ DLD"; boxes[i].parentNode.querySelector("span").appendChild(s);
       var lb=boxes[i].closest("label"); lb.classList.remove("pop"); void lb.offsetWidth; lb.classList.add("pop"); autoCount++; } }
@@ -1177,6 +1178,10 @@ html:not(.eoion) .ans .eoin{display:none}
       card.className="dld bad"; card.innerHTML='<b class="t">🚩 CANCELLED in DLD records</b>'+info+'<b>Do not pay anything for this project.</b>'+src;
     } else {
       tickAuto(DEV); tickAuto(PROJ); if(escb) tickAuto(ESC);
+      (function(){ var lb=boxes[6].closest("label"); if(!lb) return; var x=document.createElement("div"); x.className="esc7";
+        x.innerHTML=escb?'🏦 <b>Escrow on DLD records:</b> '+esc(escb)+'<br>🔢 DLD project no. <b>'+esc(no||"–")+'</b><br>👉 Compare this with the bank &amp; escrow account on <b>your</b> payment instructions. For the escrow account number, open the <b>Dubai REST</b> app and look up project no. '+esc(no||"")+'.<small>Extracted from live Dubai Land Department records ('+esc(P.updated)+') · Dubai REST app</small>'
+          :'⚠️ <b>DLD records list no escrow bank for this project yet.</b> Ask the developer for the escrow account and check it in the <b>Dubai REST</b> app (project no. '+esc(no||"–")+') before you pay.<small>Extracted from live Dubai Land Department records ('+esc(P.updated)+')</small>';
+        var an=boxes[6]._ans||lb; an.parentNode.insertBefore(x, an); })();
       card.className="dld "+(escb?"ok":"warn");
       var stTxt=fin?"Completed (handed over)":"Under construction", prTxt=pct===""?"not reported":(+pct>0?"started (% in your full report)":"not started yet");
       info='<div class="fbar"><div><span>Developer</span><b>'+esc(dev||"–")+'</b></div><div><span>Status</span><b>'+stTxt+'</b></div><div><span>Progress</span><b>'+prTxt+'</b></div><div><span>Escrow bank</span><b>'+esc(escb||"not listed")+'</b></div><div><span>DLD project no.</span><b>'+esc(no||"–")+'</b></div>'+(area?'<div><span>Area</span><b>'+esc(area)+'</b></div>':'')+(end?'<div><span>DLD completion</span><b>'+esc(fmtDate(end))+'</b></div>':'')+'</div>';
@@ -1490,6 +1495,6 @@ html:not(.eoion) .ans .eoin{display:none}
   });
 })();
 </script>
-<div style="text-align:center;font-size:10px;color:#B8BFCB;padding:4px 0 90px">preview build 15-Nov-reg1</div>
+<div style="text-align:center;font-size:10px;color:#B8BFCB;padding:4px 0 90px">preview build 15-Nov-esc7</div>
 </body>
 </html>
