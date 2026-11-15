@@ -746,7 +746,7 @@ html:not(.eoion) .ans .eoin{display:none}
     try { localStorage.setItem(key, JSON.stringify(boxes.map(function(b){ return b.checked; }))); localStorage.setItem(STK, JSON.stringify(boxes.map(stOf))); } catch(e) {}
     if(typeof paintAns==="function") paintAns();
     var ch=document.getElementById("cmahint"), cm=document.getElementById("cma"); if(ch&&cm) ch.hidden=!cm.hidden;
-    document.getElementById("psfwarn").hidden=!!PSFR;
+    if(window.updMissing) window.updMissing(); else document.getElementById("psfwarn").hidden=!!PSFR;
   }
   var STK="sam-dealtest-st", savedSt=[]; try{ savedSt=JSON.parse(localStorage.getItem(STK)||"[]"); }catch(e){}
   var CRITI=[0,2,4,6];
@@ -1084,7 +1084,7 @@ html:not(.eoion) .ans .eoin{display:none}
   document.getElementById("submit").addEventListener("click",tryResult);
   document.querySelector(".prog .go").addEventListener("click",tryResult);
   document.getElementById("ndo").addEventListener("click",goPsf);
-  document.getElementById("psfwarn").addEventListener("click",goPsf);
+  document.getElementById("psfwarn").addEventListener("click",function(){ if(window.goMissing) window.goMissing(); else goPsf(); });
   document.getElementById("nskip").addEventListener("click",function(){ nudge.hidden=true; openGate(); });
   document.getElementById("nclose").addEventListener("click",function(){ nudge.hidden=true; });
   nudge.addEventListener("click",function(e){ if(e.target===nudge) nudge.hidden=true; });
@@ -1466,6 +1466,21 @@ html:not(.eoion) .ans .eoin{display:none}
       var typing=document.activeElement && /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName) && document.activeElement.type!=="checkbox";
       if(moved && lastEvt==="change" && !HOLD && !typing){ setTimeout(function(){ var r=lab.getBoundingClientRect(); if(r.top>window.innerHeight-280 || r.top<20) lab.scrollIntoView({behavior:"smooth",block:"center"}); },450); }
     }
+    var MISS=null;
+    window.updMissing=function(){ var w=document.getElementById("psfwarn"); if(!w) return; MISS=null;
+      for(var i=0;i<steps.length;i++){ var s=steps[i], k=s.k, req=(k==="proj"||k==="psf"||/^c\d/.test(k)||(/^x/.test(k)&&!s.skip));
+        if(!req || s.done()) continue;
+        var t;
+        if(k==="proj") t="📍 Project missing";
+        else if(k==="psf") t="💲 Price missing";
+        else if(/^x/.test(k)) t="💳 Payment plan missing";
+        else { var c=s.hi, first=null; Array.prototype.some.call(c.querySelectorAll(".tick:not(.xt) input"),function(b){ if(!b.checked && !(b.dataset.st)){ first=b; return true; } });
+          var num=first&&first.closest("label")&&first.closest("label").querySelector(".cn"); t="❓ Check "+(num?num.textContent:"")+" missing"; if(!first && needLaunch()) t="📅 Launch date missing"; }
+        MISS=s; w.textContent=t; w.hidden=false; return; }
+      w.hidden=true; };
+    window.goMissing=function(){ if(!MISS) return; var el=MISS.a||MISS.hi; el.scrollIntoView({behavior:"smooth",block:"center"}); MISS.hi.classList.remove("flash"); void MISS.hi.offsetWidth; MISS.hi.classList.add("flash"); };
+    setTimeout(window.updMissing,600);
+    var um=null; ["input","change","click"].forEach(function(ev){ document.addEventListener(ev,function(){ clearTimeout(um); um=setTimeout(window.updMissing,250); },true); });
     window.guideGo=function(from){ FROM=from||null; cur=-1; draw(); FROM=null; if(lab && lab.parentNode) lab.scrollIntoView({behavior:"smooth",block:"center"}); };
     var t=null; function soon(ev){ lastEvt=ev.type; clearTimeout(t); t=setTimeout(draw,ev.type==="change"?350:150); }
     document.addEventListener("change",soon,true); document.addEventListener("input",soon,true);
@@ -1657,8 +1672,9 @@ h2 .icx{width:44px;height:44px}
   body{font-size:17px!important}
   .wrap{max-width:1200px!important;padding:0 28px;box-sizing:border-box;background:transparent!important}
   /* hero: two columns */
-  header.hero2{display:grid!important;grid-template-columns:1.05fr .95fr;column-gap:56px;align-items:start;padding:44px 0 32px!important}
+  header.hero2{display:grid!important;grid-template-columns:.95fr 1.05fr;column-gap:56px;align-items:start;padding:44px 0 32px!important}
   header.hero2 .hl,header.hero2 .hr{min-width:0}
+  header.hero2 .hr{order:-1}
   header.hero2 .hl h1{font-size:46px!important;line-height:1.1!important}
   header.hero2 .hl .sub2{font-size:19px!important}
   header.hero2 .hl .trust,header.hero2 .hl .samplelink{text-align:left!important;display:block}
