@@ -246,8 +246,8 @@ section,.game{scroll-margin-top:110px}
 .xf{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .xf label{display:flex;flex-direction:column;font-size:14px;font-weight:700;color:var(--navy);gap:4px}
 .xf label.w{grid-column:1/-1}
-.xf input,.xf select{font:inherit;font-size:16px;padding:10px 11px;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--navy);width:100%;min-width:0}
-.xf input:focus,.xf select:focus{outline:0;border-color:var(--gold)}
+.plan3 input,.xf input,.xf select{font:inherit;font-size:16px;padding:10px 11px;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--navy);width:100%;min-width:0}
+.plan3 input:focus,.xf input:focus,.xf select:focus{outline:0;border-color:var(--gold)}
 .xout{margin-top:12px;display:grid;gap:8px}
 .xo{border-radius:12px;padding:10px 12px;font-size:15.5px;line-height:1.45;border:1.5px solid}
 .xo b{font-size:16.5px}.xo.g{background:#EAF8EF;border-color:#3DDC84;color:#14532D}.xo.a{background:#FFF6E0;border-color:#F5C451;color:#6B4A00}.xo.r{background:#FDECEC;border-color:#F28B8B;color:#7F1D1D}.xo.n{background:#F2F4F8;border-color:#D5DAE3;color:#3A4456}
@@ -283,6 +283,11 @@ html:not(.eoion) .ans .eoin{display:none}
 .mgsplit{background:#0B1F3A;color:#fff;border-radius:14px;padding:12px 14px;margin:8px 0 12px;font-size:15px;line-height:1.5}.mgsplit .bar{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:8px 0 6px}.mgsplit .bar i{display:block}.mgsplit b{color:#E9C46A}
 .mgsrc{display:block;margin-top:10px;font-size:11.5px;color:#6B7280;line-height:1.45}#mgcard select{width:100%;font:inherit;font-size:15px;padding:10px;border:1.5px solid var(--line);border-radius:12px;background:#fff;margin-top:4px}
 .mgrow{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed #D8DEE8}.mgrow:last-child{border-bottom:0}.mgrow b{white-space:nowrap}
+.plan3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 4px}.plan3 label{font-size:13px;font-weight:800;line-height:1.25;display:flex;flex-direction:column;justify-content:space-between}.plan3 input{width:100%;margin-top:4px}
+.mgask{background:#FFF8E6;border:2px solid #E9C46A;border-radius:14px;padding:12px;margin:10px 0;font-size:15.5px;line-height:1.45;animation:mgpop .35s ease}@keyframes mgpop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
+.mgbtns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}.mgbtns button{flex:1 1 140px;font:inherit;font-weight:800;font-size:15px;border-radius:12px;padding:11px 10px;cursor:pointer}#mgyes{background:linear-gradient(135deg,#E9C46A,#C9A24A);border:0;color:#0B1F3A}#mgno{background:#fff;border:1.5px solid #D8DEE8;color:#475467}
+.mgskip{font-size:13.5px;color:#6B7280;margin:6px 0 10px}.mgskip a{color:#8A6A1F;font-weight:800}
+[hidden]{display:none!important}
 .eoinote{background:#FFF6E3;color:#6B4E12;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:15px;line-height:1.45}
 </style>
 <script>
@@ -386,6 +391,7 @@ details.whym[open] summary{margin-bottom:6px}
 .eoi input{flex:none;width:22px;height:22px;margin-top:1px;accent-color:#C9A24A}
 .eoi small{display:block;font-size:13.5px;color:#7A6230;margin-top:2px}
 html:not(.eoion) .ans .eoin{display:none}
+[hidden]{display:none!important}
 .eoinote{background:#FFF6E3;color:#6B4E12;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:15px;line-height:1.45}
 .tick:not(.xt)>input{display:none!important}
 .tick:not(.xt){cursor:default;pointer-events:none}
@@ -566,23 +572,16 @@ html:not(.eoion) .ans .eoin{display:none}
  </div></div>
  <div class="card"><div class="num"><span class="ic">💳</span><span class="n">+</span></div><div class="body">
   <h3>Payment plan and exit</h3><p>How much you pay before the keys, and when you're allowed to sell.</p>
-  <div class="xf"><label>% paid before handover<input id="xpp" type="text" inputmode="decimal" placeholder="e.g. 60"></label>
+  <div class="plan3"><label>🏗️ During construction %<input id="xpp" type="text" inputmode="decimal" placeholder="e.g. 60"></label><label>🔑 On handover %<input id="xho" type="text" inputmode="decimal" placeholder="e.g. 40"></label><label>📆 Post-handover %<input id="xpost" type="text" inputmode="decimal" placeholder="0 if none"></label></div>
+  <div class="mgsplit" id="mgsplit" hidden></div>
+  <div class="mgask" id="mgask" hidden><div id="mgq"></div><div class="mgbtns"><button type="button" id="mgyes">🏦 Yes, calculate mortgage</button><button type="button" id="mgno">Skip, I'm in a hurry ›</button></div></div>
+  <div class="mgskip" id="mgskip" hidden>Mortgage skipped · <a href="#" id="mgundo">calculate it anyway</a></div>
+  <div class="xf">
   <label>% paid before resale is allowed<input id="xre" type="text" inputmode="decimal" placeholder="e.g. 40"></label>
   <label class="w">Developer transfer / NOC fee (AED)<input id="xtf" type="text" inputmode="decimal" placeholder="e.g. 5,000"></label></div>
  </div></div>
- <div class="card"><div class="num"><span class="ic">📉</span><span class="n">+</span></div><div class="body">
-  <h3>Resale break-even</h3><p>The price you'd need just to get your money back after DLD fee, any agent fee, transfer fee and service charges.</p>
-  <div class="xfrom" id="xfrom">💲 Using your price from <b>Check 19</b>: <span id="xfromv">enter the unit price and size there first</span> · <a href="#psfsec" id="xfromgo">edit</a></div>
-  <div class="xf"><label style="display:none!important">Purchase price (AED)<input id="xprice" type="text" inputmode="decimal"></label>
-  <label style="display:none!important">Size (sq ft)<input id="xsize" type="text" inputmode="decimal"></label>
-  <label>Service charge (AED / sq ft / year)<input id="xsc" type="text" inputmode="decimal" placeholder="e.g. 15"></label>
-  <label>Years you hold after handover<input id="xyrs" type="text" inputmode="decimal" placeholder="0 if you sell before"></label>
-  <label>Selling agent fee % (if applicable)<input id="xag" type="text" inputmode="decimal" placeholder="e.g. 2, or leave blank"></label></div>
-  <div class="xout" id="xout"></div>
- </div></div>
- <div class="card" id="mgcard"><div class="num"><span class="ic">🏦</span><span class="n">+</span></div><div class="body">
-  <h3>Payment plan &amp; mortgage at handover</h3><p>How much you pay while it's being built, how much is due at handover, and what a mortgage on the handover amount would cost you each month.</p>
-  <div class="mgsplit" id="mgsplit">Enter the price in <b>Check 19</b> and "% paid before handover" above to see your split.</div>
+ <div class="card" id="mgcard" hidden><div class="num"><span class="ic">🏦</span><span class="n">+</span></div><div class="body">
+  <h3>Mortgage for your handover payment</h3><p>What a bank loan for the handover amount would cost you each month.</p>
   <div class="xf">
   <label class="w">Your situation<select id="mgtype"><option value="80">UAE resident · first home (bank lends up to 80%)</option><option value="60">UAE resident · investment / 2nd home (up to 60%)</option><option value="50">Living outside UAE (banks usually 50–60%)</option><option value="85">UAE national · first home (up to 85%)</option><option value="0">Paying cash, no mortgage</option></select></label>
   <label>Loan amount (AED)<input id="mgloan" type="text" inputmode="decimal" placeholder="auto"></label>
@@ -593,6 +592,16 @@ html:not(.eoion) .ans .eoin{display:none}
   </div>
   <div class="xout" id="mgout"></div>
   <small class="mgsrc">Rates as of mid-Nov 2026: UAE Central Bank Base Rate 3.90%; 3-month EIBOR 4.32% (CBUAE, 9 Nov 2026). Fixed offers seen from ~3.75–4% for strong salary-transfer profiles, many 4.5–5.8%. Central Bank rules: max 25 years; residents' first home up to 80% (≤ AED 5M, 70% above); investment 60%; monthly debts max 50% of income. Nobody knows future rates: we show today's EIBOR and a +2% stress case. Your bank's offer decides.</small>
+ </div></div>
+ <div class="card"><div class="num"><span class="ic">📉</span><span class="n">+</span></div><div class="body">
+  <h3>Resale break-even</h3><p>The price you'd need just to get your money back after DLD fee, any agent fee, transfer fee and service charges.</p>
+  <div class="xfrom" id="xfrom">💲 Using your price from <b>Check 19</b>: <span id="xfromv">enter the unit price and size there first</span> · <a href="#psfsec" id="xfromgo">edit</a></div>
+  <div class="xf"><label style="display:none!important">Purchase price (AED)<input id="xprice" type="text" inputmode="decimal"></label>
+  <label style="display:none!important">Size (sq ft)<input id="xsize" type="text" inputmode="decimal"></label>
+  <label>Service charge (AED / sq ft / year)<input id="xsc" type="text" inputmode="decimal" placeholder="e.g. 15"></label>
+  <label>Years you hold after handover<input id="xyrs" type="text" inputmode="decimal" placeholder="0 if you sell before"></label>
+  <label>Selling agent fee % (if applicable)<input id="xag" type="text" inputmode="decimal" placeholder="e.g. 2, or leave blank"></label></div>
+  <div class="xout" id="xout"></div>
  </div></div>
  <div class="card"><div class="num"><span class="ic">🧾</span><span class="n">+</span></div><div class="body">
   <h3>Also confirmed?</h3><p>Not scored. Tick what you've checked, and anything left open goes on your report.</p>
@@ -902,7 +911,7 @@ html:not(.eoion) .ans .eoin{display:none}
     try{ fetch(LEADS_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(d)}).catch(function(){}); }catch(e){}
   }
   // ---------- Extra checks: calculators (not scored) ----------
-  var XIDS=["xbed","xrent","xspa","xpp","xre","xtf","xprice","xsize","xsc","xyrs","xag"];
+  var XIDS=["xbed","xrent","xspa","xpp","xho","xpost","xre","xtf","xprice","xsize","xsc","xyrs","xag"];
   function xv(id){ return document.getElementById(id).value.trim(); }
   function xn(id){ var v=xv(id).replace(/[^0-9.]/g,""); return v?+v:0; }
   function xget(){ var o={}; XIDS.forEach(function(i){ var v=xv(i); if(v) o[i]=v; }); var t=xboxes.map(function(b){return b.checked?"1":"0";}).join(""); if(t.indexOf("1")>=0) o.t=t; return o; }
@@ -1348,7 +1357,15 @@ html:not(.eoion) .ans .eoin{display:none}
     document.getElementById("xfromgo").addEventListener("click",function(e){ e.preventDefault(); var c=pp.closest(".card"); c.scrollIntoView({behavior:"smooth",block:"center"}); setTimeout(function(){ pp.focus({preventScroll:true}); },500); });
     setTimeout(sync,300); })();
   // ---------- Payment plan split + mortgage at handover ----------
-  (function(){ var EIBOR=4.32;
+  (function(){ var EIBOR=4.32, MGS="";
+    function MGST(){ return MGS; }
+    var xpp=document.getElementById("xpp"), xho=document.getElementById("xho"), xpost=document.getElementById("xpost");
+    xho.addEventListener("input",function(){ xho.dataset.man=xho.value.trim()?"1":""; });
+    function autoHo(){ if(xho.dataset.man==="1") return; var a=+xpp.value.replace(/[^0-9.]/g,"")||0, b=+xpost.value.replace(/[^0-9.]/g,"")||0; xho.value=(a && a+b<100)?String(Math.round((100-a-b)*100)/100):""; xho.dispatchEvent(new Event("change")); }
+    xpp.addEventListener("input",autoHo); xpost.addEventListener("input",autoHo);
+    document.getElementById("mgyes").addEventListener("click",function(){ MGS="y"; run(); var c=document.getElementById("mgcard"); setTimeout(function(){ c.scrollIntoView({behavior:"smooth",block:"start"}); },100); });
+    document.getElementById("mgno").addEventListener("click",function(){ MGS="n"; run(); });
+    document.getElementById("mgundo").addEventListener("click",function(e){ e.preventDefault(); MGS="y"; run(); document.getElementById("mgcard").scrollIntoView({behavior:"smooth",block:"start"}); });
     function n(id){ var e=document.getElementById(id); return e?(+String(e.value).replace(/[^0-9.]/g,"")||0):0; }
     function A(x){ return "AED "+Math.round(x).toLocaleString("en-US"); }
     function pmt(P,r,y){ if(!P||!y) return 0; var i=r/1200, k=y*12; return i?P*i/(1-Math.pow(1+i,-k)):P/k; }
@@ -1357,10 +1374,19 @@ html:not(.eoion) .ans .eoin{display:none}
     loanIn.addEventListener("input",function(){ loanIn.dataset.man=loanIn.value.trim()?"1":""; });
     typ.addEventListener("change",function(){ loanIn.dataset.man=""; });
     function run(){
-      var P=n("pprice")||n("xprice"), pp=Math.min(n("xpp"),100), ho=100-pp, hoA=P*ho/100;
-      if(P && document.getElementById("xpp").value.trim()){
+      var P=n("pprice")||n("xprice"), pp=Math.min(n("xpp"),100), ho=Math.min(n("xho"),100), po=Math.min(n("xpost"),100), hoA=P*ho/100;
+      var hoTyped=document.getElementById("xho").value.trim()!=="" && ho>0;
+      sp.hidden=!(pp||ho||po); var tot=pp+ho+po;
+      sp.innerHTML='<div class="bar"><i style="flex:'+pp+';background:#C9A24A"></i><i style="flex:'+ho+';background:#3DDC84"></i><i style="flex:'+po+';background:#6EA8FE"></i></div>'+
+        '<div>🏗️ Construction <b>'+pp+'%</b>'+(P?' = '+A(P*pp/100):'')+'</div><div>🔑 Handover <b>'+ho+'%</b>'+(P?' = '+A(hoA):'')+'</div>'+(po?'<div>📆 Post-handover <b>'+po+'%</b>'+(P?' = '+A(P*po/100):'')+'</div>':'')+
+        (tot && Math.abs(tot-100)>0.01?'<div style="color:#FFB4A9;font-weight:700;margin-top:4px">⚠️ These add up to '+tot+'%, should be 100%.</div>':'');
+      var ask=document.getElementById("mgask"), card=document.getElementById("mgcard"), skipEl=document.getElementById("mgskip");
+      document.getElementById("mgq").innerHTML='🏦 Would you like me to calculate a mortgage for your <b>'+ho+'% handover payment</b>'+(P?' (<b>'+A(hoA)+'</b>)':'')+'?';
+      var st=MGST();
+      ask.hidden=!(hoTyped && st===""); card.hidden=!(hoTyped && st==="y"); skipEl.hidden=!(hoTyped && st==="n");
+      if(false){
         sp.innerHTML='<div>🏗️ During construction: <b>'+pp+'% = '+A(P*pp/100)+'</b></div><div class="bar"><i style="flex:'+pp+';background:#C9A24A"></i><i style="flex:'+ho+';background:#3DDC84"></i></div><div>🔑 On handover: <b>'+ho+'% = '+A(hoA)+'</b></div>';
-      } else sp.innerHTML=P?'Enter <b>% paid before handover</b> above (e.g. 60) to see your split.':'Enter the price in <b>Check 19</b> and "% paid before handover" above to see your split.';
+      }
       var ltv=+typ.value; if(ltv && P>5000000){ ltv={80:70,85:75}[ltv]||ltv; }
       if(!P){ out.innerHTML=""; return; }
       if(!ltv){ out.innerHTML='<div class="xo n">💵 Paying cash: you need <b>'+A(hoA)+'</b> ready at handover, plus about 4% DLD fee if not already paid.</div>'; loanIn.value=""; return; }
@@ -1380,14 +1406,14 @@ html:not(.eoion) .ans .eoin{display:none}
         '<div class="mgrow"><span>🔑 Cash you need at handover<br><small>handover balance not covered by the loan + mortgage registration 0.25% + AED 290 + ~1% bank fee</small></span><b>'+A(cash)+'</b></div>'+
         '<div class="mgrow"><span>👤 Income needed (installment ≤ 50% of salary)</span><b>'+A(p1*2)+'/month+</b></div></div>';
     }
-    ["pprice","psize","xpp","mgloan","mgyrs","mgrate","mgfix","mgmar"].forEach(function(id){ var e=document.getElementById(id); if(e){ e.addEventListener("input",run); e.addEventListener("change",run); } });
+    ["pprice","psize","xpp","xho","xpost","mgloan","mgyrs","mgrate","mgfix","mgmar"].forEach(function(id){ var e=document.getElementById(id); if(e){ e.addEventListener("input",run); e.addEventListener("change",run); } });
     typ.addEventListener("change",run); setTimeout(run,400);
   })();
   // ---------- Guide: a red arrow on the next thing to fill ----------
   (function(){
     var steps=[], skipped={}, cur=-1, lab=null, lastHi=null, lastEvt="";
     function sc(el){ return el.closest(".card")||el; }
-    function filled(card){ var ok=true; Array.prototype.forEach.call(card.querySelectorAll("input,select"),function(i){ if(i.id==="xag") return; if(i.type==="checkbox"){ if(!i.checked) ok=false; } else if(!i.value.trim()) ok=false; }); return ok; }
+    function filled(card){ var ok=true; Array.prototype.forEach.call(card.querySelectorAll("input,select"),function(i){ if(i.id==="xag"||i.id==="xpost") return; if(i.type==="checkbox"){ if(!i.checked) ok=false; } else if(!i.value.trim()) ok=false; }); return ok; }
     var proj=document.getElementById("proj"), psf=document.getElementById("psf"), ploc=document.getElementById("ploc");
     steps.push({k:"proj",a:proj.closest("label"),hi:proj.closest("label"),t:"Start here: type your project",skip:"Not listed? Skip",done:function(){ return proj.value.trim().length>1; }});
     var seen=[];
@@ -1398,7 +1424,7 @@ html:not(.eoion) .ans .eoin{display:none}
     steps.push({k:"psf",a:psf.closest(".card").querySelector(".pcalc")||psf.closest(".psfrow"),hi:psf.closest(".card"),t:"Enter the unit price and size",skip:"Skip",done:function(){ return num(psf.value)>0; }});
     steps.push({k:"ploc",a:ploc.closest("label"),hi:ploc.closest(".card"),t:"Pick the area from the list",skip:"Skip",done:function(){ return ploc.value.trim().length>1; }});
     Array.prototype.forEach.call(document.querySelectorAll("#moresec .card"),function(c,i){
-      steps.push({k:"x"+i,a:c.querySelector(".xf,.ticks"),hi:c,t:"Optional: fill what you know",skip:"Skip",done:function(){ return filled(c); }}); });
+      steps.push({k:"x"+i,a:c.querySelector(".xf,.ticks"),hi:c,t:"Optional: fill what you know",skip:"Skip",done:function(){ return c.hidden || filled(c); }}); });
     var sub=document.getElementById("submit");
     steps.push({k:"sub",a:sub,hi:sub,t:"All set? Tap here for your result",done:function(){ return false; }});
     var FROM=null;
