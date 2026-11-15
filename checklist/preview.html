@@ -1417,7 +1417,11 @@ html:not(.eoion) .ans .eoin{display:none}
   })();
 
   // price entered after the area is known: show the price comparison for 10 s too
-  ["pprice","psize","psf"].forEach(function(id){ var e=document.getElementById(id); if(e) e.addEventListener("change",function(){ setTimeout(function(){ var c=document.getElementById("cma"), l=document.getElementById("ploc"); if(c && !c.hidden && l && l.value.trim() && num(document.getElementById("psf").value)>0) holdNext(c); },250); }); });
+  // wait until the buyer has finished typing (left the price/size boxes), then hold the comparison
+  (function(){ var ids=["pprice","psize","psf"];
+    ids.forEach(function(id){ var e=document.getElementById(id); if(e) e.addEventListener("blur",function(){ setTimeout(function(){
+      var a=document.activeElement; if(a && ids.indexOf(a.id)>=0) return;
+      var c=document.getElementById("cma"), l=document.getElementById("ploc"); if(c && !c.hidden && l && l.value.trim() && num(document.getElementById("psf").value)>0) holdNext(c); },300); }); }); })();
   // ---------- Guide: a red arrow on the next thing to fill ----------
   (function(){
     var steps=[], skipped={}, cur=-1, lab=null, lastHi=null, lastEvt="";
@@ -1449,7 +1453,8 @@ html:not(.eoion) .ans .eoin{display:none}
       lab.innerHTML='<span><span class="ar">⬇</span> '+s.t+'</span>'+(s.skip?'<button type="button" class="nxs">'+s.skip+' ›</button>':'');
       s.a.parentNode.insertBefore(lab,s.a); s.hi.classList.add("nx"); lastHi=s.hi;
       var b=lab.querySelector(".nxs"); if(b) b.addEventListener("click",function(){ skipped[s.k]=1; lastEvt="change"; draw(); });
-      if(moved && lastEvt==="change" && !HOLD){ setTimeout(function(){ var r=lab.getBoundingClientRect(); if(r.top>window.innerHeight-280 || r.top<20) lab.scrollIntoView({behavior:"smooth",block:"center"}); },450); }
+      var typing=document.activeElement && /^(INPUT|TEXTAREA)$/.test(document.activeElement.tagName) && document.activeElement.type!=="checkbox";
+      if(moved && lastEvt==="change" && !HOLD && !typing){ setTimeout(function(){ var r=lab.getBoundingClientRect(); if(r.top>window.innerHeight-280 || r.top<20) lab.scrollIntoView({behavior:"smooth",block:"center"}); },450); }
     }
     window.guideGo=function(from){ FROM=from||null; cur=-1; draw(); FROM=null; if(lab && lab.parentNode) lab.scrollIntoView({behavior:"smooth",block:"center"}); };
     var t=null; function soon(ev){ lastEvt=ev.type; clearTimeout(t); t=setTimeout(draw,ev.type==="change"?350:150); }
