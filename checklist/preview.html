@@ -1505,7 +1505,7 @@ html:not(.eoion) .ans .eoin{display:none}
   });
 })();
 </script>
-<div style="text-align:center;font-size:10px;color:#B8BFCB;padding:4px 0 90px">preview build 15-Nov-skin1</div>
+<div style="text-align:center;font-size:10px;color:#B8BFCB;padding:4px 0 90px">preview build 15-Nov-desk1</div>
 <!-- ===== SKIN v1 (visual only) ===== -->
 <style id="skin">
 :root{--sk-navy:#0F2340;--sk-gold:#C5A880;--sk-gold2:#E2C98F;--sk-green:#1A9E62;--sk-amber:#F59E0B;--sk-red:#D92D20;--sk-bg:#F7F5F2;--sk-line:#E7E3DC}
@@ -1639,6 +1639,62 @@ h2 .icx{width:44px;height:44px}
 })();
 </script>
 <!-- ===== /SKIN ===== -->
+
+
+<!-- ===== DESKTOP LAYOUT v2 (visual only) ===== -->
+<style id="desk">
+@media (min-width:1100px){
+  body{font-size:17px!important}
+  .wrap{max-width:1200px!important;padding:0 28px;box-sizing:border-box;background:transparent!important}
+  /* hero: two columns */
+  header.hero2{display:grid!important;grid-template-columns:1.05fr .95fr;column-gap:56px;align-items:start;padding:44px 0 32px!important}
+  header.hero2 .hl,header.hero2 .hr{min-width:0}
+  header.hero2 .hl h1{font-size:46px!important;line-height:1.1!important}
+  header.hero2 .hl .sub2{font-size:19px!important}
+  header.hero2 .hl .trust,header.hero2 .hl .samplelink{text-align:left!important;display:block}
+  header.hero2 .hr{background:#fff;border:1px solid #E7E3DC;border-radius:22px;padding:24px;box-shadow:0 18px 40px rgba(15,35,64,.10)}
+  /* sample report: card left, list right */
+  section.sample{display:grid;grid-template-columns:1fr 1fr;column-gap:40px;align-items:start}
+  section.sample>.kicker,section.sample>h2{grid-column:1/-1;justify-self:start}
+  section.sample>.scard{grid-column:1;grid-row:3/span 2}
+  section.sample>.sinc,section.sample>#samplecta{grid-column:2}
+  /* check cards: tick on the left, explanation on the right */
+  .sec .card .body.split{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);column-gap:36px;align-items:start}
+  .sec .card .body.split>*{grid-column:1}
+  .sec .card .body.split>details.whym{grid-column:2;grid-row:1/span 30;margin:0!important;background:#FAF8F4;border:1px solid #EDE7DB;border-radius:16px;padding:16px 18px!important;font-size:15.5px;line-height:1.6;color:#3B4556}
+  .sec .card .body.split>details.whym>summary{list-style:none;pointer-events:none;font-size:12px!important;letter-spacing:1.4px;text-transform:uppercase;color:#9C7A3C!important;margin-bottom:6px}
+  .sec .card .body.split>details.whym>summary::-webkit-details-marker{display:none}
+  .card{padding:30px 34px!important}
+  .steps3{max-width:900px;margin-left:auto!important;margin-right:auto!important}
+  .sec>h2,.sec>.lead,.sec>.kicker{max-width:1100px}
+  /* bottom progress bar: wider, centred */
+  .prog .pin{max-width:1140px!important;margin:0 auto!important}
+  #res .rin{max-width:900px!important}
+}
+</style>
+<script id="deskjs">
+(function(){
+  function go(){
+    if(window.innerWidth<1100) return;
+    var h=document.querySelector("header.hero2");
+    if(h && !h.querySelector(".hl")){
+      var L=document.createElement("div"), R=document.createElement("div"); L.className="hl"; R.className="hr"; var right=false;
+      Array.prototype.slice.call(h.children).forEach(function(c){
+        if(c.matches(".nxl,.proj,.sugg,.feat,.dld,.dldsrc,.bigcta,#startbtn")) right=true;
+        if(c.matches(".trust,.samplelink")){ L.appendChild(c); return; }
+        (right?R:L).appendChild(c);
+      });
+      h.appendChild(L); h.appendChild(R);
+    }
+    Array.prototype.forEach.call(document.querySelectorAll(".sec .card .body"),function(b){
+      var w=b.querySelector(":scope>details.whym"); if(!w) return;
+      b.classList.add("split"); w.open=true; var s=w.querySelector("summary"); if(s) s.textContent="Why this matters";
+    });
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",function(){ setTimeout(go,50); }); else setTimeout(go,50);
+})();
+</script>
+<!-- ===== /DESKTOP ===== -->
 
 </body>
 </html>
