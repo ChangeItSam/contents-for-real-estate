@@ -1437,6 +1437,8 @@ html:not(.eoion) .ans .eoin{display:none}
     steps.push({k:"psf",a:psf.closest(".card").querySelector(".pcalc")||psf.closest(".psfrow"),hi:psf.closest(".card"),t:"Enter the unit price and size",skip:"Skip",done:function(){ return num(psf.value)>0; }});
     steps.push({k:"ploc",a:ploc.closest("label"),hi:ploc.closest(".card"),t:"Pick the area from the list",skip:"Skip",done:function(){ return ploc.value.trim().length>1; }});
     Array.prototype.forEach.call(document.querySelectorAll("#moresec .card"),function(c,i){
+      if(c.querySelector("#xpp")){ var a1=document.getElementById("xpp"), a2=document.getElementById("xho");
+        steps.push({k:"x"+i,a:c.querySelector(".plan3"),hi:c,t:"Fill your payment plan here: % during construction and on handover",done:function(){ return !!(a1.value.trim() && a2.value.trim()); }}); return; }
       steps.push({k:"x"+i,a:c.querySelector(".xf,.ticks"),hi:c,t:"Optional: fill what you know",skip:"Skip",done:function(){ return c.hidden || filled(c); }}); });
     var sub=document.getElementById("submit");
     steps.push({k:"sub",a:sub,hi:sub,t:"All set? Tap here for your result",done:function(){ return false; }});
