@@ -1157,7 +1157,7 @@ html:not(.eoion) .ans .eoin{display:none}
       document.getElementById("dldsrc").textContent="🏛️ Checked against "+j.p.length+" DLD-registered projects (updated "+j.updated+"). Source: "+j.source+".";
       var w=waiters; waiters=[]; w.forEach(function(f){f();});}).catch(function(){loading=false; waiters=[];}); }
   var autoN=false;
-  function clearAuto(){ if(autoN){ if(boxes[PROG].dataset.st==="n") boxes[PROG].dataset.st=""; autoN=false; } auto.forEach(function(i){ boxes[i].checked=false; var s=boxes[i].parentNode.querySelector(".auto"); if(s) s.remove(); }); auto=[];
+  function clearAuto(){ if(autoN){ if(boxes[PROG].dataset.st==="u") boxes[PROG].dataset.st=""; autoN=false; } auto.forEach(function(i){ boxes[i].checked=false; var s=boxes[i].parentNode.querySelector(".auto"); if(s) s.remove(); }); auto=[];
     var h=document.querySelector(".hint"); if(h) h.remove(); update(); }
   function tickAuto(i){ if(!boxes[i].checked){ boxes[i].checked=true; auto.push(i);
       var s=document.createElement("span"); s.className="auto"; s.textContent="✓ DLD"; boxes[i].parentNode.querySelector("span").appendChild(s);
@@ -1185,7 +1185,7 @@ html:not(.eoion) .ans .eoin{display:none}
         '<div class="fnote">We\'ve auto-ticked what DLD confirms for you (<span class="auto">✓ DLD</span>). You only tick what <i>you\'ve</i> confirmed.</div>'+src;
       var lab=boxes[PROG].parentNode; if(pct!==""){ var h=document.createElement("span"); h.className="hint";
         if(+pct>0){ tickAuto(PROG); h.textContent="Construction has started, per DLD records. The exact % for this project is in your full report."; }
-        else { if(!boxes[PROG].checked){ boxes[PROG].dataset.st="n"; autoN=true; } h.textContent="DLD records show construction hasn't started yet. Details in your full report."; }
+        else { if(!boxes[PROG].checked){ boxes[PROG].dataset.st="u"; autoN=true; } h.textContent="DLD shows 0% so far, so the progress can't be confirmed yet (marked Not known). Details in your full report."; }
         lab.querySelector("span").appendChild(h); }
     }
     card.hidden=false; psfProject(r); update(); holdNext(card);
@@ -1490,6 +1490,6 @@ html:not(.eoion) .ans .eoin{display:none}
   });
 })();
 </script>
-<div style="text-align:center;font-size:10px;color:#B8BFCB;padding:4px 0 90px">preview build 15-Nov-eoi4</div>
+<div style="text-align:center;font-size:10px;color:#B8BFCB;padding:4px 0 90px">preview build 15-Nov-reg1</div>
 </body>
 </html>
