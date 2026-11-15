@@ -246,8 +246,8 @@ section,.game{scroll-margin-top:110px}
 .xf{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .xf label{display:flex;flex-direction:column;font-size:14px;font-weight:700;color:var(--navy);gap:4px}
 .xf label.w{grid-column:1/-1}
-.xf input,.xf select{font:inherit;font-size:16px;padding:10px 11px;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--navy);width:100%;min-width:0}
-.xf input:focus,.xf select:focus{outline:0;border-color:var(--gold)}
+.plan3 input,.xf input,.xf select{font:inherit;font-size:16px;padding:10px 11px;border:2px solid var(--line);border-radius:12px;background:#fff;color:var(--navy);width:100%;min-width:0}
+.plan3 input:focus,.xf input:focus,.xf select:focus{outline:0;border-color:var(--gold)}
 .xout{margin-top:12px;display:grid;gap:8px}
 .xo{border-radius:12px;padding:10px 12px;font-size:15.5px;line-height:1.45;border:1.5px solid}
 .xo b{font-size:16.5px}.xo.g{background:#EAF8EF;border-color:#3DDC84;color:#14532D}.xo.a{background:#FFF6E0;border-color:#F5C451;color:#6B4A00}.xo.r{background:#FDECEC;border-color:#F28B8B;color:#7F1D1D}.xo.n{background:#F2F4F8;border-color:#D5DAE3;color:#3A4456}
@@ -277,6 +277,17 @@ section,.game{scroll-margin-top:110px}
 .eoi input{flex:none;width:22px;height:22px;margin-top:1px;accent-color:#C9A24A}
 .eoi small{display:block;font-size:13.5px;color:#7A6230;margin-top:2px}
 html:not(.eoion) .ans .eoin{display:none}
+.ans button.on.n{background:#0B1F3A!important;border-color:#0B1F3A!important;color:#fff!important}.ans button.on.n::before{content:"✓ ";color:#E9C46A}
+.holdnx{margin-top:12px;position:relative}.holdnx button{width:100%;font:inherit;font-weight:800;font-size:16px;border:0;border-radius:14px;padding:12px 14px;background:linear-gradient(135deg,#E9C46A,#C9A24A);color:#0B1F3A;cursor:pointer;box-shadow:0 4px 14px rgba(201,162,74,.35)}.holdnx i{display:block;height:4px;border-radius:4px;background:#C9A24A;margin-top:6px;transform-origin:left;animation:holdbar 10s linear forwards}@keyframes holdbar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.xfrom{background:#F4EFE3;border:1.5px solid #E2D3AE;border-radius:12px;padding:10px 12px;margin:8px 0 10px;font-size:15px;color:#0B1F3A;line-height:1.45}.xfrom a{color:#8A6A1F;font-weight:800}
+.mgsplit{background:#0B1F3A;color:#fff;border-radius:14px;padding:12px 14px;margin:8px 0 12px;font-size:15px;line-height:1.5}.mgsplit .bar{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:8px 0 6px}.mgsplit .bar i{display:block}.mgsplit b{color:#E9C46A}
+.mgsrc{display:block;margin-top:10px;font-size:11.5px;color:#6B7280;line-height:1.45}#mgcard select{width:100%;font:inherit;font-size:15px;padding:10px;border:1.5px solid var(--line);border-radius:12px;background:#fff;margin-top:4px}
+.mgrow{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed #D8DEE8}.mgrow:last-child{border-bottom:0}.mgrow b{white-space:nowrap}
+.plan3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 4px}.plan3 label{font-size:13px;font-weight:800;line-height:1.25;display:flex;flex-direction:column;justify-content:space-between}.plan3 input{width:100%;margin-top:4px}
+.mgask{background:#FFF8E6;border:2px solid #E9C46A;border-radius:14px;padding:12px;margin:10px 0;font-size:15.5px;line-height:1.45;animation:mgpop .35s ease}@keyframes mgpop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
+.mgbtns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}.mgbtns button{flex:1 1 140px;font:inherit;font-weight:800;font-size:15px;border-radius:12px;padding:11px 10px;cursor:pointer}#mgyes{background:linear-gradient(135deg,#E9C46A,#C9A24A);border:0;color:#0B1F3A}#mgno{background:#fff;border:1.5px solid #D8DEE8;color:#475467}
+.mgskip{font-size:13.5px;color:#6B7280;margin:6px 0 10px}.mgskip a{color:#8A6A1F;font-weight:800}
+[hidden]{display:none!important}
 .eoinote{background:#FFF6E3;color:#6B4E12;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:15px;line-height:1.45}
 </style>
 <script>
@@ -380,6 +391,7 @@ details.whym[open] summary{margin-bottom:6px}
 .eoi input{flex:none;width:22px;height:22px;margin-top:1px;accent-color:#C9A24A}
 .eoi small{display:block;font-size:13.5px;color:#7A6230;margin-top:2px}
 html:not(.eoion) .ans .eoin{display:none}
+[hidden]{display:none!important}
 .eoinote{background:#FFF6E3;color:#6B4E12;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:15px;line-height:1.45}
 .tick:not(.xt)>input{display:none!important}
 .tick:not(.xt){cursor:default;pointer-events:none}
@@ -397,6 +409,21 @@ html:not(.eoion) .ans .eoin{display:none}
 .tapbelow{flex:none;background:#E53935;color:#fff;font-size:14px;font-weight:800;border-radius:16px;padding:5px 11px;box-shadow:0 3px 10px rgba(229,57,53,.35);animation:tapd 1.1s ease-in-out infinite;white-space:nowrap}
 @keyframes tapd{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 .sugg button.alias{background:#F2F7FF}.devnote{font-size:14px;margin:4px 0 6px;color:#1d3f6b}
+
+.hpill{display:inline-block;background:var(--navy);color:var(--gold2);font-size:12.5px;font-weight:800;letter-spacing:1.5px;border-radius:20px;padding:5px 12px;margin-top:14px}
+.hero2 h1{font-size:25px!important;line-height:1.18!important;margin-top:10px!important}.hero2 h1 .r{color:#E53935}
+.trust span{display:block;font-size:13.5px;color:var(--muted);margin-top:2px}
+.samplelink{display:block;text-align:center;margin-top:8px;font-weight:700;color:#8A6D1D;text-decoration:none;font-size:15px}
+.fbar{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px;margin:8px 0 4px}.fbar div{background:rgba(255,255,255,.65);border-radius:10px;padding:6px 9px}.fbar span{display:block;font-size:12px;color:#5B6678;font-weight:600}.fbar b{font-size:14.5px}
+.fnote{margin-top:8px;font-weight:600}
+.psfnote{font-size:13px;color:var(--muted);margin-top:8px}
+.steps3{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:100%;margin:6px 0 18px;padding:0}.steps3:before{content:"";position:absolute;left:16%;right:16%;top:30px;height:3px;background:linear-gradient(90deg,var(--gold),#E8CF8E,var(--gold));border-radius:3px;z-index:0}.steps3 a{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;text-align:center;text-decoration:none;color:var(--navy);background:#fff;border:2px solid #EADFC4;border-radius:18px;padding:10px 6px 12px;box-shadow:0 4px 14px rgba(11,31,58,.08);transition:transform .15s}.steps3 a:active{transform:scale(.97)}.steps3 .n{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-size:20px;background:var(--navy);color:#E8CF8E;border:3px solid #E8CF8E;margin-top:-2px;box-shadow:0 0 0 4px #fff}.steps3 b{display:block;font-size:15.5px;font-weight:800;line-height:1.2;margin-top:8px}.steps3 small{display:block;font-size:12px;font-weight:700;color:#8A6D1D;margin-top:3px;letter-spacing:.3px}.steps3 a.on{background:linear-gradient(170deg,var(--navy),#16345C);border-color:var(--navy);color:#fff}.steps3 a.on .n{background:linear-gradient(135deg,#C9A24A,#E8CF8E);color:var(--navy);border-color:#fff}.steps3 a.on small{color:#E8CF8E}@media(max-width:380px){.steps3 b{font-size:14px}.steps3 small{font-size:11px}}
+.why3{text-align:left;margin:16px 0 4px}.w3h{font-size:13px;font-weight:800;letter-spacing:1.5px;color:#E8CF8E;text-transform:uppercase;margin-bottom:6px}.w3{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:9px 12px;margin-bottom:6px;font-size:16px;color:#fff}.w3.y{border-color:rgba(61,220,132,.6)}.w3.n{border-color:rgba(255,107,107,.6)}.w3.w{border-color:rgba(245,196,81,.6)}
+.grule{text-align:left;background:rgba(232,207,142,.12);border:1px solid rgba(232,207,142,.45);border-radius:12px;padding:10px 12px;margin:10px 0;font-size:15px;color:#E3E9F2}
+.fullcta{margin-top:22px;text-align:center}.fullcta h3{font-size:24px;color:#fff;margin:0}.fullcta p{font-size:15px;color:#C8D2E2;margin:6px 0 0}.fullcta small{display:block;font-size:13px;color:#9FB0C8;margin-top:10px}
+.spad{display:flex;gap:8px;margin-top:6px}.spad select{flex:1;min-width:0}
+.picksbtn{display:flex;align-items:center;gap:12px;margin-top:14px;padding:13px 16px;border-radius:16px;text-decoration:none;text-align:left;background:linear-gradient(135deg,#C9A24A,#E8CF8E);color:#0B1F3A;box-shadow:0 6px 18px rgba(201,162,74,.35);border:2px solid #fff3}.picksbtn span{font-size:26px;flex:none}.picksbtn b{display:block;font-size:17px;font-weight:800;line-height:1.25}.picksbtn small{display:block;font-size:13px;font-weight:700;color:#3B4A63;margin-top:3px}.picksbtn.big{margin:16px 0 6px;padding:16px 18px}.picksbtn.big b{font-size:18.5px}.picksbtn:active{transform:scale(.98)}
+.passlink{display:block;margin-top:12px;color:#E8CF8E;font-weight:700;font-size:15.5px}
 </style>
 </head>
 <body>
@@ -420,20 +447,22 @@ html:not(.eoion) .ans .eoin{display:none}
 
 <header class="hero2">
  <div class="by"><img src="sam.jpg?v=2" alt="Sam Surya"><div><b>By Sam Surya</b><span>Principal Property Advisor · 200+ clients · AED 600M+ sold</span></div></div>
- <h1>Off-Plan Deal Stress Test</h1>
- <p class="sub2">2 minutes. 20 checks. One answer: <b class="g">DEAL</b> or <b class="r">NO DEAL</b>.</p>
- <label class="proj hp"><span class="plab">Which project are you checking? <small>(type 2+ letters, then pick it from the list)</small></span><input id="proj" type="text" autocomplete="off" placeholder="Type your project name..."></label>
+ <div class="hpill">OFF-PLAN DEAL STRESS TEST</div>
+ <h1>Will this off-plan deal make you money, or <span class="r">cost you hundreds of thousands?</span></h1>
+ <p class="sub2">2-minute Deal Stress Test. We check your project against <b>real DLD sales</b>, not the brochure.</p>
+ <label class="proj hp"><span class="plab">Which project are you checking? <small>(type 2+ letters, then pick it from the list)</small></span><input id="proj" type="text" autocomplete="off" placeholder="Type your project name... e.g. Binghatti JVC"></label>
  <div class="sugg" id="sugg" hidden></div>
  <div class="feat" id="feat" hidden></div>
  <div class="dld" id="dld" hidden></div>
  <p class="dldsrc" id="dldsrc">🏛️ We check the project against Dubai Land Department records and tick what they confirm.</p>
- <button type="button" class="btn bigcta" id="startbtn">Get My Deal Score</button>
- <p class="trust">🏛️ Checked against DLD data • <b id="st1b">770</b> projects • Updated daily</p>
+ <button type="button" class="btn bigcta" id="startbtn">Check My Deal →</button>
+ <p class="trust"><b>Free</b> • Instant score • No call needed<br><span>Based on registered DLD sales across <b id="st1b">770</b> projects. Updated daily.</span></p>
+ <a class="samplelink" href="#sample">See a sample report ↓</a>
 </header>
 
 <div class="prog" id="prog"><div class="pin"><div class="r1"><span class="cnt">✅ <span id="done">0</span>/<span id="tot">20</span><small>answered</small></span><span class="warnp" id="psfwarn" hidden>💲 Price missing</span><button type="button" class="hres" id="hreset">↺ Reset</button><a href="#test" class="go">Get result</a></div><div class="bar"><i id="bar"></i></div><div class="r3"><span id="where">📍 Start: pick your project</span></div></div></div>
 
-<section class="sample">
+<section class="sample" id="sample">
  <div class="kicker">What you get</div>
  <h2>See a sample report</h2>
  <div class="scard">
@@ -475,43 +504,43 @@ html:not(.eoion) .ans .eoin{display:none}
 </section>
 
 <section class="sec" id="checks">
- <div class="kicker">Checks 1–4</div><h2>🛡️ Is it safe?</h2><p class="lead">Dubai protects off-plan buyers well. Make sure you're inside that protection.</p>
- <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>A developer registered with RERA is accountable to the regulator, and their delivery record is the best guide to whether your building gets finished on time. You don't need to search any registry: we check the developer against Dubai Land Department records as soon as you pick your project, or type the developer's name for an EOI project. Your full report shows how many projects they've handed over, how many are under construction, delayed or cancelled.</p><div class="ticks"><div id="devbox" class="devbox" hidden><label class="plab" for="devin">👷 EOI project: who is the developer? <small>(type 2+ letters, then pick from the list)</small></label><input id="devin" type="text" autocomplete="off" placeholder="e.g. Azizi, Binghatti, Emaar"><div id="devsg" class="sugg" hidden></div><div class="launchq"><div class="plab">📅 Has the developer officially announced the launch date?</div><div class="ans lq"><button type="button" class="y" data-l="y">✅ Yes, announced</button><button type="button" class="u" data-l="n">⏳ Not yet</button></div></div></div><div id="devcard" class="dld devcard" hidden></div><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label><label class="eoi" id="eoiwrap"><input type="checkbox" id="eoi"><span><b>🟡 Not found in DLD? Tick if this project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and tell us the developer: those lines are then judged on the developer's DLD record and whether the launch date is announced. Check them again before you pay the booking amount.</small></span></label></div></div></div>
+ <div class="steps3"><a class="on" href="#" data-step="1"><span class="n">🛡️</span><b>1. Is it safe?</b><small>Checks 1–4</small></a><a href="#" data-step="2"><span class="n">🔐</span><b>2. Money protected?</b><small>Checks 5–18</small></a><a href="#" data-step="3"><span class="n">💲</span><b>3. Price right?</b><small>Checks 19–20</small></a></div><div class="kicker">Step 1 of 3 · Checks 1–4</div><h2>🛡️ Is it safe?</h2><p class="lead">Dubai protects off-plan buyers well. Make sure you're inside that protection.</p>
+ <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>A developer registered with RERA is accountable to the regulator, and their delivery record is the best guide to whether your building gets finished on time. You don't need to search any registry: we check the developer against Dubai Land Department records as soon as you pick your project, or type the developer's name for an EOI project. Your full report shows how many projects they've handed over, how many are under construction, delayed or cancelled.</p><div class="ticks"><div id="devcard" class="dld devcard" hidden></div><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label><label class="eoi" id="eoiwrap"><input type="checkbox" id="eoi"><span><b>🟡 Not found in DLD? Tick if this project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and tell us the developer: those lines are then judged on the developer's DLD record and whether the launch date is announced. Check them again before you pay the booking amount.</small></span></label><div id="devbox" class="devbox" hidden><label class="plab" for="devin">👷 EOI project: who is the developer? <small>(type 2+ letters, then pick from the list)</small></label><input id="devin" type="text" autocomplete="off" placeholder="e.g. Azizi, Binghatti, Emaar"><div id="devsg" class="sugg" hidden></div><div class="launchq"><div class="plab">📅 Has the developer officially announced the launch date?</div><div class="ans lq"><button type="button" class="y" data-l="y">✅ Yes, announced</button><button type="button" class="u" data-l="n">⏳ Not yet</button></div></div></div></div></div></div>
  <div class="card"><div class="num"><span class="ic">🏗️</span><span class="n">3–4</span></div><div class="body"><h3>The exact project is registered, not just the developer</h3><p>A good developer isn't enough. Every off-plan project needs its own DLD registration before it can legally be sold, and without it your payments and your unit aren't protected. Pick your project at the top and we pull its registration, status and construction progress from DLD records for you. Not registered yet? Mark it as EOI / pre-launch and we check the developer instead.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="10"><b class="cn">3</b><span>Project number verified on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="4"><b class="cn">4</b><span>Construction progress (%) matches what you were told</span></label></div></div></div>
 </section>
 
 <section class="sec">
- <div class="kicker">Checks 5–9</div><h2>🔐 Protect your money</h2><p class="lead">Where your money goes and who you deal with.</p>
+ <div class="kicker">Step 2 of 3 · Checks 5–9</div><h2>🔐 Is your money protected?</h2><p class="lead">Where your money goes and who you deal with.</p>
  <div class="card"><div class="num"><span class="ic">🏦</span><span class="n">5–7</span></div><div class="body"><h3>Your money goes into the project's escrow account</h3><p>By law (<b>Law No. 8 of 2007</b>), off-plan payments go into a regulated escrow account for that project, not the developer's company account. When your project is registered, we show you its escrow bank from DLD records, so the only thing left for you is to check that the account on your payment instructions matches it.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><b class="cn">5</b><span>Project has an escrow account registered with DLD</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">6</b><span>Escrow bank &amp; account shown on <b>your</b> payment instructions</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">7</b><span>They match the project's escrow on DLD / Dubai REST</span></label></div><div class="tip warn">⚠️ Never pay a deposit into a personal or general company account.</div></div></div>
  <div class="card"><div class="num"><span class="ic">🪪</span><span class="n">8–9</span></div><div class="body"><h3>Your agent is licensed</h3><p>Only a RERA-licensed agent can legally sell you property, and a licensed agent is answerable to the regulator if something goes wrong. This is the one thing we can't look up for you: ask your agent for their BRN (Broker Registration Number), and make sure the agency and the agent are named on your paperwork.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="5"><b class="cn">8</b><span>Agent BRN verified</span></label><label class="tick"><input type="checkbox" data-w="2"><b class="cn">9</b><span>Agency and agent named on the paperwork</span></label></div></div></div>
 </section>
 
 <section class="sec">
- <div class="kicker">Check 10</div><h2>💰 Know the real cost</h2><p class="lead">The price is not the whole story.</p>
+ <div class="kicker">Step 2 of 3 · Check 10</div><h2>💰 Know the real cost</h2><p class="lead">The price is not the whole story.</p>
  <div class="card"><div class="num"><span class="ic">💰</span><span class="n">10</span></div><div class="body"><h3>You know the full cost, not just the price</h3><div class="costs"><div style="flex:5;background:#0B1F3A">DLD ~4%</div><div style="flex:10;background:#C9A24A">Deposit 10–20%</div><div style="flex:5;background:#5B6678">Handover</div></div><p>Oqood is usually paid at booking (some launches cover or share it, so ask). At handover budget for DEWA, cooling (if any) and service charges. Get any agency fee in writing.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="6"><b class="cn">10</b><span>Total cash needed at booking calculated</span></label></div></div></div>
  <div class="card tipc"><div class="num"><span class="ic">📱</span><span class="n">TIP</span></div><div class="body"><h3>We do the DLD checks for you</h3><p>Checks 1 to 4 normally mean searching the developer, the project and the escrow account one by one in the Dubai REST app and on developer websites. Here they're pulled from Dubai Land Department records the moment you pick your project. If a project isn't in DLD records and isn't in its EOI / pre-launch phase, walk away.</p></div></div>
 </section>
 
 <section class="sec">
- <div class="kicker">Checks 11–14</div><h2>📈 Is it right for you?</h2><p class="lead">It has to fit your cash flow and your contract.</p>
+ <div class="kicker">Step 2 of 3 · Checks 11–14</div><h2>📈 Is it right for you?</h2><p class="lead">It has to fit your cash flow and your contract.</p>
  <div class="card"><div class="num"><span class="ic">📅</span><span class="n">11–12</span></div><div class="body"><h3>The payment plan fits your cash flow</h3><p>Most buyers who get into trouble didn't pick a bad project; they ran short of cash between milestones. Write down every payment: how much and when, whether it's tied to dates or to construction progress, and whether there's a post-handover plan. Add it in the calculator below and we work out how much you pay before the keys.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="4"><b class="cn">11</b><span>Every instalment and date listed</span></label><label class="tick"><input type="checkbox" data-w="6"><b class="cn">12</b><span>You can pay each one even if your plans change</span></label></div></div></div>
  <div class="card"><div class="num"><span class="ic">📝</span><span class="n">13–14</span></div><div class="body"><h3>The SPA (Sale &amp; Purchase Agreement) is clear</h3><p>The SPA is what the developer legally owes you; the brochure isn't. Make sure it states the unit number, size, floor plan, finishes, payment schedule, the completion date and what happens if handover is late. Add your SPA handover date below and we compare it with the completion date the developer registered with DLD.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="4"><b class="cn">13</b><span>Unit, size and specs match the brochure</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">14</b><span>Completion date and delay terms understood</span></label></div></div></div>
 </section>
 
 <section class="sec">
- <div class="kicker">Checks 15–17</div><h2>⚖️ Lock in your rights</h2><p class="lead">Registration and the fine print.</p>
+ <div class="kicker">Step 2 of 3 · Checks 15–17</div><h2>⚖️ Lock in your rights</h2><p class="lead">Registration and the fine print.</p>
  <div class="card"><div class="num"><span class="ic">📜</span><span class="n">15</span></div><div class="body"><h3>Your purchase is registered (Oqood)</h3><p>Oqood is DLD's interim registration of your off-plan purchase. It records the unit in your name during construction, protects your rights if anything goes wrong, and becomes your title deed at handover. Ask the developer to confirm in writing that it will be issued, and when.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="9"><b class="cn">15</b><span>Developer confirms your purchase will be registered (Oqood) with DLD</span></label></div></div></div>
  <div class="card"><div class="num"><span class="ic">⚖️</span><span class="n">16–17</span></div><div class="body"><h3>You know the risk if you stop paying</h3><p>If a buyer defaults, Dubai rules let the developer keep part of what was paid, depending on construction progress. Know the terms <b>before</b> you sign.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="5"><b class="cn">16</b><span>Default and cancellation terms understood</span></label><label class="tick"><input type="checkbox" data-w="3"><b class="cn">17</b><span>Resale rules known (when you can sell, NOC fee)</span></label></div></div></div>
 </section>
 
 <section class="sec">
- <div class="kicker">Check 18</div><h2>🧭 Plan your way out</h2><p class="lead">Know your exit before you commit.</p>
+ <div class="kicker">Step 2 of 3 · Check 18</div><h2>🧭 Plan your way out</h2><p class="lead">Know your exit before you commit.</p>
  <div class="card"><div class="num"><span class="ic">🚪</span><span class="n">18</span></div><div class="body"><h3>Your exit plan makes sense</h3><p>🏠 <b>Live</b> · 🔑 <b>Rent</b>: we compare the rent you were promised with real Ejari contracts · 💸 <b>Sell</b>: your report shows real prices paid from DLD data.</p><div class="tip">🌟 <b>Golden Visa:</b> property worth AED 2M+ can qualify for the 10-year UAE Golden Visa, off-plan included. Confirm current DLD conditions for your case.</div><div class="ticks"><label class="tick"><input type="checkbox" data-w="6"><b class="cn">18</b><span>Exit plan chosen and numbers checked</span></label></div></div></div>
  <div class="card rule"><div class="num"><span class="ic">🔐</span><span class="n">RULE</span></div><div class="body"><h3>The golden rule</h3><p>No DLD registration, no escrow account, no Oqood? <b style="color:#E8CF8E">No deal (skip).</b> A good project passes all 20 checks easily.</p></div></div>
 </section>
 
 <section class="sec" id="psfsec">
- <div class="kicker">Checks 19–20</div><h2>💲 Is the price right?</h2><p class="lead">The price per square foot you pay decides your profit. Compare it with similar off-plan projects around you.</p>
+ <div class="kicker">Step 3 of 3 · Checks 19–20</div><h2>💲 Are you overpaying?</h2><p class="lead">The price per square foot you pay decides your profit. Compare it with similar off-plan projects around you.</p>
  <div class="card"><div class="num"><span class="ic">📐</span><span class="n">19–20</span></div><div class="body">
   <span class="q">Check 19</span><h3>What price per sq ft are you paying?</h3>
   <p>Enter the unit price and size. We work out the price per sq ft for you. Use the size in your SPA or floor plan, and check whether it includes the balcony.</p>
@@ -519,7 +548,7 @@ html:not(.eoion) .ans .eoin{display:none}
   <label>Size (sq ft)<input id="psize" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 650"></label></div>
   <div class="psfrow"><span class="eq">=</span> AED <input id="psf" type="text" inputmode="decimal" autocomplete="off" placeholder="auto"> / sq ft</div>
   <small class="psfnote" id="psfnote">Already know your price per sq ft? Type it straight into the box above.</small>
-  <label class="proj">Where is the property? <small>(filled in when you pick your project at the top)</small><input id="ploc" type="text" list="plocs" autocomplete="off" placeholder="e.g. Jumeirah Village Circle"></label><datalist id="plocs"></datalist>
+  <label class="proj">Where is the property? <small>(filled in when you pick your project at the top)</small><input id="ploc" type="text" autocomplete="off" placeholder="Tap to choose, or type the area"></label><div id="plocsg" class="sugg" hidden></div><datalist id="plocs"></datalist>
   <span class="q">Check 20</span><h3>How your price compares <span class="pts" id="psfpts" hidden></span></h3>
   <div class="how3"><b class="h">📊 How we compare your price</b><ol>
    <li><b>Real market data, not adverts.</b> We use every sale registered with the Dubai Land Department, checked every day for new data.</li>
@@ -539,18 +568,36 @@ html:not(.eoion) .ans .eoin{display:none}
  </div></div>
  <div class="card"><div class="num"><span class="ic">📅</span><span class="n">+</span></div><div class="body">
   <h3>Handover date in your SPA</h3><p>We compare it with the completion date the developer registered with DLD.</p>
-  <div class="xf"><label class="w">Handover date in the SPA / contract<input id="xspa" type="month"></label></div>
+  <div class="xf"><label class="w">Handover date in the SPA / contract<span class="spad"><select id="xspam" aria-label="Handover month"><option value="">Month</option><option value="01">Jan</option><option value="02">Feb</option><option value="03">Mar</option><option value="04">Apr</option><option value="05">May</option><option value="06">Jun</option><option value="07">Jul</option><option value="08">Aug</option><option value="09">Sep</option><option value="10">Oct</option><option value="11">Nov</option><option value="12">Dec</option></select><select id="xspay" aria-label="Handover year"><option value="">Year</option><option value="2025">2025</option><option value="2026">2026</option><option value="2027">2027</option><option value="2028">2028</option><option value="2029">2029</option><option value="2030">2030</option><option value="2031">2031</option><option value="2032">2032</option><option value="2033">2033</option><option value="2034">2034</option><option value="2035">2035</option></select></span><input id="xspa" type="hidden"></label></div>
  </div></div>
  <div class="card"><div class="num"><span class="ic">💳</span><span class="n">+</span></div><div class="body">
   <h3>Payment plan and exit</h3><p>How much you pay before the keys, and when you're allowed to sell.</p>
-  <div class="xf"><label>% paid before handover<input id="xpp" type="text" inputmode="decimal" placeholder="e.g. 60"></label>
+  <div class="plan3"><label>🏗️ During construction %<input id="xpp" type="text" inputmode="decimal" placeholder="e.g. 60"></label><label>🔑 On handover %<input id="xho" type="text" inputmode="decimal" placeholder="e.g. 40"></label><label>📆 Post-handover %<input id="xpost" type="text" inputmode="decimal" placeholder="0 if none"></label></div>
+  <div class="mgsplit" id="mgsplit" hidden></div>
+  <div class="mgask" id="mgask" hidden><div id="mgq"></div><div class="mgbtns"><button type="button" id="mgyes">🏦 Yes, calculate mortgage</button><button type="button" id="mgno">Skip, I'm in a hurry ›</button></div></div>
+  <div class="mgskip" id="mgskip" hidden>Mortgage skipped · <a href="#" id="mgundo">calculate it anyway</a></div>
+  <div class="xf">
   <label>% paid before resale is allowed<input id="xre" type="text" inputmode="decimal" placeholder="e.g. 40"></label>
   <label class="w">Developer transfer / NOC fee (AED)<input id="xtf" type="text" inputmode="decimal" placeholder="e.g. 5,000"></label></div>
  </div></div>
+ <div class="card" id="mgcard" hidden><div class="num"><span class="ic">🏦</span><span class="n">+</span></div><div class="body">
+  <h3>Mortgage for your handover payment</h3><p>What a bank loan for the handover amount would cost you each month.</p>
+  <div class="xf">
+  <label class="w">Your situation<select id="mgtype"><option value="80">UAE resident · first home (bank lends up to 80%)</option><option value="60">UAE resident · investment / 2nd home (up to 60%)</option><option value="50">Living outside UAE (banks usually 50–60%)</option><option value="85">UAE national · first home (up to 85%)</option><option value="0">Paying cash, no mortgage</option></select></label>
+  <label>Loan amount (AED)<input id="mgloan" type="text" inputmode="decimal" placeholder="auto"></label>
+  <label>Loan years (max 25)<input id="mgyrs" type="text" inputmode="decimal" value="25"></label>
+  <label>Fixed rate %<input id="mgrate" type="text" inputmode="decimal" value="4.0"></label>
+  <label>Fixed for (years)<input id="mgfix" type="text" inputmode="decimal" value="3"></label>
+  <label class="w">After the fixed period: 3-month EIBOR + bank margin %<input id="mgmar" type="text" inputmode="decimal" value="1.5"></label>
+  </div>
+  <div class="xout" id="mgout"></div>
+  <small class="mgsrc">Rates as of mid-Nov 2026: UAE Central Bank Base Rate 3.90%; 3-month EIBOR 4.32% (CBUAE, 9 Nov 2026). Fixed offers seen from ~3.75–4% for strong salary-transfer profiles, many 4.5–5.8%. Central Bank rules: max 25 years; residents' first home up to 80% (≤ AED 5M, 70% above); investment 60%; monthly debts max 50% of income. Nobody knows future rates: we show today's EIBOR and a +2% stress case. Your bank's offer decides.</small>
+ </div></div>
  <div class="card"><div class="num"><span class="ic">📉</span><span class="n">+</span></div><div class="body">
   <h3>Resale break-even</h3><p>The price you'd need just to get your money back after DLD fee, any agent fee, transfer fee and service charges.</p>
-  <div class="xf"><label>Purchase price (AED)<input id="xprice" type="text" inputmode="decimal" placeholder="e.g. 1,200,000"></label>
-  <label>Size (sq ft)<input id="xsize" type="text" inputmode="decimal" placeholder="e.g. 750"></label>
+  <div class="xfrom" id="xfrom">💲 Using your price from <b>Check 19</b>: <span id="xfromv">enter the unit price and size there first</span> · <a href="#psfsec" id="xfromgo">edit</a></div>
+  <div class="xf"><label style="display:none!important">Purchase price (AED)<input id="xprice" type="text" inputmode="decimal"></label>
+  <label style="display:none!important">Size (sq ft)<input id="xsize" type="text" inputmode="decimal"></label>
   <label>Service charge (AED / sq ft / year)<input id="xsc" type="text" inputmode="decimal" placeholder="e.g. 15"></label>
   <label>Years you hold after handover<input id="xyrs" type="text" inputmode="decimal" placeholder="0 if you sell before"></label>
   <label>Selling agent fee % (if applicable)<input id="xag" type="text" inputmode="decimal" placeholder="e.g. 2, or leave blank"></label></div>
@@ -581,7 +628,7 @@ html:not(.eoion) .ans .eoin{display:none}
 
 <footer class="cta foot2">
  <img class="photo" src="sam-awards.jpg" alt="Sam Surya with his sales awards" loading="lazy">
- <div class="disc"><b>Disclaimer:</b> Data: Dubai Land Department open data via Dubai Data (CC BY 4.0), checked daily. Not an official DLD service. For information only, not financial advice.</div>
+ <div class="disc"><b>Disclaimer:</b> This is a buyer checklist based on DLD records, not legal advice. Always verify your SPA, escrow account and Oqood with DLD before you pay. Data: Dubai Land Department open data via Dubai Data (CC BY 4.0), checked daily. Not an official DLD service.</div>
 </footer>
 
 </div>
@@ -632,10 +679,15 @@ html:not(.eoion) .ans .eoin{display:none}
    <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="trk"/><circle cx="60" cy="60" r="52" class="val" id="arc"/></svg><div class="score"><b id="pct">0</b><span>/ 100</span></div></div>
    <div class="verdict" id="verdict"></div>
    <p class="vtext" id="vtext"></p>
+   <div class="why3" id="why3"></div>
+   <div class="grule">🔐 <b>Golden rule:</b> No DLD registration, no escrow account, no Oqood? <b>No deal.</b></div>
    <div class="gaps" id="gaps"></div>
    <div class="pend" id="pend">📩 <b>Your detailed report is on its way</b>Sam will personally review your answers and send your detailed report on WhatsApp shortly: what to fix first, how your price compares with nearby projects, and the off-plan options that fit you.</div>
-   <p class="vtext" id="cwait" style="margin-top:22px"><b>Can't wait?</b> Talk to Sam now.</p>
-   <a class="btn pulse" id="share" href="#"><svg class="lg"><use href="#waw"/></svg>WhatsApp Sam now</a>
+   <div class="fullcta"><h3 id="cwait">Want the full report?</h3>
+   <p>Developer track record, sales in your exact project, promised rent vs real Ejari contracts, nearest metro + Blue Line, payment plan and resale break-even.</p>
+   <a class="btn pulse" id="share" href="#"><svg class="lg"><use href="#waw"/></svg>Get my full report on WhatsApp →</a>
+   <a class="picksbtn" href="../picks/"><span>🏆</span><b>See projects that passed all 20 checks →<small>Villas · Townhouses · Apartments</small></b></a>
+   <small>No pressure. No sales call unless you ask. Score is instant.</small></div>
    <a class="btn callb" id="callb" href="tel:+971528728248">📞 Call Sam · +971 52 872 8248</a>
    <button type="button" class="reset light" id="review">Review my answers</button>
   <div class="cta rescta">
@@ -643,6 +695,7 @@ html:not(.eoion) .ans .eoin{display:none}
   <div class="kicker">Your next step</div>
   <h2>Want projects that already<br><span>pass all 20 checks? 🎯</span></h2>
   <p>I work with Dubai's leading developers on <b style="color:#fff">off-plan projects only</b>. Tell me your budget and the area you like, and I'll send you a shortlist with full payment plans, free.</p>
+  <a class="picksbtn big" href="../picks/"><span>✅</span><b>Click here for projects that passed all 20 checks →<small>Villas · Townhouses · Apartments · live DLD records</small></b></a>
   <div class="contact">
    <b class="nm">Sam Surya</b>
    <div class="r"><svg class="lg"><use href="#wa"/></svg><a class="wa-link" href="#">WhatsApp: <b>+971 52 872 8248</b></a></div>
@@ -696,7 +749,7 @@ html:not(.eoion) .ans .eoin{display:none}
   var STK="sam-dealtest-st", savedSt=[]; try{ savedSt=JSON.parse(localStorage.getItem(STK)||"[]"); }catch(e){}
   var CRITI=[0,2,4,6];
   var DLDFOUND=false;
-  var EOI_IDX=[2,4,5,6,14], EOI=false; try{ EOI=localStorage.getItem("sam-dealtest-eoi")==="1"; }catch(e){}
+  var EOI_IDX=[2,3,4,5,6,14], EOI=false; try{ EOI=localStorage.getItem("sam-dealtest-eoi")==="1"; }catch(e){}
   function naOK(i){ return NA_OK.indexOf(i)>=0 || (EOI && EOI_IDX.indexOf(i)>=0); }
   var NA_OK=[3,7,8,16]; // can genuinely not apply: progress claim at launch, agent checks when buying direct, resale rules when holding long term
   function stOf(b){ return b.checked?"y":(b.dataset.st||""); }
@@ -725,7 +778,8 @@ html:not(.eoion) .ans .eoin{display:none}
   var eoiBox=document.getElementById("eoi");
   function setEoi(on,fill){ EOI=!!on; eoiBox.checked=EOI; document.documentElement.classList.toggle("eoion",EOI);
     try{ localStorage.setItem("sam-dealtest-eoi",EOI?"1":""); }catch(e){}
-    if(fill) EOI_IDX.forEach(function(i){ var b=boxes[i]; if(EOI){ if(!b.checked) b.dataset.st="n"; } else if(b.dataset.st==="n") b.dataset.st=""; });
+    if(fill) EOI_IDX.forEach(function(i){ var b=boxes[i]; if(EOI){ b.checked=false; b.dataset.st="n"; } else if(b.dataset.st==="n") b.dataset.st=""; });
+    else if(EOI) EOI_IDX.forEach(function(i){ var b=boxes[i]; if(!b.checked && !b.dataset.st) b.dataset.st="n"; });
     if(typeof devBox!=="undefined" && devBox) devBoxShow();   // ticking the EOI box itself must also open the developer + launch-date questions
     update(); }
   setEoi(EOI,false);
@@ -748,7 +802,8 @@ html:not(.eoion) .ans .eoin{display:none}
       DEVSEL={no:no,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devSg.hidden=true;
       devCard.className="dld devcard "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false;
       devTick(0); devTick(1); try{ localStorage.setItem("sam-dealtest-dev",no); }catch(e){} update();
-      if(!quiet && typeof mtoast==="function") mtoast("✅ DLD confirmed the developer: 2 checks done"); }); }
+      if(!quiet && typeof mtoast==="function") mtoast("✅ DLD confirmed the developer: 2 checks done");
+      if(!quiet) holdNext(devCard,function(){ if(needLaunch()) goLaunch(); else if(window.guideGo) window.guideGo(devCard); }); }); }
   // Brands that register projects with DLD under a different company name
   // Brands that register projects with DLD under a different company name
   var DEV_ALIAS={"nakheel":["1510","103","880"],"meraas":["1510","1076"],"meera":["1510","1076"],"dubai properties":["1510"],"dubai property":["1510"],"meydan":["1510","1181"],"dubai holding":["1510","103","880","1076","1181"],"dhre":["1510"]};
@@ -828,13 +883,25 @@ html:not(.eoion) .ans .eoin{display:none}
         var miss=boxes.filter(function(b){return !b.checked && stOf(b)!=="n";}).sort(function(a,b){return b.dataset.w-a.dataset.w;});
         var g=document.getElementById("gaps");
         var pend=document.getElementById("pend"), cw=document.getElementById("cwait");
-        if(FROMLINK){ g.className="rep"; g.innerHTML=report(sc); pend.hidden=true; cw.innerHTML="💬 <b>Questions about your report?</b> Let's talk it through."; }
-        else { g.className="gaps"; g.innerHTML=""; pend.hidden=false; cw.innerHTML="<b>Can't wait?</b> Talk to Sam now."; }
+        document.getElementById("why3").innerHTML=why3();
+        if(FROMLINK){ g.className="rep"; g.innerHTML=report(sc); pend.hidden=true; cw.innerHTML="💬 Questions about your report?"; document.getElementById("share").lastChild.textContent="Talk it through with Sam →"; }
+        else { g.className="gaps"; g.innerHTML=""; pend.hidden=false; cw.innerHTML="Want the full report?"; }
         var m="My Dubai Off-Plan Deal Stress Test result"+(proj?(" for "+proj):"")+": "+sc+"/100, "+tier.v.replace(/[^A-Za-z ()]/g,"").trim()+"."+(PSFR?("\nPrice: AED "+PSFV.toLocaleString("en-US")+"/sq ft vs average AED "+PSFR.avg.toLocaleString("en-US")+" ("+PSFR.diffTxt+", "+PSFR.basis+")."):"")+"\n\nHi Sam, I'm "+(who.n||"")+(who.p?(" (WhatsApp: "+who.p+")"):"")+". Can you go through my result with me? I'd also like to discuss my off-plan purchase options.";
         document.getElementById("share").href="https://wa.me/971528728248?text="+encodeURIComponent(m);
         if(sc>=95) confetti();
       }
     },2600);
+  }
+  function why3(){
+    var e=function(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
+    var rows=[], reg=boxes[2].checked, esq=boxes[4].checked, pn=PROJROW?PROJROW[0]:(PSFP&&PSFP.no), bank=PROJROW&&PROJROW[5];
+    if(EOI && !reg) rows.push(["w","1. DLD registered: not yet (EOI / pre-launch phase)"]);
+    else rows.push([reg?"y":"n","1. DLD registered: "+(reg?"Yes"+(pn?" · Project no. "+e(pn):""):"Not confirmed")]);
+    if(EOI && !esq) rows.push(["w","2. Escrow: not opened yet (EOI / pre-launch phase)"]);
+    else rows.push([esq?"y":"n","2. Escrow protected: "+(esq?"Yes"+(bank?" · "+e(bank):""):"Not confirmed")]);
+    if(PSFR){ var d=PSFR.d, ad=Math.abs(d).toFixed(0); rows.push([d<=10?"y":"n","3. Price: "+(d<=-0.5?ad+"% below":d<0.5?"about at":ad+"% above")+" the area average"]); }
+    else rows.push(["n","3. Price: not checked (add your price per sq ft)"]);
+    return '<div class="w3h">3 reasons why</div>'+rows.map(function(r){ return '<div class="w3 '+r[0]+'">'+(r[0]==="y"?"✅":r[0]==="w"?"🟡":"❌")+' '+r[1]+'</div>'; }).join("");
   }
   function sendLead(sc,tier){
     if(!LEADS_URL || FROMLINK || !who.p) return;
@@ -845,7 +912,7 @@ html:not(.eoion) .ans .eoin{display:none}
     try{ fetch(LEADS_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(d)}).catch(function(){}); }catch(e){}
   }
   // ---------- Extra checks: calculators (not scored) ----------
-  var XIDS=["xbed","xrent","xspa","xpp","xre","xtf","xprice","xsize","xsc","xyrs","xag"];
+  var XIDS=["xbed","xrent","xspa","xpp","xho","xpost","xre","xtf","xprice","xsize","xsc","xyrs","xag"];
   function xv(id){ return document.getElementById(id).value.trim(); }
   function xn(id){ var v=xv(id).replace(/[^0-9.]/g,""); return v?+v:0; }
   function xget(){ var o={}; XIDS.forEach(function(i){ var v=xv(i); if(v) o[i]=v; }); var t=xboxes.map(function(b){return b.checked?"1":"0";}).join(""); if(t.indexOf("1")>=0) o.t=t; return o; }
@@ -859,8 +926,14 @@ html:not(.eoion) .ans .eoin{display:none}
     var dld=P*0.04, scTot=sc*sz*y, need=(P+dld+T+scTot)/(1-ag/100);
     return {P:P,dld:dld,T:T,sc:scTot,y:y,ag:ag,need:need,pct:(need/P-1)*100};
   }
+  // handover date: two plain selects instead of the native month picker (iOS Safari crashed on it)
+  function spaSync(){ var v=document.getElementById("xspa").value, m=document.getElementById("xspam"), y=document.getElementById("xspay");
+    if(/^\d{4}-\d{2}$/.test(v)){ if(m.value!==v.slice(5)) m.value=v.slice(5); if(y.value!==v.slice(0,4)) y.value=v.slice(0,4); } else if(!v && m.value && y.value){ m.value=""; y.value=""; } }
+  ["xspam","xspay"].forEach(function(i){ document.getElementById(i).addEventListener("change",function(){ var m=document.getElementById("xspam").value, y=document.getElementById("xspay").value, h=document.getElementById("xspa");
+    h.value=(m&&y)?y+"-"+m:""; h.dispatchEvent(new Event("change")); }); });
   function xcalc(){
     var out=document.getElementById("xout"), h="";
+    spaSync();
     var pp=xn("xpp"), re=xn("xre"), be=breakEven();
     if(pp){ var a=ppJudge(pp); h+='<div class="xo '+a[0]+'">'+a[1]+'</div>'; }
     if(re){ var b=reJudge(re); h+='<div class="xo '+b[0]+'">'+b[1]+(xn("xtf")?' Transfer fee: '+aed(xn("xtf"))+'.':'')+'</div>'; }
@@ -995,7 +1068,16 @@ html:not(.eoion) .ans .eoin{display:none}
   try{ who=JSON.parse(localStorage.getItem("sam-who")||"{}"); }catch(e){}
   function openGate(){ document.getElementById("gname").value=who.n||""; document.getElementById("gphone").value=who.p||""; gate.hidden=false; setTimeout(function(){document.getElementById(who.n?"gphone":"gname").focus();},50); }
   var nudge=document.getElementById("nudge");
-  function tryResult(e){ if(e) e.preventDefault(); if(!PSFR){ nudge.hidden=false; } else openGate(); }
+  var HOLD=null;
+  function holdClear(){ if(!HOLD) return; clearTimeout(HOLD.t); if(HOLD.w && HOLD.w.parentNode) HOLD.w.parentNode.removeChild(HOLD.w); HOLD=null; }
+  function holdNext(el,after){ if(!el || el.hidden || FROMLINK) return; holdClear();
+    var w=document.createElement("div"); w.className="holdnx"; w.innerHTML='<button type="button">Take me to the next check ⬇</button><i></i>'; el.appendChild(w);
+    setTimeout(function(){ var r=el.getBoundingClientRect(); if(r.top<70 || r.bottom>window.innerHeight-150) el.scrollIntoView({behavior:"smooth",block:r.height>window.innerHeight-220?"start":"center"}); },120);
+    var h={w:w}; function go(){ if(HOLD!==h) return; holdClear(); if(after) after(); else if(window.guideGo) window.guideGo(el); }
+    h.t=setTimeout(go,10000); HOLD=h; w.querySelector("button").addEventListener("click",go); }
+  function needLaunch(){ var b=document.getElementById("devbox"); return EOI && b && !b.hidden && (!DEVSEL || !LAUNCH); }
+  function goLaunch(){ var b=document.getElementById("devbox"), q=DEVSEL?b.querySelector(".launchq"):b; q.scrollIntoView({behavior:"smooth",block:"center"}); q.classList.remove("flash"); void q.offsetWidth; q.classList.add("flash"); if(typeof mtoast==="function") mtoast(DEVSEL?"📅 Tap: is the launch date announced?":"👷 Pick the developer first"); }
+  function tryResult(e){ if(e) e.preventDefault(); if(needLaunch()){ goLaunch(); return; } if(!PSFR){ nudge.hidden=false; } else openGate(); }
   function goPsf(){ nudge.hidden=true; var c=document.querySelector("#psfsec .card"); c.scrollIntoView({behavior:"smooth",block:"start"}); c.classList.remove("flash"); void c.offsetWidth; c.classList.add("flash"); setTimeout(function(){ document.getElementById(PSFV?"ploc":"psf").focus({preventScroll:true}); },600); }
   document.getElementById("submit").addEventListener("click",tryResult);
   document.querySelector(".prog .go").addEventListener("click",tryResult);
@@ -1020,6 +1102,9 @@ html:not(.eoion) .ans .eoin{display:none}
     var t="📍 Start: pick your project"; if(cur && cur.classList.contains("sec")){ var k=cur.querySelector(".kicker"), h=cur.querySelector("h2"); t="📍 "+(k?k.textContent+": ":"")+(h?h.textContent.replace(/^[^A-Za-z0-9]+/,""):""); if(cur.id==="test") t="🎯 Get your result"; }
     document.getElementById("where").textContent=t; }
   window.addEventListener("scroll",where,{passive:true}); where();
+  Array.prototype.forEach.call(document.querySelectorAll(".steps3 a"),function(l){ l.addEventListener("click",function(ev){ ev.preventDefault(); var n=l.dataset.step, t=null;
+    Array.prototype.some.call(document.querySelectorAll(".kicker"),function(k){ if(k.textContent.indexOf("Step "+n+" of 3")===0){ t=k.closest("section")||k; return true; } return false; });
+    if(t) t.scrollIntoView({behavior:"smooth",block:"start"}); }); });
   document.getElementById("gclose").addEventListener("click",function(){gate.hidden=true;});
   gate.addEventListener("click",function(e){if(e.target===gate)gate.hidden=true;});
   document.getElementById("gateform").addEventListener("submit",function(e){
@@ -1072,7 +1157,7 @@ html:not(.eoion) .ans .eoin{display:none}
       document.getElementById("dldsrc").textContent="🏛️ Checked against "+j.p.length+" DLD-registered projects (updated "+j.updated+"). Source: "+j.source+".";
       var w=waiters; waiters=[]; w.forEach(function(f){f();});}).catch(function(){loading=false; waiters=[];}); }
   var autoN=false;
-  function clearAuto(){ if(autoN){ if(boxes[PROG].dataset.st==="n") boxes[PROG].dataset.st=""; autoN=false; } auto.forEach(function(i){ boxes[i].checked=false; var s=boxes[i].parentNode.querySelector(".auto"); if(s) s.remove(); }); auto=[];
+  function clearAuto(){ if(autoN){ if(boxes[PROG].dataset.st==="u") boxes[PROG].dataset.st=""; autoN=false; } auto.forEach(function(i){ boxes[i].checked=false; var s=boxes[i].parentNode.querySelector(".auto"); if(s) s.remove(); }); auto=[];
     var h=document.querySelector(".hint"); if(h) h.remove(); update(); }
   function tickAuto(i){ if(!boxes[i].checked){ boxes[i].checked=true; auto.push(i);
       var s=document.createElement("span"); s.className="auto"; s.textContent="✓ DLD"; boxes[i].parentNode.querySelector("span").appendChild(s);
@@ -1087,21 +1172,23 @@ html:not(.eoion) .ans .eoin{display:none}
     var info='<div class="row2"><span>🏗️ DLD project no. <b>'+esc(no||"–")+'</b></span><span>👷 '+esc(dev||"–")+'</span>'+(area?'<span>📍 '+esc(area)+'</span>':'')+'</div>'+
       '<div class="row2"><span>📊 Construction: '+(pct===""?'not reported':(+pct>0?'started · % in your full report':'not started yet'))+'</span>'+(end?'<span>📅 Completion '+esc(fmtDate(end))+'</span>':'')+'<span>🏦 Escrow: '+esc(escb||"not listed")+'</span></div>';
     var src='<small>Source: '+esc(P.source)+', updated '+esc(P.updated)+'.</small>';
+    var fin=st.indexOf("finish")>=0||st.indexOf("complet")>=0;
     if(st.indexOf("cancel")>=0){
       card.className="dld bad"; card.innerHTML='<b class="t">🚩 CANCELLED in DLD records</b>'+info+'<b>Do not pay anything for this project.</b>'+src;
     } else {
       tickAuto(DEV); tickAuto(PROJ); if(escb) tickAuto(ESC);
-      var fin=st.indexOf("finish")>=0||st.indexOf("complet")>=0;
       card.className="dld "+(escb?"ok":"warn");
-      card.innerHTML='<b class="t">'+(escb?'✅ Registered with DLD · escrow account on record':'⚠️ Registered with DLD · escrow not listed')+'</b>'+info+
+      var stTxt=fin?"Completed (handed over)":"Under construction", prTxt=pct===""?"not reported":(+pct>0?"started (% in your full report)":"not started yet");
+      info='<div class="fbar"><div><span>Developer</span><b>'+esc(dev||"–")+'</b></div><div><span>Status</span><b>'+stTxt+'</b></div><div><span>Progress</span><b>'+prTxt+'</b></div><div><span>Escrow bank</span><b>'+esc(escb||"not listed")+'</b></div><div><span>DLD project no.</span><b>'+esc(no||"–")+'</b></div>'+(area?'<div><span>Area</span><b>'+esc(area)+'</b></div>':'')+(end?'<div><span>DLD completion</span><b>'+esc(fmtDate(end))+'</b></div>':'')+'</div>';
+      card.innerHTML='<b class="t">'+(escb?'✅ Project found in DLD':'⚠️ Project found in DLD · escrow not listed')+'</b>'+info+
         (fin?'<b>This project is finished (handed over), so it is no longer off-plan.</b>':'')+(escb?'':'<b>Ask the developer for the escrow account and check it on Dubai REST.</b>')+
-        '<div style="margin-top:6px">We ticked what DLD confirms (<span class="auto">✓ DLD</span>). You still need to check your own payment instructions.</div>'+src;
+        '<div class="fnote">We\'ve auto-ticked what DLD confirms for you (<span class="auto">✓ DLD</span>). You only tick what <i>you\'ve</i> confirmed.</div>'+src;
       var lab=boxes[PROG].parentNode; if(pct!==""){ var h=document.createElement("span"); h.className="hint";
         if(+pct>0){ tickAuto(PROG); h.textContent="Construction has started, per DLD records. The exact % for this project is in your full report."; }
-        else { if(!boxes[PROG].checked){ boxes[PROG].dataset.st="n"; autoN=true; } h.textContent="DLD records show construction hasn't started yet. Details in your full report."; }
+        else { if(!boxes[PROG].checked){ boxes[PROG].dataset.st="u"; autoN=true; } h.textContent="DLD shows 0% so far, so the progress can't be confirmed yet (marked Not known). Details in your full report."; }
         lab.querySelector("span").appendChild(h); }
     }
-    card.hidden=false; psfProject(r); update();
+    card.hidden=false; psfProject(r); update(); holdNext(card);
     (function(no){ insLoad(function(){ if(!DLDFOUND || pin.value!==name) return; var ip=INS.p&&INS.p[no], d=ip&&INS.d&&INS.d[ip[0]]; if(!d) return;
       var D={no:ip[0],name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0};
       if(st.indexOf("cancel")<0){ tickAuto(1); update(); }
@@ -1127,7 +1214,7 @@ html:not(.eoion) .ans .eoin{display:none}
         var fm=FEAT.filter(function(f){ var n=f.name.toLowerCase(); return n.indexOf(q)>=0||q.indexOf(n)>=0; })[0];
         if(fm){ sg.hidden=true; newLaunch(fm.name); return; }
         sg.innerHTML='<button type="button" disabled class="nfm"><span>Not found in DLD records. In EOI / pre-launch phase?</span><span class="tapbelow">⬇ Tap below</span></button><button type="button" class="eoigo">🟡 It\'s in EOI / pre-launch phase ›<small>Not registered with DLD yet? Tap to mark it and go to that box.</small></button>'; sg.hidden=false;
-        sg.querySelector(".eoigo").addEventListener("click",function(){ sg.hidden=true; eoiShow(false); if(!EOI) setEoi(true,true); devBoxShow();
+        sg.querySelector(".eoigo").addEventListener("click",function(){ sg.hidden=true; eoiShow(false); setEoi(true,true); devBoxShow();
           var w=document.getElementById("devbox"); w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); }); return; }
       sg.innerHTML=hits.map(function(r,k){return '<button type="button" data-k="'+k+'">'+esc(r[1])+'<small>'+esc([r[7],r[2],r[3]].filter(Boolean).join(" · "))+'</small></button>';}).join("");
       sg.hidden=false; try{ sg.scrollIntoView({block:"nearest",behavior:"smooth"}); }catch(e){}
@@ -1145,7 +1232,7 @@ html:not(.eoion) .ans .eoin{display:none}
     card.className="dld warn";
     card.innerHTML='<b class="t">🆕 '+esc(name)+': new launch</b>New launches appear in DLD sales records only after the first sales are registered, so we can\'t auto-check it yet. Until then, ask the developer for the <b>DLD project number and escrow account</b>, or ask Sam and he\'ll check it for you.'+
       '<a class="btn" style="margin-top:10px;font-size:17px;padding:11px 14px" href="https://wa.me/971528728248?text='+encodeURIComponent(m)+'"><svg class="lg"><use href="#waw"/></svg>Ask Sam for the DLD details</a>';
-    card.hidden=false;
+    card.hidden=false; holdNext(card);
   }
   function getj(u){ return fetch(u,{cache:"no-cache"}).then(function(r){return r.ok?r.json():{featured:[]};}).catch(function(){return {featured:[]};}); }
   Promise.all([getj("data/featured.json"),getj("data/featured_auto.json")]).then(function(js){
@@ -1223,7 +1310,7 @@ html:not(.eoion) .ans .eoin{display:none}
     PSFR={avg:mean,pts:pts,diffTxt:diffTxt,basis:basis,d:d,rating:(pct===1?"Excellent":pct===.75?"Good":pct===.5?"Fair":pct===.25?"Poor":"Overpriced"),list:set?set.slice().sort(function(a,b){return b[7]-a[7];}).slice(0,6).map(function(r){return [r[1],r[6]];}):[]};
     var rating=pct===1?"Excellent":pct===.75?"Good":pct===.5?"Fair":pct===.25?"Poor":"Overpriced"; badge.textContent=rating; badge.hidden=true;
     var cls=pct>=.75?"ok":pct>=.25?"warn":"bad";
-    var head=pct===1?"✅ At or below the average nearby":pct===.75?"👍 Up to 10% above the average":pct===.5?"⚠️ 10–15% above the average":pct===.25?"⚠️ 15–30% above the average":"🚩 More than 30% above the average";
+    var ad=Math.abs(d), head=(d<=-0.5?"✅ You are paying <u>"+ad.toFixed(0)+"% BELOW</u> the area average":d<0.5?"✅ You are paying about the area average":(pct>=.75?"👍":"❌")+" You are paying <u>"+ad.toFixed(0)+"% ABOVE</u> the area average");
     var list=set?set.slice().sort(function(a,b){return b[7]-a[7];}).slice(0,5).map(function(r){return '<div><span>'+esc(r[1])+' <small style="display:inline;opacity:.7">· '+esc(r[2].replace(/ (l\.?l\.?c\.?|p\.?j\.?s\.?c\.?|fze|fzco|development|developers|developments|real estate|properties|investment)\b.*$/i,""))+'</small></span><b>'+fmt(r[6])+'</b></div>';}).join(""):"";
     cma.className="dld "+cls;
     cma.innerHTML='<b class="t">'+head+'</b>'+
@@ -1233,7 +1320,8 @@ html:not(.eoion) .ans .eoin{display:none}
       (list?'<div class="cmp">'+list+(set.length>5?'<div><span>+ '+(set.length-5)+' more</span><span></span></div>':'')+'</div>':'')+
       '<div style="margin-top:10px;font-size:17px">🏆 Your price rating: <b style="font-size:22px">'+rating+'</b><br><span style="font-size:15px">The price check carries the <b>most weight</b> of any check in your Deal Score.</span></div>'+
       '<small>📊 DLD market data · through '+esc(fmtDate(PD.data_through||PD.updated))+'</small>'+
-      '</div><div class="lockov"><span>🔒 Nearby projects, your price rating and the rest of the details are in your <b>full report</b> from Sam.</span></div></div>';
+      '</div><div class="lockov"><span>🔒 Nearby projects, your price rating and the rest of the details are in your <b>full report</b> from Sam.</span></div></div>'+
+      '<div class="psfnote">Based on the median price per sq ft buyers actually paid in similar off-plan projects nearby. Not asking prices.</div>';
     cma.hidden=false;
   }
   function calcFromParts(){ var pr=num(document.getElementById("pprice").value), sz=num(document.getElementById("psize").value);
@@ -1243,27 +1331,107 @@ html:not(.eoion) .ans .eoin{display:none}
   ["xprice","xsize"].forEach(function(i){ var t=document.getElementById(i); t.addEventListener("input",function(){ t.dataset.auto=""; }); });
   function psfAll(){ psfLoad(function(){ psfCalc(); update(); }); PSFV=num(psfIn.value); update(); }
   [psfIn,locIn].forEach(function(el){ el.addEventListener("focus",function(){psfLoad(function(){});}); el.addEventListener("input",psfAll); el.addEventListener("change",psfAll); });
+  // area picker: a real list of options under the box (iPhone Safari hides <datalist> suggestions)
+  var locSg=document.getElementById("plocsg"), LOCS=[];
+  function locList(){ var q=locIn.value.trim().toLowerCase(), all=LOCS, hits;
+    if(!all.length) return;
+    if(!q) hits=all.slice(0,8);
+    else { var st=[], co=[]; all.forEach(function(n){ var l=n.toLowerCase(); if(l===q) return; if(l.indexOf(q)===0) st.push(n); else if(l.indexOf(q)>0) co.push(n); }); hits=st.concat(co).slice(0,8); }
+    if(!hits.length){ locSg.hidden=true; return; }
+    locSg.innerHTML=(q?"":'<button type="button" disabled style="color:#5B6678;font-size:13px;font-weight:700;cursor:default">Popular areas · or type to search</button>')+hits.map(function(n){ return '<button type="button" data-loc="'+esc(n)+'">'+esc(n)+'</button>'; }).join("");
+    locSg.hidden=false;
+    Array.prototype.forEach.call(locSg.querySelectorAll("button[data-loc]"),function(bt){ bt.addEventListener("click",function(){ locIn.value=bt.dataset.loc; locSg.hidden=true; psfAll(); update(); locIn.dispatchEvent(new Event("change")); setTimeout(function(){ holdNext(document.getElementById("cma")); },400); }); }); }
+  function locReady(cb){ psfLoad(function(){ if(!LOCS.length){ var seen={}; Object.keys(PD.c).concat(Object.keys(PD.a)).forEach(function(n){ if(!seen[n.toLowerCase()]){ seen[n.toLowerCase()]=1; LOCS.push(n);} }); } cb(); }); }
+  locIn.addEventListener("focus",function(){ locReady(locList); });
+  locIn.addEventListener("input",function(){ locReady(locList); });
+  locIn.addEventListener("blur",function(){ setTimeout(function(){ locSg.hidden=true; },250); });
   ["pprice","psize"].forEach(function(i){ document.getElementById(i).addEventListener("input",calcFromParts); });
   fetch("data/status.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){ if(j.rows) document.getElementById("st1").textContent=j.rows; if(j.checked_at) document.getElementById("st4").textContent=fmtDate(j.checked_at.slice(0,10)); }).catch(function(){});
   psfLoad(function(){ document.getElementById("st2").textContent=PD.p.length; var d=PD.data_through||PD.updated; if(d) document.getElementById("st3").textContent=fmtDate(d); });
+  // Break-even uses the price and size typed once in Check 19
+  (function(){ var pp=document.getElementById("pprice"), ps=document.getElementById("psize"), xp=document.getElementById("xprice"), xs=document.getElementById("xsize"), v=document.getElementById("xfromv");
+    function sync(){ xp.value=pp.value; xs.value=ps.value; xp.dataset.auto="1"; xs.dataset.auto="1";
+      var P=num(pp.value), S=num(ps.value);
+      v.innerHTML=(P&&S)?'<b>AED '+P.toLocaleString("en-US")+'</b> · <b>'+S.toLocaleString("en-US")+' sq ft</b>':'enter the unit price and size there first';
+      [xp,xs].forEach(function(t){ t.dispatchEvent(new Event("input")); t.dispatchEvent(new Event("change")); }); }
+    [pp,ps].forEach(function(i){ i.addEventListener("input",sync); i.addEventListener("change",sync); });
+    document.getElementById("xfromgo").addEventListener("click",function(e){ e.preventDefault(); var c=pp.closest(".card"); c.scrollIntoView({behavior:"smooth",block:"center"}); setTimeout(function(){ pp.focus({preventScroll:true}); },500); });
+    setTimeout(sync,300); })();
+  // ---------- Payment plan split + mortgage at handover ----------
+  (function(){ var EIBOR=4.32, MGS="";
+    function MGST(){ return MGS; }
+    var xpp=document.getElementById("xpp"), xho=document.getElementById("xho"), xpost=document.getElementById("xpost");
+    xho.addEventListener("input",function(){ xho.dataset.man=xho.value.trim()?"1":""; });
+    function autoHo(){ if(xho.dataset.man==="1") return; var a=+xpp.value.replace(/[^0-9.]/g,"")||0, b=+xpost.value.replace(/[^0-9.]/g,"")||0; xho.value=(a && a+b<100)?String(Math.round((100-a-b)*100)/100):""; xho.dispatchEvent(new Event("change")); }
+    xpp.addEventListener("input",autoHo); xpost.addEventListener("input",autoHo);
+    document.getElementById("mgyes").addEventListener("click",function(){ MGS="y"; run(); var c=document.getElementById("mgcard"); setTimeout(function(){ c.scrollIntoView({behavior:"smooth",block:"start"}); },100); });
+    document.getElementById("mgno").addEventListener("click",function(){ MGS="n"; run(); });
+    document.getElementById("mgundo").addEventListener("click",function(e){ e.preventDefault(); MGS="y"; run(); document.getElementById("mgcard").scrollIntoView({behavior:"smooth",block:"start"}); });
+    function n(id){ var e=document.getElementById(id); return e?(+String(e.value).replace(/[^0-9.]/g,"")||0):0; }
+    function A(x){ return "AED "+Math.round(x).toLocaleString("en-US"); }
+    function pmt(P,r,y){ if(!P||!y) return 0; var i=r/1200, k=y*12; return i?P*i/(1-Math.pow(1+i,-k)):P/k; }
+    function bal(P,r,y,m){ var i=r/1200, p=pmt(P,r,y); return i?P*Math.pow(1+i,m)-p*(Math.pow(1+i,m)-1)/i:P-p*m; }
+    var loanIn=document.getElementById("mgloan"), out=document.getElementById("mgout"), sp=document.getElementById("mgsplit"), typ=document.getElementById("mgtype");
+    loanIn.addEventListener("input",function(){ loanIn.dataset.man=loanIn.value.trim()?"1":""; });
+    typ.addEventListener("change",function(){ loanIn.dataset.man=""; });
+    function run(){
+      var P=n("pprice")||n("xprice"), pp=Math.min(n("xpp"),100), ho=Math.min(n("xho"),100), po=Math.min(n("xpost"),100), hoA=P*ho/100;
+      var hoTyped=document.getElementById("xho").value.trim()!=="" && ho>0;
+      sp.hidden=!(pp||ho||po); var tot=pp+ho+po;
+      sp.innerHTML='<div class="bar"><i style="flex:'+pp+';background:#C9A24A"></i><i style="flex:'+ho+';background:#3DDC84"></i><i style="flex:'+po+';background:#6EA8FE"></i></div>'+
+        '<div>🏗️ Construction <b>'+pp+'%</b>'+(P?' = '+A(P*pp/100):'')+'</div><div>🔑 Handover <b>'+ho+'%</b>'+(P?' = '+A(hoA):'')+'</div>'+(po?'<div>📆 Post-handover <b>'+po+'%</b>'+(P?' = '+A(P*po/100):'')+'</div>':'')+
+        (tot && Math.abs(tot-100)>0.01?'<div style="color:#FFB4A9;font-weight:700;margin-top:4px">⚠️ These add up to '+tot+'%, should be 100%.</div>':'');
+      var ask=document.getElementById("mgask"), card=document.getElementById("mgcard"), skipEl=document.getElementById("mgskip");
+      document.getElementById("mgq").innerHTML='🏦 Would you like me to calculate a mortgage for your <b>'+ho+'% handover payment</b>'+(P?' (<b>'+A(hoA)+'</b>)':'')+'?';
+      var st=MGST();
+      ask.hidden=!(hoTyped && st===""); card.hidden=!(hoTyped && st==="y"); skipEl.hidden=!(hoTyped && st==="n");
+      if(false){
+        sp.innerHTML='<div>🏗️ During construction: <b>'+pp+'% = '+A(P*pp/100)+'</b></div><div class="bar"><i style="flex:'+pp+';background:#C9A24A"></i><i style="flex:'+ho+';background:#3DDC84"></i></div><div>🔑 On handover: <b>'+ho+'% = '+A(hoA)+'</b></div>';
+      }
+      var ltv=+typ.value; if(ltv && P>5000000){ ltv={80:70,85:75}[ltv]||ltv; }
+      if(!P){ out.innerHTML=""; return; }
+      if(!ltv){ out.innerHTML='<div class="xo n">💵 Paying cash: you need <b>'+A(hoA)+'</b> ready at handover, plus about 4% DLD fee if not already paid.</div>'; loanIn.value=""; return; }
+      var maxL=P*ltv/100, auto=Math.min(hoA||maxL,maxL);
+      if(loanIn.dataset.man!=="1") loanIn.value=Math.round(auto).toLocaleString("en-US");
+      var L=Math.min(n("mgloan"),maxL), y=Math.min(n("mgyrs")||25,25), r=n("mgrate"), f=Math.min(n("mgfix"),y), m=n("mgmar"), r2=EIBOR+m;
+      if(!L){ out.innerHTML=""; return; }
+      var p1=pmt(L,r,y), B=bal(L,r,y,f*12), p2=pmt(B,r2,y-f), p3=pmt(B,r2+2,y-f), tot=p1*f*12+p2*(y-f)*12, fees=L*0.0025+290+L*0.01;
+      var cash=Math.max(hoA-L,0)+fees;
+      out.innerHTML='<div class="xo n">'+
+        (n("mgloan")>maxL?'<div style="color:#B42318;font-weight:700">⚠️ Max loan for this situation is '+ltv+'% of the price = '+A(maxL)+'.</div>':'')+
+        '<div class="mgrow"><span>🏦 Loan</span><b>'+A(L)+' · '+y+' yrs</b></div>'+
+        '<div class="mgrow"><span>📅 Monthly, first '+f+' yrs at '+r.toFixed(2)+'%</span><b>'+A(p1)+'</b></div>'+
+        (y>f?'<div class="mgrow"><span>📈 After that, at today\'s EIBOR + '+m+'% = '+r2.toFixed(2)+'%</span><b>'+A(p2)+'</b></div>'+
+        '<div class="mgrow"><span>⚠️ If rates rise 2% ('+(r2+2).toFixed(2)+'%)</span><b>'+A(p3)+'</b></div>':'')+
+        '<div class="mgrow"><span>💸 Total interest over the loan (today\'s rates)</span><b>'+A(tot-L)+'</b></div>'+
+        '<div class="mgrow"><span>🔑 Cash you need at handover<br><small>handover balance not covered by the loan + mortgage registration 0.25% + AED 290 + ~1% bank fee</small></span><b>'+A(cash)+'</b></div>'+
+        '<div class="mgrow"><span>👤 Income needed (installment ≤ 50% of salary)</span><b>'+A(p1*2)+'/month+</b></div></div>';
+    }
+    ["pprice","psize","xpp","xho","xpost","mgloan","mgyrs","mgrate","mgfix","mgmar"].forEach(function(id){ var e=document.getElementById(id); if(e){ e.addEventListener("input",run); e.addEventListener("change",run); } });
+    typ.addEventListener("change",run); setTimeout(run,400);
+  })();
   // ---------- Guide: a red arrow on the next thing to fill ----------
   (function(){
     var steps=[], skipped={}, cur=-1, lab=null, lastHi=null, lastEvt="";
     function sc(el){ return el.closest(".card")||el; }
-    function filled(card){ var ok=true; Array.prototype.forEach.call(card.querySelectorAll("input,select"),function(i){ if(i.id==="xag") return; if(i.type==="checkbox"){ if(!i.checked) ok=false; } else if(!i.value.trim()) ok=false; }); return ok; }
+    function filled(card){ var ok=true; Array.prototype.forEach.call(card.querySelectorAll("input,select"),function(i){ if(i.id==="xag"||i.id==="xpost") return; if(i.type==="checkbox"){ if(!i.checked) ok=false; } else if(!i.value.trim()) ok=false; }); return ok; }
     var proj=document.getElementById("proj"), psf=document.getElementById("psf"), ploc=document.getElementById("ploc");
     steps.push({k:"proj",a:proj.closest("label"),hi:proj.closest("label"),t:"Start here: type your project",skip:"Not listed? Skip",done:function(){ return proj.value.trim().length>1; }});
     var seen=[];
     boxes.forEach(function(b){ var c=b.closest(".card"); if(seen.indexOf(c)<0){ seen.push(c); var n=(c.querySelector(".n")||{}).textContent||"";
       var cb=boxes.filter(function(x){ return x.closest(".card")===c; });
-      steps.push({k:"c"+n,a:c.querySelector(".ticks"),hi:c,t:"Answer every line: Checked, Not known or N/A",done:function(){ return cb.every(function(x){ return stOf(x)!==""; }); }}); } });
+      var hasDev=!!c.querySelector("#devbox");
+      steps.push({k:"c"+n,a:c.querySelector(".ticks"),hi:c,t:"Answer every line: Checked, Not known or N/A",done:function(){ if(hasDev && needLaunch()) return false; return cb.every(function(x){ return stOf(x)!==""; }); }}); } });
     steps.push({k:"psf",a:psf.closest(".card").querySelector(".pcalc")||psf.closest(".psfrow"),hi:psf.closest(".card"),t:"Enter the unit price and size",skip:"Skip",done:function(){ return num(psf.value)>0; }});
     steps.push({k:"ploc",a:ploc.closest("label"),hi:ploc.closest(".card"),t:"Pick the area from the list",skip:"Skip",done:function(){ return ploc.value.trim().length>1; }});
     Array.prototype.forEach.call(document.querySelectorAll("#moresec .card"),function(c,i){
-      steps.push({k:"x"+i,a:c.querySelector(".xf,.ticks"),hi:c,t:"Optional: fill what you know",skip:"Skip",done:function(){ return filled(c); }}); });
+      steps.push({k:"x"+i,a:c.querySelector(".xf,.ticks"),hi:c,t:"Optional: fill what you know",skip:"Skip",done:function(){ return c.hidden || filled(c); }}); });
     var sub=document.getElementById("submit");
     steps.push({k:"sub",a:sub,hi:sub,t:"All set? Tap here for your result",done:function(){ return false; }});
-    function next(){ for(var i=0;i<steps.length;i++){ if(!skipped[steps[i].k] && !steps[i].done()) return i; } return steps.length-1; }
+    var FROM=null;
+    function after(s){ return !FROM || FROM===s.hi || s.hi.contains(FROM) || !!(FROM.compareDocumentPosition(s.hi)&4); }
+    function next(){ var i; if(FROM){ for(i=0;i<steps.length;i++){ if(!skipped[steps[i].k] && after(steps[i]) && !steps[i].done()) return i; } }
+      for(i=0;i<steps.length;i++){ if(!skipped[steps[i].k] && !steps[i].done()) return i; } return steps.length-1; }
     function draw(){
       if(document.documentElement.className.indexOf("locked")>=0 || FROMLINK) return;
       var i=next(); if(i===cur) return;
@@ -1273,11 +1441,13 @@ html:not(.eoion) .ans .eoin{display:none}
       lab.innerHTML='<span><span class="ar">⬇</span> '+s.t+'</span>'+(s.skip?'<button type="button" class="nxs">'+s.skip+' ›</button>':'');
       s.a.parentNode.insertBefore(lab,s.a); s.hi.classList.add("nx"); lastHi=s.hi;
       var b=lab.querySelector(".nxs"); if(b) b.addEventListener("click",function(){ skipped[s.k]=1; lastEvt="change"; draw(); });
-      if(moved && lastEvt==="change"){ setTimeout(function(){ var r=lab.getBoundingClientRect(); if(r.top>window.innerHeight-280 || r.top<20) lab.scrollIntoView({behavior:"smooth",block:"center"}); },450); }
+      if(moved && lastEvt==="change" && !HOLD){ setTimeout(function(){ var r=lab.getBoundingClientRect(); if(r.top>window.innerHeight-280 || r.top<20) lab.scrollIntoView({behavior:"smooth",block:"center"}); },450); }
     }
+    window.guideGo=function(from){ FROM=from||null; cur=-1; draw(); FROM=null; if(lab && lab.parentNode) lab.scrollIntoView({behavior:"smooth",block:"center"}); };
     var t=null; function soon(ev){ lastEvt=ev.type; clearTimeout(t); t=setTimeout(draw,ev.type==="change"?350:150); }
     document.addEventListener("change",soon,true); document.addEventListener("input",soon,true);
     document.getElementById("sugg").addEventListener("click",function(){ lastEvt="change"; setTimeout(draw,500); });
+    Array.prototype.forEach.call(document.querySelectorAll(".ans.lq button"),function(bt){ bt.addEventListener("click",function(){ lastEvt="change"; setTimeout(draw,600); }); });
     document.getElementById("reset").addEventListener("click",function(){ skipped={}; cur=-1; setTimeout(draw,200); });
     setTimeout(draw,300);
   })();
