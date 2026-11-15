@@ -1545,7 +1545,7 @@ html:not(.eoion) .ans .eoin{display:none}
   });
 })();
 </script>
-<div style="text-align:center;font-size:10px;color:#B8BFCB;padding:4px 0 90px">preview build 15-Nov-desk1</div>
+<div style="text-align:center;font-size:10px;color:#B8BFCB;padding:4px 0 90px">preview build 16-Nov-desk4</div>
 <!-- ===== SKIN v1 (visual only) ===== -->
 <style id="skin">
 :root{--sk-navy:#0F2340;--sk-gold:#C5A880;--sk-gold2:#E2C98F;--sk-green:#1A9E62;--sk-amber:#F59E0B;--sk-red:#D92D20;--sk-bg:#F7F5F2;--sk-line:#E7E3DC}
@@ -1708,7 +1708,10 @@ h2 .icx{width:44px;height:44px}
   .sec .card .body.split>details.whym>summary{list-style:none;pointer-events:none;font-size:12px!important;letter-spacing:1.4px;text-transform:uppercase;color:#9C7A3C!important;margin-bottom:6px}
   .sec .card .body.split>details.whym>summary::-webkit-details-marker{display:none}
   .card{padding:30px 34px!important}
-  .steps3{max-width:900px;margin-left:auto!important;margin-right:auto!important}
+  .steps3{max-width:none!important;width:100%;margin-left:0!important;margin-right:0!important;box-sizing:border-box;display:flex!important;justify-content:space-between;padding:14px 24px 12px!important}
+  .steps3 a{flex:0 0 190px;width:190px;z-index:1}
+  .steps3 a::before{display:none!important}
+  .steps3::before{content:"";position:absolute;left:119px;right:119px;top:38px;height:3px;background:linear-gradient(90deg,#C5A880,#E2C98F);border-radius:3px;z-index:0}
   .sec>h2,.sec>.lead,.sec>.kicker{max-width:1100px}
   /* bottom progress bar: wider, centred */
   .prog .pin{max-width:1140px!important;margin:0 auto!important}
