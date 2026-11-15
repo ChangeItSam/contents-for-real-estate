@@ -779,6 +779,7 @@ html:not(.eoion) .ans .eoin{display:none}
   function setEoi(on,fill){ EOI=!!on; eoiBox.checked=EOI; document.documentElement.classList.toggle("eoion",EOI);
     try{ localStorage.setItem("sam-dealtest-eoi",EOI?"1":""); }catch(e){}
     if(fill) EOI_IDX.forEach(function(i){ var b=boxes[i]; if(EOI){ b.checked=false; b.dataset.st="n"; } else if(b.dataset.st==="n") b.dataset.st=""; });
+    else if(EOI) EOI_IDX.forEach(function(i){ var b=boxes[i]; if(!b.checked && !b.dataset.st) b.dataset.st="n"; });
     if(typeof devBox!=="undefined" && devBox) devBoxShow();   // ticking the EOI box itself must also open the developer + launch-date questions
     update(); }
   setEoi(EOI,false);
@@ -1213,7 +1214,7 @@ html:not(.eoion) .ans .eoin{display:none}
         var fm=FEAT.filter(function(f){ var n=f.name.toLowerCase(); return n.indexOf(q)>=0||q.indexOf(n)>=0; })[0];
         if(fm){ sg.hidden=true; newLaunch(fm.name); return; }
         sg.innerHTML='<button type="button" disabled class="nfm"><span>Not found in DLD records. In EOI / pre-launch phase?</span><span class="tapbelow">⬇ Tap below</span></button><button type="button" class="eoigo">🟡 It\'s in EOI / pre-launch phase ›<small>Not registered with DLD yet? Tap to mark it and go to that box.</small></button>'; sg.hidden=false;
-        sg.querySelector(".eoigo").addEventListener("click",function(){ sg.hidden=true; eoiShow(false); if(!EOI) setEoi(true,true); devBoxShow();
+        sg.querySelector(".eoigo").addEventListener("click",function(){ sg.hidden=true; eoiShow(false); setEoi(true,true); devBoxShow();
           var w=document.getElementById("devbox"); w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); }); return; }
       sg.innerHTML=hits.map(function(r,k){return '<button type="button" data-k="'+k+'">'+esc(r[1])+'<small>'+esc([r[7],r[2],r[3]].filter(Boolean).join(" · "))+'</small></button>';}).join("");
       sg.hidden=false; try{ sg.scrollIntoView({block:"nearest",behavior:"smooth"}); }catch(e){}
