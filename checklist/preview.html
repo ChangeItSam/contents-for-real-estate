@@ -512,7 +512,7 @@ html:not(.eoion) .ans .eoin{display:none}
 
 <section class="sec">
  <div class="kicker">Step 2 of 3 · Checks 5–9</div><h2>🔐 Is your money protected?</h2><p class="lead">Where your money goes and who you deal with.</p>
- <div class="card"><div class="num"><span class="ic">🏦</span><span class="n">5–7</span></div><div class="body"><h3>Your money goes into the project's escrow account</h3><p>By law (<b>Law No. 8 of 2007</b>), off-plan payments go into a regulated escrow account for that project, not the developer's company account. When your project is registered, we show you its escrow bank from DLD records, so the only thing left for you is to check that the account on your payment instructions matches it.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><b class="cn">5</b><span>Project has an escrow account registered with DLD</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">6</b><span>Escrow bank &amp; account shown on <b>your</b> payment instructions</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">7</b><span>They match the project's escrow on DLD / Dubai REST</span></label></div><div class="tip warn">⚠️ Never pay a deposit into a personal or general company account.</div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏦</span><span class="n">5–7</span></div><div class="body"><h3>Your money goes into the project's escrow account</h3><p>By law (<b>Law No. 8 of 2007</b>), off-plan payments go into a regulated escrow account for that project, not the developer's company account. When your project is registered, we show you its escrow bank from DLD records, so the only thing left for you is to check that the account on your payment instructions matches it.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><b class="cn">5</b><span>Project has an escrow account registered with DLD</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">6</b><span>Escrow bank &amp; account shown on <b>your</b> payment instructions</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">7</b><span>They match the project's escrow on DLD records</span></label></div><div class="tip warn">⚠️ Never pay a deposit into a personal or general company account.</div></div></div>
  <div class="card"><div class="num"><span class="ic">🪪</span><span class="n">8–9</span></div><div class="body"><h3>Your agent is licensed</h3><p>Only a RERA-licensed agent can legally sell you property, and a licensed agent is answerable to the regulator if something goes wrong. This is the one thing we can't look up for you: ask your agent for their BRN (Broker Registration Number), and make sure the agency and the agent are named on your paperwork.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="5"><b class="cn">8</b><span>Agent BRN verified</span></label><label class="tick"><input type="checkbox" data-w="2"><b class="cn">9</b><span>Agency and agent named on the paperwork</span></label></div></div></div>
 </section>
 
@@ -1179,14 +1179,14 @@ html:not(.eoion) .ans .eoin{display:none}
     } else {
       tickAuto(DEV); tickAuto(PROJ); if(escb) tickAuto(ESC);
       (function(){ var lb=boxes[6].closest("label"); if(!lb) return; var x=document.createElement("div"); x.className="esc7";
-        x.innerHTML=escb?'🏦 <b>Escrow on DLD records:</b> '+esc(escb)+'<br>🔢 DLD project no. <b>'+esc(no||"–")+'</b><br>👉 Compare this with the bank &amp; escrow account on <b>your</b> payment instructions. For the escrow account number, open the <b>Dubai REST</b> app and look up project no. '+esc(no||"")+'.<small>Extracted from live Dubai Land Department records ('+esc(P.updated)+') · Dubai REST app</small>'
-          :'⚠️ <b>DLD records list no escrow bank for this project yet.</b> Ask the developer for the escrow account and check it in the <b>Dubai REST</b> app (project no. '+esc(no||"–")+') before you pay.<small>Extracted from live Dubai Land Department records ('+esc(P.updated)+')</small>';
+        x.innerHTML=escb?'🏦 <b>Escrow on DLD records:</b> '+esc(escb)+'<br>🔢 DLD project no. <b>'+esc(no||"–")+'</b><br>👉 The escrow bank on <b>your</b> payment instructions, booking form or SPA must be <b>this bank</b>, and the account must be in the project&#39;s name (an escrow account), never the developer&#39;s company or a person. Ask the developer for the official escrow letter before you pay.<small>Extracted from live Dubai Land Department records ('+esc(P.updated)+')</small>'
+          :'⚠️ <b>DLD records list no escrow bank for this project yet.</b> Ask the developer for the official escrow letter (bank + account in the project&#39;s name) before you pay. Don&#39;t pay into a company or personal account.<small>Extracted from live Dubai Land Department records ('+esc(P.updated)+')</small>';
         var an=boxes[6]._ans||lb; an.parentNode.insertBefore(x, an); })();
       card.className="dld "+(escb?"ok":"warn");
       var stTxt=fin?"Completed (handed over)":"Under construction", prTxt=pct===""?"not reported":(+pct>0?"started (% in your full report)":"not started yet");
       info='<div class="fbar"><div><span>Developer</span><b>'+esc(dev||"–")+'</b></div><div><span>Status</span><b>'+stTxt+'</b></div><div><span>Progress</span><b>'+prTxt+'</b></div><div><span>Escrow bank</span><b>'+esc(escb||"not listed")+'</b></div><div><span>DLD project no.</span><b>'+esc(no||"–")+'</b></div>'+(area?'<div><span>Area</span><b>'+esc(area)+'</b></div>':'')+(end?'<div><span>DLD completion</span><b>'+esc(fmtDate(end))+'</b></div>':'')+'</div>';
       card.innerHTML='<b class="t">'+(escb?'✅ Project found in DLD':'⚠️ Project found in DLD · escrow not listed')+'</b>'+info+
-        (fin?'<b>This project is finished (handed over), so it is no longer off-plan.</b>':'')+(escb?'':'<b>Ask the developer for the escrow account and check it on Dubai REST.</b>')+
+        (fin?'<b>This project is finished (handed over), so it is no longer off-plan.</b>':'')+(escb?'':'<b>Ask the developer for the official escrow letter (bank + account in the project\'s name) before you pay.</b>')+
         '<div class="fnote">We\'ve auto-ticked what DLD confirms for you (<span class="auto">✓ DLD</span>). You only tick what <i>you\'ve</i> confirmed.</div>'+src;
       var lab=boxes[PROG].parentNode; if(pct!==""){ var h=document.createElement("span"); h.className="hint";
         if(+pct>0){ tickAuto(PROG); h.textContent="Construction has started, per DLD records. The exact % for this project is in your full report."; }
@@ -1495,6 +1495,6 @@ html:not(.eoion) .ans .eoin{display:none}
   });
 })();
 </script>
-<div style="text-align:center;font-size:10px;color:#B8BFCB;padding:4px 0 90px">preview build 15-Nov-esc7</div>
+<div style="text-align:center;font-size:10px;color:#B8BFCB;padding:4px 0 90px">preview build 15-Nov-esc7b</div>
 </body>
 </html>
