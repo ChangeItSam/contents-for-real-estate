@@ -56,6 +56,10 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
 .bro{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--wa);color:#fff;text-decoration:none;font-weight:800;font-size:18px;border-radius:16px;padding:16px 14px;margin-top:12px;box-shadow:0 8px 20px rgba(37,211,102,.35)}
 .bro2{display:block;text-align:center;margin-top:10px;font-weight:700;color:var(--navy);text-decoration:none;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px}
 .bro3{display:block;text-align:center;margin-top:10px;font-weight:800;color:var(--navy);text-decoration:none;background:linear-gradient(135deg,var(--gold2),var(--gold));border-radius:14px;padding:12px}
+.optq{margin-top:14px;font-weight:800;color:var(--navy);font-size:16px}
+.bro.sec{background:#fff;color:#128C4A;border:2px solid var(--wa);box-shadow:none;font-size:16.5px;padding:13px}
+.bro2.all{margin-top:10px}
+.sumc{margin-bottom:12px}.sumc .sh2{color:var(--navy);font-size:16px}.sumc ul{margin:8px 0 0 18px;color:var(--ink);font-size:16px;line-height:1.55}.sumc li{margin:3px 0}
 </style>
 </head>
 <body>
@@ -105,17 +109,26 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
       '<a class="btn" href="'+wa("Hi Sam, I saw "+title+" on your 20-check list. Please send me the price list, payment plan and floor plans.")+'">💬 Price list & floor plans on WhatsApp</a></div></div>';
   }
   var ONE=""; try{ ONE=(new URLSearchParams(location.search).get("p")||"").toLowerCase(); }catch(x){}
+  var WANT=""; try{ WANT=(new URLSearchParams(location.search).get("want")||"").toLowerCase(); }catch(x){}
+  function opts(p,title){
+    var O=[{k:"brochure",i:"📄",t:"Brochure",m:"the brochure"},{k:"plan",i:"💳",t:"Payment plan",m:"the payment plan"},{k:"layout",i:"📐",t:"Floor plans / layouts",m:"the floor plans"}];
+    var w=WANT==="payment"?"plan":(WANT==="floor"||WANT==="floorplan"?"layout":WANT);
+    O.sort(function(a,b){ return (b.k===w)-(a.k===w); });
+    return '<div class="optq">What would you like on WhatsApp?</div>'+O.map(function(o,i){ return '<a class="bro'+(i?' sec':'')+'" href="'+wa("Hi Sam, I watched your reel on "+title+". Please send me "+o.m+".")+'">'+o.i+' Get the '+o.t.toLowerCase()+' on WhatsApp</a>'; }).join("")+
+      '<a class="bro2 all" href="'+wa("Hi Sam, I watched your reel on "+title+". Please send me the brochure, payment plan and floor plans.")+'">📦 Send me all three</a>';
+  }
   function one(p){
     document.body.classList.add("one"); document.getElementById("list").style.display="none";
     var title=p.name+(p.dev && p.name.toLowerCase().indexOf(p.dev.toLowerCase())<0?" by "+p.dev:""), imgs=(p.gallery&&p.gallery.length?p.gallery:(p.img?[p.img]:[]));
     document.title=p.name+" | Sam Surya";
     var h=(imgs.length?'<div class="gal'+(imgs.length===1?' one1':'')+'">'+imgs.map(function(u){ return '<img src="'+e(u)+'" alt="'+e(p.name)+'" loading="lazy">'; }).join("")+'</div>':'')+
       '<div class="pvh"><span class="pill">✅ Passed the 20 checks</span><h1>'+e(p.name)+'</h1><em>'+(p.dev?e(p.dev)+' · ':'')+'📍 '+e(p.area||"Location: ask me")+'</em></div>'+
+      ((p.summary&&p.summary.length)?'<div class="card sumc"><div class="body"><b class="sh2">🎬 From the reel</b><ul>'+p.summary.map(function(x){ return '<li>'+e(x)+'</li>'; }).join('')+'</ul></div></div>':'')+
       '<div class="card"><div class="body">'+badge(p)+
       ((p.price||p.plan)?'<div class="pp">'+(p.price?'<div>From<b>'+e(p.price)+'</b></div>':'')+(p.plan?'<div>Payment plan<b>'+e(p.plan)+'</b></div>':'')+'</div>':'')+
-      '<a class="bro" href="'+wa("Hi Sam, I saw your reel on "+title+". Please send me the brochure, payment plan and floor plans.")+'">📄 Get the brochure on WhatsApp</a>'+
-      '<a class="bro3" href="../checklist/">🎲 Buy or skip? Take my free Stress Test</a>'+
-      '<a class="bro2" href="./#'+e(p.cat)+'">See all projects that passed the 20 checks →</a></div></div>';
+      opts(p,title)+
+      '<a class="bro2" href="./#'+e(p.cat)+'">🏆 Explore more projects that passed all 20 checks →</a>'+
+      '<a class="bro3" href="../checklist/">🎲 Buy or skip? Take my free Stress Test</a></div></div>';
     var pv=document.getElementById("pv"); pv.innerHTML=h; pv.hidden=false;
     document.getElementById("wa").href=wa("Hi Sam, I saw your reel on "+title+". Please send me the brochure.");
   }

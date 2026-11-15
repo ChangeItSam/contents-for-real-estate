@@ -1,5 +1,5 @@
 {
- "_how": "Sam's projects that passed the 20-check Stress Test. RULE (Sam, 14-15 Nov 2026): each type (villa / townhouse / apartment) shows 5 projects: 2 pinned top-developer projects (pin: true) that never move unless Sam moves them or they sell out (available: false), plus the 3 most recently added non-pinned projects (by 'added' date), which rotate as Sam posts a new project reel each day: add the reel's project here with today's date and it takes a rotating slot, pushing the oldest rotating one off the page (it stays in this file). 'dld' = DLD project numbers (the page reads construction %, escrow bank and completion date from ../checklist/data/projects.json); leave [] if not registered; eoi true = EOI / pre-launch. PROJECT PAGE: samsuryarealty.com/picks/?p=<slug> shows one project (reel glimpse from 'gallery' images or 'img', DLD badge, price/plan, 'Get the brochure on WhatsApp'). Each project reel gets its own BROCHURE/DETAILS/PRICE comment rule pointing to its project page; the general rule points to /picks/.",
+ "_how": "Sam's projects that passed the 20-check Stress Test. RULE (Sam, 14-15 Nov 2026): each type (villa / townhouse / apartment) shows 5 projects: 2 pinned top-developer projects (pin: true) that never move unless Sam moves them or they sell out (available: false), plus the 3 most recently added non-pinned projects (by 'added' date), which rotate as Sam posts a new project reel each day: add the reel's project here with today's date and it takes a rotating slot, pushing the oldest rotating one off the page (it stays in this file). 'dld' = DLD project numbers (the page reads construction %, escrow bank and completion date from ../checklist/data/projects.json); leave [] if not registered; eoi true = EOI / pre-launch. REEL PAGE: samsuryarealty.com/picks/?p=<slug>&want=brochure|plan|layout shows one project: 'summary' (what the reel said), stills from 'gallery', live DLD badge, then WhatsApp buttons for brochure / payment plan / floor plans with the one the commenter asked for first, then a link to all picks. Each project reel gets 3 post-only comment rules: BROCHURE/DETAILS/PRICE -> want=brochure, PAYMENT -> want=plan, LAYOUT/FLOOR -> want=layout.",
  "p": [
   {
    "cat": "villa",
@@ -19,7 +19,8 @@
    "pin": true,
    "slug": "the-oasis-mareva",
    "gallery": [],
-   "reel": ""
+   "reel": "",
+   "summary": []
   },
   {
    "cat": "villa",
@@ -36,7 +37,8 @@
    "pin": false,
    "slug": "hayat-8",
    "gallery": [],
-   "reel": ""
+   "reel": "",
+   "summary": []
   },
   {
    "cat": "villa",
@@ -53,7 +55,8 @@
    "pin": false,
    "slug": "palm-springs",
    "gallery": [],
-   "reel": ""
+   "reel": "",
+   "summary": []
   },
   {
    "cat": "villa",
@@ -72,7 +75,8 @@
    "pin": true,
    "slug": "the-wilds",
    "gallery": [],
-   "reel": ""
+   "reel": "",
+   "summary": []
   },
   {
    "cat": "villa",
@@ -91,7 +95,8 @@
    "pin": false,
    "slug": "elwood-estates",
    "gallery": [],
-   "reel": ""
+   "reel": "",
+   "summary": []
   },
   {
    "cat": "townhouse",
@@ -110,7 +115,8 @@
    "pin": false,
    "slug": "greenz-by-danube",
    "gallery": [],
-   "reel": ""
+   "reel": "",
+   "summary": []
   },
   {
    "cat": "townhouse",
@@ -134,7 +140,8 @@
    "pin": true,
    "slug": "damac-islands",
    "gallery": [],
-   "reel": ""
+   "reel": "",
+   "summary": []
   },
   {
    "cat": "townhouse",
@@ -151,7 +158,8 @@
    "pin": false,
    "slug": "violet",
    "gallery": [],
-   "reel": ""
+   "reel": "",
+   "summary": []
   },
   {
    "cat": "townhouse",
@@ -168,7 +176,8 @@
    "pin": false,
    "slug": "tilal-by-binghatti",
    "gallery": [],
-   "reel": ""
+   "reel": "",
+   "summary": []
   },
   {
    "cat": "townhouse",
@@ -188,7 +197,8 @@
    "pin": true,
    "slug": "sobha-sanctuary",
    "gallery": [],
-   "reel": ""
+   "reel": "",
+   "summary": []
   },
   {
    "cat": "apartment",
@@ -207,7 +217,8 @@
    "pin": true,
    "slug": "valia",
    "gallery": [],
-   "reel": ""
+   "reel": "",
+   "summary": []
   },
   {
    "cat": "apartment",
@@ -227,7 +238,8 @@
    "pin": true,
    "slug": "haven-by-aldar",
    "gallery": [],
-   "reel": ""
+   "reel": "",
+   "summary": []
   },
   {
    "cat": "apartment",
@@ -244,7 +256,8 @@
    "pin": false,
    "slug": "everly-place",
    "gallery": [],
-   "reel": ""
+   "reel": "",
+   "summary": []
   },
   {
    "cat": "apartment",
@@ -261,7 +274,8 @@
    "pin": false,
    "slug": "samana-downtown-jebel-ali-1",
    "gallery": [],
-   "reel": ""
+   "reel": "",
+   "summary": []
   },
   {
    "cat": "apartment",
@@ -280,7 +294,8 @@
    "pin": false,
    "slug": "cove-edition-6-by-imtiaz",
    "gallery": [],
-   "reel": ""
+   "reel": "",
+   "summary": []
   }
  ]
 }
