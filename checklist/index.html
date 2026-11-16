@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>try{ if(/[#&]r=/.test(location.hash)){ for(var i=localStorage.length-1;i>=0;i--){ var k=localStorage.key(i); if(k && k.indexOf("sam-dealtest")===0 && k!=="sam-dealtest-k") localStorage.removeItem(k); } } }catch(e){}</script>
+
 <script>if(location.hostname.indexOf("github.io")>-1){location.replace("https://samsuryarealty.com"+location.pathname.replace(/^\/contents-for-real-estate/,"")+location.search+location.hash);}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -953,9 +955,10 @@ html:not(.eoion) .ans .eoin{display:none}
 
   // ---------- Detailed report data (data/insights.json) ----------
   var INS=null, iwait=[], iloading=false;
-  var TR=null;
+  var TR=null, OUT=null;
   function insLoad(cb){ if(INS) return cb(); iwait.push(cb); if(iloading) return; iloading=true;
-    var done=function(){ if(INS&&TR){ iwait.forEach(function(f){f();}); iwait=[]; } };
+    var done=function(){ if(INS&&TR&&OUT){ iwait.forEach(function(f){f();}); iwait=[]; } };
+    fetch("data/outlook.json",{cache:"no-cache"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ OUT=j; done(); }).catch(function(){ OUT={}; done(); });
     fetch("data/insights.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){ INS=j; done(); }).catch(function(){ INS={d:{},p:{},t:{},r:{}}; done(); });
     fetch("data/transit.json",{cache:"no-cache"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ TR=j; done(); }).catch(function(){ TR={a:{}}; done(); }); }
   function monthsBetween(a,b){ var A=a.split("-"),B=b.split("-"); return (+B[0]-A[0])*12+(+B[1]-A[1]); }
@@ -1039,6 +1042,14 @@ html:not(.eoion) .ans .eoin{display:none}
         (ta.bus[2]!=null&&ta.bus[2]<=0.8?'<div class="row"><span>Nearest mapped bus stop</span><b>'+(ta.bus[3]?e(ta.bus[3])+' · ':'')+'~'+Math.round(ta.bus[2]*1000)+' m</b></div>'+(ta.bus[1]?'<div class="row"><span>Bus routes at mapped stops within 800 m</span><b>'+ta.bus[1]+'</b></div>':''):'')+
         '<div class="row"><span>Buses</span><b>Check routes from your building in RTA\'s S\'hail app</b></div>'+
         '<div style="margin-top:6px;opacity:.75;font-size:13.5px">Approximate: straight-line distances from the centre of '+e(tn)+', not from your exact building. Check the walk from the building on a map. Map data © OpenStreetMap contributors; Blue Line route as announced by RTA.</div></div>'; }
+    // 5c. area outlook (PESTLE) + what's coming nearby
+    if(OUT){ var nm=[comm,place,(ip&&ip[10])||"",(PSFP&&PSFP.area)||""].join(" | ").toLowerCase(), near=[];
+      (OUT.areas||[]).forEach(function(a){ if(a.match.some(function(m){ return nm.indexOf(m)>=0; })) near.push(a); });
+      h+='<h4>🔭 Area outlook: future growth (PESTLE)</h4><div class="box">'+
+        (near.length?'<div style="font-weight:800;margin-bottom:4px">📍 What\'s coming near '+e(place||comm||"this area")+'</div>'+near.map(function(a){ return a.items.map(function(t){ return '<div style="margin:3px 0">'+e(t)+'</div>'; }).join("")+'<div style="opacity:.6;font-size:12px;margin-bottom:6px">Source: '+e(a.src)+'</div>'; }).join(""):'')+
+        '<div style="font-weight:800;margin:8px 0 4px">🇦🇪 Dubai-wide drivers</div>'+
+        (OUT.dubai||[]).map(function(r){ return '<div class="row" style="align-items:flex-start"><span style="flex:0 0 38%"><b>'+e(r[0])+'</b> · '+e(r[1])+'</span><b style="font-weight:600;text-align:left">'+e(r[2])+'<br><small style="opacity:.6;font-weight:400">'+e(r[3])+'</small></b></div>'; }).join("")+
+        '<div style="margin-top:6px;opacity:.75;font-size:13px">Plans and timelines are as announced by the government and can change. Checked '+e(OUT.checked||"Nov 2026")+'.</div></div>'; }
     // 6. payment plan, exit, break-even
     var pp=xn("xpp"), re=xn("xre"), be=breakEven();
     if(pp||re||be){ h+='<h4>💳 Payment plan, exit and break-even</h4><div class="box">';

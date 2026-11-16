@@ -1,0 +1,99 @@
+{
+ "_how_to_edit": "Area outlook (PESTLE) shown in the full report. 'dubai' applies to every area; 'areas' add what's coming near specific communities (match = words found in the DLD community/area name). Keep each line short, factual and sourced. Checked 16 Nov 2026.",
+ "dubai": [
+  [
+   "P",
+   "Political",
+   "Government growth plan: the Dubai Economic Agenda D33 aims to double the size of Dubai's economy by 2033, with 100 transformative projects.",
+   "Dubai Media Office / Invest in Dubai"
+  ],
+  [
+   "E",
+   "Economic",
+   "Dubai's GDP grew 5.4% in 2025 while the population grew 7.5%: more people and more jobs mean more demand for homes.",
+   "Dubai Data and Statistics Establishment"
+  ],
+  [
+   "S",
+   "Social",
+   "Population 4.58 million at the end of 2025 and about 4.8 million by September 2026. The 2040 Urban Master Plan plans for 5.8 million residents.",
+   "Dubai Data and Statistics Establishment · Dubai 2040 Urban Master Plan"
+  ],
+  [
+   "T",
+   "Technology & transport",
+   "Dubai Metro Blue Line (30 km, 14 stations) is scheduled to open on 9 September 2029, linking Creek Harbour, International City, Silicon Oasis, Academic City, Mirdif and Al Warqa.",
+   "RTA"
+  ],
+  [
+   "L",
+   "Legal",
+   "Off-plan payments must go into a DLD-registered project escrow account. A property worth AED 2 million or more, including off-plan, can qualify for the 10-year Golden Visa.",
+   "Dubai Land Department / ICP"
+  ],
+  [
+   "En",
+   "Environment",
+   "The 2040 plan doubles green and leisure areas, expands public beaches by 400% and keeps 60% of the emirate as nature reserves and rural areas.",
+   "Dubai 2040 Urban Master Plan"
+  ]
+ ],
+ "areas": [
+  {
+   "match": [
+    "dubai world central",
+    "madinat al mataar",
+    "dubai south",
+    "al maktoum",
+    "emaar south",
+    "jebel ali first",
+    "jabal ali first",
+    "saih shuaib",
+    "the pulse",
+    "residential district"
+   ],
+   "items": [
+    "✈️ Al Maktoum International Airport: an AED 128 billion expansion approved in April 2024 will make it the world's largest airport (260 million passengers a year); all Dubai International flights are planned to move here within about 10 years.",
+    "🏘️ The government says the airport project will create housing demand for 1 million people around it."
+   ],
+   "src": "Dubai Media Office · Dubai Aviation Corporation"
+  },
+  {
+   "match": [
+    "creek harbour",
+    "festival city",
+    "ras al khor",
+    "international city",
+    "silicon oasis",
+    "academic city",
+    "mirdif",
+    "warqa",
+    "al jadaf",
+    "jaddaf",
+    "rashidiya"
+   ],
+   "items": [
+    "🚇 On the Dubai Metro Blue Line, opening 9 September 2029: the line is designed to serve areas expected to house nearly 1 million residents by 2040."
+   ],
+   "src": "RTA"
+  },
+  {
+   "match": [
+    "jumeirah golf estates",
+    "al hebiah",
+    "al furjan",
+    "dubai investment park",
+    "dubai investments park",
+    "green community",
+    "dubai production city",
+    "expo city"
+   ],
+   "items": [
+    "🚆 Etihad Rail: Dubai's Al Yalayis passenger station at Jumeirah Golf Estates opened on 30 September 2026, about 57 minutes to Abu Dhabi, linked by footbridge to the Metro Red Line.",
+    "🚇 Jumeirah Golf Estates is also on the planned Dubai Metro Gold Line, due in September 2032."
+   ],
+   "src": "Etihad Rail · RTA"
+  }
+ ],
+ "checked": "16 Nov 2026"
+}
