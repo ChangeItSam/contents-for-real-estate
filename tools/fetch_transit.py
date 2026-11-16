@@ -9,7 +9,7 @@ import atexit, json, math, os, time, urllib.parse, urllib.request
 OUT = "checklist/data"
 UA = "SamSurya-StressTest/1.0 (+https://changeitsam.github.io/contents-for-real-estate/)"
 BBOX = (24.70, 54.85, 25.40, 55.65)  # south, west, north, east: Dubai emirate
-OVERPASS = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter",
+OVERPASS = ["https://overpass-api.de/api/interpreter", "https://overpass.private.coffee/api/interpreter", "https://overpass.kumi.systems/api/interpreter",
             "https://maps.mail.ru/osm/tools/overpass/api/interpreter"]
 LOG = []
 atexit.register(lambda: open(f"{OUT}/transit_log.txt", "w").write(time.strftime("%Y-%m-%d %H:%M UTC\n") + "\n".join(LOG) + "\n"))
