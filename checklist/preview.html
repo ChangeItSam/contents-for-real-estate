@@ -1326,6 +1326,7 @@ html:not(.eoion) .ans .eoin{display:none}
         sg.innerHTML='<button type="button" disabled class="nfm"><span>Not found in DLD records. In EOI / pre-launch phase?</span><span class="tapbelow">⬇ Tap below</span></button><button type="button" class="eoigo">🟡 It\'s in EOI / pre-launch phase ›<small>Not registered with DLD yet? Tap to mark it and go to that box.</small></button>'; sg.hidden=false;
         sg.querySelector(".eoigo").addEventListener("click",function(){ sg.hidden=true; eoiShow(false); setEoi(true,true); devBoxShow();
           var w=document.getElementById("devbox"); w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); }); return; }
+      var fp=FEATPICK; FEATPICK=""; if(fp){ var ex=hits.filter(function(r){ return r[1].toLowerCase()===fp; }); if(ex.length===1){ sg.hidden=true; pick(ex[0]); return; } }
       var mh=MKT.filter(function(m){ var t=(m.name+" "+m.dev).toLowerCase(); return ws.every(function(w){ return t.indexOf(w)>=0; }); }).slice(0,4);
       sg.innerHTML=mh.map(function(m,k){ return '<button type="button" class="mkt" data-m="'+k+'">'+esc(m.name)+' <span class="mdev">· '+esc(m.dev)+'</span><small>🟡 EOI / pre-launch · not in DLD records yet'+(m.area?' · '+esc(m.area):'')+'</small></button>'; }).join("")+
         hits.map(function(r,k){return '<button type="button" data-k="'+k+'">'+esc(r[1])+' <span class="mdev">· '+esc(shortDev(r[2]))+'</span><small>'+esc([r[7],r[3]].filter(Boolean).join(" · "))+'</small></button>';}).join("")+
@@ -1338,13 +1339,13 @@ html:not(.eoion) .ans .eoin{display:none}
   }
   // suggestions float in a small scrollable box under the typing box, so the box never moves
   (function(){ var lb=pin.closest("label"); if(lb && sg && !lb.parentNode.classList.contains("projwrap")){ var w=document.createElement("div"); w.className="projwrap"; lb.parentNode.insertBefore(w,lb); w.appendChild(lb); w.appendChild(sg); }
-    document.addEventListener("click",function(e){ if(!sg.hidden && !e.target.closest(".projwrap")) sg.hidden=true; });
+    document.addEventListener("click",function(e){ if(!sg.hidden && !e.target.closest(".projwrap") && !e.target.closest("#feat")) sg.hidden=true; });
     pin.addEventListener("keydown",function(e){ if(e.key==="Escape") sg.hidden=true; }); })();
   pin.addEventListener("focus",function(){ load(function(){}); });
   pin.addEventListener("input",function(){ PROJROW=null; if(!DEVSEL){ devCard.hidden=true; devCard.innerHTML=""; } if(DLDFOUND) eoiShow(false); if(auto.length){ clearAuto(); card.hidden=true; } search(); });
 
   // ---------- featured projects: typing hint + chips (edit data/featured.json) ----------
-  var FEAT=[];
+  var FEAT=[], FEATPICK="";
   function newLaunch(name){
     clearAuto();
     var m="Hi Sam, I'm checking "+name+" on your Off-Plan Deal Stress Test. Can you send me its DLD project registration and escrow details?";
@@ -1362,7 +1363,7 @@ html:not(.eoion) .ans .eoin{display:none}
     fe.innerHTML='<span>🔥 New &amp; featured:</span>'+FEAT.map(function(f,i){return '<button type="button" data-i="'+i+'">'+esc(f.name)+(f.developer?' <small style="font-weight:600;color:#5B6678">· '+esc(f.developer)+'</small>':'')+'</button>';}).join("");
     fe.hidden=false;
     Array.prototype.forEach.call(fe.querySelectorAll("button"),function(bt){ bt.addEventListener("click",function(){
-      var f=FEAT[+bt.dataset.i]; pin.value=f.search||f.name; pin.focus(); if(auto.length){clearAuto(); card.hidden=true;} search(); }); });
+      var f=FEAT[+bt.dataset.i]; pin.value=f.search||f.name; pin.focus(); if(auto.length){clearAuto(); card.hidden=true;} FEATPICK=f.name.toLowerCase(); search(); }); });
     // typewriter placeholder
     var fi=0, ci=0, dir=1;
     (function type(){
