@@ -187,7 +187,7 @@ def am_plan(t):
     c = (t.get("construction") or t.get("proposed") or t.get("proposed:amenity") or t.get("construction:amenity") or "").lower()
     if any(w in c for w in ("school", "college", "kindergarten")): return "s"
     if any(w in c for w in ("hospital", "clinic")): return "h"
-    if any(w in c for w in ("mall", "retail", "commercial", "supermarket")): return "m"
+    if any(w in c for w in ("mall", "retail", "supermarket")): return "m"
     if "park" in c: return "p"
     return None
 amen, planned = [], []
@@ -195,7 +195,7 @@ try:
     els = []
     for q in ('nwr["amenity"~"^(school|college|university|kindergarten)$"]', 'nwr["amenity"~"^(hospital|clinic)$"]',
               'nwr["shop"~"^(mall|supermarket|hypermarket)$"]', 'nwr["leisure"="park"]',
-              'nwr["construction"~"school|college|kindergarten|hospital|clinic|mall|retail|commercial|park"]',
+              'nwr["construction"~"school|college|kindergarten|hospital|clinic|mall|retail|park"]',
               'nwr["proposed"~"school|hospital|mall|retail|park"]'):
         try:
             els += overpass(f"[out:json][timeout:180];{q}({bb});out tags center;")
@@ -216,15 +216,23 @@ try:
 except SystemExit as e:
     log("amenities skipped:", e)
 
+import re
+KW = {"s": r"school|academy|nursery|kindergarten|college|university|institute|montessori",
+      "h": r"hospital|clinic|medical|health|polyclinic|mediclinic|aster|nmc",
+      "m": r"mall|centre|center|plaza|souk|avenue|walk|galleria|outlet|market",
+      "g": r"market|carrefour|spinneys|lulu|waitrose|choithram|union coop|co-?op|viva|grandiose|nesto|al maya|west zone|kibsons|geant|almaya",
+      "p": r"park|garden|lake|green"}
+def good_name(k, n):
+    return bool(n) and n.isascii() and len(n) <= 60 and re.search(KW[k], n, re.I) is not None
 def amen_near(c, r=3.0):
     out = {}
     for k in AM_CATS:
         pts = [(km(c, (x[0], x[1])), x[3]) for x in amen if x[2] == k]
         inr = [d for d in pts if d[0] <= r]
-        named = sorted((d for d in pts if d[1]), key=lambda d: d[0])
+        named = sorted((d for d in pts if good_name(k, d[1])), key=lambda d: d[0])
         out[k] = [len(inr), named[0][1][:60] if named else "", round(named[0][0], 1) if named else None]
     pl = sorted(((km(c, (x[0], x[1])), x[2], x[3]) for x in planned), key=lambda d: d[0])
-    out["pl"] = [[k, n[:60], round(d, 1)] for d, k, n in pl if d <= r][:4]
+    out["pl"] = [[k, n[:60], round(d, 1)] for d, k, n in pl if d <= r and good_name(k, n)][:4]
     return out
 
 # ---------- per area summary
