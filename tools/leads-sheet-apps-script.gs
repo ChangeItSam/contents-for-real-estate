@@ -44,10 +44,10 @@ function doPost(e) {
     var name = String(p.name || '').trim();
     var first = name.split(/\s+/)[0] || 'there';
     var link = String(p.link || '');
-    if (!/^https:\/\/changeitsam\.github\.io\//.test(link)) link = '';
+    if (!/^https:\/\/((www\.)?samsuryarealty\.com|changeitsam\.github\.io)\//.test(link)) link = '';
     var msg = 'Hi ' + first + ', this is Sam Surya. Here is your Off-Plan Deal Stress Test result' +
               (p.project ? ' for ' + p.project : '') + ': ' + (p.score || '') + '/100, ' + (p.verdict || '') + '.\n\n' +
-              link + '\n\nHappy to go through it with you. When suits you for a quick call?';
+              (link ? '📊 Your full report: ' + link : '') + '\n\nHappy to go through it with you. When suits you for a quick call?';
     var when = Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm');
     sh.appendRow([when, clean(name), clean(p.phone), clean(p.project), Number(p.score) || 0, clean(p.verdict),
                   Number(p.psf) || '', Number(p.avg) || '', clean(p.rating), link, '', 'New']);
