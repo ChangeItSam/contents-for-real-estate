@@ -192,14 +192,15 @@ def am_plan(t):
     return None
 amen, planned = [], []
 try:
-    els = overpass(f"""[out:json][timeout:240];
-(nwr["amenity"~"^(school|college|university|kindergarten|hospital|clinic)$"]({bb});
- nwr["healthcare"~"^(hospital|clinic)$"]({bb});
- nwr["shop"~"^(mall|supermarket|hypermarket)$"]({bb});
- nwr["leisure"="park"]({bb});
- nwr["construction"~"school|college|kindergarten|hospital|clinic|mall|retail|commercial|park"]({bb});
- nwr["proposed"~"school|hospital|mall|retail|park"]({bb});
-);out tags center;""")
+    els = []
+    for q in ('nwr["amenity"~"^(school|college|university|kindergarten)$"]', 'nwr["amenity"~"^(hospital|clinic)$"]',
+              'nwr["shop"~"^(mall|supermarket|hypermarket)$"]', 'nwr["leisure"="park"]',
+              'nwr["construction"~"school|college|kindergarten|hospital|clinic|mall|retail|commercial|park"]',
+              'nwr["proposed"~"school|hospital|mall|retail|park"]'):
+        try:
+            els += overpass(f"[out:json][timeout:180];{q}({bb});out tags center;")
+        except SystemExit as e:
+            log("amenity query skipped:", q, e)
     for e in els:
         t = e.get("tags", {})
         la, lo = (e.get("lat"), e.get("lon")) if "lat" in e else (e.get("center", {}).get("lat"), e.get("center", {}).get("lon"))
