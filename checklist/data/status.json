@@ -1,11 +1,11 @@
 {
- "checked_at": "2026-11-15T02:56:24.101756Z",
+ "checked_at": "2026-11-16T03:03:50.803473Z",
  "ok": true,
  "errors": [
   "dubaipulse: <urlopen error timed out>"
  ],
  "source": "datadubai-hf",
- "rows": 770,
+ "rows": 723,
  "mapped": {
   "no": "pn",
   "name": "name",
@@ -19,10 +19,10 @@
  },
  "featured": [
   "Emaar: Golf Trails",
-  "Sobha: The Brooks At Sobha Sanctuary",
+  "Sobha: The Grove At Sobha Sanctuary",
   "DAMAC: Damac Islands 2 - Antigua 1",
   "Azizi: Azizi Abraham",
-  "Binghatti: Binghatti Skyflame 1",
+  "Binghatti: Binghatti Wraith",
   "Danube: Greenz By Danube"
  ]
 }
