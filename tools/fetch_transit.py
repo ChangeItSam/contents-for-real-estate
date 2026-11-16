@@ -257,3 +257,13 @@ json.dump({"updated": time.strftime("%Y-%m-%d"),
            "metro": metro, "blue": blue, "a": res},
           open(f"{OUT}/transit.json", "w"), separators=(",", ":"), ensure_ascii=False)
 log("transit.json written for", len(res), "areas")
+
+# ---------- raw points for pinned locations (EOI projects): checklist/data/places.json
+if amen:
+    PLD = {k: [[round(x[0], 4), round(x[1], 4)] + ([x[3][:50]] if good_name(k, x[3]) else []) for x in amen if x[2] == k] for k in AM_CATS}
+    PLD["pl"] = [[round(la, 4), round(lo, 4), k, n[:50]] for la, lo, k, n in planned if good_name(k, n)]
+    PLD["bus"] = [[round(st[0], 4), round(st[1], 4), (st[3] or "")[:40], sorted(stop_routes.get(st[2], ()))[:12]] for st in stops]
+    PLD["ar"] = {n: [p[0], p[1]] for n, p in points.items()}
+    PLD["updated"] = time.strftime("%Y-%m-%d")
+    json.dump(PLD, open(f"{OUT}/places.json", "w"), separators=(",", ":"), ensure_ascii=False)
+    log("places.json written:", {k: len(v) for k, v in PLD.items() if isinstance(v, list)})

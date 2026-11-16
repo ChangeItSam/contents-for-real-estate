@@ -408,6 +408,7 @@ html:not(.eoion) .ans .eoin{display:none}
 #devin{display:block;width:100%;margin-top:6px;font:inherit;font-size:17px;padding:12px 14px;border:2px solid var(--gold);border-radius:12px;background:#fff;color:var(--navy);min-height:50px}
 .devstat{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.devstat span{background:rgba(255,255,255,.7);border-radius:10px;padding:6px 4px;text-align:center;font-size:12.5px;line-height:1.25}.devstat b{display:block;font-size:20px}
 .devstat .bn{filter:blur(7px);user-select:none}.devlock{font-size:14.5px;font-weight:700;margin-bottom:4px}
+.pinq{margin-top:14px}.pinq .plab{font-weight:800;color:var(--navy);font-size:16px}.pinq .plab small{font-weight:600;opacity:.75;font-size:13px}.pinrow{display:flex;gap:6px;margin-top:6px}.pinrow input{flex:1;min-width:0;font-size:16px;padding:10px;border:1.5px solid #C9A24A;border-radius:10px}.pinrow button,.pinbtns button{background:#0B1F3A;color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:700;font-size:14px}.pinsg{display:flex;flex-direction:column;gap:4px;margin-top:6px}.pinsg button{text-align:left;background:#FFF8E7;border:1px solid #C9A24A;border-radius:8px;padding:8px;font-size:13.5px;color:#0B1F3A}#pinmap{height:280px;border-radius:12px;margin-top:8px;border:1.5px solid #C9A24A;background:#e8eef5;z-index:0}.pinbtns{margin-top:6px}.pinout{margin-top:6px;font-size:14px;color:#0B1F3A}.pinout.ok{font-weight:700;color:#1e6e46}
 .launchq{margin-top:12px}.launchq .plab{font-weight:800;color:var(--navy);font-size:16px}.ans.lq{margin-top:6px}
 .sugg button.nfm{color:#8A1F1F;font-weight:700;opacity:1}
 .taphere{display:inline-block;background:#E53935;color:#fff;font-size:13.5px;font-weight:800;border-radius:14px;padding:3px 10px;margin:0 0 6px;box-shadow:0 3px 10px rgba(229,57,53,.35);animation:tapb 1.2s ease-in-out infinite}
@@ -513,7 +514,7 @@ html:not(.eoion) .ans .eoin{display:none}
 
 <section class="sec" id="checks">
  <div class="steps3"><a class="on" href="#" data-step="1"><span class="n">🛡️</span><b>1. Is it safe?</b><small>Checks 1–4</small></a><a href="#" data-step="2"><span class="n">🔐</span><b>2. Money protected?</b><small>Checks 5–18</small></a><a href="#" data-step="3"><span class="n">💲</span><b>3. Price right?</b><small>Checks 19–20</small></a></div><div class="kicker">Step 1 of 3 · Checks 1–4</div><h2>🛡️ Is it safe?</h2><p class="lead">Dubai protects off-plan buyers well. Make sure you're inside that protection.</p>
- <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>A developer registered with RERA is accountable to the regulator, and their delivery record is the best guide to whether your building gets finished on time. You don't need to search any registry: we check the developer against Dubai Land Department records as soon as you pick your project, or type the developer's name for an EOI project. Your full report shows how many projects they've handed over, how many are under construction, delayed or cancelled.</p><div class="ticks"><div id="devcard" class="dld devcard" hidden></div><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label><label class="eoi" id="eoiwrap"><input type="checkbox" id="eoi"><span><b>🟡 Not found in DLD? Tick if this project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and tell us the developer: those lines are then judged on the developer's DLD record and whether the launch date is announced. Check them again before you pay the booking amount.</small></span></label><div id="devbox" class="devbox" hidden><label class="plab" for="devin">👷 EOI project: who is the developer? <small>(type 2+ letters, then pick from the list)</small></label><input id="devin" type="text" autocomplete="off" placeholder="e.g. Azizi, Binghatti, Emaar"><div id="devsg" class="sugg" hidden></div><div class="launchq"><div class="plab">📅 Has the developer officially announced the launch date?</div><div class="ans lq"><button type="button" class="y" data-l="y">✅ Yes, announced</button><button type="button" class="u" data-l="n">⏳ Not yet</button></div></div></div></div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏢</span><span class="n">1–2</span></div><div class="body"><h3>The developer is registered with RERA</h3><p>A developer registered with RERA is accountable to the regulator, and their delivery record is the best guide to whether your building gets finished on time. You don't need to search any registry: we check the developer against Dubai Land Department records as soon as you pick your project, or type the developer's name for an EOI project. Your full report shows how many projects they've handed over, how many are under construction, delayed or cancelled.</p><div class="ticks"><div id="devcard" class="dld devcard" hidden></div><label class="tick"><input type="checkbox" data-w="8"><b class="cn">1</b><span>Developer found on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">2</b><span>Track record of delivered projects checked</span></label><label class="eoi" id="eoiwrap"><input type="checkbox" id="eoi"><span><b>🟡 Not found in DLD? Tick if this project is in EOI / pre-launch phase</b><small>Not registered with DLD yet, so the project number, escrow and Oqood lines can't be checked today. Tick this and tell us the developer: those lines are then judged on the developer's DLD record and whether the launch date is announced. Check them again before you pay the booking amount.</small></span></label><div id="devbox" class="devbox" hidden><label class="plab" for="devin">👷 EOI project: who is the developer? <small>(type 2+ letters, then pick from the list)</small></label><input id="devin" type="text" autocomplete="off" placeholder="e.g. Azizi, Binghatti, Emaar"><div id="devsg" class="sugg" hidden></div><div class="launchq"><div class="plab">📅 Has the developer officially announced the launch date?</div><div class="ans lq"><button type="button" class="y" data-l="y">✅ Yes, announced</button><button type="button" class="u" data-l="n">⏳ Not yet</button></div></div><div class="pinq" id="pinq"><div class="plab">📍 Pin the project location <small>Type the nearest landmark or area, then tap the map on the exact plot. We use it to show the metro, bus, schools, hospitals, malls and mosques around the project.</small></div><div class="pinrow"><input id="pinin" type="text" autocomplete="off" placeholder="e.g. Circle Mall JVC, or paste a Google Maps link"><button type="button" id="pinfind">Find</button></div><div id="pinsg" class="pinsg" hidden></div><div id="pinmap"></div><div class="pinbtns"><button type="button" id="pinme">📡 I'm at the site: use my location</button></div><div id="pinout" class="pinout">Tap the map to drop the pin on the project plot.</div></div></div></div></div></div>
  <div class="card"><div class="num"><span class="ic">🏗️</span><span class="n">3–4</span></div><div class="body"><h3>The exact project is registered, not just the developer</h3><p>A good developer isn't enough. Every off-plan project needs its own DLD registration before it can legally be sold, and without it your payments and your unit aren't protected. Pick your project at the top and we pull its registration, status and construction progress from DLD records for you. Not registered yet? Mark it as EOI / pre-launch and we check the developer instead.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="10"><b class="cn">3</b><span>Project number verified on Dubai REST</span></label><label class="tick"><input type="checkbox" data-w="4"><b class="cn">4</b><span>Construction progress (%) matches what you were told</span></label></div></div></div>
 </section>
 
@@ -795,7 +796,41 @@ html:not(.eoion) .ans .eoin{display:none}
   // ---------- EOI: developer lookup in DLD's registry (insights.json d) ----------
   var DEVSEL=null, devAuto=[], devIn=document.getElementById("devin"), devSg=document.getElementById("devsg"), devCard=document.getElementById("devcard"), devBox=document.getElementById("devbox");
   function dEsc(t){ return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
-  function devBoxShow(){ devBox.hidden=!(EOI && !DLDFOUND); }
+  function devBoxShow(){ devBox.hidden=!(EOI && !DLDFOUND); if(!devBox.hidden) setTimeout(pinMapInit,60); }
+  // ---------- EOI: pin the project location on a map
+  var PIN=null; try{ PIN=JSON.parse(localStorage.getItem("sam-dealtest-pin")||"null"); }catch(e){}
+  var LMAP=null, LMK=null;
+  function leaflet(cb){ if(window.L&&window.L.map) return cb(); var c=document.createElement("link"); c.rel="stylesheet"; c.href="vendor/leaflet/leaflet.css"; document.head.appendChild(c);
+    var sc=document.createElement("script"); sc.src="vendor/leaflet/leaflet.js"; sc.onload=cb; sc.onerror=function(){ var o=document.getElementById("pinout"); if(o) o.textContent="The map could not load. Paste a Google Maps link of the project instead."; }; document.head.appendChild(sc); }
+  function pinOut(msg){ var o=document.getElementById("pinout"); if(!o) return;
+    if(msg){ o.className="pinout"; o.textContent=msg; return; }
+    o.className="pinout"+(PIN?" ok":""); o.innerHTML=PIN?'✅ Pinned: '+PIN[0]+', '+PIN[1]+' · <a target="_blank" rel="noopener" href="https://www.google.com/maps?q='+PIN[0]+','+PIN[1]+'">check on Google Maps</a><br><small style="font-weight:500">Not exact? Drag the pin or tap the right spot on the map.</small>':'Tap the map to drop the pin on the project plot.'; }
+  function setPin(lat,lng,pan){ PIN=[+(+lat).toFixed(5),+(+lng).toFixed(5)]; try{ localStorage.setItem("sam-dealtest-pin",JSON.stringify(PIN)); }catch(e){}
+    if(LMAP&&window.L){ if(!LMK){ LMK=L.marker(PIN,{draggable:true}).addTo(LMAP); LMK.on("dragend",function(){ var p=LMK.getLatLng(); setPin(p.lat,p.lng,false); }); } else LMK.setLatLng(PIN); if(pan) LMAP.setView(PIN,16); }
+    pinOut(); if(typeof update==="function") update(); }
+  function pinMapInit(){ var el=document.getElementById("pinmap"); if(!el||devBox.hidden) return; if(LMAP){ LMAP.invalidateSize(); return; }
+    leaflet(function(){ if(LMAP) return; LMAP=L.map(el,{scrollWheelZoom:false,tap:true}).setView(PIN||[25.13,55.25],PIN?16:10);
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(LMAP);
+      LMAP.on("click",function(ev){ setPin(ev.latlng.lat,ev.latlng.lng,false); });
+      if(PIN) setPin(PIN[0],PIN[1],true); else pinOut(); }); }
+  function parseLL(t){ var m=t.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)||t.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/)||t.match(/[?&](?:q|query|ll|destination|center)=(-?\d+\.\d+)(?:,|%2C)\s*(-?\d+\.\d+)/i)||t.match(/^\s*(-?\d{1,2}\.\d{3,})\s*,\s*(-?\d{1,3}\.\d{3,})\s*$/);
+    if(!m) return null; var a=+m[1], b=+m[2]; return (a>22&&a<27&&b>51&&b<57)?[a,b]:null; }
+  function pinFind(){ var inp=document.getElementById("pinin"), q=inp.value.trim(), sg=document.getElementById("pinsg"); if(!q) return;
+    var ll=parseLL(q); if(ll){ sg.hidden=true; pinMapInit(); setTimeout(function(){ setPin(ll[0],ll[1],true); },LMAP?0:900); return; }
+    if(/goo\.gl|maps\.app/i.test(q)){ pinOut("Short Google links can't be read here. Open the link, copy the full address from the browser bar and paste that, or just tap the map."); return; }
+    pinOut("Searching…");
+    fetch("https://nominatim.openstreetmap.org/search?format=json&limit=6&countrycodes=ae&viewbox=54.85,25.40,55.65,24.70&bounded=1&q="+encodeURIComponent(q)).then(function(r){ return r.json(); }).then(function(rs){
+      if(!rs.length){ pinOut("Nothing found for that. Try a nearby landmark (a mall, metro station or community name), or just tap the map."); sg.hidden=true; return; }
+      sg.innerHTML=rs.map(function(r,i){ return '<button type="button" data-i="'+i+'">📍 '+esc(r.display_name.split(",").slice(0,3).join(","))+'</button>'; }).join(""); sg.hidden=false;
+      Array.prototype.forEach.call(sg.querySelectorAll("button"),function(b){ b.addEventListener("click",function(){ var r=rs[+b.dataset.i]; sg.hidden=true; pinMapInit(); if(LMAP){ LMAP.setView([+r.lat,+r.lon],16); } pinOut("Now tap the map on the exact project plot (or drag the pin)."); if(!PIN||true) setPin(r.lat,r.lon,true); pinOut(); }); });
+      pinOut("Pick the closest match, then fine-tune the pin on the map."); }).catch(function(){ pinOut("Search isn't available right now. Tap the map or paste a Google Maps link."); }); }
+  (function(){ var f=document.getElementById("pinfind"), i=document.getElementById("pinin"), me=document.getElementById("pinme");
+    if(f) f.addEventListener("click",pinFind);
+    if(i) i.addEventListener("keydown",function(ev){ if(ev.key==="Enter"){ ev.preventDefault(); pinFind(); } });
+    if(i) i.addEventListener("paste",function(){ setTimeout(function(){ if(parseLL(i.value)) pinFind(); },50); });
+    if(me) me.addEventListener("click",function(){ if(!navigator.geolocation) return pinOut("Location isn't available on this device. Tap the map instead.");
+      pinOut("Finding your location…"); navigator.geolocation.getCurrentPosition(function(p){ pinMapInit(); setTimeout(function(){ setPin(p.coords.latitude,p.coords.longitude,true); },LMAP?0:900); },function(){ pinOut("Location permission was not given. Tap the map instead."); },{enableHighAccuracy:true,timeout:12000}); });
+    pinOut(); })();
   function devClear(){ clearTimeout(devNF); devAutoU.forEach(function(i){ if(boxes[i].dataset.st==="u") boxes[i].dataset.st=""; }); devAutoU=[]; devAuto.forEach(function(i){ var b=boxes[i]; b.checked=false; var t=b.closest("label").querySelector(".auto"); if(t) t.remove(); }); devAuto=[]; DEVSEL=null; devCard.hidden=true; devCard.innerHTML="";
     try{ localStorage.removeItem("sam-dealtest-dev"); }catch(e){} update(); }
   function devTick(i){ var b=boxes[i]; if(b.checked) return; b.checked=true; b.dataset.st=""; devAuto.push(i);
@@ -956,8 +991,11 @@ html:not(.eoion) .ans .eoin{display:none}
   // ---------- Detailed report data (data/insights.json) ----------
   var INS=null, iwait=[], iloading=false;
   var TR=null, OUT=null;
-  function insLoad(cb){ if(INS) return cb(); iwait.push(cb); if(iloading) return; iloading=true;
-    var done=function(){ if(INS&&TR&&OUT){ iwait.forEach(function(f){f();}); iwait=[]; } };
+  var PL=null;
+  function insLoad(cb){ if(INS&&PIN&&EOI&&!PL){ return fetch("data/places.json",{cache:"no-cache"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ PL=j; cb(); }).catch(function(){ PL={}; cb(); }); }
+    if(INS) return cb(); iwait.push(cb); if(iloading) return; iloading=true;
+    var needPL=!!(PIN&&EOI); if(needPL) fetch("data/places.json",{cache:"no-cache"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ PL=j; done(); }).catch(function(){ PL={}; done(); });
+    var done=function(){ if(INS&&TR&&OUT&&(!needPL||PL)){ iwait.forEach(function(f){f();}); iwait=[]; } };
     fetch("data/outlook.json",{cache:"no-cache"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ OUT=j; done(); }).catch(function(){ OUT={}; done(); });
     fetch("data/insights.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){ INS=j; done(); }).catch(function(){ INS={d:{},p:{},t:{},r:{}}; done(); });
     fetch("data/transit.json",{cache:"no-cache"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ TR=j; done(); }).catch(function(){ TR={a:{}}; done(); }); }
@@ -978,7 +1016,7 @@ html:not(.eoion) .ans .eoin{display:none}
     var comm=(ip&&ip[9])||(PSFP&&PSFP.community)||(PROJROW&&PROJROW[7])||"";
     var place=comm||(ip&&ip[10])||(PSFP&&PSFP.area)||"";
     // 1. project record
-    if(EOI) h+='<h4>🟡 EOI / pre-launch phase</h4><div class="box"><div class="row"><span>Launch date</span><b>'+(LAUNCH==="y"?"Officially announced":"Not announced yet")+'</b></div><div class="row"><span>This project is not registered with DLD yet, so the project number, escrow account and Oqood can only get partial credit in your score, based on the developer\'s DLD record and whether the launch date is announced. Before you pay the booking amount, ask for the DLD project number and escrow account, check them on Dubai REST, and keep your EOI amount refundable until then.</span></div></div>';
+    if(EOI) h+='<h4>🟡 EOI / pre-launch phase</h4><div class="box"><div class="row"><span>Launch date</span><b>'+(LAUNCH==="y"?"Officially announced":"Not announced yet")+'</b></div>'+(PIN?'<div class="row"><span>📍 Project location (pinned by you)</span><b><a style="color:#E8CF8E" target="_blank" rel="noopener" href="https://www.google.com/maps?q='+PIN[0]+','+PIN[1]+'">Open on Google Maps</a></b></div>':'')+'<div class="row"><span>This project is not registered with DLD yet, so the project number, escrow account and Oqood can only get partial credit in your score, based on the developer\'s DLD record and whether the launch date is announced. Before you pay the booking amount, ask for the DLD project number and escrow account, check them on Dubai REST, and keep your EOI amount refundable until then.</span></div></div>';
     if(PROJROW||ip){ var r=PROJROW||[pn,"","","","","","",""];
       h+='<h4>🏗️ Project record (Dubai Land Department)</h4><div class="box">'+
         '<div class="row"><span>Project</span><b>'+e(r[1]||(PSFP&&PSFP.name))+'</b></div><div class="row"><span>DLD project no.</span><b>'+e(pn||"–")+'</b></div>'+
@@ -1041,16 +1079,26 @@ html:not(.eoion) .ans .eoin{display:none}
       var ak=Object.keys(AL).sort(function(a,b){ return b.length-a.length; });
       for(i=0;i<cands.length;i++){ c=" "+nz(cands[i])+" "; for(j=0;j<ak.length;j++) if(c.indexOf(" "+ak[j]+" ")>=0&&A[AL[ak[j]]]) return [A[AL[ak[j]]],AL[ak[j]]]; }
       for(i=0;i<cands.length;i++){ c=nz(cands[i]); if(c.length<5) continue; var best=null; K.forEach(function(k){ var z=nz(k); if(z.length>=5&&(c.indexOf(z)>=0||z.indexOf(c)>=0)&&(!best||nz(best).length<z.length)) best=k; }); if(best) return [A[best],best]; }
-      return [null,""]; })(), ta=trf[0], tn=trf[1];
+      return [null,""]; })(), ta=trf[0], tn=trf[1], ctr=tn?"the centre of "+e(tn):"", PINAREA="";
+    if(EOI&&PIN&&PL&&PL.s){ var kmd=function(a,b){ var R=6371,r=Math.PI/180,x=Math.sin((b[0]-a[0])*r/2),y=Math.sin((b[1]-a[1])*r/2),q=x*x+Math.cos(a[0]*r)*Math.cos(b[0]*r)*y*y; return 2*R*Math.asin(Math.sqrt(q)); };
+      var near=function(arr,rad){ var n=0,best=null; (arr||[]).forEach(function(p){ var d=kmd(PIN,p); if(d<=rad) n++; if(p[2]&&(!best||d<best[1])) best=[p[2],d]; }); return [n,best?best[0]:"",best?+best[1].toFixed(1):null]; };
+      var am={}; ["s","h","m","g","w","p"].forEach(function(k){ am[k]=near(PL[k],3); });
+      am.pl=(PL.pl||[]).map(function(p){ return [p[2],p[3],+kmd(PIN,p).toFixed(1)]; }).filter(function(x){ return x[2]<=3; }).sort(function(a,b){ return a[2]-b[2]; }).slice(0,4);
+      var mt=(TR&&TR.metro||[]).map(function(m){ return [m[0],m[3],+kmd(PIN,[m[1],m[2]]).toFixed(1)]; }).sort(function(a,b){ return a[2]-b[2]; })[0];
+      var bl=(TR&&TR.blue||[]).map(function(m){ return [m[0],+kmd(PIN,[m[1],m[2]]).toFixed(1)]; }).sort(function(a,b){ return a[1]-b[1]; })[0];
+      var bs=(PL.bus||[]).map(function(p){ return [kmd(PIN,p),p]; }), b8=bs.filter(function(x){ return x[0]<=0.8; }), rts={}; b8.forEach(function(x){ (x[1][3]||[]).forEach(function(r){ rts[r]=1; }); });
+      var nb=bs.sort(function(a,b){ return a[0]-b[0]; })[0];
+      var ar=Object.keys(PL.ar||{}).map(function(n){ return [n,kmd(PIN,PL.ar[n])]; }).sort(function(a,b){ return a[1]-b[1]; })[0]; if(ar&&ar[1]<=4) PINAREA=ar[0];
+      if(mt){ ta={m:mt,b:bl||null,bus:[b8.length,Object.keys(rts).length,nb?+nb[0].toFixed(2):null,nb?nb[1][2]||"":""],am:am}; tn="your pinned location"+(PINAREA?" ("+PINAREA+")":""); ctr="your pinned location"; } }
     if(ta){ var walk=function(k){ return k<=0.8?"about "+Math.round(k*1000/80)+" min walk":k<=2?"short drive or bus ride":"drive or bus needed"; };
       h+='<h4>🚇 Getting around: '+e(tn)+'</h4><div class="box">'+
         '<div class="row"><span>Nearest metro station</span><b>'+e(ta.m[0])+(ta.m[1]?' ('+e(ta.m[1])+')':'')+'</b></div>'+
-        '<div class="row"><span>Distance from the area centre</span><b>~'+ta.m[2]+' km · '+walk(ta.m[2])+'</b></div>'+
+        '<div class="row"><span>Distance from '+(ctr==="your pinned location"?"your pin":"the area centre")+'</span><b>~'+ta.m[2]+' km · '+walk(ta.m[2])+'</b></div>'+
         (ta.b&&ta.b[1]<=5?'<div class="row"><span>Nearest Blue Line station (opens Sept 2029)</span><b>'+e(ta.b[0])+' · ~'+ta.b[1]+' km</b></div>':'')+
         (ta.b&&ta.b[1]<=2?'<div style="margin-top:4px">🚀 Within about 2 km of a planned Blue Line station: a real growth story once the line opens.</div>':'')+
         (ta.bus[2]!=null&&ta.bus[2]<=0.8?'<div class="row"><span>Nearest mapped bus stop</span><b>'+(ta.bus[3]?e(ta.bus[3])+' · ':'')+'~'+Math.round(ta.bus[2]*1000)+' m</b></div>'+(ta.bus[1]?'<div class="row"><span>Bus routes at mapped stops within 800 m</span><b>'+ta.bus[1]+'</b></div>':''):'')+
         '<div class="row"><span>Buses</span><b>Check routes from your building in RTA\'s S\'hail app</b></div>'+
-        '<div style="margin-top:6px;opacity:.75;font-size:13.5px">Approximate: straight-line distances from the centre of '+e(tn)+', not from your exact building. Check the walk from the building on a map. Map data © OpenStreetMap contributors; Blue Line route as announced by RTA.</div></div>'; }
+        '<div style="margin-top:6px;opacity:.75;font-size:13.5px">Approximate: straight-line distances from '+ctr+(ctr==="your pinned location"?". Check the walk on a map.":", not from your exact building. Check the walk from the building on a map.")+' Map data © OpenStreetMap contributors; Blue Line route as announced by RTA.</div></div>'; }
     // 5b2. what's near the project now (existing facilities + planned)
     if(ta&&ta.am){ var am=ta.am, AL2={s:"🏫 Schools / nurseries",h:"🏥 Hospitals / clinics",m:"🛍️ Malls / retail",g:"🛒 Supermarkets",w:"🕌 Mosques",p:"🌳 Parks"}, PL2={s:"school",h:"hospital / clinic",m:"mall / retail",p:"park",w:"mosque"};
       var good=am.s[0]>=3&&(am.m[0]+am.g[0])>=2&&am.h[0]>=1&&am.p[0]>=1, some=am.s[0]+am.m[0]+am.g[0]+am.h[0]>=3;
@@ -1060,9 +1108,9 @@ html:not(.eoion) .ans .eoin{display:none}
           '<span class="tag p">Still building</span> Few facilities open yet. Ask the developer for the master plan: which schools, malls and parks are planned, and when.')+'</div>'+
         Object.keys(AL2).filter(function(k){ return am[k]; }).map(function(k){ var v=am[k]; return '<div class="row"><span>'+AL2[k]+'</span><b>'+v[0]+' within 3 km'+(v[1]?'<br><small style="font-weight:400;opacity:.85">'+(v[0]&&v[2]>3?'nearest with a name on the map: ':'nearest: ')+e(v[1])+' · ~'+v[2]+' km</small>':'')+'</b></div>'; }).join("")+
         (am.pl&&am.pl.length?'<div style="margin-top:6px"><b>🏗️ Planned / under construction nearby:</b> '+am.pl.map(function(x){ return e(x[1])+' ('+(PL2[x[0]]||x[0])+', ~'+x[2]+' km)'; }).join("; ")+'</div>':'')+
-        '<div style="margin-top:6px;opacity:.75;font-size:13px">Counted within 3 km of the centre of '+e(tn)+', straight-line. Map data © OpenStreetMap contributors, refreshed monthly. Dubai Municipality / DDA plot land-use maps are not public, so ask the developer for the master plan for anything still planned.</div></div>'; }
+        '<div style="margin-top:6px;opacity:.75;font-size:13px">Counted within 3 km of '+ctr+', straight-line. Map data © OpenStreetMap contributors, refreshed monthly. Dubai Municipality / DDA plot land-use maps are not public, so ask the developer for the master plan for anything still planned.</div></div>'; }
     // 5c. area outlook (PESTLE) + what's coming nearby
-    if(OUT){ var nm=[comm,place,(ip&&ip[10])||"",(PSFP&&PSFP.area)||""].join(" | ").toLowerCase(), near=[];
+    if(OUT){ var nm=[comm,place,(ip&&ip[10])||"",(PSFP&&PSFP.area)||"",PINAREA,tn].join(" | ").toLowerCase(), near=[];
       (OUT.areas||[]).forEach(function(a){ if(a.match.some(function(m){ return nm.indexOf(m)>=0; })) near.push(a); });
       h+='<h4>🔭 Area outlook: future growth (PESTLE)</h4><div class="box">'+
         (near.length?'<div style="font-weight:800;margin-bottom:4px">📍 What\'s coming near '+e(place||comm||"this area")+'</div>'+near.map(function(a){ return a.items.map(function(t){ return '<div style="margin:3px 0">'+e(t)+'</div>'; }).join("")+'<div style="opacity:.6;font-size:12px;margin-bottom:6px">Source: '+e(a.src)+'</div>'; }).join(""):'')+
@@ -1078,13 +1126,13 @@ html:not(.eoion) .ans .eoin{display:none}
       h+='</div>'; }
     // 7. extra checks
     var xl=xboxes.map(function(b){return {b:b,t:labelOf(b)};}), xo=xl.filter(function(x){return !x.b.checked;}), xd=xl.filter(function(x){return x.b.checked;});
-    var xdet=function(t){ if(!ta) return /metro|school/i.test(t)?'<div style="font-size:13.5px;margin:2px 0 6px 20px;opacity:.85">📍 We could not place this project\'s area on the map automatically. Type the area in Check 19 (for example JVC or Dubai South) and open the report again, or ask Sam for the metro, bus and facilities near this plot.</div>':"";
+    var xdet=function(t){ if(!ta) return /metro|school/i.test(t)?'<div style="font-size:13.5px;margin:2px 0 6px 20px;opacity:.85">📍 We could not place this project\'s area on the map automatically. '+(EOI?'Pin the project location on the map under Check 1–2':'Type the area in Check 19 (for example JVC or Dubai South)')+' and open the report again, or ask Sam for the metro, bus and facilities near this plot.</div>':"";
       var sub=function(s){ return '<div style="font-size:13.5px;margin:2px 0 6px 20px;opacity:.92">'+s+'</div>'; };
       if(/metro/i.test(t)){ var w=ta.m[2]<=0.8?"walkable":ta.m[2]<=2?"short ride":"drive or bus";
         return sub('🚇 Nearest metro: <b>'+e(ta.m[0])+'</b>'+(ta.m[1]?' ('+e(ta.m[1])+')':'')+' · ~'+ta.m[2]+' km ('+w+')'+
           (ta.b&&ta.b[1]<=5?'<br>🔵 Blue Line (opens Sept 2029): <b>'+e(ta.b[0])+'</b> · ~'+ta.b[1]+' km':'')+
           '<br>🚌 '+(ta.bus[2]!=null&&ta.bus[2]<=1.5?'Nearest bus stop: <b>'+(ta.bus[3]?e(ta.bus[3]):'unnamed stop')+'</b> · ~'+Math.round(ta.bus[2]*1000)+' m'+(ta.bus[0]?' · '+ta.bus[0]+' stops within 800 m':'')+(ta.bus[1]?' · '+ta.bus[1]+' bus routes':''):'No mapped bus stop within 1.5 km yet. New areas get RTA routes as people move in; check S\'hail.')+
-          '<br><small style="opacity:.6">From the centre of '+e(tn)+'. Map data © OpenStreetMap contributors; Blue Line as announced by RTA.</small>'); }
+          '<br><small style="opacity:.6">From '+ctr+'. Map data © OpenStreetMap contributors; Blue Line as announced by RTA.</small>'); }
       if(/school/i.test(t)&&ta.am){ var a=ta.am; return sub('🏙️ '+a.s[0]+' schools · '+a.h[0]+' hospitals/clinics · '+(a.m[0]+a.g[0])+' malls/supermarkets'+(a.w?' · '+a.w[0]+' mosques':'')+' · '+a.p[0]+' parks within 3 km. Names and distances under <b>What\'s near the project now</b> above.'); }
       return ""; };
     h+='<h4>🧾 Extra checks</h4><div class="box">'+xd.map(function(x){return '<div class="row ok"><span>✓ '+e(x.t)+'</span></div>'+xdet(x.t);}).join("")+xo.map(function(x){return '<div class="row"><span>○ '+e(x.t)+'</span><span class="tag p">Open</span></div>'+xdet(x.t);}).join("")+'</div>';
@@ -1164,13 +1212,13 @@ html:not(.eoion) .ans .eoin{display:none}
   function resultLink(sc){
     var bits=boxes.map(function(b){return b.checked?"1":"0";}).join("");
     var proj=document.getElementById("proj").value.trim();
-    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0,dv:DEVSEL?DEVSEL.no:"",la:LAUNCH})))));
+    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0,dv:DEVSEL?DEVSEL.no:"",la:LAUNCH,pin:EOI&&PIN?PIN:""})))));
   }
   // shared result link: restore answers and show result directly (after the page has set up)
   setTimeout(function(){
     var m=location.hash.match(/^#r=(.+)$/); if(!m) return;
     try{
-      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true; setEoi(o.e===1,false); devBoxShow(); setLaunch(o.la||""); if(o.dv) insLoad(function(){ var d=INS.d&&INS.d[o.dv]; if(d){ DEVSEL={no:o.dv,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devCard.className="dld devcard "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false; } });
+      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true; if(o.pin&&o.pin.length===2){ PIN=o.pin; pinOut(); } setEoi(o.e===1,false); devBoxShow(); setLaunch(o.la||""); if(o.dv) insLoad(function(){ var d=INS.d&&INS.d[o.dv]; if(d){ DEVSEL={no:o.dv,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devCard.className="dld devcard "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false; } });
       boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; var v=o.s&&o.s.charAt(i); b.dataset.st=(!b.checked&&(v==="u"||(v==="n"&&naOK(i))))?v:""; });
       document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n;
       if(o.x) xset(o.x);
@@ -1184,7 +1232,7 @@ html:not(.eoion) .ans .eoin{display:none}
 
   document.getElementById("rclose").addEventListener("click",close);
   document.getElementById("review").addEventListener("click",function(){ close(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
-  document.getElementById("reset").addEventListener("click",function(){ devClear(); devIn.value=""; setLaunch(""); setEoi(false,false); devBoxShow(); boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc"].forEach(function(i){document.getElementById(i).value="";}); document.getElementById("psf").classList.remove("auto"); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
+  document.getElementById("reset").addEventListener("click",function(){ devClear(); devIn.value=""; setLaunch(""); setEoi(false,false); devBoxShow(); boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc","pinin"].forEach(function(i){var el=document.getElementById(i); if(el) el.value="";}); PIN=null; try{ localStorage.removeItem("sam-dealtest-pin"); }catch(e){} if(LMK&&LMAP){ LMAP.removeLayer(LMK); LMK=null; } pinOut(); document.getElementById("psf").classList.remove("auto"); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
   function confetti(){
     var c=document.getElementById("conf"), x=c.getContext("2d"); c.width=innerWidth; c.height=innerHeight;
     var cols=["#C9A24A","#E8CF8E","#3DDC84","#fff","#25D366"], ps=[];
@@ -1522,7 +1570,7 @@ html:not(.eoion) .ans .eoin{display:none}
     boxes.forEach(function(b){ var c=b.closest(".card"); if(seen.indexOf(c)<0){ seen.push(c); var n=(c.querySelector(".n")||{}).textContent||"";
       var cb=boxes.filter(function(x){ return x.closest(".card")===c; });
       var hasDev=!!c.querySelector("#devbox");
-      steps.push({k:"c"+n,a:c.querySelector(".ticks"),hi:c,t:"Answer every line: Checked, Not known or N/A",done:function(){ if(hasDev && needLaunch()) return false; return cb.every(function(x){ return stOf(x)!==""; }); }}); } });
+      steps.push({k:"c"+n,a:c.querySelector(".ticks"),hi:c,t:"Answer every line: Checked, Not known or N/A",done:function(){ if(hasDev && needLaunch()) return false; if(hasDev && EOI && !DLDFOUND && !PIN) return false; return cb.every(function(x){ return stOf(x)!==""; }); }}); } });
     steps.push({k:"psf",a:psf.closest(".card").querySelector(".pcalc")||psf.closest(".psfrow"),hi:psf.closest(".card"),t:"Enter the unit price and size",skip:"Skip",done:function(){ return num(psf.value)>0; }});
     steps.push({k:"ploc",a:ploc.closest("label"),hi:ploc.closest(".card"),t:"Pick the area from the list",skip:"Skip",done:function(){ return ploc.value.trim().length>1; }});
     Array.prototype.forEach.call(document.querySelectorAll("#moresec .card"),function(c,i){
@@ -1557,10 +1605,10 @@ html:not(.eoion) .ans .eoin{display:none}
         else if(k==="psf") t="💲 Price missing";
         else if(/^x/.test(k)) t="💳 Payment plan missing";
         else { var c=s.hi, first=null; Array.prototype.some.call(c.querySelectorAll(".tick:not(.xt) input"),function(b){ if(!b.checked && !(b.dataset.st)){ first=b; return true; } });
-          var num=first&&first.closest("label")&&first.closest("label").querySelector(".cn"); t="❓ Check "+(num?num.textContent:"")+" missing"; if(!first && needLaunch()) t="📅 Launch date missing"; }
+          var num=first&&first.closest("label")&&first.closest("label").querySelector(".cn"); t="❓ Check "+(num?num.textContent:"")+" missing"; if(!first && needLaunch()) t="📅 Launch date missing"; else if(!first && EOI && !DLDFOUND && !PIN) t="📍 Location pin missing"; }
         MISS=s; w.textContent=t; w.hidden=false; return; }
       w.hidden=true; };
-    window.goMissing=function(){ if(!MISS) return; var el=MISS.a||MISS.hi; el.scrollIntoView({behavior:"smooth",block:"center"}); MISS.hi.classList.remove("flash"); void MISS.hi.offsetWidth; MISS.hi.classList.add("flash"); };
+    window.goMissing=function(){ if(!MISS) return; var el=MISS.a||MISS.hi; if(/pin missing/.test(document.getElementById("psfwarn").textContent)) el=document.getElementById("pinq"); el.scrollIntoView({behavior:"smooth",block:"center"}); MISS.hi.classList.remove("flash"); void MISS.hi.offsetWidth; MISS.hi.classList.add("flash"); };
     setTimeout(window.updMissing,600);
     var um=null; ["input","change","click"].forEach(function(ev){ document.addEventListener(ev,function(){ clearTimeout(um); um=setTimeout(window.updMissing,250); },true); });
     window.guideGo=function(from){ FROM=from||null; cur=-1; draw(); FROM=null; if(lab && lab.parentNode) lab.scrollIntoView({behavior:"smooth",block:"center"}); };
