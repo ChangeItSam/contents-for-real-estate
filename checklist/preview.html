@@ -835,11 +835,19 @@ html:not(.eoion) .ans .eoin{display:none}
     try{ localStorage.removeItem("sam-dealtest-dev"); }catch(e){} update(); }
   function devTick(i){ var b=boxes[i]; if(b.checked) return; b.checked=true; b.dataset.st=""; devAuto.push(i);
     var t=document.createElement("span"); t.className="auto"; t.textContent="✓ DLD"; b.closest("label").querySelector("span").appendChild(t); }
+  // one brand often registers each project under its own company (e.g. Imtiaz Ghd, Imtiaz Cove...): add them up
+  var DSTOP={al:1,the:1,dubai:1,emirates:1,real:1,estate:1,development:1,developments:1,developer:1,developers:1,properties:1,property:1,investment:1,investments:1,group:1,holding:1,holdings:1,international:1,united:1,national:1,city:1,new:1,first:1,global:1,gulf:1,arabian:1,middle:1,east:1,uae:1,llc:1,company:1,and:1,general:1,trading:1,contracting:1,building:1,tower:1,towers:1,residence:1,residences:1,golden:1,star:1,royal:1,grand:1,smart:1,green:1,blue:1,white:1,one:1,prime:1,elite:1,premier:1,modern:1,jumeirah:1,island:1,palm:1,marina:1,creek:1,downtown:1,business:1,park:1};
+  function dBrand(n){ var w=String(n||"").toLowerCase().replace(/[^a-z0-9 ]+/g," ").split(/\s+/).filter(Boolean); return (w[0]&&!DSTOP[w[0]]&&w[0].length>=4)?w[0]:""; }
+  function devGroup(no){ var d=INS&&INS.d&&INS.d[no]; if(!d) return null; var b=dBrand(d.name); if(!b) return null;
+    var g={brand:b.charAt(0).toUpperCase()+b.slice(1),n:0,fin:0,act:0,late:0,can:0};
+    Object.keys(INS.d).forEach(function(k){ var x=INS.d[k]; if(dBrand(x.name)===b){ g.n++; g.fin+=x.fin||0; g.act+=x.act||0; g.late+=x.late||0; g.can+=x.can||0; } });
+    return g.n>1?g:null; }
   function devCardHtml(d,foot){
     var tot=d.fin+d.act+d.can;
     function c(n,l){ return '<span><b class="bn" aria-hidden="true">'+n+'</b>'+l+'</span>'; }
     return '<b class="t">✅ Developer found in Dubai Land Department records</b><div><b>'+(DEV_BRAND[d.no]?dEsc(DEV_BRAND[d.no])+'</b><br>Registered as: <b>'+dEsc(d.name):dEsc(d.name))+'</b></div>'+
       '<div class="devstat">'+c(tot,"Total projects")+c(d.fin,"Handed over")+c(d.act,"Under construction")+c(d.late,"Past DLD date")+c(d.can,"Cancelled")+'</div>'+
+      (function(){ var g=devGroup(d.no); return g?'<div class="devnote">ℹ️ '+dEsc(g.brand)+' registers projects under <b>'+g.n+' separate DLD companies</b>. Your full report shows this company and the whole '+dEsc(g.brand)+' group total.</div>':''; })()+
       '<div class="devlock">🔒 The numbers are in your <b>full report</b> from Sam.</div>'+(DEV_BRAND[d.no]?'<div class="devnote">ℹ️ '+DHRE_NOTE+'</div>':'')+
       '<small>'+(foot||'We ticked lines 1 and 2 for you (<span class="auto">✓ DLD</span>).')+'</small>'; }
   function devPick(no,quiet){ insLoad(function(){ var d=INS.d&&INS.d[no]; if(!d) return; devClear();
@@ -1043,6 +1051,7 @@ html:not(.eoion) .ans .eoin{display:none}
     }
     // 2. developer track record
     if(dev){ h+='<h4>👷 Developer track record</h4><div class="box">'+(dev.name?'<div style="margin-bottom:6px"><b>'+e(dev.name)+'</b> · '+(dev.fin+dev.act+dev.can)+' projects in DLD records</div>':'')+'<div class="big"><span>Handed over<b>'+dev.fin+'</b></span><span>Under construction<b>'+dev.act+'</b></span><span>Past DLD date<b>'+dev.late+'</b></span><span>Cancelled<b>'+dev.can+'</b></span></div>'+
+        (function(){ var g=devGroup(dev.no||(ip&&ip[0])||(DEVSEL&&DEVSEL.no)); return g?'<div style="margin:8px 0 4px"><b>Whole '+e(g.brand)+' group</b> · '+g.n+' DLD companies named '+e(g.brand)+' · '+(g.fin+g.act+g.can)+' projects</div><div class="big"><span>Handed over<b>'+g.fin+'</b></span><span>Under construction<b>'+g.act+'</b></span><span>Past DLD date<b>'+g.late+'</b></span><span>Cancelled<b>'+g.can+'</b></span></div><div style="opacity:.8;font-size:13.5px;margin-bottom:6px">Developers often register each project under its own company. The first numbers are for the company selling this project; the group line adds up every DLD-registered company whose name starts with '+e(g.brand)+'.</div>':''; })()+
         '<div style="opacity:.8;font-size:13.5px">Projects in DLD\'s current project registry. "Past DLD date" = still active after the completion date the developer registered. Older deliveries before the registry may not be counted.</div></div>'; }
     // 3. price vs market + trend
     if(PSFR){
