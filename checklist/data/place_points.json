@@ -657,13 +657,13 @@
 "مضمار ميدان, ميدان, ند الشبا, دبي, الإمارات العربية المتحدة"
 ],
 "Mohammed Bin Rashid AL Maktoum City -District -1 Community": [
-25.1718,
-55.27391,
+25.16302,
+55.27422,
 "Mohammed Bin Rashid Al Maktoum City District One, مدينة محمد بن راشد, المركاض, د"
 ],
 "Mohammed Bin Rashid AL Maktoum District 11": [
-25.16302,
-55.27422,
+25.1718,
+55.27391,
 "Mohammed Bin Rashid Al Maktoum City District One, مدينة محمد بن راشد, المركاض, د"
 ],
 "Nad Al Shiba First": [
@@ -717,5 +717,10 @@
 "blue:Centrepoint (interchange)": [
 25.23031,
 55.39112
+],
+"Al Waha Villas": [
+25.02902,
+55.28587,
+"فيلات الواحة, وادي الصفا 7, دبي, الإمارات العربية المتحدة"
 ]
 }
