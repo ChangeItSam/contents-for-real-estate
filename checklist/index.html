@@ -197,6 +197,8 @@ section,.game{scroll-margin-top:110px}
 
 .sugg{text-align:left;background:#fff;border:2px solid var(--gold);border-radius:12px;margin-top:6px;overflow:hidden;box-shadow:0 8px 22px rgba(8,18,38,.14);position:relative;z-index:5}
 .projwrap{position:relative}
+.sugg .mdev{color:#8A6A1F;font-weight:700;font-size:14px}.sugg button.mkt{background:#FFFBEF}.sugg .eoigo2{background:#FFF6E0!important;color:#8A5300!important;font-weight:800!important;text-align:center!important}
+.devhint{background:#FFF8EB;border:1px solid #F7E2B5;border-left:4px solid #F59E0B;border-radius:10px;padding:9px 11px;margin:6px 0 8px;font-size:14.5px;line-height:1.45;color:#5B3B00}
 .projwrap .sugg{position:absolute;left:0;right:0;top:calc(100% + 2px);margin-top:0!important;max-height:min(250px,38vh);overflow-y:auto;-webkit-overflow-scrolling:touch;z-index:30;box-shadow:0 14px 30px rgba(8,18,38,.25)}
 .sugg button{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid var(--line);background:#fff;padding:10px 12px;font:inherit;font-size:16px;cursor:pointer}
 .sugg button:last-child{border-bottom:0}
@@ -1214,18 +1216,35 @@ html:not(.eoion) .ans .eoin{display:none}
     document.getElementById("rcyes").addEventListener("click",function(){ rc.hidden=true; document.getElementById("reset").click();
       setTimeout(function(){ if(typeof mtoast==="function") mtoast("↺ All cleared. Start again from the top"); },400); });
   })();
+  var MKT=[]; try{ fetch("data/market.json").then(function(r){ return r.json(); }).then(function(j){ MKT=(j&&j.p)||[]; }).catch(function(){}); }catch(x){}
+  function shortDev(n){ n=String(n||""); var t=n.replace(/\b(l\.?\s?l\.?\s?c\.?|llc|fzco|fze|pjsc|p\.j\.s\.c\.?|real estate|development|developments|developer|developers|properties|property|holding|investments?|group|co\.?|company|\(.*?\))\b/gi,"").replace(/\s+/g," ").replace(/[\s\-·,.]+$/,"").trim(); return t||n; }
+  function mktPick(m){
+    pin.value=m.name; sg.hidden=true; PROJROW=null; eoiShow(false); setEoi(true,true); devBoxShow();
+    var w=document.getElementById("devbox"), dh=document.getElementById("devhint");
+    if(!dh){ dh=document.createElement("div"); dh.id="devhint"; dh.className="devhint"; devIn.parentNode.insertBefore(dh,devIn); }
+    dh.innerHTML="👷 We filled the developer from the project: <b>"+dEsc(m.dev)+"</b>. Tap the correct company below to confirm, or type the right developer name.";
+    dh.hidden=false; devIn.value=m.dev; devSearch();
+    setTimeout(function(){ w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); },150);
+    if(typeof mtoast==="function") mtoast("🟡 "+m.name+": EOI / pre-launch. Please confirm the developer");
+  }
   function search(){
     var q=pin.value.trim().toLowerCase(); if(q.length<2){ sg.hidden=true; return; }
     load(function(){
       var ws=q.split(/\s+/), hits=[];
       for(var i=0;i<P.p.length && hits.length<7;i++){ var r=P.p[i], s=(r[1]+" "+r[7]+" "+r[2]).toLowerCase(); if(ws.every(function(w){return s.indexOf(w)>=0;})) hits.push(r); }
-      if(!hits.length){
+      var mh0=MKT.filter(function(m){ var t=(m.name+" "+m.dev).toLowerCase(); return ws.every(function(w){ return t.indexOf(w)>=0; }); });
+      if(!hits.length && !mh0.length){
         var fm=FEAT.filter(function(f){ var n=f.name.toLowerCase(); return n.indexOf(q)>=0||q.indexOf(n)>=0; })[0];
         if(fm){ sg.hidden=true; newLaunch(fm.name); return; }
         sg.innerHTML='<button type="button" disabled class="nfm"><span>Not found in DLD records. In EOI / pre-launch phase?</span><span class="tapbelow">⬇ Tap below</span></button><button type="button" class="eoigo">🟡 It\'s in EOI / pre-launch phase ›<small>Not registered with DLD yet? Tap to mark it and go to that box.</small></button>'; sg.hidden=false;
         sg.querySelector(".eoigo").addEventListener("click",function(){ sg.hidden=true; eoiShow(false); setEoi(true,true); devBoxShow();
           var w=document.getElementById("devbox"); w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); }); return; }
-      sg.innerHTML=hits.map(function(r,k){return '<button type="button" data-k="'+k+'">'+esc(r[1])+'<small>'+esc([r[7],r[2],r[3]].filter(Boolean).join(" · "))+'</small></button>';}).join("");
+      var mh=MKT.filter(function(m){ var t=(m.name+" "+m.dev).toLowerCase(); return ws.every(function(w){ return t.indexOf(w)>=0; }); }).slice(0,4);
+      sg.innerHTML=mh.map(function(m,k){ return '<button type="button" class="mkt" data-m="'+k+'">'+esc(m.name)+' <span class="mdev">· '+esc(m.dev)+'</span><small>🟡 EOI / pre-launch · not in DLD records yet'+(m.area?' · '+esc(m.area):'')+'</small></button>'; }).join("")+
+        hits.map(function(r,k){return '<button type="button" data-k="'+k+'">'+esc(r[1])+' <span class="mdev">· '+esc(shortDev(r[2]))+'</span><small>'+esc([r[7],r[3]].filter(Boolean).join(" · "))+'</small></button>';}).join("")+
+        '<button type="button" class="eoigo2">🟡 Not in this list? It\'s in EOI / pre-launch phase ›</button>';
+      Array.prototype.forEach.call(sg.querySelectorAll("button[data-m]"),function(b){ b.addEventListener("click",function(){ mktPick(mh[+b.dataset.m]); }); });
+      sg.querySelector(".eoigo2").addEventListener("click",function(){ sg.hidden=true; eoiShow(false); setEoi(true,true); devBoxShow(); var w=document.getElementById("devbox"); w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); setTimeout(function(){ devIn.focus({preventScroll:true}); },500); });
       sg.hidden=false; sg.scrollTop=0;
       Array.prototype.forEach.call(sg.querySelectorAll("button[data-k]"),function(b){ b.addEventListener("click",function(){ pick(hits[+b.dataset.k]); }); });
     });
