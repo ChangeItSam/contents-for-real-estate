@@ -1032,7 +1032,16 @@ html:not(.eoion) .ans .eoin{display:none}
         (rb[2]?'<div>Typical gross yield here: <b>'+rb[2]+'%</b>.'+(xn("xprice")?' At your price and the median rent: <b>'+(rb[0]/xn("xprice")*100).toFixed(1)+'%</b>.':'')+'</div>':'')+
         '<div style="opacity:.75;font-size:13.5px">From '+(rb[1]||0).toLocaleString("en-US")+' Ejari rent contracts in the last 12 months.</div></div>'; }
     // 5b. getting around (approximate, from the centre of the area)
-    var ta=TR&&TR.a&&(TR.a[comm]||TR.a[(ip&&ip[10])||""]||TR.a[place]), tn=TR&&TR.a&&(TR.a[comm]?comm:(ip&&ip[10]&&TR.a[ip[10]])?ip[10]:place);
+    var trf=(function(){ if(!TR||!TR.a) return [null,""]; var A=TR.a, K=Object.keys(A), nz=function(s){ return String(s||"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim(); };
+      var AL={"jvc":"Jumeirah Village Circle","jvt":"Jumeirah Village Triangle","jlt":"Jumeirah Lakes Towers","jbr":"Jumeriah Beach Residence - JBR","dlrc":"Dubai Land Residence Complex","dso":"Silicon Oasis","dubai silicon oasis":"Silicon Oasis","dubai south":"Dubai South Residential District","downtown dubai":"DownTown Dubai","downtown":"DownTown Dubai","dubai hills":"Dubai Hills Estate","jge":"Jumeirah Golf Estates","mbr city":"Mohammed Bin Rashid AL Maktoum City -District -1 Community","meydan":"Meydan One Community","creek harbour":"Dubai Creek Harbour","palm jebel ali":"Palm Jabal Ali","downtown jebel ali":"Down Town Jabal Ali","jaddaf":"Al Jadaf","sports city":"Dubai Sports City","studio city":"Dubai Studio City","silicon oasis":"Silicon Oasis"};
+      var pv=((document.getElementById("proj")||{}).value||"").toLowerCase(), mk=(typeof MKT!=="undefined"&&MKT||[]).filter(function(m){ return m.name.toLowerCase()===pv; })[0];
+      var cands=[comm,(ip&&ip[10])||"",place,(PSFP&&PSFP.area)||"",(document.getElementById("ploc")||{}).value||"",mk&&mk.area||""].filter(Boolean), i, j, c;
+      for(i=0;i<cands.length;i++){ if(A[cands[i]]) return [A[cands[i]],cands[i]]; }
+      for(i=0;i<cands.length;i++){ c=nz(cands[i]); for(j=0;j<K.length;j++) if(nz(K[j])===c) return [A[K[j]],K[j]]; }
+      var ak=Object.keys(AL).sort(function(a,b){ return b.length-a.length; });
+      for(i=0;i<cands.length;i++){ c=" "+nz(cands[i])+" "; for(j=0;j<ak.length;j++) if(c.indexOf(" "+ak[j]+" ")>=0&&A[AL[ak[j]]]) return [A[AL[ak[j]]],AL[ak[j]]]; }
+      for(i=0;i<cands.length;i++){ c=nz(cands[i]); if(c.length<5) continue; var best=null; K.forEach(function(k){ var z=nz(k); if(z.length>=5&&(c.indexOf(z)>=0||z.indexOf(c)>=0)&&(!best||nz(best).length<z.length)) best=k; }); if(best) return [A[best],best]; }
+      return [null,""]; })(), ta=trf[0], tn=trf[1];
     if(ta){ var walk=function(k){ return k<=0.8?"about "+Math.round(k*1000/80)+" min walk":k<=2?"short drive or bus ride":"drive or bus needed"; };
       h+='<h4>🚇 Getting around: '+e(tn)+'</h4><div class="box">'+
         '<div class="row"><span>Nearest metro station</span><b>'+e(ta.m[0])+(ta.m[1]?' ('+e(ta.m[1])+')':'')+'</b></div>'+
@@ -1042,6 +1051,16 @@ html:not(.eoion) .ans .eoin{display:none}
         (ta.bus[2]!=null&&ta.bus[2]<=0.8?'<div class="row"><span>Nearest mapped bus stop</span><b>'+(ta.bus[3]?e(ta.bus[3])+' · ':'')+'~'+Math.round(ta.bus[2]*1000)+' m</b></div>'+(ta.bus[1]?'<div class="row"><span>Bus routes at mapped stops within 800 m</span><b>'+ta.bus[1]+'</b></div>':''):'')+
         '<div class="row"><span>Buses</span><b>Check routes from your building in RTA\'s S\'hail app</b></div>'+
         '<div style="margin-top:6px;opacity:.75;font-size:13.5px">Approximate: straight-line distances from the centre of '+e(tn)+', not from your exact building. Check the walk from the building on a map. Map data © OpenStreetMap contributors; Blue Line route as announced by RTA.</div></div>'; }
+    // 5b2. what's near the project now (existing facilities + planned)
+    if(ta&&ta.am){ var am=ta.am, AL2={s:"🏫 Schools / nurseries",h:"🏥 Hospitals / clinics",m:"🛍️ Malls / retail",g:"🛒 Supermarkets",w:"🕌 Mosques",p:"🌳 Parks"}, PL2={s:"school",h:"hospital / clinic",m:"mall / retail",p:"park",w:"mosque"};
+      var good=am.s[0]>=3&&(am.m[0]+am.g[0])>=2&&am.h[0]>=1&&am.p[0]>=1, some=am.s[0]+am.m[0]+am.g[0]+am.h[0]>=3;
+      h+='<h4>🏙️ What\'s near the project now: '+e(tn)+'</h4><div class="box">'+
+        '<div style="margin-bottom:6px">'+(good?'<span class="tag" style="background:#1e8e5a;color:#fff">✅ Well planned</span> Schools, shopping, healthcare and parks are all within about 3 km: good for families and tenants.':
+          some?'<span class="tag p">Growing</span> Some everyday needs are already close. Ask the developer which schools, retail and parks are in the master plan, and when they open.':
+          '<span class="tag p">Still building</span> Few facilities open yet. Ask the developer for the master plan: which schools, malls and parks are planned, and when.')+'</div>'+
+        Object.keys(AL2).filter(function(k){ return am[k]; }).map(function(k){ var v=am[k]; return '<div class="row"><span>'+AL2[k]+'</span><b>'+v[0]+' within 3 km'+(v[1]?'<br><small style="font-weight:400;opacity:.85">nearest: '+e(v[1])+' · ~'+v[2]+' km</small>':'')+'</b></div>'; }).join("")+
+        (am.pl&&am.pl.length?'<div style="margin-top:6px"><b>🏗️ Planned / under construction nearby:</b> '+am.pl.map(function(x){ return e(x[1])+' ('+(PL2[x[0]]||x[0])+', ~'+x[2]+' km)'; }).join("; ")+'</div>':'')+
+        '<div style="margin-top:6px;opacity:.75;font-size:13px">Counted within 3 km of the centre of '+e(tn)+', straight-line. Map data © OpenStreetMap contributors, refreshed monthly. Dubai Municipality / DDA plot land-use maps are not public, so ask the developer for the master plan for anything still planned.</div></div>'; }
     // 5c. area outlook (PESTLE) + what's coming nearby
     if(OUT){ var nm=[comm,place,(ip&&ip[10])||"",(PSFP&&PSFP.area)||""].join(" | ").toLowerCase(), near=[];
       (OUT.areas||[]).forEach(function(a){ if(a.match.some(function(m){ return nm.indexOf(m)>=0; })) near.push(a); });
@@ -1059,21 +1078,14 @@ html:not(.eoion) .ans .eoin{display:none}
       h+='</div>'; }
     // 7. extra checks
     var xl=xboxes.map(function(b){return {b:b,t:labelOf(b)};}), xo=xl.filter(function(x){return !x.b.checked;}), xd=xl.filter(function(x){return x.b.checked;});
-    var xdet=function(t){ if(!ta) return "";
+    var xdet=function(t){ if(!ta) return /metro|school/i.test(t)?'<div style="font-size:13.5px;margin:2px 0 6px 20px;opacity:.85">📍 We could not place this project\'s area on the map automatically. Type the area in Check 19 (for example JVC or Dubai South) and open the report again, or ask Sam for the metro, bus and facilities near this plot.</div>':"";
       var sub=function(s){ return '<div style="font-size:13.5px;margin:2px 0 6px 20px;opacity:.92">'+s+'</div>'; };
       if(/metro/i.test(t)){ var w=ta.m[2]<=0.8?"walkable":ta.m[2]<=2?"short ride":"drive or bus";
         return sub('🚇 Nearest metro: <b>'+e(ta.m[0])+'</b>'+(ta.m[1]?' ('+e(ta.m[1])+')':'')+' · ~'+ta.m[2]+' km ('+w+')'+
           (ta.b&&ta.b[1]<=5?'<br>🔵 Blue Line (opens Sept 2029): <b>'+e(ta.b[0])+'</b> · ~'+ta.b[1]+' km':'')+
           '<br>🚌 '+(ta.bus[2]!=null&&ta.bus[2]<=1.5?'Nearest bus stop: <b>'+(ta.bus[3]?e(ta.bus[3]):'unnamed stop')+'</b> · ~'+Math.round(ta.bus[2]*1000)+' m'+(ta.bus[0]?' · '+ta.bus[0]+' stops within 800 m':'')+(ta.bus[1]?' · '+ta.bus[1]+' bus routes':''):'No mapped bus stop within 1.5 km yet. New areas get RTA routes as people move in; check S\'hail.')+
           '<br><small style="opacity:.6">From the centre of '+e(tn)+'. Map data © OpenStreetMap contributors; Blue Line as announced by RTA.</small>'); }
-      if(/school/i.test(t)&&ta.am){ var a=ta.am, L={s:"🏫 Schools / nurseries",h:"🏥 Hospitals / clinics",m:"🛍️ Malls",g:"🛒 Supermarkets",p:"🌳 Parks"}, P={s:"school",h:"hospital/clinic",m:"mall/retail",p:"park"};
-        var good=a.s[0]>=3&&(a.m[0]+a.g[0])>=2&&a.h[0]>=1&&a.p[0]>=1, some=a.s[0]+a.m[0]+a.g[0]+a.h[0]>=3;
-        return sub(Object.keys(L).map(function(k){ var v=a[k]; return L[k]+': <b>'+v[0]+'</b> within 3 km'+(v[1]?' · nearest '+e(v[1])+' (~'+v[2]+' km)':''); }).join("<br>")+
-          (a.pl&&a.pl.length?'<br>🏗️ <b>Planned / under construction nearby:</b> '+a.pl.map(function(x){ return e(x[1])+' ('+(P[x[0]]||x[0])+', ~'+x[2]+' km)'; }).join("; "):'')+
-          '<br>'+(good?'<span class="tag g" style="background:#1e8e5a;color:#fff">✅ Well planned</span> Schools, shopping, healthcare and parks are all within about 3 km: good for families and tenants.':
-            some?'<span class="tag p">Growing</span> Some everyday needs are close; ask the developer for the schools, retail and parks in the master plan and their dates.':
-            '<span class="tag p">Still building</span> Few facilities mapped yet. Ask the developer for the master plan: which schools, malls and parks are planned, and when.')+
-          '<br><small style="opacity:.6">Counts from the centre of '+e(tn)+'. Map data © OpenStreetMap contributors. Dubai Municipality / DDA plot land-use maps are not public, so ask for the developer\'s master plan for planned schools and retail.</small>'); }
+      if(/school/i.test(t)&&ta.am){ var a=ta.am; return sub('🏙️ '+a.s[0]+' schools · '+a.h[0]+' hospitals/clinics · '+(a.m[0]+a.g[0])+' malls/supermarkets'+(a.w?' · '+a.w[0]+' mosques':'')+' · '+a.p[0]+' parks within 3 km. Names and distances under <b>What\'s near the project now</b> above.'); }
       return ""; };
     h+='<h4>🧾 Extra checks</h4><div class="box">'+xd.map(function(x){return '<div class="row ok"><span>✓ '+e(x.t)+'</span></div>'+xdet(x.t);}).join("")+xo.map(function(x){return '<div class="row"><span>○ '+e(x.t)+'</span><span class="tag p">Open</span></div>'+xdet(x.t);}).join("")+'</div>';
     // 8. scored checks

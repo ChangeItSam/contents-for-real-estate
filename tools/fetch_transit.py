@@ -174,7 +174,7 @@ json.dump(cache, open(cache_f, "w"), indent=0, ensure_ascii=False)
 log("blue line stations placed:", len(blue), blue)
 
 # ---------- schools, hospitals, malls, supermarkets, parks (existing + under construction / proposed)
-AM_CATS = ("s", "h", "m", "g", "p")   # schools, hospitals/clinics, malls, supermarkets/grocery, parks
+AM_CATS = ("s", "h", "m", "g", "w", "p")   # schools, hospitals/clinics, malls, supermarkets/grocery, parks
 def am_cat(t):
     a, sh, hc, le = t.get("amenity", ""), t.get("shop", ""), t.get("healthcare", ""), t.get("leisure", "")
     if a in ("school", "college", "university", "kindergarten"): return "s"
@@ -182,6 +182,7 @@ def am_cat(t):
     if sh == "mall" or (sh == "department_store" and "mall" in (t.get("name:en") or t.get("name") or "").lower()): return "m"
     if sh in ("supermarket", "hypermarket"): return "g"
     if le == "park": return "p"
+    if a == "place_of_worship" and t.get("religion") == "muslim": return "w"
     return None
 def am_plan(t):
     c = (t.get("construction") or t.get("proposed") or t.get("proposed:amenity") or t.get("construction:amenity") or "").lower()
@@ -189,12 +190,13 @@ def am_plan(t):
     if any(w in c for w in ("hospital", "clinic")): return "h"
     if any(w in c for w in ("mall", "retail", "supermarket")): return "m"
     if "park" in c: return "p"
+    if "mosque" in c: return "w"
     return None
 amen, planned = [], []
 try:
     els = []
     for q in ('nwr["amenity"~"^(school|college|university|kindergarten)$"]', 'nwr["amenity"~"^(hospital|clinic)$"]',
-              'nwr["shop"~"^(mall|supermarket|hypermarket)$"]', 'nwr["leisure"="park"]',
+              'nwr["shop"~"^(mall|supermarket|hypermarket)$"]', 'nwr["leisure"="park"]', 'nwr["amenity"="place_of_worship"]["religion"="muslim"]',
               'nwr["construction"~"school|college|kindergarten|hospital|clinic|mall|retail|park"]',
               'nwr["proposed"~"school|hospital|mall|retail|park"]'):
         try:
@@ -221,7 +223,8 @@ KW = {"s": r"school|academy|nursery|kindergarten|college|university|institute|mo
       "h": r"hospital|clinic|medical|health|polyclinic|mediclinic|aster|nmc",
       "m": r"mall|centre|center|plaza|souk|avenue|walk|galleria|outlet|market",
       "g": r"market|carrefour|spinneys|lulu|waitrose|choithram|union coop|co-?op|viva|grandiose|nesto|al maya|west zone|kibsons|geant|almaya",
-      "p": r"park|garden|lake|green"}
+      "p": r"park|garden|lake|green",
+      "w": r"mosque|masjid|masjed|jami|musalla|mosq"}
 def good_name(k, n):
     return bool(n) and n.isascii() and len(n) <= 60 and re.search(KW[k], n, re.I) is not None
 def amen_near(c, r=3.0):
