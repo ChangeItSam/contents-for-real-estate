@@ -173,6 +173,59 @@ for name, q in BLUE:
 json.dump(cache, open(cache_f, "w"), indent=0, ensure_ascii=False)
 log("blue line stations placed:", len(blue), blue)
 
+# ---------- schools, hospitals, malls, supermarkets, parks (existing + under construction / proposed)
+AM_CATS = ("s", "h", "m", "g", "p")   # schools, hospitals/clinics, malls, supermarkets/grocery, parks
+def am_cat(t):
+    a, sh, hc, le = t.get("amenity", ""), t.get("shop", ""), t.get("healthcare", ""), t.get("leisure", "")
+    if a in ("school", "college", "university", "kindergarten"): return "s"
+    if a in ("hospital", "clinic") or hc in ("hospital", "clinic"): return "h"
+    if sh == "mall" or (sh == "department_store" and "mall" in (t.get("name:en") or t.get("name") or "").lower()): return "m"
+    if sh in ("supermarket", "hypermarket"): return "g"
+    if le == "park": return "p"
+    return None
+def am_plan(t):
+    c = (t.get("construction") or t.get("proposed") or t.get("proposed:amenity") or t.get("construction:amenity") or "").lower()
+    if any(w in c for w in ("school", "college", "kindergarten")): return "s"
+    if any(w in c for w in ("hospital", "clinic")): return "h"
+    if any(w in c for w in ("mall", "retail", "commercial", "supermarket")): return "m"
+    if "park" in c: return "p"
+    return None
+amen, planned = [], []
+try:
+    els = overpass(f"""[out:json][timeout:240];
+(nwr["amenity"~"^(school|college|university|kindergarten|hospital|clinic)$"]({bb});
+ nwr["healthcare"~"^(hospital|clinic)$"]({bb});
+ nwr["shop"~"^(mall|supermarket|hypermarket)$"]({bb});
+ nwr["leisure"="park"]({bb});
+ nwr["construction"~"school|college|kindergarten|hospital|clinic|mall|retail|commercial|park"]({bb});
+ nwr["proposed"~"school|hospital|mall|retail|park"]({bb});
+);out tags center;""")
+    for e in els:
+        t = e.get("tags", {})
+        la, lo = (e.get("lat"), e.get("lon")) if "lat" in e else (e.get("center", {}).get("lat"), e.get("center", {}).get("lon"))
+        if la is None: continue
+        nm = (t.get("name:en") or t.get("name") or "").strip()
+        pc = am_plan(t)
+        if pc or t.get("landuse") == "construction":
+            if pc and nm: planned.append((la, lo, pc, nm))
+            continue
+        c = am_cat(t)
+        if c: amen.append((la, lo, c, nm))
+    log("amenities:", {c: sum(1 for x in amen if x[2] == c) for c in AM_CATS}, "| planned / under construction:", len(planned))
+except SystemExit as e:
+    log("amenities skipped:", e)
+
+def amen_near(c, r=3.0):
+    out = {}
+    for k in AM_CATS:
+        pts = [(km(c, (x[0], x[1])), x[3]) for x in amen if x[2] == k]
+        inr = [d for d in pts if d[0] <= r]
+        named = sorted((d for d in pts if d[1]), key=lambda d: d[0])
+        out[k] = [len(inr), named[0][1][:60] if named else "", round(named[0][0], 1) if named else None]
+    pl = sorted(((km(c, (x[0], x[1])), x[2], x[3]) for x in planned), key=lambda d: d[0])
+    out["pl"] = [[k, n[:60], round(d, 1)] for d, k, n in pl if d <= r][:4]
+    return out
+
 # ---------- per area summary
 res = {}
 for n, p in points.items():
@@ -185,9 +238,10 @@ for n, p in points.items():
     res[n] = {"m": [m[0], m[3], round(km(c, (m[1], m[2])), 1)],
               "b": [b[0], round(km(c, (b[1], b[2])), 1)] if b else None,
               "bus": [len(near), len(routes), round(km(c, (ns[0], ns[1])), 2) if ns else None, ns[3] if ns else ""]}
+    if amen: res[n]["am"] = amen_near(c)
 
 json.dump({"updated": time.strftime("%Y-%m-%d"),
-           "source": "(c) OpenStreetMap contributors (ODbL); Blue Line route as announced by RTA, station spots approximate",
+           "source": "(c) OpenStreetMap contributors (ODbL), incl. schools, hospitals, malls, supermarkets, parks within 3 km; Blue Line route as announced by RTA, station spots approximate",
            "metro": metro, "blue": blue, "a": res},
           open(f"{OUT}/transit.json", "w"), separators=(",", ":"), ensure_ascii=False)
 log("transit.json written for", len(res), "areas")
