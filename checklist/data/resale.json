@@ -1,0 +1,15 @@
+{
+ "_how_to_edit": "Usual developer resale rule before handover: re = % of the price that must be paid before the developer gives the NOC to resell; noc = developer NOC / transfer fee in AED. Keys are brand names in lower case (as in the page's developer groups). Figures are typical policies reported by the market or set by Sam; the buyer's own SPA always wins. 'src' is shown to the buyer.",
+ "_default": {"re": 40, "noc": 5000, "src": "typical Dubai developer policy (most ask for 30–40% paid; NOC around AED 5,000)"},
+ "emaar": {"re": 50, "noc": 1000, "src": "Emaar usually 50% paid; NOC about AED 1,000 (AED 2,000 express)"},
+ "nakheel": {"re": 40, "noc": 500, "src": "Nakheel usually 40% paid; NOC about AED 500"},
+ "damac": {"re": 35, "noc": 5000, "src": "DAMAC usually 30–35% paid; NOC around AED 5,000"},
+ "sobha": {"re": 40, "noc": 5250, "src": "Sobha usually 40% paid; NOC up to about AED 5,250"},
+ "meraas": {"re": 30, "noc": 5000, "src": "Meraas usually 30% paid"},
+ "dubai holding": {"re": 40, "noc": 5000, "src": "Dubai Holding (Nakheel / Meraas / DP) projects: usually 30–40% paid"},
+ "binghatti": {"re": 40, "noc": 5000, "src": "Binghatti usually 30–40% paid"},
+ "azizi": {"re": 40, "noc": 5000, "src": "Azizi usually around 40% paid"},
+ "ellington": {"re": 40, "noc": 5000, "src": "Ellington usually 30–40% paid"},
+ "danube": {"re": 40, "noc": 5000, "src": "Danube: typical 30–40% paid"},
+ "samana": {"re": 40, "noc": 5000, "src": "Samana: typical 30–40% paid"}
+}

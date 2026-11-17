@@ -609,7 +609,7 @@ html:not(.eoion) .ans .eoin{display:none}
   <div class="mgskip" id="mgskip" hidden>Mortgage skipped · <a href="#" id="mgundo">calculate it anyway</a></div>
   <div class="xf">
   <label>% paid before resale is allowed<input id="xre" type="text" inputmode="decimal" placeholder="e.g. 40"></label>
-  <label class="w">Developer transfer / NOC fee (AED)<input id="xtf" type="text" inputmode="decimal" placeholder="e.g. 5,000"></label></div>
+  <label class="w">Developer transfer / NOC fee (AED)<input id="xtf" type="text" inputmode="decimal" placeholder="e.g. 5,000"></label><div class="w" id="xresrc" hidden style="font-size:13px;color:#7a5a12;background:#FFF8E7;border:1px solid #E6D3A0;border-radius:8px;padding:6px 8px"></div></div>
  </div></div>
  <div class="card" id="mgcard" hidden><div class="num"><span class="ic">🏦</span><span class="n">+</span></div><div class="body">
   <h3>Mortgage for your handover payment</h3><p>What a bank loan for the handover amount would cost you each month.</p>
@@ -768,7 +768,7 @@ html:not(.eoion) .ans .eoin{display:none}
   var PROJROW = null; var LEADS_URL = "https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec", FROMLINK = false, sentFor = "";
   var key = "sam-dealtest-v3", saved = [], PSFV = 0, PSFR = null, PSF_MAX = 15;
   try { saved = JSON.parse(localStorage.getItem(key) || "[]"); } catch(e) {}
-  function update(){
+  function update(){ if(window.resaleFill&&typeof INS!=="undefined"&&INS) try{ window.resaleFill(); }catch(e){}
     var n = boxes.filter(function(b){ return typeof stOf==="function" ? stOf(b)!=="" : b.checked; }).length + (PSFV?1:0) + (PSFR?1:0);
     try{ if(typeof milestone==="function") milestone(n); }catch(e){}
     document.getElementById("done").textContent = n;
@@ -874,7 +874,9 @@ html:not(.eoion) .ans .eoin{display:none}
     var t=document.createElement("span"); t.className="auto"; t.textContent="✓ DLD"; b.closest("label").querySelector("span").appendChild(t); }
   // one brand often registers each project under its own company (e.g. Imtiaz Ghd, Imtiaz Cove...): add them up
   var DSTOP={al:1,the:1,dubai:1,emirates:1,real:1,estate:1,development:1,developments:1,developer:1,developers:1,properties:1,property:1,investment:1,investments:1,group:1,holding:1,holdings:1,international:1,united:1,national:1,city:1,new:1,first:1,global:1,gulf:1,arabian:1,middle:1,east:1,uae:1,llc:1,company:1,and:1,general:1,trading:1,contracting:1,building:1,tower:1,towers:1,residence:1,residences:1,golden:1,star:1,royal:1,grand:1,smart:1,green:1,blue:1,white:1,one:1,prime:1,elite:1,premier:1,modern:1,jumeirah:1,island:1,palm:1,marina:1,creek:1,downtown:1,business:1,park:1};
-  function dBrand(n){ var w=String(n||"").toLowerCase().replace(/[^a-z0-9 ]+/g," ").split(/\s+/).filter(Boolean);
+  var NAMEBRAND=[[/\bemaar\b|dubai creek harbour|dubai hills estate|arabian ranches|emaar south|the valley/i,"emaar"],[/\bsobha\b/i,"sobha"],[/\bdamac\b/i,"damac"],[/\bnakheel\b/i,"nakheel"],[/\bmeraas\b/i,"meraas"]];
+  function dBrand(n){ for(var nb=0;nb<NAMEBRAND.length;nb++) if(NAMEBRAND[nb][0].test(n||"")) return NAMEBRAND[nb][1];
+    var w=String(n||"").toLowerCase().replace(/[^a-z0-9 ]+/g," ").split(/\s+/).filter(Boolean);
     if(w[0]==="al"&&w[1]&&!DSTOP[w[1]]&&w[1].length>=4) return "al "+w[1];
     return (w[0]&&!DSTOP[w[0]]&&w[0].length>=4)?w[0]:""; }
   var BK={"1656":"aldar","1657":"aldar","1658":"aldar","1510":"dubai holding","103":"nakheel","880":"nakheel","1076":"meraas","1181":"meydan"};
@@ -1577,6 +1579,19 @@ html:not(.eoion) .ans .eoin{display:none}
 
   // ---------- Questions 19-20: price per sq ft vs similar off-plan projects (data/psf.json) ----------
   var PD=null, PSFP=null, pwait=[], ploading=false;
+  // developer resale rule + NOC fee: fill by default, buyer can change
+  var RSJ=null; fetch("data/resale.json",{cache:"no-cache"}).then(function(r){ return r.json(); }).then(function(j){ RSJ=j; setTimeout(resaleFill,300); }).catch(function(){ RSJ={}; });
+  var RSAUTO={xre:"",xtf:""};
+  function resaleFill(){ if(!RSJ||!INS||!INS.d) return; var re=document.getElementById("xre"), tf=document.getElementById("xtf"), note=document.getElementById("xresrc"); if(!re||!tf) return;
+    var no=(PSFP&&PSFP.no&&INS.p[PSFP.no]&&INS.p[PSFP.no][0])||(DEVSEL&&DEVSEL.no)||"", key=no?bk(no):"", b=key&&RSJ[key]?key:"", r=b?RSJ[b]:RSJ._default;
+    if(!r||(!no&&!b)) return;
+    var nm=key?bTitle(key):(no&&INS.d[no]?shortDevN(INS.d[no].name):"this developer"), did=false; window.RSLAST=nm+"'s usual rule: "+r.re+"% paid, NOC about AED "+r.noc.toLocaleString("en-US");
+    var v1=String(r.re), v2=r.noc.toLocaleString("en-US");
+    if((!re.value.trim()||re.value===RSAUTO.xre)&&re.value!==v1){ re.value=v1; RSAUTO.xre=v1; did=true; }
+    if((!tf.value.trim()||tf.value===RSAUTO.xtf)&&tf.value!==v2){ tf.value=v2; RSAUTO.xtf=v2; did=true; }
+    if(did&&note){ note.innerHTML="ℹ️ Filled with "+esc(nm)+"'s usual rule: resale after <b>"+r.re+"% paid</b>, NOC about <b>AED "+r.noc.toLocaleString("en-US")+"</b> ("+esc(r.src)+"). <b>Change it if your SPA says otherwise.</b>"; note.hidden=false; re.dispatchEvent(new Event("input",{bubbles:true})); } }
+  window.resaleFill=resaleFill;
+  ["xre","xtf"].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener("input",function(ev){ if(ev.isTrusted){ RSAUTO[id]=""; var n=document.getElementById("xresrc"); if(n) n.innerHTML="✏️ You changed this (your SPA figures). For reference, "+esc(window.RSLAST||"the developer's usual rule")+"."; } }); });
   var CMAJ=null; fetch("data/cma.json",{cache:"no-cache"}).then(function(r){ return r.ok?r.json():{p:{}}; }).then(function(j){ CMAJ=j; }).catch(function(){ CMAJ={p:{}}; });
   var PPTG=null; fetch("data/place_points.json",{cache:"force-cache"}).then(function(r){ return r.json(); }).then(function(j){ PPTG=j; }).catch(function(){ PPTG={}; });
   var psfIn=document.getElementById("psf"), locIn=document.getElementById("ploc"), cma=document.getElementById("cma");
