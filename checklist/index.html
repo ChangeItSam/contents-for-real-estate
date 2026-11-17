@@ -783,6 +783,7 @@ html:not(.eoion) .ans .eoin{display:none}
   var DLDFOUND=false;
   var EOI_IDX=[2,3,4,5,6,14], EOI=false; try{ EOI=localStorage.getItem("sam-dealtest-eoi")==="1"; }catch(e){}
   function naOK(i){ return NA_OK.indexOf(i)>=0 || (EOI && EOI_IDX.indexOf(i)>=0); }
+  var YN_IDX=[7,8,9,10,11,12,13,15,16,17]; // things the buyer did or knows: answer Yes / No
   var NA_OK=[3,7,8,16]; // can genuinely not apply: progress claim at launch, agent checks when buying direct, resale rules when holding long term
   function stOf(b){ return b.checked?"y":(b.dataset.st||""); }
   // after an answer, bring the next unanswered line of the same card into view if it is hidden behind the bottom bars
@@ -800,7 +801,7 @@ html:not(.eoion) .ans .eoin{display:none}
     b.addEventListener("change", function(ev){ if(b.checked) b.dataset.st=""; if(ev.isTrusted) showNextLine(b); });
     b.addEventListener("change", update);
     var row=document.createElement("div"); row.className="ans";
-    row.innerHTML='<button type="button" class="y" data-v="y">✅ Checked</button><button type="button" class="u" data-v="u">❓ Not known</button>'+(NA_OK.indexOf(i)>=0?'<button type="button" class="n" data-v="n">N/A</button>':EOI_IDX.indexOf(i)>=0?'<button type="button" class="n eoin" data-v="n">N/A</button>':'');
+    var yn=YN_IDX.indexOf(i)>=0; row.innerHTML='<button type="button" class="y" data-v="y">'+(yn?'✅ Yes':'✅ Checked')+'</button><button type="button" class="u" data-v="u">'+(yn?'❌ No':'❓ Not known')+'</button>'+(NA_OK.indexOf(i)>=0?'<button type="button" class="n" data-v="n">N/A</button>':EOI_IDX.indexOf(i)>=0?'<button type="button" class="n eoin" data-v="n">N/A</button>':'');
     row.addEventListener("click",function(ev){ var t=ev.target.closest("button"); if(!t) return; var v=t.dataset.v, same=stOf(b)===v;
       if(v==="y"){ b.checked=!same; b.dataset.st=""; } else { b.checked=false; b.dataset.st=same?"":v; }
       b.dispatchEvent(new Event("change",{bubbles:true})); showNextLine(b); });
@@ -1252,7 +1253,7 @@ html:not(.eoion) .ans .eoin{display:none}
     var conf=boxes.filter(function(b){return b.checked;});
     h+='<h4>❗ Still to confirm ('+miss.length+')</h4>'+(miss.length?'<div class="box">'+miss.map(function(x,k){
         var tag=CRIT.indexOf(x.i)>=0?'<span class="tag">Must-have</span>':(k<3?'<span class="tag p">Priority</span>':'');
-        return '<div class="row"><span>'+e(labelOf(x.b))+(stOf(x.b)==="u"?' <i style="opacity:.75">(not known)</i>':'')+'</span>'+tag+'</div>';}).join("")+'</div>':'<div class="box ok">Nothing missing. Every check is confirmed.</div>');
+        return '<div class="row"><span>'+e(labelOf(x.b))+(stOf(x.b)==="u"?' <i style="opacity:.75">('+(YN_IDX.indexOf(boxes.indexOf(x.b))>=0?'no':'not known')+')</i>':'')+'</span>'+tag+'</div>';}).join("")+'</div>':'<div class="box ok">Nothing missing. Every check is confirmed.</div>');
     var nas=boxes.filter(function(b){return stOf(b)==="n";});
     if(nas.length) h+='<h4>➖ Marked not applicable ('+nas.length+')</h4><div class="box">'+nas.map(function(b){return '<div class="row"><span>'+e(labelOf(b))+'</span></div>';}).join("")+'</div>';
     h+='<h4>✅ Already confirmed ('+conf.length+')</h4>'+(conf.length?'<div class="box">'+conf.map(function(b){return '<div class="row ok"><span>✓ '+e(labelOf(b))+'</span></div>';}).join("")+'</div>':'<div class="box">Nothing confirmed yet.</div>');
@@ -1750,7 +1751,7 @@ html:not(.eoion) .ans .eoin{display:none}
     boxes.forEach(function(b){ var c=b.closest(".card"); if(seen.indexOf(c)<0){ seen.push(c); var n=(c.querySelector(".n")||{}).textContent||"";
       var cb=boxes.filter(function(x){ return x.closest(".card")===c; });
       var hasDev=!!c.querySelector("#devbox"), hasAg=!!c.querySelector("#agq");
-      steps.push({k:"c"+n,a:hasAg?c.querySelector("#agq"):c.querySelector(".ticks"),hi:c,t:hasAg?"Who is helping you buy? Then answer the lines":"Answer every line: Checked, Not known or N/A",done:function(){ if(hasAg && !(window.getAgent&&window.getAgent())) return false; if(hasDev && needLaunch()) return false; if(hasDev && EOI && !DLDFOUND && !PIN) return false; return cb.every(function(x){ return stOf(x)!==""; }); }}); } });
+      steps.push({k:"c"+n,a:hasAg?c.querySelector("#agq"):c.querySelector(".ticks"),hi:c,t:hasAg?"Who is helping you buy? Then answer the lines":"Answer every line",done:function(){ if(hasAg && !(window.getAgent&&window.getAgent())) return false; if(hasDev && needLaunch()) return false; if(hasDev && EOI && !DLDFOUND && !PIN) return false; return cb.every(function(x){ return stOf(x)!==""; }); }}); } });
     steps.push({k:"psf",a:psf.closest(".card").querySelector(".pcalc")||psf.closest(".psfrow"),hi:psf.closest(".card"),t:"Enter the unit price and size",skip:"Skip",done:function(){ return num(psf.value)>0; }});
     steps.push({k:"ploc",a:ploc.closest("label"),hi:ploc.closest(".card"),t:"Pick the area from the list",skip:"Skip",done:function(){ return ploc.value.trim().length>1; }});
     Array.prototype.forEach.call(document.querySelectorAll("#moresec .card"),function(c,i){
