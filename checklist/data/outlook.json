@@ -95,5 +95,12 @@
    "src": "Etihad Rail · RTA"
   }
  ],
- "checked": "16 Nov 2026"
+ "checked": "16 Nov 2026",
+ "timing": {
+  "adj": -1,
+  "label": "Buyer's market forming",
+  "checked": "17 Nov 2026",
+  "note": "Sales are well down on last year after the regional conflict, prices have levelled off and rents are easing as new supply arrives. Buyers have more choice and room to negotiate; well-priced projects from strong developers still sell.",
+  "src": "DLD figures via Cavendish Maxwell (Jan–Oct 2026: value −29%, deals −26% y/y); Cushman & Wakefield H1 2026; S&P Global (Oct 2026)"
+ }
 }

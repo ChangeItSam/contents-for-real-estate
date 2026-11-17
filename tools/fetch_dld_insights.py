@@ -6,6 +6,7 @@ Output: checklist/data/insights.json
        median price and middle price range, community, DLD area
  - t:  per community: monthly median price per sq ft for the last 12 complete months
  - y:  per community: median price per sq ft and its year-on-year change (last 12 months vs the year before)
+ - g:  per community: 3-year annual growth in median price per sq ft (sales-weighted) and recent sales count
  - r:  per community: median annual Ejari rent, contracts and gross yield, overall and by bedroom type"""
 import csv, io, json, re, datetime, urllib.request
 BASES = ["https://huggingface.co/datasets/datadubai/dubai-real-estate-dld/resolve/main/", "https://raw.githubusercontent.com/datadubai/dubai-real-estate-dld/main/"]  # Hugging Face gets new weeks first; GitHub mirror as fallback
@@ -73,6 +74,21 @@ for c, lst in by.items():
     lst.sort()
     trend[c] = [[m, v, n] for m, v, n in lst[-12:]]
 
+# --- 3-year growth per community: sales-weighted median price per sq ft, last 12 complete months vs the same months 3 years earlier
+#     g[community] = [annual % growth (CAGR), sales in the last 12 months]
+g3 = {}
+allm = sorted({m for lst in by.values() for m, v, n in lst})
+if len(allm) >= 40:
+    last12 = allm[-12:]
+    back = {f"{int(m[:4]) - 3}{m[4:]}" for m in last12}
+    for c, lst in by.items():
+        a = [(v, n) for m, v, n in lst if m in last12 and n]
+        b = [(v, n) for m, v, n in lst if m in back and n]
+        na, nb = sum(n for v, n in a), sum(n for v, n in b)
+        if na >= 60 and nb >= 30:
+            pa, pb = sum(v * n for v, n in a) / na, sum(v * n for v, n in b) / nb
+            g3[c] = [round(((pa / pb) ** (1 / 3) - 1) * 100, 1), na]
+
 # --- year-on-year change in median price per sq ft (Dubai Data's published figure, last 12 months vs the year before)
 yoy = {}
 for r in rows("data/communities.csv"):
@@ -91,6 +107,6 @@ for r in rows("data/community_bedrooms.csv"):
 json.dump({"updated": today, "data_through": through, "source": CREDIT,
            "pf": ["dev_no", "status", "construction_pct", "dld_completion", "units", "sales", "price_median",
                   "price_q1", "price_q3", "community", "area", "quality", "psf"],
-           "d": devs, "p": proj, "t": trend, "y": yoy, "r": rent},
+           "d": devs, "p": proj, "t": trend, "y": yoy, "r": rent, "g": g3},
           open(f"{OUT}/insights.json", "w"), separators=(",", ":"), ensure_ascii=False)
 print(f"insights.json: {len(proj)} projects, {len(devs)} developers, {len(trend)} trend series, {len(rent)} rent areas, through {through}")
