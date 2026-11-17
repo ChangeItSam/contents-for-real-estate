@@ -1441,7 +1441,7 @@ html:not(.eoion) .ans .eoin{display:none}
       var ws=q.split(/\s+/), hits=[], qb=(INS&&INS.d)?brandOfQuery(q):"", lim=qb&&ws.length===1?60:7;
       if(!INS) insLoad(function(){ if(pin.value.trim().toLowerCase()===q) search(); });
       for(var i=0;i<P.p.length && hits.length<lim;i++){ var r=P.p[i], s=(r[1]+" "+r[7]+" "+r[2]).toLowerCase(), ipr=qb&&INS&&INS.p&&INS.p[r[0]]; if(ws.every(function(w){return s.indexOf(w)>=0;}) || (ipr&&ws.length===1&&bk(ipr[0])===qb)) hits.push(r); }
-      var mh0=MKT.filter(function(m){ var t=(m.name+" "+m.dev).toLowerCase(); return ws.every(function(w){ return t.indexOf(w)>=0; }); });
+      var mh0=MKT.filter(function(m){ var t=(m.name+" "+m.dev+" "+(m.area||"")+" "+(m.tags||"")).toLowerCase(); return ws.every(function(w){ return t.indexOf(w)>=0; }); });
       if(!hits.length && !mh0.length){
         var fm=FEAT.filter(function(f){ var n=f.name.toLowerCase(); return n.indexOf(q)>=0||q.indexOf(n)>=0; })[0];
         if(fm){ sg.hidden=true; newLaunch(fm.name); return; }
@@ -1449,9 +1449,9 @@ html:not(.eoion) .ans .eoin{display:none}
         sg.querySelector(".eoigo").addEventListener("click",function(){ sg.hidden=true; eoiShow(false); setEoi(true,true); devBoxShow();
           var w=document.getElementById("devbox"); w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); }); return; }
       var fp=FEATPICK; FEATPICK=""; if(fp){ var ex=hits.filter(function(r){ return r[1].toLowerCase()===fp; }); if(ex.length===1){ sg.hidden=true; pick(ex[0]); return; } }
-      var mh=MKT.filter(function(m){ var t=(m.name+" "+m.dev).toLowerCase(); return ws.every(function(w){ return t.indexOf(w)>=0; }); }).slice(0,4);
+      var mh=MKT.filter(function(m){ var t=(m.name+" "+m.dev+" "+(m.area||"")+" "+(m.tags||"")).toLowerCase(); return ws.every(function(w){ return t.indexOf(w)>=0; }); }).slice(0,4);
       var qs=qb&&brandStats(qb); if(qs&&lim>7) hits.sort(function(a,b){ return (/finish/i.test(a[3])?1:0)-(/finish/i.test(b[3])?1:0); });
-      sg.innerHTML=(qs?'<div class="grph">'+brandLine(qs)+'</div>':'')+mh.map(function(m,k){ return '<button type="button" class="mkt" data-m="'+k+'">'+esc(m.name)+' <span class="mdev">· '+esc(m.dev)+'</span><small>🟡 EOI / pre-launch · not in DLD records yet'+(m.area?' · '+esc(m.area):'')+'</small></button>'; }).join("")+
+      sg.innerHTML=(qs?'<div class="grph">'+brandLine(qs)+'</div>':'')+mh.map(function(m,k){ return '<button type="button" class="mkt" data-m="'+k+'">'+esc(m.name)+' <span class="mdev">· '+esc(m.dev)+'</span><small>'+(m.st==="teaser"?'📣 Teaser / rumoured · developer hasn\'t launched it yet':'🟡 EOI / pre-launch · not in DLD records yet')+(m.area?' · near '+esc(m.area):'')+'</small></button>'; }).join("")+
         hits.map(function(r,k){return '<button type="button" data-k="'+k+'">'+esc(r[1])+' <span class="mdev">· '+esc(shortDev(r[2]))+'</span><small>'+esc([r[7],r[3]].filter(Boolean).join(" · "))+'</small></button>';}).join("")+
         '<button type="button" class="eoigo2">🟡 Not in this list? It\'s in EOI / pre-launch phase ›</button>';
       Array.prototype.forEach.call(sg.querySelectorAll("button[data-m]"),function(b){ b.addEventListener("click",function(){ mktPick(mh[+b.dataset.m]); }); });

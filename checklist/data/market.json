@@ -1,11 +1,42 @@
 {
- "_how_to_edit": "Projects on the market that are not (yet) in DLD records: EOI / pre-launch. They show in the project search with their developer; picking one ticks EOI and fills the developer for the buyer to confirm. dev = what we type in the developer box (brand name is fine, e.g. Nakheel).",
+ "_how_to_edit": "Projects on the market that are not (yet) in DLD records: EOI / pre-launch. They show in the project search with their developer; picking one ticks EOI and fills the developer for the buyer to confirm. dev = what we type in the developer box (brand name is fine, e.g. Nakheel). st: 'teaser' for a project only rumoured / teased by the developer (shown as 📣 Teaser). tags: extra search words (e.g. dso).",
  "p": [
-  {"name": "Palm Springs", "dev": "Nakheel", "area": ""},
-  {"name": "Hayat 8", "dev": "Hayat", "area": "Dubai South"},
-  {"name": "Tilal by Binghatti", "dev": "Binghatti", "area": ""},
-  {"name": "Violet", "dev": "Damac", "area": "Damac Hills 2"},
-  {"name": "Everly Place", "dev": "Ellington", "area": ""},
-  {"name": "Samana Downtown Jebel Ali 1", "dev": "Samana", "area": "Downtown Jebel Ali"}
+  {
+   "name": "Palm Springs",
+   "dev": "Nakheel",
+   "area": ""
+  },
+  {
+   "name": "Hayat 8",
+   "dev": "Hayat",
+   "area": "Dubai South"
+  },
+  {
+   "name": "Tilal by Binghatti",
+   "dev": "Binghatti",
+   "area": ""
+  },
+  {
+   "name": "Violet",
+   "dev": "Damac",
+   "area": "Damac Hills 2"
+  },
+  {
+   "name": "Everly Place",
+   "dev": "Ellington",
+   "area": ""
+  },
+  {
+   "name": "Samana Downtown Jebel Ali 1",
+   "dev": "Samana",
+   "area": "Downtown Jebel Ali"
+  },
+  {
+   "name": "Greenwoods",
+   "dev": "Aldar",
+   "area": "Silicon Oasis",
+   "st": "teaser",
+   "tags": "dso dubai silicon oasis near dso"
+  }
  ]
 }
