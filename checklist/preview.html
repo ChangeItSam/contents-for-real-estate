@@ -454,6 +454,7 @@ html:not(.eoion) .ans .eoin{display:none}
 .picksbtn{display:flex;align-items:center;gap:12px;margin-top:14px;padding:13px 16px;border-radius:16px;text-decoration:none;text-align:left;background:linear-gradient(135deg,#C9A24A,#E8CF8E);color:#0B1F3A;box-shadow:0 6px 18px rgba(201,162,74,.35);border:2px solid #fff3}.picksbtn span{font-size:26px;flex:none}.picksbtn b{display:block;font-size:17px;font-weight:800;line-height:1.25}.picksbtn small{display:block;font-size:13px;font-weight:700;color:#3B4A63;margin-top:3px}.picksbtn.big{margin:16px 0 6px;padding:16px 18px}.picksbtn.big b{font-size:18.5px}.picksbtn:active{transform:scale(.98)}
 .passlink{display:block;margin-top:12px;color:#E8CF8E;font-weight:700;font-size:15.5px}
 </style>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
 </head>
 <body>
 <div class="lockgate"><div class="lg-in">
@@ -490,7 +491,7 @@ html:not(.eoion) .ans .eoin{display:none}
  <a class="samplelink" href="#sample">See a sample report ↓</a>
 </header>
 
-<div class="prog" id="prog"><div class="pin"><div class="r1"><span class="cnt">✅ <span id="done">0</span>/<span id="tot">20</span><small>answered</small></span><span class="warnp" id="psfwarn" hidden>💲 Price missing</span><button type="button" class="hres" id="hreset">↺ Reset</button><a href="#test" class="go">Get result</a></div><div class="bar"><i id="bar"></i></div><div class="r3"><span id="where">📍 Start: pick your project</span></div></div></div>
+<div class="prog" id="prog"><div class="pin"><div class="r1"><span class="cnt">✅ <span id="done">0</span>/<span id="tot">20</span><small>answered</small></span><span class="warnp" id="psfwarn" hidden>💲 Price missing</span><button type="button" class="hres" id="hreset">↺ Reset</button><a href="#test" class="go">Get result</a><a class="wai wa-link" href="#" aria-label="Chat with Sam on WhatsApp"><svg class="lg"><use href="#waw"/></svg></a></div><div class="bar"><i id="bar"></i></div><div class="r3"><span id="where">📍 Start: pick your project</span></div></div></div>
 
 <section class="sample" id="sample">
  <div class="kicker">What you get</div>
@@ -805,7 +806,7 @@ html:not(.eoion) .ans .eoin{display:none}
     var row=document.createElement("div"); row.className="ans";
     var yn=YN_IDX.indexOf(i)>=0; row.innerHTML='<button type="button" class="y" data-v="y">'+(yn?'✅ Yes':'✅ Checked')+'</button><button type="button" class="u" data-v="u">'+(yn?'❌ No':'❓ Not known')+'</button>'+(NA_OK.indexOf(i)>=0?'<button type="button" class="n" data-v="n">N/A</button>':EOI_IDX.indexOf(i)>=0?'<button type="button" class="n eoin" data-v="n">N/A</button>':'');
     row.addEventListener("click",function(ev){ var t=ev.target.closest("button"); if(!t) return; var v=t.dataset.v, same=stOf(b)===v;
-      if(v==="y"){ b.checked=!same; b.dataset.st=""; } else { b.checked=false; b.dataset.st=same?"":v; }
+      if(v==="y"){ b.checked=true; b.dataset.st=""; } else { b.checked=false; b.dataset.st=same?"":v; }
       b.dispatchEvent(new Event("change",{bubbles:true})); showNextLine(b); });
     b.closest("label").insertAdjacentElement("afterend",row); b._ans=row;
   });
@@ -1003,7 +1004,7 @@ html:not(.eoion) .ans .eoin{display:none}
       var p=document.getElementById("pct"), n=0, st=performance.now();
       (function step(now){ var f=Math.min(1,(now-st)/1600); n=Math.round(sc*(1-Math.pow(1-f,3))); p.textContent=n; if(f<1) requestAnimationFrame(step); else reveal(); })(st);
       function reveal(){
-        var v=document.getElementById("verdict"); v.textContent=tier.v; v.style.color=tier.c; v.classList.remove("show"); void v.offsetWidth; v.classList.add("show");
+        var v=document.getElementById("verdict"); v.textContent=tier.v; v.style.color=tier.c; v.style.borderColor=tier.c; v.style.background="color-mix(in srgb,"+tier.c+" 16%,transparent)"; v.classList.remove("show"); void v.offsetWidth; v.classList.add("show");
         document.getElementById("vtext").textContent=tier.t;
         var miss=boxes.filter(function(b){return !b.checked && stOf(b)!=="n";}).sort(function(a,b){return b.dataset.w-a.dataset.w;});
         var g=document.getElementById("gaps");
@@ -1033,7 +1034,7 @@ html:not(.eoion) .ans .eoin{display:none}
     var proj=document.getElementById("proj").value.trim(), sig=[who.p,proj,sc].join("|");
     if(sig===sentFor) return; sentFor=sig;
     var d={name:who.n||"",phone:who.p,project:proj,score:sc,verdict:tier.v.replace(/[^A-Za-z ()]/g,"").trim(),
-           psf:PSFV||"",avg:PSFR?PSFR.avg:"",rating:(document.getElementById("psfpts").hidden?"":document.getElementById("psfpts").textContent),link:resultLink(sc)};
+           psf:PSFV||"",avg:PSFR?PSFR.avg:"",rating:(PSFR&&PSFR.rating)||"",link:resultLink(sc)};
     try{ fetch(LEADS_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(d)}).catch(function(){}); }catch(e){}
   }
   // ---------- Extra checks: calculators (not scored) ----------
@@ -1399,6 +1400,7 @@ html:not(.eoion) .ans .eoin{display:none}
     var n=document.getElementById("gname").value.trim(), p=document.getElementById("gphone").value.trim(), dg=p.replace(/[^0-9]/g,""), er=document.getElementById("gerr");
     if(n.length<2){er.textContent="Please enter your name.";return;}
     if(dg.length<8||dg.length>15){er.textContent="Please enter your WhatsApp number with country code.";return;}
+    if(!/^\s*(\+|00)/.test(p)){ if(/^05\d{8}$/.test(dg)) p="+971"+dg.slice(1); else if(/^5\d{8}$/.test(dg)) p="+971"+dg; else if(/^971\d{8,9}$/.test(dg)) p="+"+dg; }
     er.textContent=""; who={n:n,p:p}; try{localStorage.setItem("sam-who",JSON.stringify(who));}catch(x){}
     gate.hidden=true; show();
   });
@@ -1520,7 +1522,11 @@ html:not(.eoion) .ans .eoin{display:none}
     load(function(){
       var ws=q.split(/\s+/), hits=[], qb=(INS&&INS.d)?brandOfQuery(q):"", lim=qb&&ws.length===1?60:7;
       if(!INS) insLoad(function(){ if(pin.value.trim().toLowerCase()===q) search(); });
-      for(var i=0;i<P.p.length && hits.length<lim;i++){ var r=P.p[i], s=(r[1]+" "+r[7]+" "+r[2]).toLowerCase(), ipr=qb&&INS&&INS.p&&INS.p[r[0]]; if(ws.every(function(w){return s.indexOf(w)>=0;}) || (ipr&&ws.length===1&&bk(ipr[0])===qb)) hits.push(r); }
+      for(var i=0;i<P.p.length;i++){ var r=P.p[i], s=(r[1]+" "+r[7]+" "+r[2]).toLowerCase(), ipr=qb&&INS&&INS.p&&INS.p[r[0]]; if(ws.every(function(w){return s.indexOf(w)>=0;}) || (ipr&&ws.length===1&&bk(ipr[0])===qb)) hits.push(r); }
+      // best name matches first: name starts with what was typed, then contains it, then every word is in the name (as a word start), then the rest
+      var rk=function(r){ var nm=r[1].toLowerCase(); if(nm.indexOf(q)===0) return 0; if(nm.indexOf(q)>=0) return 1; var wd=" "+nm.replace(/[^a-z0-9]+/g," ");
+        if(ws.every(function(w){ return wd.indexOf(" "+w)>=0; })) return 2; if(ws.every(function(w){ return nm.indexOf(w)>=0; })) return 3; return 4; };
+      hits=hits.map(function(r,i){ return [rk(r),i,r]; }).sort(function(a,b){ return a[0]-b[0]||a[1]-b[1]; }).map(function(x){ return x[2]; }).slice(0,lim);
       var mh0=MKT.filter(function(m){ var t=(m.name+" "+m.dev+" "+(m.area||"")+" "+(m.tags||"")).toLowerCase(); return ws.every(function(w){ return t.indexOf(w)>=0; }); });
       if(!hits.length && !mh0.length){
         var fm=FEAT.filter(function(f){ var n=f.name.toLowerCase(); return n.indexOf(q)>=0||q.indexOf(n)>=0; })[0];
@@ -2101,5 +2107,19 @@ h2 .icx{width:44px;height:44px}
 </script>
 <!-- ===== /DESKTOP ===== -->
 
+
+<style>/* 17-Nov: one slim bottom bar (WhatsApp inside it), fits small phones */
+.sticky{display:none!important}
+.prog{bottom:0!important;padding-bottom:calc(8px + env(safe-area-inset-bottom))!important}
+.prog .r1{min-width:0}
+.prog .wai{flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;background:#25D366;box-shadow:0 2px 8px rgba(37,211,102,.4)}
+.prog .wai .lg{width:22px;height:22px}
+.prog .hres,.prog .go{flex-shrink:0}
+.plan3{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+@media(max-width:480px){.prog .cnt small{display:none!important}.prog .r1{gap:6px!important}
+ .prog .warnp{min-width:0;flex-shrink:1;overflow:hidden;text-overflow:ellipsis;font-size:11.5px!important;padding:0 9px!important}
+ .prog .hres{font-size:0!important;width:40px;padding:0!important}.prog .hres::before{content:"↺";font-size:18px}
+ .prog .go{padding:9px 12px!important;font-size:13px!important}}
+</style>
 </body>
 </html>
