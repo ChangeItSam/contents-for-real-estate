@@ -1,0 +1,6 @@
+{
+ "_how_to_edit": "DLD-registered projects that are not yet in the DLD open data we load (projects.json only has projects with registered sales). Same columns as projects.json: [no, name, developer, status, pct, escrow, end (YYYY-MM-DD), area, reg, source]. Leave unknown fields as \"\". Remove a row once the project appears in projects.json.",
+ "p": [
+  ["", "The Vault By Imtiaz", "Imtiaz Vault Real Estate Development L.L.C", "Active", "", "", "2029-06-30", "Wadi Al Safa 3", "", "DLD project details shown on a permit-checked listing (Dubizzle, 13 Nov 2026): developer Imtiaz Vault Real Estate Development L.L.C, status Active, handover June 2029, Wadi Al Safa 3 (Majan). Offices and retail."]
+ ]
+}

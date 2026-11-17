@@ -1408,7 +1408,8 @@ html:not(.eoion) .ans .eoin{display:none}
   function esc(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});}
   var waiters=[];
   function load(cb){ if(P) return cb(); waiters.push(cb); if(loading) return; loading=true;
-    fetch("data/projects.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){P=j; loading=false;
+    fetch("data/projects.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){ return fetch("data/projects_extra.json",{cache:"no-cache"}).then(function(r){ return r.ok?r.json():{p:[]}; }).catch(function(){ return {p:[]}; }).then(function(x){
+        var have={}; j.p.forEach(function(r){ have[r[1].toLowerCase()]=1; }); (x.p||[]).forEach(function(r){ if(!have[r[1].toLowerCase()]) j.p.push(r); }); j.p.sort(function(a,b){ return a[1].toLowerCase()<b[1].toLowerCase()?-1:1; }); return j; }); }).then(function(j){P=j; loading=false;
       document.getElementById("dldsrc").textContent="🏛️ Checked against "+j.p.length+" DLD-registered projects (updated "+j.updated+"). Source: "+j.source+".";
       var w=waiters; waiters=[]; w.forEach(function(f){f();});}).catch(function(){loading=false; waiters=[];}); }
   var autoN=false;
@@ -1426,7 +1427,7 @@ html:not(.eoion) .ans .eoin{display:none}
     pin.value=name; sg.hidden=true; clearAuto();
     var info='<div class="row2"><span>🏗️ DLD project no. <b>'+esc(no||"–")+'</b></span><span>👷 '+esc(dev||"–")+'</span>'+(area?'<span>📍 '+esc(area)+'</span>':'')+'</div>'+
       '<div class="row2"><span>📊 Construction: '+(pct===""?'not reported':(+pct>0?'started · % in your full report':'not started yet'))+'</span>'+(end?'<span>📅 Completion '+esc(fmtDate(end))+'</span>':'')+'<span>🏦 Escrow: '+esc(escb||"not listed")+'</span></div>';
-    var src='<small>Source: '+esc(P.source)+', updated '+esc(P.updated)+'.</small>';
+    var src=r[9]?'<small>Source: '+esc(r[9])+'</small>':'<small>Source: '+esc(P.source)+', updated '+esc(P.updated)+'.</small>';
     var fin=st.indexOf("finish")>=0||st.indexOf("complet")>=0;
     if(st.indexOf("cancel")>=0){
       card.className="dld bad"; card.innerHTML='<b class="t">🚩 CANCELLED in DLD records</b>'+info+'<b>Do not pay anything for this project.</b>'+src;
