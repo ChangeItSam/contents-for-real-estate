@@ -256,7 +256,7 @@ section,.game{scroll-margin-top:110px}
 .vd .swot .s{border-color:#1e8e5a}.vd .swot .w{border-color:#C98A12}.vd .swot .o{border-color:#2d6a9f}.vd .swot .t{border-color:#B3261E}.vd .swot i{display:block;font-style:normal;color:#8a6d1f;font-size:12.5px;margin-top:3px}
 .vd .vcta{display:block;text-align:center;background:#0B1F3A;color:#fff;border-radius:12px;padding:12px;font-weight:800;margin-top:12px;text-decoration:none;font-size:16px}
 .vd .vcta small{display:block;font-weight:500;color:#E8CF8E;font-size:12.5px;margin-top:2px}
-.ex3{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}.ex3 th,.ex3 td{padding:6px 4px;text-align:right;border-top:1px dashed rgba(255,255,255,.15)}.ex3 th:first-child,.ex3 td:first-child{text-align:left}.ex3 tr.r td{color:#E8CF8E;font-weight:700}
+.ex3{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px;white-space:nowrap}.ex3 th{white-space:normal;vertical-align:bottom}.ex3 th,.ex3 td{padding:6px 3px;text-align:right;border-top:1px dashed rgba(255,255,255,.15)}.ex3 th:first-child,.ex3 td:first-child{text-align:left}.ex3 tr.r td{color:#E8CF8E;font-weight:700}
 .rep .box{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:12px 13px;font-size:15.5px;color:#E3E9F2;line-height:1.5}
 .rep .row{display:flex;justify-content:space-between;gap:10px;border-top:1px dashed rgba(255,255,255,.15);padding:5px 0}.rep .row:first-child{border-top:0}
 .rep .big{display:flex;flex-wrap:wrap;gap:6px 22px;margin-bottom:6px}.rep .big b{display:block;font-size:22px;color:#fff}
@@ -303,7 +303,7 @@ html:not(.eoion) .ans .eoin{display:none}
 .mgsplit{background:#0B1F3A;color:#fff;border-radius:14px;padding:12px 14px;margin:8px 0 12px;font-size:15px;line-height:1.5}.mgsplit .bar{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:8px 0 6px}.mgsplit .bar i{display:block}.mgsplit b{color:#E9C46A}
 .mgsrc{display:block;margin-top:10px;font-size:11.5px;color:#6B7280;line-height:1.45}#mgcard select{width:100%;font:inherit;font-size:15px;padding:10px;border:1.5px solid var(--line);border-radius:12px;background:#fff;margin-top:4px}
 .mgrow{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-bottom:1px dashed #D8DEE8}.mgrow:last-child{border-bottom:0}.mgrow b{white-space:nowrap}
-.plan3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 4px}.plan3 label{font-size:13px;font-weight:800;line-height:1.25;display:flex;flex-direction:column;justify-content:space-between}.plan3 input{width:100%;margin-top:4px}
+.plan3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 4px}.plan3 label{font-size:13px;font-weight:800;line-height:1.25;display:flex;flex-direction:column;justify-content:space-between}.plan3 input{width:100%;margin-top:4px}.plan3 label{overflow-wrap:anywhere;min-width:0}
 .mgask{background:#FFF8E6;border:2px solid #E9C46A;border-radius:14px;padding:12px;margin:10px 0;font-size:15.5px;line-height:1.45;animation:mgpop .35s ease}@keyframes mgpop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
 .mgbtns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}.mgbtns button{flex:1 1 140px;font:inherit;font-weight:800;font-size:15px;border-radius:12px;padding:11px 10px;cursor:pointer}#mgyes{background:linear-gradient(135deg,#E9C46A,#C9A24A);border:0;color:#0B1F3A}#mgno{background:#fff;border:1.5px solid #D8DEE8;color:#475467}
 .mgskip{font-size:13.5px;color:#6B7280;margin:6px 0 10px}.mgskip a{color:#8A6A1F;font-weight:800}
@@ -607,7 +607,7 @@ html:not(.eoion) .ans .eoin{display:none}
  </div></div>
  <div class="card"><div class="num"><span class="ic">💳</span><span class="n">+</span></div><div class="body">
   <h3>Payment plan and exit</h3><p>How much you pay before the keys, and when you're allowed to sell.</p>
-  <div class="plan3"><label>🏗️ During construction %<input id="xpp" type="text" inputmode="decimal" placeholder="e.g. 60"></label><label>🔑 On handover %<input id="xho" type="text" inputmode="decimal" placeholder="e.g. 40"></label><label>📆 Post-handover %<input id="xpost" type="text" inputmode="decimal" placeholder="0 if none"></label></div>
+  <div class="plan3"><label>🏗️ Construction %<input id="xpp" type="text" inputmode="decimal" placeholder="e.g. 60"></label><label>🔑 Handover %<input id="xho" type="text" inputmode="decimal" placeholder="e.g. 40"></label><label>📆 After handover %<input id="xpost" type="text" inputmode="decimal" placeholder="0"></label></div>
   <div class="mgsplit" id="mgsplit" hidden></div>
   <div class="mgask" id="mgask" hidden><div id="mgq"></div><div class="mgbtns"><button type="button" id="mgyes">🏦 Yes, calculate mortgage</button><button type="button" id="mgno">Skip, I'm in a hurry ›</button></div></div>
   <div class="mgskip" id="mgskip" hidden>Mortgage skipped · <a href="#" id="mgundo">calculate it anyway</a></div>
@@ -1046,6 +1046,7 @@ html:not(.eoion) .ans .eoin{display:none}
   function xget(){ var o={}; XIDS.forEach(function(i){ var v=xv(i); if(v) o[i]=v; }); var t=xboxes.map(function(b){return b.checked?"1":"0";}).join(""); if(t.indexOf("1")>=0) o.t=t; return o; }
   function xset(o){ XIDS.forEach(function(i){ if(o[i]!=null) document.getElementById(i).value=o[i]; }); if(o.t) xboxes.forEach(function(b,i){ b.checked=o.t.charAt(i)==="1"; }); xcalc(); }
   function aed(n){ return "AED "+Math.round(n).toLocaleString("en-US"); }
+  function aedK(n){ var a=Math.abs(n), sg=n<0?"−":""; return sg+(a>=1e6?(a/1e6).toFixed(2)+"M":a>=1e3?Math.round(a/1e3)+"K":Math.round(a)); }
   function ppJudge(pp){ return pp>=80?["r","🚩 "+pp+"% before handover: risky. Most of your money is with the developer before you get the keys."]:pp>60?["a","⚠️ "+pp+"% before handover: on the heavy side. 60/40 or 50/50 is safer."]:["g","✅ "+pp+"% before handover: a safer split."]; }
   function reJudge(re){ return re>=50?["r","🚩 You can only resell after paying "+re+"%: your money is locked in for a long time."]:re>=30?["a","⚠️ Resale allowed after "+re+"% paid: plan for that before you can exit."]:["g","✅ Resale allowed after "+re+"% paid: a flexible exit."]; }
   function breakEven(){
@@ -1265,9 +1266,9 @@ html:not(.eoion) .ans .eoin{display:none}
       SCN.map(function(x){ return '<tr'+(x[0]==="Realistic"?' class="r"':'')+'><td>'+x[0]+'</td><td>'+rng(x[1],AP.yh)+'</td>'+(HOLD?'<td>'+rng(x[1],AP.yh+HOLD)+'</td>':'')+'</tr>'; }).join("")+'</table>';
       if(PX){ var dld=PX*0.04, T=xn("xtf"), ag=Math.min(xn("xag")||0,20), scY=xn("xsc")*SZ, cost=PX+dld+T;
         h+='<div style="margin:12px 0 4px;font-weight:800">💼 If you sell '+(HOLD?HOLD+' year'+(HOLD>1?"s":"")+' after handover ('+(AP.hy+HOLD)+')':'at handover ('+AP.hy+')')+(GOAL==="live"?' after living in it':HOLD&&RENT?' after renting it out':'')+'</div>'+
-        '<table class="ex3"><tr><th></th><th>Sale price</th>'+(HOLD&&RENT?'<th>Rent collected</th>':'')+'<th>Profit</th><th>Return</th></tr>'+
+        '<div style="overflow-x:auto"><table class="ex3"><tr><th></th><th>Sale price</th>'+(HOLD&&RENT?'<th>Rent</th>':'')+'<th>Profit</th><th>Return</th></tr>'+
         SCN.map(function(x){ var v=PX*(1+grow(x[1],AP.yh+HOLD)/100), rentT=RENT*HOLD, scT=scY*HOLD, sell=v*ag/100, pr=v-sell-cost-scT+rentT;
-          return '<tr'+(x[0]==="Realistic"?' class="r"':'')+'><td>'+x[0]+'</td><td>'+aed(v)+'</td>'+(HOLD&&RENT?'<td>'+aed(rentT)+'</td>':'')+'<td>'+(pr<0?'−':'')+aed(Math.abs(pr)).replace("AED ","AED ")+'</td><td>'+(pr/cost*100).toFixed(0)+'%</td></tr>'; }).join("")+'</table>'+
+          return '<tr'+(x[0]==="Realistic"?' class="r"':'')+'><td>'+x[0]+'</td><td>'+aedK(v)+'</td>'+(HOLD&&RENT?'<td>'+aedK(rentT)+'</td>':'')+'<td>'+aedK(pr)+'</td><td>'+(pr/cost*100).toFixed(0)+'%</td></tr>'; }).join("")+'</table></div><div style="font-size:12px;opacity:.65;margin-top:2px">Amounts in AED (K = thousand, M = million).</div>'+
         '<div style="margin-top:6px;opacity:.75;font-size:13px">On '+aed(PX)+' plus DLD 4%'+(T?', transfer fee':'')+(ag?', '+ag+'% selling agent fee':'')+(scY&&HOLD?', service charges for '+HOLD+' yr':'')+(HOLD&&RENT?' and rent of '+aed(RENT)+'/yr ('+(xn("xrent")?'your figure':'Ejari median')+', before vacancies)':GOAL==="live"?'. No rent counted because you plan to live in it':'')+'. Mortgage costs not included.</div>'; }
       else h+='<div style="margin-top:8px;opacity:.85">Add your price in Check 19 to see the sale price, rent and profit for each scenario.</div>';
       h+='<div style="margin-top:8px;opacity:.75;font-size:13px">Scenarios are estimates from DLD price history, the developer\'s record, supply due in the area, infrastructure, facilities, your entry price and today\'s market. Not a guarantee. 📞 How each figure is worked out is explained in a call with Sam.</div></div>'; })();
