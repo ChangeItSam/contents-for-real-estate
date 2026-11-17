@@ -431,7 +431,8 @@ html:not(.eoion) .ans .eoin{display:none}
 .sugg button.nfm{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .tapbelow{flex:none;background:#E53935;color:#fff;font-size:14px;font-weight:800;border-radius:16px;padding:5px 11px;box-shadow:0 3px 10px rgba(229,57,53,.35);animation:tapd 1.1s ease-in-out infinite;white-space:nowrap}
 @keyframes tapd{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
-.sugg button.alias{background:#F2F7FF}.sugg .grph{display:block;width:100%;text-align:left;background:#0B1F3A;color:#fff;padding:10px 12px;font-size:14.5px;line-height:1.35;border:0;border-bottom:2px solid #C9A24A;cursor:pointer}.sugg .grph b{color:#E8CF8E}.sugg .grph small{display:block;color:#D5DDEA;font-size:12.5px;margin-top:2px}.devproj{font-size:13.5px;margin:6px 0;line-height:1.45}.devproj b{color:#0B1F3A}.devnote{font-size:14px;margin:4px 0 6px;color:#1d3f6b}
+.sugg button.alias{background:#F2F7FF}.sugg .grph{display:block;width:100%;text-align:left;background:#0B1F3A;color:#fff;padding:10px 12px;font-size:14.5px;line-height:1.35;border:0;border-bottom:2px solid #C9A24A;cursor:pointer}.sugg .grph b{color:#E8CF8E}.sugg .grph small{display:block;color:#D5DDEA;font-size:12.5px;margin-top:2px}.devproj{font-size:13.5px;margin:6px 0;line-height:1.45}.devproj b{color:#0B1F3A}.devhint .dhbtn{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}.devhint .dhbtn button{flex:1;min-width:140px;border:0;border-radius:10px;padding:11px 10px;font-weight:800;font-size:15px;cursor:pointer}.devhint .dhy{background:#1e8e5a;color:#fff}.devhint .dhn{background:#fff;color:#0B1F3A;border:1.5px solid #C9A24A!important}
+.devnote{font-size:14px;margin:4px 0 6px;color:#1d3f6b}
 
 .hpill{display:inline-block;background:var(--navy);color:var(--gold2);font-size:12.5px;font-weight:800;letter-spacing:1.5px;border-radius:20px;padding:5px 12px;margin-top:14px}
 .hero2 h1{font-size:25px!important;line-height:1.18!important;margin-top:10px!important}.hero2 h1 .r{color:#E53935}
@@ -854,7 +855,7 @@ html:not(.eoion) .ans .eoin{display:none}
   function dBrand(n){ var w=String(n||"").toLowerCase().replace(/[^a-z0-9 ]+/g," ").split(/\s+/).filter(Boolean);
     if(w[0]==="al"&&w[1]&&!DSTOP[w[1]]&&w[1].length>=4) return "al "+w[1];
     return (w[0]&&!DSTOP[w[0]]&&w[0].length>=4)?w[0]:""; }
-  var BK={"1510":"dubai holding","103":"nakheel","880":"nakheel","1076":"meraas","1181":"meydan"};
+  var BK={"1656":"aldar","1657":"aldar","1658":"aldar","1510":"dubai holding","103":"nakheel","880":"nakheel","1076":"meraas","1181":"meydan"};
   function bk(no){ if(BK[no]) return BK[no]; var d=INS&&INS.d&&INS.d[no]; return d?dBrand(d.name):""; }
   function bTitle(b){ return String(b).replace(/\b[a-z]/g,function(c){ return c.toUpperCase(); }); }
   function devGroup(no){ var d=INS&&INS.d&&INS.d[no]; if(!d) return null; var b=bk(no); if(!b) return null;
@@ -870,7 +871,7 @@ html:not(.eoion) .ans .eoin{display:none}
   function brandLine(g){ return '🏢 <b>'+dEsc(g.brand)+' group in Dubai</b>: '+(g.fin+g.act+g.can)+' projects · '+g.fin+' handed over · '+g.act+' under construction'+(g.can?' · '+g.can+' cancelled':'')+'<small>'+(g.n>1?'Across '+g.n+' DLD-registered '+dEsc(g.brand)+' companies. ':'')+'Source: Dubai Land Department project registry.</small>'; }
   function brandProjects(b){ if(typeof P==="undefined"||!P||!P.p) return null; var a={u:[],f:[]}; P.p.forEach(function(r){ var ipr=INS&&INS.p&&INS.p[r[0]]; if((ipr?bk(ipr[0]):dBrand(r[2]))===b){ if(/finish/i.test(r[3])) a.f.push(r[1]); else if(!/cancel/i.test(r[3])) a.u.push(r[1]); } }); return a; }
   function devCardHtml(d,foot){
-    var g=devGroup(d.no); if(g) d={no:d.no,name:d.name,fin:g.fin,act:g.act,late:g.late,can:g.can};
+    var g=devGroup(d.no); if(g) d={no:d.no,name:g.brand+" group ("+g.n+" DLD companies)",fin:g.fin,act:g.act,late:g.late,can:g.can};
     var tot=d.fin+d.act+d.can;
     function c(n,l){ return '<span><b class="bn" aria-hidden="true">'+n+'</b>'+l+'</span>'; }
     return '<b class="t">✅ Developer found in Dubai Land Department records</b><div><b>'+(DEV_BRAND[d.no]?dEsc(DEV_BRAND[d.no])+'</b><br>Registered as: <b>'+dEsc(d.name):dEsc(d.name))+'</b></div>'+
@@ -888,8 +889,8 @@ html:not(.eoion) .ans .eoin{display:none}
       if(!quiet) holdNext(devCard,function(){ if(needLaunch()) goLaunch(); else if(window.guideGo) window.guideGo(devCard); }); }); }
   // Brands that register projects with DLD under a different company name
   // Brands that register projects with DLD under a different company name
-  var DEV_ALIAS={"nakheel":["1510","103","880"],"meraas":["1510","1076"],"meera":["1510","1076"],"dubai properties":["1510"],"dubai property":["1510"],"meydan":["1510","1181"],"dubai holding":["1510","103","880","1076","1181"],"dhre":["1510"]};
-  var DEV_BRAND={"1510":"Dubai Holding Real Estate (Nakheel · Meraas · Dubai Properties · Meydan)","103":"Nakheel","880":"Nakheel","1076":"Meraas","1181":"Meydan"};
+  var DEV_ALIAS={"aldar":["1657","1656","1658"],"al dar":["1657","1656","1658"],"nakheel":["1510","103","880"],"meraas":["1510","1076"],"meera":["1510","1076"],"dubai properties":["1510"],"dubai property":["1510"],"meydan":["1510","1181"],"dubai holding":["1510","103","880","1076","1181"],"dhre":["1510"]};
+  var DEV_BRAND={"1656":"Aldar","1657":"Aldar","1658":"Aldar","1510":"Dubai Holding Real Estate (Nakheel · Meraas · Dubai Properties · Meydan)","103":"Nakheel","880":"Nakheel","1076":"Meraas","1181":"Meydan"};
   var DHRE_NOTE="Famous brands often register projects under a different company name. Double-check the official developer name registered with DLD on your EOI / booking form.";
   function devAlias(q){ var out=[]; Object.keys(DEV_ALIAS).forEach(function(k){ if(k.indexOf(q)===0 || q.indexOf(k)===0) DEV_ALIAS[k].forEach(function(n){ if(out.indexOf(n)<0) out.push(n); }); }); return out; }
   var devNF=null;
@@ -1430,8 +1431,13 @@ html:not(.eoion) .ans .eoin{display:none}
     pin.value=m.name; sg.hidden=true; PROJROW=null; eoiShow(false); setEoi(true,true); devBoxShow();
     var w=document.getElementById("devbox"), dh=document.getElementById("devhint");
     if(!dh){ dh=document.createElement("div"); dh.id="devhint"; dh.className="devhint"; devIn.parentNode.insertBefore(dh,devIn); }
-    dh.innerHTML="👷 We filled the developer from the project: <b>"+dEsc(m.dev)+"</b>. Tap the correct company below to confirm, or type the right developer name.";
-    dh.hidden=false; devIn.value=m.dev; devSearch();
+    var ask=function(label){ dh.innerHTML='👷 Developer filled from the project: <b>'+dEsc(label)+'</b>. Is this the developer?<div class="dhbtn"><button type="button" class="dhy">✅ Yes, next check</button><button type="button" class="dhn">✏️ Change developer</button></div>';
+      dh.querySelector(".dhy").addEventListener("click",function(){ dh.hidden=true; if(needLaunch()) goLaunch(); else if(window.guideGo) window.guideGo(devCard.hidden?devIn:devCard); });
+      dh.querySelector(".dhn").addEventListener("click",function(){ dh.hidden=true; devClear(); devIn.value=""; devCard.hidden=true; try{ localStorage.removeItem("sam-dealtest-dev"); }catch(e){} update(); devIn.focus(); devIn.placeholder="Type the developer's name"; }); };
+    dh.hidden=false; devIn.value=m.dev;
+    insLoad(function(){ var b=brandOfQuery(m.dev), gs=b&&brandStats(b);
+      if(gs&&gs.top){ var lb=gs.n>1?gs.brand+" group":INS.d[gs.top].name; devPick(gs.top,true); devIn.value=lb; ask(lb); }
+      else { devSearch(); ask(m.dev+" (not in DLD records yet)"); } });
     setTimeout(function(){ w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); },150);
     if(typeof mtoast==="function") mtoast("🟡 "+m.name+": EOI / pre-launch. Please confirm the developer");
   }
