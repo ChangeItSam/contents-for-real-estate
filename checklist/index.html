@@ -423,6 +423,9 @@ html:not(.eoion) .ans .eoin{display:none}
 .devstat{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:8px 0}.devstat span{background:rgba(255,255,255,.7);border-radius:10px;padding:6px 4px;text-align:center;font-size:12.5px;line-height:1.25}.devstat b{display:block;font-size:20px}
 .devstat .bn{filter:blur(7px);user-select:none}.devlock{font-size:14.5px;font-weight:700;margin-bottom:4px}
 .pinq{margin-top:14px}.pinq .plab{font-weight:800;color:var(--navy);font-size:16px}.pinq .plab small{font-weight:600;opacity:.75;font-size:13px}.pinrow{display:flex;gap:6px;margin-top:6px}.pinrow input{flex:1;min-width:0;font-size:16px;padding:10px;border:1.5px solid #C9A24A;border-radius:10px}.pinrow button,.pinbtns button{background:#0B1F3A;color:#fff;border:0;border-radius:10px;padding:10px 14px;font-weight:700;font-size:14px}.pinsg{display:flex;flex-direction:column;gap:4px;margin-top:6px}.pinsg button{text-align:left;background:#FFF8E7;border:1px solid #C9A24A;border-radius:8px;padding:8px;font-size:13.5px;color:#0B1F3A}#pinmap{height:280px;border-radius:12px;margin-top:8px;border:1.5px solid #C9A24A;background:#e8eef5;z-index:0}.pinbtns{margin-top:6px}.pinout{margin-top:6px;font-size:14px;color:#0B1F3A}.pinout.ok{font-weight:700;color:#1e6e46}
+.agq{margin:10px 0 8px}.aglab{font-weight:800;color:var(--navy);font-size:16px;margin-bottom:6px}.agb{display:flex;gap:8px;flex-wrap:wrap}.agb button{flex:1;min-width:150px;border:2px solid #C9A24A;background:#fff;color:#0B1F3A;border-radius:12px;padding:11px 10px;font-weight:800;font-size:15px;cursor:pointer}.agb button.on{background:#0B1F3A;color:#fff;border-color:#0B1F3A}
+.agnote{margin-top:8px;font-size:14px;background:#FFF8E7;border:1px solid #E6D3A0;border-radius:10px;padding:8px 10px;color:#0B1F3A}
+.agwhy{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}@media(max-width:560px){.agwhy{grid-template-columns:1fr}}.agw{border-radius:12px;padding:10px 12px;font-size:14px;line-height:1.4}.agw ul{margin:6px 0 0;padding-left:18px}.agw li{margin:3px 0}.agw.b{background:#0B1F3A;color:#fff;border:2px solid #C9A24A}.agw.b b{color:#E8CF8E}.agw.d{background:#F4F6FA;color:#0B1F3A;border:1px solid #D5DDEA}
 .launchq{margin-top:12px}.launchq .plab{font-weight:800;color:var(--navy);font-size:16px}.ans.lq{margin-top:6px}
 .sugg button.nfm{color:#8A1F1F;font-weight:700;opacity:1}
 .taphere{display:inline-block;background:#E53935;color:#fff;font-size:13.5px;font-weight:800;border-radius:14px;padding:3px 10px;margin:0 0 6px;box-shadow:0 3px 10px rgba(229,57,53,.35);animation:tapb 1.2s ease-in-out infinite}
@@ -536,7 +539,10 @@ html:not(.eoion) .ans .eoin{display:none}
 <section class="sec">
  <div class="kicker">Step 2 of 3 · Checks 5–9</div><h2>🔐 Is your money protected?</h2><p class="lead">Where your money goes and who you deal with.</p>
  <div class="card"><div class="num"><span class="ic">🏦</span><span class="n">5–7</span></div><div class="body"><h3>Your money goes into the project's escrow account</h3><p>By law (<b>Law No. 8 of 2007</b>), off-plan payments go into a regulated escrow account for that project, not the developer's company account. When your project is registered, we show you its escrow bank from DLD records, so the only thing left for you is to check that the account on your payment instructions matches it.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><b class="cn">5</b><span>Project has an escrow account registered with DLD</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">6</b><span>Escrow bank &amp; account shown on <b>your</b> payment instructions</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">7</b><span>They match the project's escrow on DLD records</span></label></div><div class="tip warn">⚠️ Never pay a deposit into a personal or general company account.</div></div></div>
- <div class="card"><div class="num"><span class="ic">🪪</span><span class="n">8–9</span></div><div class="body"><h3>Your agent is licensed</h3><p>Only a RERA-licensed agent can legally sell you property, and a licensed agent is answerable to the regulator if something goes wrong. This is the one thing we can't look up for you: ask your agent for their BRN (Broker Registration Number), and make sure the agency and the agent are named on your paperwork.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="5"><b class="cn">8</b><span>Agent BRN verified</span></label><label class="tick"><input type="checkbox" data-w="2"><b class="cn">9</b><span>Agency and agent named on the paperwork</span></label></div></div></div>
+ <div class="card"><div class="num"><span class="ic">🪪</span><span class="n">8–9</span></div><div class="body"><h3>Your agent is licensed</h3><p>Only a RERA-licensed agent can legally sell you property, and a licensed agent is answerable to the regulator if something goes wrong. This is the one thing we can't look up for you: ask your agent for their BRN (Broker Registration Number), and make sure the agency and the agent are named on your paperwork.</p>
+<div class="agq" id="agq"><div class="aglab">Who is helping you buy?</div><div class="agb"><button type="button" data-a="b">🤝 A broker / agency</button><button type="button" data-a="d">🏢 The developer's own sales agent</button></div><div class="agnote" id="agnote" hidden></div></div><div class="ticks" id="agticks"><label class="tick"><input type="checkbox" data-w="5"><b class="cn">8</b><span>Agent BRN verified</span></label><label class="tick"><input type="checkbox" data-w="2"><b class="cn">9</b><span>Agency and agent named on the paperwork</span></label></div>
+<div class="agwhy" id="agwhy"><div class="agw b"><b>🤝 Why choose a broker</b><ul><li>Shows you several projects that fit your budget and goal, not just one developer's</li><li>Helps you resell or rent it out later</li><li>Stays with you from entry to exit: booking, SPA, handover, resale</li><li>Saves busy buyers a lot of time and leg work</li><li>On off-plan, the developer usually pays the agency's fee, so it often costs you nothing extra</li></ul></div>
+<div class="agw d"><b>🏢 Why the developer's sales agent</b><ul><li>First-hand information on this project</li><li>Direct access to launch inventory and unit allocation</li><li>Developer offers and payment plans straight from the source</li><li>Booking and SPA handled in-house by the developer's team</li></ul></div></div></div></div>
 </section>
 
 <section class="sec">
@@ -928,6 +934,21 @@ html:not(.eoion) .ans .eoin{display:none}
   function setLaunch(v){ LAUNCH=v||""; try{ localStorage.setItem("sam-dealtest-launch",LAUNCH); }catch(e){} lqBtns.forEach(function(b){ b.classList.toggle("on",b.dataset.l===LAUNCH); }); update(); }
   lqBtns.forEach(function(b){ b.addEventListener("click",function(){ setLaunch(LAUNCH===b.dataset.l?"":b.dataset.l); }); });
   setLaunch(LAUNCH);
+  // who is helping you buy: broker -> checks 8-9; developer's own agent -> 8-9 N/A, move on
+  var AGENT=""; try{ AGENT=localStorage.getItem("sam-dealtest-ag")||""; }catch(e){}
+  var agBtns=Array.prototype.slice.call(document.querySelectorAll("#agq .agb button")), agT=document.getElementById("agticks");
+  function setAgent(v,go){ AGENT=v||""; try{ localStorage.setItem("sam-dealtest-ag",AGENT); }catch(e){}
+    agBtns.forEach(function(b){ b.classList.toggle("on",b.dataset.a===AGENT); });
+    var ab=[boxes[7],boxes[8]], note=document.getElementById("agnote");
+    if(AGENT==="d"){ ab.forEach(function(b){ if(!b.checked){ b.dataset.st="n"; } }); agT.hidden=true; ab.forEach(function(b){ if(b._ans) b._ans.hidden=true; });
+      note.innerHTML="✅ Buying straight from the developer's sales team: checks 8–9 are about brokers, so we marked them N/A.<br>💡 A broker can show you other projects that fit, help you resell later and save you the leg work. See <b>Why this matters</b> below."; note.hidden=false; var wm=document.getElementById("agq").closest(".body").querySelector("details.whym"); if(wm&&go) wm.open=true; }
+    else { ab.forEach(function(b){ if(b.dataset.st==="n") b.dataset.st=""; if(b._ans) b._ans.hidden=false; }); agT.hidden=false;
+      note.innerHTML=AGENT==="b"?"👍 Ask your broker for their BRN and check it below.":""; note.hidden=AGENT!=="b"; }
+    update();
+    if(go&&AGENT==="d"&&window.guideGo) setTimeout(function(){ window.guideGo(document.getElementById("agq").closest(".card")); },700); }
+  agBtns.forEach(function(b){ b.addEventListener("click",function(){ setAgent(AGENT===b.dataset.a?"":b.dataset.a,true); }); });
+  setTimeout(function(){ setAgent(AGENT,false); },0);
+  window.setAgent=setAgent; window.getAgent=function(){ return AGENT; };
   setTimeout(function(){ if(FROMLINK) return; var n=null; try{ n=localStorage.getItem("sam-dealtest-dev"); }catch(e){} if(n && EOI && !DLDFOUND) devPick(n,true); },50);
   eoiBox.addEventListener("change",function(){ setEoi(eoiBox.checked,true); });
   update();
@@ -1234,6 +1255,8 @@ html:not(.eoion) .ans .eoin{display:none}
     var nas=boxes.filter(function(b){return stOf(b)==="n";});
     if(nas.length) h+='<h4>➖ Marked not applicable ('+nas.length+')</h4><div class="box">'+nas.map(function(b){return '<div class="row"><span>'+e(labelOf(b))+'</span></div>';}).join("")+'</div>';
     h+='<h4>✅ Already confirmed ('+conf.length+')</h4>'+(conf.length?'<div class="box">'+conf.map(function(b){return '<div class="row ok"><span>✓ '+e(labelOf(b))+'</span></div>';}).join("")+'</div>':'<div class="box">Nothing confirmed yet.</div>');
+    var AGv=window.getAgent?window.getAgent():"";
+    if(AGv) h+='<h4>🤝 Who is helping you buy</h4><div class="box">'+(AGv==="b"?'A broker / agency. Make sure their BRN is verified and the agency is named on your paperwork.':'The developer\'s own sales agent. A broker can also show you other projects that fit your goal, and help you resell or rent it out later. Ask Sam.')+'</div>';
     h+='<h4>🧭 Next step</h4><div class="box">'+(sc>=95?"This project passes the key checks. Next: a site or show-room visit and the paperwork, checked together.":sc>=80?"Close the items above before you pay anything. I can help you get each one confirmed with the developer.":"There are real gaps here. Let's go through them together, and I'll show you off-plan projects that pass these checks.")+'</div>';
     // 9. Sam's verdict (bottom line). Ratings only; the reasoning is for the call.
     (function(){
@@ -1348,13 +1371,13 @@ html:not(.eoion) .ans .eoin{display:none}
   function resultLink(sc){
     var bits=boxes.map(function(b){return b.checked?"1":"0";}).join("");
     var proj=document.getElementById("proj").value.trim();
-    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0,dv:DEVSEL?DEVSEL.no:"",la:LAUNCH,pin:EOI&&PIN?PIN:""})))));
+    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0,dv:DEVSEL?DEVSEL.no:"",la:LAUNCH,pin:EOI&&PIN?PIN:"",ag:window.getAgent?window.getAgent():""})))));
   }
   // shared result link: restore answers and show result directly (after the page has set up)
   setTimeout(function(){
     var m=location.hash.match(/^#r=(.+)$/); if(!m) return;
     try{
-      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true; if(o.pin&&o.pin.length===2){ PIN=o.pin; pinOut(); } setEoi(o.e===1,false); devBoxShow(); setLaunch(o.la||""); if(o.dv) insLoad(function(){ var d=INS.d&&INS.d[o.dv]; if(d){ DEVSEL={no:o.dv,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devCard.className="dld devcard "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false; } });
+      var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true; if(o.ag&&window.setAgent) setTimeout(function(){ window.setAgent(o.ag,false); },0); if(o.pin&&o.pin.length===2){ PIN=o.pin; pinOut(); } setEoi(o.e===1,false); devBoxShow(); setLaunch(o.la||""); if(o.dv) insLoad(function(){ var d=INS.d&&INS.d[o.dv]; if(d){ DEVSEL={no:o.dv,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devCard.className="dld devcard "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false; } });
       boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; var v=o.s&&o.s.charAt(i); b.dataset.st=(!b.checked&&(v==="u"||(v==="n"&&naOK(i))))?v:""; });
       document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n;
       if(o.x){ ["xprice:pprice","xsize:psize"].forEach(function(pr){ var a=pr.split(":"), el=document.getElementById(a[1]); if(o.x[a[0]]&&el&&!el.value) el.value=o.x[a[0]]; }); xset(o.x); }
@@ -1368,7 +1391,7 @@ html:not(.eoion) .ans .eoin{display:none}
 
   document.getElementById("rclose").addEventListener("click",close);
   document.getElementById("review").addEventListener("click",function(){ close(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
-  document.getElementById("reset").addEventListener("click",function(){ devClear(); devIn.value=""; setLaunch(""); setEoi(false,false); devBoxShow(); boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc","pinin"].forEach(function(i){var el=document.getElementById(i); if(el) el.value="";}); PIN=null; try{ localStorage.removeItem("sam-dealtest-pin"); }catch(e){} if(LMK&&LMAP){ LMAP.removeLayer(LMK); LMK=null; } pinOut(); document.getElementById("psf").classList.remove("auto"); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
+  document.getElementById("reset").addEventListener("click",function(){ devClear(); devIn.value=""; setLaunch(""); setEoi(false,false); devBoxShow(); boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc","pinin"].forEach(function(i){var el=document.getElementById(i); if(el) el.value="";}); PIN=null; try{ localStorage.removeItem("sam-dealtest-pin"); }catch(e){} if(window.setAgent) window.setAgent("",false); if(LMK&&LMAP){ LMAP.removeLayer(LMK); LMK=null; } pinOut(); document.getElementById("psf").classList.remove("auto"); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
   function confetti(){
     var c=document.getElementById("conf"), x=c.getContext("2d"); c.width=innerWidth; c.height=innerHeight;
     var cols=["#C9A24A","#E8CF8E","#3DDC84","#fff","#25D366"], ps=[];
@@ -1725,8 +1748,8 @@ html:not(.eoion) .ans .eoin{display:none}
     var seen=[];
     boxes.forEach(function(b){ var c=b.closest(".card"); if(seen.indexOf(c)<0){ seen.push(c); var n=(c.querySelector(".n")||{}).textContent||"";
       var cb=boxes.filter(function(x){ return x.closest(".card")===c; });
-      var hasDev=!!c.querySelector("#devbox");
-      steps.push({k:"c"+n,a:c.querySelector(".ticks"),hi:c,t:"Answer every line: Checked, Not known or N/A",done:function(){ if(hasDev && needLaunch()) return false; if(hasDev && EOI && !DLDFOUND && !PIN) return false; return cb.every(function(x){ return stOf(x)!==""; }); }}); } });
+      var hasDev=!!c.querySelector("#devbox"), hasAg=!!c.querySelector("#agq");
+      steps.push({k:"c"+n,a:hasAg?c.querySelector("#agq"):c.querySelector(".ticks"),hi:c,t:hasAg?"Who is helping you buy? Then answer the lines":"Answer every line: Checked, Not known or N/A",done:function(){ if(hasAg && !(window.getAgent&&window.getAgent())) return false; if(hasDev && needLaunch()) return false; if(hasDev && EOI && !DLDFOUND && !PIN) return false; return cb.every(function(x){ return stOf(x)!==""; }); }}); } });
     steps.push({k:"psf",a:psf.closest(".card").querySelector(".pcalc")||psf.closest(".psfrow"),hi:psf.closest(".card"),t:"Enter the unit price and size",skip:"Skip",done:function(){ return num(psf.value)>0; }});
     steps.push({k:"ploc",a:ploc.closest("label"),hi:ploc.closest(".card"),t:"Pick the area from the list",skip:"Skip",done:function(){ return ploc.value.trim().length>1; }});
     Array.prototype.forEach.call(document.querySelectorAll("#moresec .card"),function(c,i){
@@ -1781,7 +1804,7 @@ html:not(.eoion) .ans .eoin{display:none}
     Array.prototype.forEach.call(document.querySelectorAll("section.sec .card .body"),function(b){
       var card=b.closest(".card"); if(card.closest("#psfsec")||card.closest("#moresec")) return;
       var keep=b.querySelector("h3"), ticks=b.querySelector(".ticks"), extra=[];
-      Array.prototype.forEach.call(b.children,function(c){ if(c!==keep && c!==ticks && !c.classList.contains("eoi")) extra.push(c); });
+      Array.prototype.forEach.call(b.children,function(c){ if(c!==keep && c!==ticks && !c.classList.contains("eoi") && !c.classList.contains("agq")) extra.push(c); });
       if(!extra.length) return;
       var d=document.createElement("details"); d.className="whym"; d.innerHTML="<summary>Why this matters ▾</summary>";
       extra.forEach(function(c){ d.appendChild(c); });
