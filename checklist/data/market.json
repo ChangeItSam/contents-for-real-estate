@@ -104,6 +104,312 @@
     25.198,
     55.3604
    ]
+  },
+  {
+   "name": "Bay Estate",
+   "dev": "Nakheel",
+   "area": "Palm Deira",
+   "comm": "Dubai Islands",
+   "near": "Dubai Islands Beach",
+   "ll": [
+    25.27614,
+    55.30168
+   ],
+   "tags": "dubai islands deira islands villas townhouses",
+   "added": "2026-11-17",
+   "src": "TradeArabia, 5 Oct 2026"
+  },
+  {
+   "name": "Palm Jebel Ali Frond F Beach & Coral Collections",
+   "dev": "Nakheel",
+   "area": "Palm Jabal Ali",
+   "comm": "Palm Jebel Ali, Frond F",
+   "near": "Palm Jebel Ali",
+   "ll": [
+    24.9876,
+    55.02201
+   ],
+   "tags": "pja palm jebel ali beachfront villas frond f beach collection coral collection",
+   "added": "2026-11-17",
+   "src": "Dubai Media Office, 20 Aug 2026"
+  },
+  {
+   "name": "Sorrento",
+   "dev": "Damac",
+   "area": "DAMAC Lagoons",
+   "comm": "DAMAC Lagoons",
+   "near": "DAMAC Hills",
+   "tags": "damac lagoons dubailand lagoon views",
+   "added": "2026-11-17",
+   "src": "Property Finder (booking 15 Jul 2026); Metropolitan, 22 Oct 2026"
+  },
+  {
+   "name": "Soréi by Zoya",
+   "dev": "Zoya",
+   "area": "Madinat Al Mataar",
+   "comm": "Dubai South",
+   "near": "Al Maktoum International Airport",
+   "tags": "sorei dubai south dwc",
+   "added": "2026-11-17",
+   "src": "ezre.ae new launches, 12 Nov 2026"
+  },
+  {
+   "name": "Cellista by Zoya",
+   "dev": "Zoya",
+   "area": "Madinat Al Mataar",
+   "comm": "Dubai South",
+   "near": "Al Maktoum International Airport",
+   "ll": [
+    24.91701,
+    55.10571
+   ],
+   "tags": "dubai south dwc",
+   "added": "2026-11-17",
+   "src": "ezre.ae new launches, 27 Oct 2026"
+  },
+  {
+   "name": "Miorah Maison 2",
+   "dev": "Zoya",
+   "area": "Madinat Al Mataar",
+   "comm": "Dubai South",
+   "near": "Al Maktoum International Airport",
+   "tags": "dubai south dwc",
+   "added": "2026-11-17",
+   "src": "ezre.ae new launches, 14 Nov 2026"
+  },
+  {
+   "name": "Elyra Residences by Enaam",
+   "dev": "Enaam",
+   "area": "Silicon Oasis",
+   "comm": "Dubai Silicon Oasis",
+   "near": "Silicon Oasis Avenue Mall",
+   "tags": "dso dubai silicon oasis",
+   "added": "2026-11-17",
+   "src": "ezre.ae new launches, 5 Nov 2026"
+  },
+  {
+   "name": "Bond Living",
+   "dev": "Pearlshire",
+   "area": "Dubai Land Residence Complex",
+   "comm": "DLRC",
+   "near": "Dubai Silicon Oasis",
+   "ll": [
+    25.08536,
+    55.38298
+   ],
+   "tags": "dlrc dubailand",
+   "added": "2026-11-17",
+   "src": "ezre.ae new launches, 1 Nov 2026"
+  },
+  {
+   "name": "Merdan Residences",
+   "dev": "Evera",
+   "area": "Dubai Sports City",
+   "comm": "Dubai Sports City",
+   "near": "Els Club",
+   "ll": [
+    25.0387,
+    55.22438
+   ],
+   "tags": "sports city dubailand",
+   "added": "2026-11-17",
+   "src": "ezre.ae new launches, 21 Oct 2026"
+  },
+  {
+   "name": "Rabdan Avenue",
+   "dev": "Rabdan",
+   "area": "Meydan Racecourse Community",
+   "comm": "Meydan Avenue, MBR City",
+   "near": "Meydan Racecourse",
+   "ll": [
+    25.1579,
+    55.3004
+   ],
+   "tags": "meydan mbr city nad al sheba",
+   "added": "2026-11-17",
+   "src": "fäm Properties (launch 1 Sep 2026)"
+  },
+  {
+   "name": "Kusto Aura",
+   "dev": "AYS",
+   "area": "Me'Aisem First",
+   "comm": "Dubai Production City (IMPZ)",
+   "near": "Al Khail Road",
+   "ll": [
+    25.0318,
+    55.19
+   ],
+   "tags": "impz dubai production city",
+   "added": "2026-11-17",
+   "src": "Property Finder (sales start 1 Sep 2026)"
+  },
+  {
+   "name": "The Yards Plaza",
+   "dev": "Beyond",
+   "area": "City Of Arabia",
+   "comm": "The Yards, City of Arabia",
+   "near": "IMG Worlds of Adventure",
+   "ll": [
+    25.08897,
+    55.33737
+   ],
+   "tags": "omniyat dubailand wadi al safa 4 offices retail commercial",
+   "added": "2026-11-17",
+   "src": "fäm Properties (launch 1 Oct 2026); yardsbeyond.com"
+  },
+  {
+   "name": "VIBE by Arsenal East",
+   "dev": "Arsenal East",
+   "area": "Jumeirah Garden City",
+   "comm": "Jumeirah Garden City, Al Satwa",
+   "near": "Sheikh Zayed Road",
+   "ll": [
+    25.2224,
+    55.2725
+   ],
+   "tags": "satwa jgc",
+   "added": "2026-11-17",
+   "src": "Gulf News, 22 Oct 2026"
+  },
+  {
+   "name": "Maserati Island",
+   "dev": "Samana",
+   "area": "The World",
+   "comm": "The World Islands (Samana Collecta)",
+   "near": "Jumeirah coast",
+   "ll": [
+    25.23727,
+    55.19549
+   ],
+   "tags": "world islands samana collecta branded residences",
+   "added": "2026-11-17",
+   "src": "ME Construction News, 10 Nov 2026"
+  },
+  {
+   "name": "Samana Greenfield 2",
+   "dev": "Samana",
+   "area": "International City Phase 3",
+   "comm": "Warsan / International City",
+   "near": "Dragon Mart",
+   "tags": "warsan international city",
+   "added": "2026-11-17",
+   "src": "ME Construction News, 19 Aug 2026"
+  },
+  {
+   "name": "Berkeley Tower",
+   "dev": "Ellington",
+   "area": "Business Bay",
+   "comm": "Business Bay",
+   "near": "Downtown Dubai",
+   "ll": [
+    25.17946,
+    55.26837
+   ],
+   "tags": "offices commercial al hamra",
+   "added": "2026-11-17",
+   "src": "Ellington news, 20 Oct 2026; ME Construction News, 22 Oct 2026"
+  },
+  {
+   "name": "KORE by Imtiaz",
+   "dev": "Imtiaz",
+   "area": "Dubai Land Residence Complex",
+   "comm": "DLRC",
+   "near": "IMG Worlds of Adventure",
+   "ll": [
+    25.08536,
+    55.38298
+   ],
+   "tags": "dlrc dubailand wadi al safa 5",
+   "added": "2026-11-17",
+   "src": "Propsearch citing Construction Week, 20 Oct 2026"
+  },
+  {
+   "name": "Binghatti Spectre",
+   "dev": "Binghatti",
+   "area": "Jaddaf Waterfront",
+   "comm": "Culture Village, Al Jaddaf",
+   "near": "Dubai Creek",
+   "ll": [
+    25.22683,
+    55.33809
+   ],
+   "tags": "al jaddaf culture village",
+   "added": "2026-11-17",
+   "src": "fäm Properties (launch 1 Sep 2026)"
+  },
+  {
+   "name": "Binghatti Starfall",
+   "dev": "Binghatti",
+   "area": "Al Jadaf",
+   "comm": "Al Jaddaf",
+   "near": "Dubai Healthcare City",
+   "tags": "al jaddaf healthcare city",
+   "added": "2026-11-17",
+   "src": "Property Finder (sales start 1 Jul 2026); fäm Properties (launch 1 Sep 2026)"
+  },
+  {
+   "name": "Sky Level 1",
+   "dev": "Object 1",
+   "area": "Jumeirah Village Circle",
+   "comm": "JVC District 11",
+   "near": "Circle Mall",
+   "tags": "jvc",
+   "added": "2026-11-17",
+   "src": "Gulf Today, 25 Aug 2026"
+  },
+  {
+   "name": "Verso by Reportage",
+   "dev": "Reportage",
+   "area": "Ras Al Khor Industrial First",
+   "comm": "Meydan Horizon, MBR City",
+   "near": "Meydan Racecourse",
+   "tags": "meydan horizon mbr city the verso",
+   "added": "2026-11-17",
+   "src": "Property Finder; Zawya, Oct 2026"
+  },
+  {
+   "name": "Epoque by Reportage",
+   "dev": "Reportage",
+   "area": "Ras Al Khor Industrial First",
+   "comm": "Meydan Horizon, MBR City",
+   "near": "Meydan Racecourse",
+   "tags": "meydan horizon mbr city",
+   "added": "2026-11-17",
+   "src": "dubai-immo.com, 12 Oct 2026; Zawya, Oct 2026"
+  },
+  {
+   "name": "SOL Terra Gardens",
+   "dev": "Sol Properties",
+   "area": "Jumeirah Village Circle",
+   "comm": "JVC District 11",
+   "near": "Circle Mall",
+   "tags": "jvc",
+   "added": "2026-11-17",
+   "src": "dubai-immo.com, 17 Aug 2026; Property Finder"
+  },
+  {
+   "name": "Empire Jebel Ali Residences",
+   "dev": "Empire",
+   "area": "Down Town Jabal Ali",
+   "comm": "Downtown Jebel Ali",
+   "near": "JAFZA",
+   "ll": [
+    24.9756,
+    55.0919
+   ],
+   "tags": "jebel ali djl",
+   "added": "2026-11-17",
+   "src": "Property Finder; Binayah, 9 Nov 2026"
+  },
+  {
+   "name": "Rosewood Residences Dubai",
+   "dev": "H&H",
+   "area": "Jumeirah Second",
+   "comm": "Dubai Peninsula, Jumeirah 2",
+   "near": "Jumeirah Beach",
+   "tags": "jumeirah branded residences beachfront peninsula",
+   "added": "2026-11-17",
+   "src": "TradeArabia, 10 Nov 2026; Property Finder (sales start 4 Aug 2026)"
   }
  ]
 }
