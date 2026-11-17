@@ -950,7 +950,8 @@ html:not(.eoion) .ans .eoin{display:none}
     if(AGENT==="d"){ ab.forEach(function(b){ if(!b.checked){ b.dataset.st="n"; } }); agT.hidden=true; ab.forEach(function(b){ if(b._ans) b._ans.hidden=true; });
       note.innerHTML="✅ Buying straight from the developer's sales team: checks 8–9 are about brokers, so we marked them N/A.<br>💡 A broker can show you other projects that fit, help you resell later and save you the leg work. See <b>Why this matters</b> below."; note.hidden=false; var wm=document.getElementById("agq").closest(".body").querySelector("details.whym"); if(wm&&go) wm.open=true; }
     else { ab.forEach(function(b){ if(b.dataset.st==="n") b.dataset.st=""; if(b._ans) b._ans.hidden=false; }); agT.hidden=false;
-      note.innerHTML=AGENT==="b"?"👍 Ask your broker for their BRN and check it below.<br>🚩 Off-plan, the broker is the developer's channel partner: same price as buying direct. If a broker asks <b>you</b> for commission, <b>RUN</b>.":""; note.hidden=AGENT!=="b"; }
+      note.innerHTML=AGENT==="b"?"👍 Ask your broker for their BRN and check it below.<br>🚩 Off-plan, the broker is the developer's channel partner: same price as buying direct. If a broker asks <b>you</b> for commission, <b>RUN</b>.<br>💡 What a broker does for you vs the developer's agent: see <b>Why this matters</b> below.":""; note.hidden=AGENT!=="b";
+      if(AGENT==="b"&&go){ var wb=document.getElementById("agq").closest(".body").querySelector("details.whym"); if(wb) wb.open=true; } }
     update();
     if(go&&AGENT==="d"&&window.guideGo) setTimeout(function(){ window.guideGo(document.getElementById("agq").closest(".card")); },700); }
   agBtns.forEach(function(b){ b.addEventListener("click",function(){ setAgent(AGENT===b.dataset.a?"":b.dataset.a,true); }); });
