@@ -4,7 +4,11 @@
   {
    "name": "Palm Springs",
    "dev": "Nakheel",
-   "area": ""
+   "area": "Palm Jabal Ali",
+   "comm": "Palm Springs (Hessyan First)",
+   "near": "Palm Jebel Ali",
+   "tags": "jebel ali hessyan",
+   "src": "Khaleej Times, 10 Nov 2026"
   },
   {
    "name": "Hayat 8",
@@ -19,7 +23,14 @@
   {
    "name": "Tilal by Binghatti",
    "dev": "Binghatti",
-   "area": ""
+   "area": "Al Rowaiyah First",
+   "comm": "Tilal Binghatti",
+   "near": "Dubai International Academic City",
+   "ll": [
+    25.12576,
+    55.43317
+   ],
+   "tags": "dubailand academic city rowaiyah dso"
   },
   {
    "name": "Violet",
@@ -34,7 +45,14 @@
   {
    "name": "Everly Place",
    "dev": "Ellington",
-   "area": ""
+   "area": "Ras Al Khor Industrial First",
+   "comm": "Meydan Horizon, MBR City",
+   "near": "Ras Al Khor Wildlife Sanctuary",
+   "ll": [
+    25.1819,
+    55.3301
+   ],
+   "tags": "mbr city meydan horizon"
   },
   {
    "name": "Samana Downtown Jebel Ali 1",
