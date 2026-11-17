@@ -4,11 +4,14 @@
   {
    "name": "Palm Springs",
    "dev": "Nakheel",
-   "area": "Palm Jabal Ali",
-   "comm": "Palm Springs (Hessyan First)",
-   "near": "Palm Jebel Ali",
-   "tags": "jebel ali hessyan",
-   "src": "Khaleej Times, 10 Nov 2026"
+   "comm": "Palm Springs, Hessyan First",
+   "near": "Palm Jebel Ali and Sheikh Zayed Road",
+   "tags": "jebel ali hessyan palm jebel ali jafza nakheel villas townhouses",
+   "src": "Khaleej Times, 10 Nov 2026; location: Hessyan First, between Sheikh Zayed Road and Palm Jebel Ali (approximate pin)",
+   "ll": [
+    24.995,
+    55.047
+   ]
   },
   {
    "name": "Hayat 8",
