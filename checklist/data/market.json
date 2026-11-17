@@ -1,5 +1,5 @@
 {
- "_how_to_edit": "Projects on the market that are not (yet) in DLD records: EOI / pre-launch. They show in the project search with their developer; picking one ticks EOI and fills the developer for the buyer to confirm. dev = what we type in the developer box (brand name is fine, e.g. Nakheel). st: 'teaser' for a project only rumoured / teased by the developer (shown as 📣 Teaser). tags: extra search words (e.g. dso).",
+ "_how_to_edit": "Projects on the market that are not (yet) in DLD records: EOI / pre-launch. They show in the project search with their developer; picking one ticks EOI and fills the developer for the buyer to confirm. dev = what we type in the developer box (brand name is fine, e.g. Nakheel). st: 'teaser' for a project only rumoured / teased by the developer (shown as 📣 Teaser). tags: extra search words (e.g. dso). Daily task adds new launches/teasers not yet in DLD records; each has 'added' (date) and 'src' (where it was announced). Remove an entry once it appears in DLD records (projects.json).",
  "p": [
   {
    "name": "Palm Springs",
@@ -36,7 +36,25 @@
    "dev": "Aldar",
    "area": "Silicon Oasis",
    "st": "teaser",
-   "tags": "dso dubai silicon oasis near dso"
+   "tags": "dso dubai silicon oasis near dso",
+   "added": "2026-11-17",
+   "src": "Sam (developer teaser)"
+  },
+  {
+   "name": "Lyra at Ghaf Woods",
+   "dev": "Majid Al Futtaim",
+   "area": "Ghaf Woods",
+   "tags": "dubailand",
+   "added": "2026-11-17",
+   "src": "TradeArabia, 16 Nov 2026"
+  },
+  {
+   "name": "Albero",
+   "dev": "Emaar",
+   "area": "Dubai Creek Harbour",
+   "tags": "creek",
+   "added": "2026-11-17",
+   "src": "Emaar latest launches"
   }
  ]
 }
