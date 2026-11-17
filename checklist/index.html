@@ -821,12 +821,15 @@ html:not(.eoion) .ans .eoin{display:none}
     if(msg){ o.className="pinout"; o.textContent=msg; return; }
     o.className="pinout"+(PIN?" ok":""); o.innerHTML=PIN?'✅ Pinned: '+PIN[0]+', '+PIN[1]+' · <a target="_blank" rel="noopener" href="https://www.google.com/maps?q='+PIN[0]+','+PIN[1]+'">check on Google Maps</a><br><small style="font-weight:500">Not exact? Drag the pin or tap the right spot on the map.</small>':'Tap the map to drop the pin on the project plot.'; }
   function setPin(lat,lng,pan){ PIN=[+(+lat).toFixed(5),+(+lng).toFixed(5)]; try{ localStorage.setItem("sam-dealtest-pin",JSON.stringify(PIN)); }catch(e){}
-    if(LMAP&&window.L){ if(!LMK){ LMK=L.marker(PIN,{draggable:true}).addTo(LMAP); LMK.on("dragend",function(){ var p=LMK.getLatLng(); setPin(p.lat,p.lng,false); }); } else LMK.setLatLng(PIN); if(pan) LMAP.setView(PIN,16); }
-    pinOut(); if(typeof update==="function") update(); }
+    if(LMAP&&window.L){ if(!LMK){ LMK=L.marker(PIN,{draggable:true}).addTo(LMAP); LMK.on("dragend",function(){ PINAUTO=false; var p=LMK.getLatLng(); setPin(p.lat,p.lng,false); }); } else LMK.setLatLng(PIN); if(pan) LMAP.setView(PIN,16); }
+    pinOut(); if(!PINAUTO_LOCK && window.areaFromPin) window.areaFromPin(PIN); if(typeof update==="function") update(); }
+  var PINAUTO=false, PINAUTO_LOCK=false;
+  window.pinFromArea=function(lat,lng,name){ if(PIN&&!PINAUTO) return; PINAUTO=true; PINAUTO_LOCK=true; setPin(lat,lng,true); PINAUTO_LOCK=false;
+    pinOut(); var o=document.getElementById("pinout"); if(o) o.innerHTML+='<br><small style="font-weight:600;color:#9a6b00">📍 Placed at the centre of '+esc(name)+' from the area you chose. Drag it to the exact plot if you know it.</small>'; };
   function pinMapInit(){ var el=document.getElementById("pinmap"); if(!el||devBox.hidden) return; if(LMAP){ LMAP.invalidateSize(); return; }
     leaflet(function(){ if(LMAP) return; LMAP=L.map(el,{scrollWheelZoom:false,tap:true}).setView(PIN||[25.13,55.25],PIN?16:10);
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,attribution:"© OpenStreetMap"}).addTo(LMAP);
-      LMAP.on("click",function(ev){ setPin(ev.latlng.lat,ev.latlng.lng,false); });
+      LMAP.on("click",function(ev){ PINAUTO=false; setPin(ev.latlng.lat,ev.latlng.lng,false); });
       if(PIN) setPin(PIN[0],PIN[1],true); else pinOut(); }); }
   function parseLL(t){ var m=t.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/)||t.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/)||t.match(/[?&](?:q|query|ll|destination|center)=(-?\d+\.\d+)(?:,|%2C)\s*(-?\d+\.\d+)/i)||t.match(/^\s*(-?\d{1,2}\.\d{3,})\s*,\s*(-?\d{1,3}\.\d{3,})\s*$/);
     if(!m) return null; var a=+m[1], b=+m[2]; return (a>22&&a<27&&b>51&&b<57)?[a,b]:null; }
@@ -1436,6 +1439,7 @@ html:not(.eoion) .ans .eoin{display:none}
       dh.querySelector(".dhn").addEventListener("click",function(){ dh.hidden=true; devClear(); devIn.value=""; devCard.hidden=true; try{ localStorage.removeItem("sam-dealtest-dev"); }catch(e){} update(); devIn.focus(); devIn.placeholder="Type the developer's name"; }); };
     dh.hidden=false; devIn.value=m.dev;
     insLoad(function(){ var b=brandOfQuery(m.dev), gs=b&&brandStats(b);
+      if(m.area){ var li=document.getElementById("ploc"); if(li&&!li.value.trim()){ li.value=m.area; li.dispatchEvent(new Event("change")); } }
       if(gs&&gs.top){ var lb=gs.n>1?gs.brand+" group":INS.d[gs.top].name; devPick(gs.top,true); devIn.value=lb; ask(lb); }
       else { devSearch(); ask(m.dev+" (not in DLD records yet)"); } });
     setTimeout(function(){ w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); },150);
@@ -1591,6 +1595,16 @@ html:not(.eoion) .ans .eoin{display:none}
     locSg.hidden=false;
     Array.prototype.forEach.call(locSg.querySelectorAll("button[data-loc]"),function(bt){ bt.addEventListener("click",function(){ locIn.value=bt.dataset.loc; locSg.hidden=true; psfAll(); update(); locIn.dispatchEvent(new Event("change")); setTimeout(function(){ holdNext(document.getElementById("cma")); },400); }); }); }
   function locReady(cb){ psfLoad(function(){ if(!LOCS.length){ var seen={}; Object.keys(PD.c).concat(Object.keys(PD.a)).forEach(function(n){ if(!seen[n.toLowerCase()]){ seen[n.toLowerCase()]=1; LOCS.push(n);} }); } cb(); }); }
+  // EOI: area <-> map pin fill each other
+  var PPT=null, PLOCAUTO=false;
+  function pptLoad(cb){ if(PPT) return cb(); fetch("data/place_points.json",{cache:"force-cache"}).then(function(r){ return r.json(); }).then(function(j){ PPT=j; cb(); }).catch(function(){ PPT={}; cb(); }); }
+  function pptFind(name){ var n=String(name||"").toLowerCase().trim(); if(!n||!PPT) return null; var k=Object.keys(PPT).filter(function(x){ return x.toLowerCase()===n; })[0]; return k?PPT[k]:null; }
+  window.areaFromPin=function(p){ if(!EOI||!p) return; if(locIn.value.trim()&&!PLOCAUTO) return;
+    locReady(function(){ pptLoad(function(){ var best=null, R=6371, r=Math.PI/180;
+      LOCS.forEach(function(n){ var q=pptFind(n); if(!q) return; var x=Math.sin((q[0]-p[0])*r/2), y=Math.sin((q[1]-p[1])*r/2), d=2*R*Math.asin(Math.sqrt(x*x+Math.cos(p[0]*r)*Math.cos(q[0]*r)*y*y)); if(!best||d<best[1]) best=[n,d]; });
+      if(best&&best[1]<=6){ locIn.value=best[0]; PLOCAUTO=true; psfAll(); update(); var lb=locIn.closest("label").querySelector("small"); if(lb) lb.textContent="(filled from your map pin: change it if it's wrong)"; } }); }); };
+  function areaToPin(){ if(!EOI) return; var v=locIn.value.trim(); if(!v) return; pptLoad(function(){ var q=pptFind(v); if(q&&window.pinFromArea) window.pinFromArea(q[0],q[1],v); }); }
+  locIn.addEventListener("change",function(){ PLOCAUTO=false; areaToPin(); });
   locIn.addEventListener("focus",function(){ locReady(locList); });
   locIn.addEventListener("input",function(){ locReady(locList); });
   locIn.addEventListener("blur",function(){ setTimeout(function(){ locSg.hidden=true; },250); });
