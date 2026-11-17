@@ -1807,7 +1807,7 @@ html:not(.eoion) .ans .eoin{display:none}
   (function(){
     var steps=[], skipped={}, cur=-1, lab=null, lastHi=null, lastEvt="";
     function sc(el){ return el.closest(".card")||el; }
-    function filled(card){ var ok=true; Array.prototype.forEach.call(card.querySelectorAll("input,select"),function(i){ if(i.id==="xag"||i.id==="xpost"||!i.offsetParent) return; if(i.type==="checkbox"){ if(!i.checked) ok=false; } else if(!i.value.trim()) ok=false; }); return ok; }
+    function filled(card){ var ok=true; Array.prototype.forEach.call(card.querySelectorAll("input,select"),function(i){ if(i.id==="xag"||i.id==="xpost"||i.id==="xrent"||!i.offsetParent) return; if(i.type==="checkbox"){ if(!i.checked) ok=false; } else if(!i.value.trim()) ok=false; }); return ok; }
     var proj=document.getElementById("proj"), psf=document.getElementById("psf"), ploc=document.getElementById("ploc");
     steps.push({k:"proj",a:proj.closest("label"),hi:proj.closest("label"),t:"Start here: type your project. Not found? Type the full project name, then tap “It\'s in EOI / pre-launch phase”",done:function(){ return proj.value.trim().length>1 && document.activeElement!==proj; }});
     var seen=[];
