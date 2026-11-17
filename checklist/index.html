@@ -824,6 +824,17 @@ html:not(.eoion) .ans .eoin{display:none}
     if(LMAP&&window.L){ if(!LMK){ LMK=L.marker(PIN,{draggable:true}).addTo(LMAP); LMK.on("dragend",function(){ PINAUTO=false; var p=LMK.getLatLng(); setPin(p.lat,p.lng,false); }); } else LMK.setLatLng(PIN); if(pan) LMAP.setView(PIN,16); }
     pinOut(); if(!PINAUTO_LOCK && window.areaFromPin) window.areaFromPin(PIN); if(typeof update==="function") update(); }
   var PINAUTO=false, PINAUTO_LOCK=false;
+  // listed EOI / teaser project: drop the pin for the buyer, then ask them to confirm it
+  window.pinProject=function(m){ if(PIN&&!PINAUTO) return;
+    var where=[m.comm?m.comm+(m.area&&m.area!==m.comm?" at "+m.area:""):(m.area||""),m.near?"near "+m.near:""].filter(Boolean).join(", ");
+    var put=function(ll){ pinMapInit(); setTimeout(function(){ PINAUTO=true; setPin(ll[0],ll[1],true);
+      var o=document.getElementById("pinout"); if(!o) return;
+      o.className="pinout"; o.innerHTML='📍 We pinned <b>'+esc(m.name)+'</b> by '+esc(m.dev)+(where?' · '+esc(where):'')+'. <b>Is the pin in the right place?</b><div class="dhbtn" style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button type="button" class="pyes" style="flex:1;min-width:130px;background:#1e8e5a;color:#fff;border:0;border-radius:10px;padding:11px;font-weight:800">✅ Yes, correct</button><button type="button" class="pno" style="flex:1;min-width:130px;background:#fff;color:#0B1F3A;border:1.5px solid #C9A24A;border-radius:10px;padding:11px;font-weight:800">✏️ No, I\'ll move it</button></div>';
+      o.querySelector(".pyes").addEventListener("click",function(){ PINAUTO=false; pinOut(); var x=document.getElementById("pinout"); if(x) x.innerHTML='✅ Location confirmed: <b>'+esc(m.name)+'</b>'+(where?' · '+esc(where):'')+' · <a target="_blank" rel="noopener" href="https://www.google.com/maps?q='+PIN[0]+','+PIN[1]+'">view on Google Maps</a>'; if(typeof update==="function") update(); });
+      o.querySelector(".pno").addEventListener("click",function(){ PINAUTO=false; pinOut("Drag the pin or tap the exact plot on the map. You can also type a nearby landmark above and tap Find."); var mp=document.getElementById("pinmap"); if(mp) mp.scrollIntoView({behavior:"smooth",block:"center"}); });
+    },LMAP?0:900); };
+    if(m.ll&&m.ll.length===2) return put(m.ll);
+    fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&countrycodes=ae&viewbox=54.85,25.40,55.65,24.70&bounded=1&q="+encodeURIComponent([m.name,m.comm||m.area||"","Dubai"].filter(Boolean).join(", "))).then(function(r){ return r.json(); }).then(function(rs){ if(rs&&rs[0]) put([+rs[0].lat,+rs[0].lon]); }).catch(function(){}); };
   window.pinFromArea=function(lat,lng,name){ if(PIN&&!PINAUTO) return; PINAUTO=true; PINAUTO_LOCK=true; setPin(lat,lng,true); PINAUTO_LOCK=false;
     pinOut(); var o=document.getElementById("pinout"); if(o) o.innerHTML+='<br><small style="font-weight:600;color:#9a6b00">📍 Placed at the centre of '+esc(name)+' from the area you chose. Drag it to the exact plot if you know it.</small>'; };
   function pinMapInit(){ var el=document.getElementById("pinmap"); if(!el||devBox.hidden) return; if(LMAP){ LMAP.invalidateSize(); return; }
@@ -1439,7 +1450,8 @@ html:not(.eoion) .ans .eoin{display:none}
       dh.querySelector(".dhn").addEventListener("click",function(){ dh.hidden=true; devClear(); devIn.value=""; devCard.hidden=true; try{ localStorage.removeItem("sam-dealtest-dev"); }catch(e){} update(); devIn.focus(); devIn.placeholder="Type the developer's name"; }); };
     dh.hidden=false; devIn.value=m.dev;
     insLoad(function(){ var b=brandOfQuery(m.dev), gs=b&&brandStats(b);
-      if(m.area){ var li=document.getElementById("ploc"); if(li&&!li.value.trim()){ li.value=m.area; li.dispatchEvent(new Event("change")); } }
+      if(m.area){ var li=document.getElementById("ploc"); if(li&&!li.value.trim()){ li.value=m.area; } }
+      if(window.pinProject) window.pinProject(m);
       if(gs&&gs.top){ var lb=gs.n>1?gs.brand+" group":INS.d[gs.top].name; devPick(gs.top,true); devIn.value=lb; ask(lb); }
       else { devSearch(); ask(m.dev+" (not in DLD records yet)"); } });
     setTimeout(function(){ w.scrollIntoView({behavior:"smooth",block:"center"}); w.classList.remove("flash"); void w.offsetWidth; w.classList.add("flash"); },150);
@@ -1461,7 +1473,7 @@ html:not(.eoion) .ans .eoin{display:none}
       var fp=FEATPICK; FEATPICK=""; if(fp){ var ex=hits.filter(function(r){ return r[1].toLowerCase()===fp; }); if(ex.length===1){ sg.hidden=true; pick(ex[0]); return; } }
       var mh=MKT.filter(function(m){ var t=(m.name+" "+m.dev+" "+(m.area||"")+" "+(m.tags||"")).toLowerCase(); return ws.every(function(w){ return t.indexOf(w)>=0; }); }).slice(0,4);
       var qs=qb&&brandStats(qb); if(qs&&lim>7) hits.sort(function(a,b){ return (/finish/i.test(a[3])?1:0)-(/finish/i.test(b[3])?1:0); });
-      sg.innerHTML=(qs?'<div class="grph">'+brandLine(qs)+'</div>':'')+mh.map(function(m,k){ return '<button type="button" class="mkt" data-m="'+k+'">'+esc(m.name)+' <span class="mdev">· '+esc(m.dev)+'</span><small>'+(m.st==="teaser"?'📣 Teaser / rumoured · developer hasn\'t launched it yet':'🟡 EOI / pre-launch · not in DLD records yet')+(m.area?' · near '+esc(m.area):'')+'</small></button>'; }).join("")+
+      sg.innerHTML=(qs?'<div class="grph">'+brandLine(qs)+'</div>':'')+mh.map(function(m,k){ return '<button type="button" class="mkt" data-m="'+k+'">'+esc(m.name)+' <span class="mdev">· '+esc(m.dev)+'</span><small>'+(m.st==="teaser"?'📣 Teaser / rumoured · developer hasn\'t launched it yet':'🟡 EOI / pre-launch · not in DLD records yet')+(m.comm||m.area?' · '+esc(m.comm||m.area):'')+(m.near?', near '+esc(m.near):'')+'</small></button>'; }).join("")+
         hits.map(function(r,k){return '<button type="button" data-k="'+k+'">'+esc(r[1])+' <span class="mdev">· '+esc(shortDev(r[2]))+'</span><small>'+esc([r[7],r[3]].filter(Boolean).join(" · "))+'</small></button>';}).join("")+
         '<button type="button" class="eoigo2">🟡 Not in this list? It\'s in EOI / pre-launch phase ›</button>';
       Array.prototype.forEach.call(sg.querySelectorAll("button[data-m]"),function(b){ b.addEventListener("click",function(){ mktPick(mh[+b.dataset.m]); }); });

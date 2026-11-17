@@ -1,5 +1,5 @@
 {
- "_how_to_edit": "Projects on the market that are not (yet) in DLD records: EOI / pre-launch. They show in the project search with their developer; picking one ticks EOI and fills the developer for the buyer to confirm. dev = what we type in the developer box (brand name is fine, e.g. Nakheel). st: 'teaser' for a project only rumoured / teased by the developer (shown as 📣 Teaser). tags: extra search words (e.g. dso). Daily task adds new launches/teasers not yet in DLD records; each has 'added' (date) and 'src' (where it was announced). Remove an entry once it appears in DLD records (projects.json).",
+ "_how_to_edit": "Projects on the market that are not (yet) in DLD records: EOI / pre-launch. They show in the project search with their developer; picking one ticks EOI and fills the developer for the buyer to confirm. dev = what we type in the developer box (brand name is fine, e.g. Nakheel). st: 'teaser' for a project only rumoured / teased by the developer (shown as 📣 Teaser). tags: extra search words (e.g. dso). Daily task adds new launches/teasers not yet in DLD records; each has 'added' (date) and 'src' (where it was announced). Remove an entry once it appears in DLD records (projects.json). comm: community name (e.g. Ghaf Woods); near: a well-known landmark; ll: [lat,lng] of the project (used to drop the map pin; leave out if unknown and the page will search the map).",
  "p": [
   {
    "name": "Palm Springs",
@@ -9,7 +9,12 @@
   {
    "name": "Hayat 8",
    "dev": "Hayat",
-   "area": "Dubai South"
+   "area": "Dubai South Residential District",
+   "near": "Al Maktoum International Airport",
+   "ll": [
+    24.94354,
+    55.2199
+   ]
   },
   {
    "name": "Tilal by Binghatti",
@@ -19,7 +24,12 @@
   {
    "name": "Violet",
    "dev": "Damac",
-   "area": "Damac Hills 2"
+   "area": "DAMAC HILLS 2",
+   "near": "Damac Hills 2",
+   "ll": [
+    24.98756,
+    55.38679
+   ]
   },
   {
    "name": "Everly Place",
@@ -29,7 +39,12 @@
   {
    "name": "Samana Downtown Jebel Ali 1",
    "dev": "Samana",
-   "area": "Downtown Jebel Ali"
+   "area": "Down Town Jabal Ali",
+   "near": "Expo City",
+   "ll": [
+    24.95452,
+    55.07783
+   ]
   },
   {
    "name": "Greenwoods",
@@ -38,15 +53,26 @@
    "st": "teaser",
    "tags": "dso dubai silicon oasis near dso",
    "added": "2026-11-17",
-   "src": "Sam (developer teaser)"
+   "src": "Sam (developer teaser)",
+   "near": "Dubai Silicon Oasis",
+   "ll": [
+    25.10636,
+    55.37647
+   ]
   },
   {
    "name": "Lyra at Ghaf Woods",
    "dev": "Majid Al Futtaim",
-   "area": "Ghaf Woods",
-   "tags": "dubailand",
+   "area": "Wadi Al Safa 4",
+   "tags": "dubailand ghaf woods global village",
    "added": "2026-11-17",
-   "src": "TradeArabia, 16 Nov 2026"
+   "src": "TradeArabia, 16 Nov 2026",
+   "comm": "Ghaf Woods",
+   "near": "Global Village",
+   "ll": [
+    25.0769,
+    55.3184
+   ]
   },
   {
    "name": "Albero",
@@ -54,7 +80,12 @@
    "area": "Dubai Creek Harbour",
    "tags": "creek",
    "added": "2026-11-17",
-   "src": "Emaar latest launches"
+   "src": "Emaar latest launches",
+   "near": "Dubai Creek Tower site",
+   "ll": [
+    25.198,
+    55.3604
+   ]
   }
  ]
 }
