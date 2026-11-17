@@ -632,7 +632,7 @@ html:not(.eoion) .ans .eoin{display:none}
   <label style="display:none!important">Size (sq ft)<input id="xsize" type="text" inputmode="decimal"></label>
   <label>Service charge (AED / sq ft / year)<input id="xsc" type="text" inputmode="decimal" placeholder="e.g. 15"></label>
   <label>Years you hold after handover<input id="xyrs" type="text" inputmode="decimal" placeholder="e.g. 2 (0 = sell at handover)"></label>
-  <label>Selling agent fee % (if applicable)<input id="xag" type="text" inputmode="decimal" placeholder="e.g. 2, or leave blank"></label></div>
+  <label>Selling agent fee % (off-plan: usually 0)<input id="xag" type="text" inputmode="decimal" placeholder="0"></label><div class="w" id="xautonote" hidden style="font-size:13px;color:#7a5a12;background:#FFF8E7;border:1px solid #E6D3A0;border-radius:8px;padding:6px 8px"></div></div>
   <div class="xout" id="xout"></div>
  </div></div>
  <div class="card"><div class="num"><span class="ic">🧾</span><span class="n">+</span></div><div class="body">
@@ -768,7 +768,7 @@ html:not(.eoion) .ans .eoin{display:none}
   var PROJROW = null; var LEADS_URL = "https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec", FROMLINK = false, sentFor = "";
   var key = "sam-dealtest-v3", saved = [], PSFV = 0, PSFR = null, PSF_MAX = 15;
   try { saved = JSON.parse(localStorage.getItem(key) || "[]"); } catch(e) {}
-  function update(){ if(window.resaleFill&&typeof INS!=="undefined"&&INS) try{ window.resaleFill(); }catch(e){}
+  function update(){ if(window.resaleFill&&typeof INS!=="undefined"&&INS) try{ window.resaleFill(); window.autoFill(); }catch(e){}
     var n = boxes.filter(function(b){ return typeof stOf==="function" ? stOf(b)!=="" : b.checked; }).length + (PSFV?1:0) + (PSFR?1:0);
     try{ if(typeof milestone==="function") milestone(n); }catch(e){}
     document.getElementById("done").textContent = n;
@@ -1258,12 +1258,12 @@ html:not(.eoion) .ans .eoin{display:none}
       '<div style="margin-bottom:6px">Expected price growth until handover ('+AP.hy+', about '+AP.yh.toFixed(1)+' years from now):</div>'+
       '<table class="ex3"><tr><th>Scenario</th><th>To handover</th>'+(HOLD?'<th>+ '+HOLD+' yr after</th>':'')+'</tr>'+
       SCN.map(function(x){ return '<tr'+(x[0]==="Realistic"?' class="r"':'')+'><td>'+x[0]+'</td><td>'+rng(x[1],AP.yh)+'</td>'+(HOLD?'<td>'+rng(x[1],AP.yh+HOLD)+'</td>':'')+'</tr>'; }).join("")+'</table>';
-      if(PX){ var dld=PX*0.04, T=xn("xtf"), ag=Math.min(xn("xag")||2,20), scY=xn("xsc")*SZ, cost=PX+dld+T;
+      if(PX){ var dld=PX*0.04, T=xn("xtf"), ag=Math.min(xn("xag")||0,20), scY=xn("xsc")*SZ, cost=PX+dld+T;
         h+='<div style="margin:12px 0 4px;font-weight:800">💼 If you sell '+(HOLD?HOLD+' year'+(HOLD>1?"s":"")+' after handover ('+(AP.hy+HOLD)+')':'at handover ('+AP.hy+')')+(GOAL==="live"?' after living in it':HOLD&&RENT?' after renting it out':'')+'</div>'+
         '<table class="ex3"><tr><th></th><th>Sale price</th>'+(HOLD&&RENT?'<th>Rent collected</th>':'')+'<th>Profit</th><th>Return</th></tr>'+
         SCN.map(function(x){ var v=PX*(1+grow(x[1],AP.yh+HOLD)/100), rentT=RENT*HOLD, scT=scY*HOLD, sell=v*ag/100, pr=v-sell-cost-scT+rentT;
           return '<tr'+(x[0]==="Realistic"?' class="r"':'')+'><td>'+x[0]+'</td><td>'+aed(v)+'</td>'+(HOLD&&RENT?'<td>'+aed(rentT)+'</td>':'')+'<td>'+(pr<0?'−':'')+aed(Math.abs(pr)).replace("AED ","AED ")+'</td><td>'+(pr/cost*100).toFixed(0)+'%</td></tr>'; }).join("")+'</table>'+
-        '<div style="margin-top:6px;opacity:.75;font-size:13px">On '+aed(PX)+' plus DLD 4%'+(T?', transfer fee':'')+', '+ag+'% selling agent fee'+(scY&&HOLD?', service charges for '+HOLD+' yr':'')+(HOLD&&RENT?' and rent of '+aed(RENT)+'/yr ('+(xn("xrent")?'your figure':'Ejari median')+', before vacancies)':GOAL==="live"?'. No rent counted because you plan to live in it':'')+'. Mortgage costs not included.</div>'; }
+        '<div style="margin-top:6px;opacity:.75;font-size:13px">On '+aed(PX)+' plus DLD 4%'+(T?', transfer fee':'')+(ag?', '+ag+'% selling agent fee':'')+(scY&&HOLD?', service charges for '+HOLD+' yr':'')+(HOLD&&RENT?' and rent of '+aed(RENT)+'/yr ('+(xn("xrent")?'your figure':'Ejari median')+', before vacancies)':GOAL==="live"?'. No rent counted because you plan to live in it':'')+'. Mortgage costs not included.</div>'; }
       else h+='<div style="margin-top:8px;opacity:.85">Add your price in Check 19 to see the sale price, rent and profit for each scenario.</div>';
       h+='<div style="margin-top:8px;opacity:.75;font-size:13px">Scenarios are estimates from DLD price history, the developer\'s record, supply due in the area, infrastructure, facilities, your entry price and today\'s market. Not a guarantee. 📞 How each figure is worked out is explained in a call with Sam.</div></div>'; })();
     // 7. extra checks
@@ -1591,6 +1591,23 @@ html:not(.eoion) .ans .eoin{display:none}
     if((!tf.value.trim()||tf.value===RSAUTO.xtf)&&tf.value!==v2){ tf.value=v2; RSAUTO.xtf=v2; did=true; }
     if(did&&note){ note.innerHTML="ℹ️ Filled with "+esc(nm)+"'s usual rule: resale after <b>"+r.re+"% paid</b>, NOC about <b>AED "+r.noc.toLocaleString("en-US")+"</b> ("+esc(r.src)+"). <b>Change it if your SPA says otherwise.</b>"; note.hidden=false; re.dispatchEvent(new Event("input",{bubbles:true})); } }
   window.resaleFill=resaleFill;
+  var SCJ=null; fetch("data/service_charges.json",{cache:"no-cache"}).then(function(r){ return r.json(); }).then(function(j){ SCJ=j; }).catch(function(){ SCJ={}; });
+  var AUTO={}, AUTOTXT={};
+  function autoSet(id,v,txt){ var el=document.getElementById(id); if(!el||v==null||v==="") return; v=String(v);
+    if((!el.value.trim()||el.value===AUTO[id])&&el.value!==v){ el.value=v; AUTO[id]=v; if(id==="xspa"){ spaSync(); } el.dispatchEvent(new Event("input",{bubbles:true})); }
+    if(AUTO[id]&&el.value===AUTO[id]) AUTOTXT[id]=txt; else delete AUTOTXT[id]; }
+  function autoFill(){
+    var no=PSFP&&PSFP.no, ipr=no&&INS&&INS.p&&INS.p[no];
+    if(ipr&&ipr[3]&&/^\d{4}-\d{2}/.test(String(ipr[3]))&&!EOI) autoSet("xspa",String(ipr[3]).slice(0,7),"handover date from the DLD project completion date");
+    autoSet("xyrs","2","2 years hold after handover");
+    autoSet("xag","0","no selling agent fee (agents don't charge on off-plan)");
+    var pt=(document.getElementById("xptype")||{}).value, ar=(PSFP&&(PSFP.area||PSFP.comm))||(document.getElementById("ploc")||{}).value||"";
+    if(SCJ&&SCJ.apt&&pt&&pt!=="Plot"){ var v=pt==="Apartment"?(SCJ.apt[ar]!=null?SCJ.apt[ar]:SCJ.apt._default):SCJ.villa; autoSet("xsc",v,"service charge estimate for "+(pt==="Apartment"?"apartments":pt.toLowerCase()+"s")+(pt==="Apartment"&&SCJ.apt[ar]!=null?" in "+ar:" in Dubai")+" (RERA index ranges)"); }
+    var n=document.getElementById("xautonote"), ks=Object.keys(AUTOTXT);
+    if(n){ n.hidden=!ks.length; n.innerHTML=ks.length?"ℹ️ Filled for you: "+ks.map(function(k){ return esc(AUTOTXT[k]); }).join("; ")+". <b>Estimates: change any of them if your SPA differs.</b>":""; } }
+  window.autoFill=autoFill;
+  ["xspam","xspay","xyrs","xag","xsc"].forEach(function(id){ var el=document.getElementById(id); if(el) ["input","change"].forEach(function(t){ el.addEventListener(t,function(ev){ if(ev.isTrusted){ var k=(id==="xspam"||id==="xspay")?"xspa":id; delete AUTO[k]; delete AUTOTXT[k]; setTimeout(autoFill,0); } }); }); });
+  ["xptype","ploc"].forEach(function(id){ var el=document.getElementById(id); if(el) ["change","input"].forEach(function(t){ el.addEventListener(t,function(){ setTimeout(autoFill,50); }); }); });
   ["xre","xtf"].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener("input",function(ev){ if(ev.isTrusted){ RSAUTO[id]=""; var n=document.getElementById("xresrc"); if(n) n.innerHTML="✏️ You changed this (your SPA figures). For reference, "+esc(window.RSLAST||"the developer's usual rule")+"."; } }); });
   var CMAJ=null; fetch("data/cma.json",{cache:"no-cache"}).then(function(r){ return r.ok?r.json():{p:{}}; }).then(function(j){ CMAJ=j; }).catch(function(){ CMAJ={p:{}}; });
   var PPTG=null; fetch("data/place_points.json",{cache:"force-cache"}).then(function(r){ return r.json(); }).then(function(j){ PPTG=j; }).catch(function(){ PPTG={}; });
