@@ -1822,7 +1822,7 @@ html:not(.eoion) .ans .eoin{display:none}
     boxes.forEach(function(b){ var c=b.closest(".card"); if(seen.indexOf(c)<0){ seen.push(c); var n=(c.querySelector(".n")||{}).textContent||"";
       var cb=boxes.filter(function(x){ return x.closest(".card")===c; });
       var hasDev=!!c.querySelector("#devbox"), hasAg=!!c.querySelector("#agq");
-      steps.push({k:"c"+n,a:hasAg?c.querySelector("#agq"):c.querySelector(".ticks"),hi:c,t:hasAg?"Who is helping you buy? Then answer the lines":"Answer every line",done:function(){ if(hasAg && !(window.getAgent&&window.getAgent())) return false; if(hasDev && needLaunch()) return false; if(hasDev && EOI && !DLDFOUND && !PIN) return false; return cb.every(function(x){ return stOf(x)!==""; }); }}); } });
+      steps.push({k:"c"+n,a:hasAg?c.querySelector("#agq"):c.querySelector(".ticks"),hi:c,t:hasAg?"Tap one below, then answer lines 8 and 9":"Answer every line",done:function(){ if(hasAg && !(window.getAgent&&window.getAgent())) return false; if(hasDev && needLaunch()) return false; if(hasDev && EOI && !DLDFOUND && !PIN) return false; return cb.every(function(x){ return stOf(x)!==""; }); }}); } });
     steps.push({k:"psf",a:psf.closest(".card").querySelector(".pcalc")||psf.closest(".psfrow"),hi:psf.closest(".card"),t:"Enter the unit price and size",skip:"Skip",done:function(){ return num(psf.value)>0; }});
     steps.push({k:"ploc",a:ploc.closest("label"),hi:ploc.closest(".card"),t:"Pick the area from the list",skip:"Skip",done:function(){ return ploc.value.trim().length>1; }});
     Array.prototype.forEach.call(document.querySelectorAll("#moresec .card"),function(c,i){
