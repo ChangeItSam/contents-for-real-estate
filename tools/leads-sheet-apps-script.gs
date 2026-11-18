@@ -8,9 +8,9 @@ var FREE_REPORTS = 3;
 var PRICE_ONE = 19, PRICE_MONTH = 49, PREMIUM_LIMIT = 10;   // Premium (AED 49) = 10 different projects a month; more = AED 19 each
 // Agent Pro (portal: samsuryarealty.com/agent/). Pro = AGENT_PRO_LIMIT projects a month (+ AED 19 top-ups), Unlimited = no limit.
 var PRICE_AGENT = 199, PRICE_AGENT_UNL = 299, AGENT_PRO_LIMIT = 30;
-var AGP_TAB = 'Agent Pro', AGP_HEAD = ['Token (keep private)', 'Name', 'Agency', 'BRN', 'WhatsApp', 'Email', 'Plan', 'Status', 'Paid until', 'Top-up credits', 'Signed up', 'Send link', 'Note'];
+var AGP_TAB = 'Agent Pro', AGP_HEAD = ['Token (keep private)', 'Name', 'Agency', 'BRN', 'WhatsApp', 'Email', 'Plan', 'Status', 'Paid until', 'Top-up credits', 'Signed up', 'Send link', 'Note', 'Photo', 'Public ID'];
 var AGR_TAB = 'Agent reports', AGR_HEAD = ['Date (Dubai)', 'Token', 'Agent', 'Project', 'Month', 'Client'];
-var SITE = 'https://samsuryarealty.com';
+var SITE = 'https://samsuryarealty.com', AGENT_SITE = 'https://dealproagent.com';
 // Broker filter: a number in tab "Agents" only ever gets the score, never the full report.
 // A number that checks AGENT_LIMIT or more different projects within AGENT_DAYS days is flagged
 // "Possible agent": the full-report link is held back until Sam approves it from the menu.
@@ -305,6 +305,7 @@ function doPost(e) {
   try {
     var p = (e && e.parameter) || {};
     if (p.a === 'agent_signup') return agpSignup(p);
+    if (p.a === 'agent_photo') return agpPhoto(p);
     var sh = leadsSheet();
     var digits = String(p.phone || '').replace(/[^0-9]/g, '');
     var name = String(p.name || '').trim();
@@ -341,7 +342,7 @@ function doPost(e) {
       (locked ? 'Payment needed (AED ' + PRICE_ONE + ' / ' + PRICE_MONTH + ' monthly)' : 'Free (' + Math.min(n, FREE_REPORTS) + ' of ' + FREE_REPORTS + ')');
     // agents and possible agents: the message carries the score only; the link stays in the sheet for Sam
     var msg = premOver ? premOverMessage(first, p.project, p.score, p.verdict, link) : resultMessage(first, p.project, p.score, p.verdict, agent || maybe ? '' : link, locked, n);
-    if (agent) msg += '\n\nAre you an agent? Get full reports with your own name and BRN for your clients with Agent Pro: ' + SITE + '/pricing/?for=agent';
+    if (agent) msg += '\n\nAre you an agent? Get full reports with your own name, photo and BRN for your clients: ' + AGENT_SITE;
     var when = Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm');
     sh.appendRow([when, clean(name), clean(p.phone), clean(p.project), Number(p.score) || 0, clean(p.verdict),
                   Number(p.psf) || '', Number(p.avg) || '', clean(p.rating), link, '', 'New', n, access, role, dev]);
@@ -364,7 +365,8 @@ function doGet(e) {
     lock.waitLock(20000);
     try {
       if (p.a === 'use') out = agpUse(p.t, p.p, p.c);
-      else if (p.a === 'me') { var f = agpFind(p.t); out = f ? agpState(f) : { ok: false, st: 'unknown' }; }
+      else if (p.a === 'me') { var f = agpFind(p.t); out = f ? agpState(f) : { ok: false, st: 'unknown' }; if (f) { out.pid = String(f.v[14] || ''); out.img = agpImg(f.v[13]); } }
+      else if (p.a === 'pic') out = agpPic(p.id);
       else out = { ok: false };
     } catch (err) { out = { ok: false, err: String(err) }; }
     finally { lock.releaseLock(); }
@@ -422,7 +424,7 @@ function agpSignup(p) {
   if (agpFind(t)) return out({ ok: true });
   var unl = /unl/i.test(String(p.plan || '')), plan = unl ? 'Unlimited (AED ' + PRICE_AGENT_UNL + '/month)' : 'Pro (AED ' + PRICE_AGENT + '/month, ' + AGENT_PRO_LIMIT + ' projects)';
   var when = Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm');
-  agpSheet().appendRow([t, clean(p.name), clean(p.agency), clean(p.brn), clean(p.phone), clean(p.email), plan, 'Awaiting payment', '', 0, when, '', '']);
+  agpSheet().appendRow([t, clean(p.name), clean(p.agency), clean(p.brn), clean(p.phone), clean(p.email), plan, 'Awaiting payment', '', 0, when, '', '', agpImg(p.photo), agpTok(p.pid) || Utilities.getUuid().replace(/-/g, '').slice(0, 12)]);
   try {
     var to = PropertiesService.getScriptProperties().getProperty('ALERT_TO') || Session.getEffectiveUser().getEmail();
     if (to) MailApp.sendEmail({ to: to, name: 'Stress Test Leads', subject: '🏢 New Agent Pro sign-up: ' + clean(p.name) + ' · ' + plan,
@@ -430,6 +432,20 @@ function agpSignup(p) {
             '\n\nWhen the Ziina payment arrives: open the sheet, tab "' + AGP_TAB + '", select the row, menu Stress Test → Agent Pro: activate / renew 1 month, then tap "📲 Send link".\n' + book().getUrl() });
   } catch (err) { Logger.log('agent alert failed: ' + err); }
   return out({ ok: true });
+}
+// agent photo: a small JPEG (data URL) kept in the 'Photo' column; shown on the agent's reports
+function agpImg(d) { d = String(d || ''); return /^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/.test(d) && d.length < 48000 ? d : ''; }
+function agpPhoto(p) {
+  var f = agpFind(p.t), img = agpImg(p.photo);
+  if (f && img) f.sh.getRange(f.row, 14).setValue(img);
+  return ContentService.createTextOutput(JSON.stringify({ ok: !!(f && img) })).setMimeType(ContentService.MimeType.JSON);
+}
+// public photo lookup for a client opening a shared report (by Public ID, never by the private token)
+function agpPic(id) {
+  id = agpTok(id); if (!id) return { ok: false };
+  var v = agpSheet().getDataRange().getValues();
+  for (var i = 1; i < v.length; i++) if (String(v[i][14]) === id) return { ok: true, img: agpImg(v[i][13]) };
+  return { ok: false };
 }
 function agpSelected() {
   var sh = SpreadsheetApp.getActiveSheet();
@@ -447,7 +463,7 @@ function agpActivate() {
   f.sh.getRange(f.row, 9).setValue("'" + until);
   var digits = String(f.v[4]).replace(/[^0-9]/g, ''), first = String(f.v[1]).split(/\s+/)[0] || 'there';
   var msg = 'Hi ' + first + ', your ' + (/unl/i.test(String(f.v[6])) ? 'Agent Unlimited' : 'Agent Pro') + ' is active until ' + until + '. ✅\n\n' +
-    'Open your portal here (keep this link private, it is your login): ' + SITE + '/agent/?t=' + f.v[0] + '\n\n' +
+    'Open your portal here (keep this link private, it is your login): ' + AGENT_SITE + '/?t=' + f.v[0] + '\n\n' +
     'Type any project and the full report opens with your name, agency and BRN, ready to send to your client.';
   if (digits.length >= 8) f.sh.getRange(f.row, 12).setRichTextValue(SpreadsheetApp.newRichTextValue().setText('📲 Send link').setLinkUrl('https://wa.me/' + digits + '?text=' + encodeURIComponent(msg)).build());
   f.sh.getRange(f.row, 1, 1, AGP_HEAD.length).setBackground('#E8F8EE');

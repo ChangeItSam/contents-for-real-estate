@@ -8,7 +8,6 @@ export default {
     const hosts = String(env.AGENT_HOST || "").toLowerCase().split(",").map(s => s.trim()).filter(Boolean);
     const onAgents = hosts.includes(url.hostname) || url.hostname.startsWith("agents.");
     const p = url.pathname;
-    if (p === "/agent/__whoami") return new Response(JSON.stringify({ host: url.hostname, agentHosts: hosts, onAgents }), { headers: { "content-type": "application/json", "cache-control": "no-store" } });
     if (onAgents) {
       if (p === "/agent" || p.startsWith("/agent/")) {           // old portal path -> the subdomain root
         url.pathname = "/" + p.replace(/^\/agent\/?/, "");
