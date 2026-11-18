@@ -210,12 +210,12 @@ footer a{color:var(--gold2)}
     <thead><tr><th>Feature</th><th>Free</th><th>Premium<br><small>AED 49/mo</small></th><th>Agent Pro<br><small>AED 199/mo</small></th><th class="hc">Agent Unlimited<br><small>AED 299/mo</small></th></tr></thead>
     <tbody>
       <tr><td>20-check Stress Test &amp; score</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
-      <tr><td>Full reports</td><td>3 to start</td><td>Unlimited</td><td>30 projects / month</td><td><b>Unlimited</b></td></tr>
+      <tr><td>Full reports</td><td>3 to start</td><td>10 projects / month</td><td>30 projects / month</td><td><b>Unlimited</b></td></tr>
       <tr><td>DLD developer track record &amp; escrow</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
       <tr><td>Exit scenarios &amp; appreciation analysis</td><td>In free reports</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
       <tr><td>Market statistics &amp; charts</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
       <tr><td>Premium market dashboard</td><td class="n">Preview</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
-      <tr><td>Top-up when you run out</td><td>AED 19 / report</td><td class="n">–</td><td>AED 19 / project</td><td class="n">Not needed</td></tr>
+      <tr><td>Top-up when you run out</td><td>AED 19 / report</td><td>AED 19 / project</td><td>AED 19 / project</td><td class="n">Not needed</td></tr>
       <tr><td>Reports with your own name, agency &amp; BRN</td><td class="n">–</td><td class="n">–</td><td class="y">✓</td><td class="y">✓</td></tr>
       <tr><td>Priority WhatsApp support</td><td class="n">–</td><td class="n">–</td><td class="y">✓</td><td class="y">✓</td></tr>
     </tbody>
@@ -268,6 +268,7 @@ footer a{color:var(--gold2)}
 <section style="padding-top:0"><div class="wrap" style="max-width:820px">
   <div class="rv"><div class="kick">FAQ</div><h2>Questions</h2></div>
   <details class="rv"><summary>What counts as one project on Agent Pro?</summary><p>One project you run a full report for. Re-opening or sharing the same project's report again in the same month doesn't use another one.</p></details>
+  <details class="rv"><summary>How many projects does Premium include?</summary><p>10 different projects a month for AED 49. Opening the same project again doesn't count twice. Need more? Add one for AED 19.</p></details>
   <details class="rv"><summary>What if I run out of my 30 projects?</summary><p>Top up any time for AED 19 per extra project, or move to Agent Unlimited for AED 299 a month.</p></details>
   <details class="rv"><summary>Where does the data come from?</summary><p>Dubai Land Department open data published on Dubai Data (CC BY 4.0): project registrations, escrow, construction progress and transactions. Market figures update every week.</p></details>
   <details class="rv"><summary>Can I cancel?</summary><p>Yes. Plans are month to month. Message me on WhatsApp before your next payment and it stops.</p></details>
@@ -296,7 +297,7 @@ footer a{color:var(--gold2)}
       {n:"Single report",f:"Need just one more project checked?",p:PAY.price_one||19,u:"/project",note:"One-off, no subscription",k:"one",msg:"Hi Sam, I'd like one full Stress Test report (AED 19).",li:["One full project report","Exit scenarios & appreciation analysis","Market statistics & charts","Use it as a top-up on Agent Pro"],b:"Buy one report"}];
     var B=[
       {n:"Free",f:"Try the test on the project you're considering.",p:0,u:"",note:"No card needed",k:"",href:"../checklist/",li:["20-check Stress Test & score","3 full reports to start","DLD developer track record","Market statistics & charts"],b:"Take the free test"},
-      {n:"Premium",f:"For buyers comparing several projects.",p:PAY.price_monthly||49,u:"/month",note:"Cancel any time",k:"monthly",msg:"Hi Sam, I'd like Premium (AED 49/month).",li:["Unlimited full reports","Premium market dashboard","Exit scenarios & appreciation analysis","10-factor explainer on every project"],b:"Go Premium",hot:"Most popular"},
+      {n:"Premium",f:"For buyers comparing several projects.",p:PAY.price_monthly||49,u:"/month",note:"10 projects a month · cancel any time",k:"monthly",msg:"Hi Sam, I'd like Premium (AED 49/month).",li:["10 full project reports a month","Premium market dashboard","Exit scenarios & appreciation analysis","10-factor explainer on every project"],b:"Go Premium",hot:"Most popular"},
       {n:"Single report",f:"Just one project to check?",p:PAY.price_one||19,u:"/report",note:"One-off, no subscription",k:"one",msg:"Hi Sam, I'd like one full Stress Test report (AED 19).",li:["One full project report","Exit scenarios & appreciation analysis","Market statistics & charts"],b:"Buy one report"}];
     var L=AUD==="agent"?A:B;
     document.getElementById("pl").innerHTML=L.map(function(x){

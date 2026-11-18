@@ -1136,11 +1136,11 @@ html:not(.eoion) .ans .eoin{display:none}
   var PAYJ=null; fetch("data/pay.json",{cache:"no-cache"}).then(function(r){ return r.json(); }).then(function(j){ PAYJ=j; var w=document.getElementById("paywall"); if(w) w.outerHTML=paywall(+w.dataset.n||4); }).catch(function(){ PAYJ={}; });
   function paywall(n){ var P=PAYJ||{}, one=P.price_one||19, mon=P.price_monthly||49, fr=P.free_reports||3, pj=(document.getElementById("proj")||{}).value||"my project";
     var wa=function(t){ return "https://wa.me/971528728248?text="+encodeURIComponent(t); };
-    var u1=P.one||wa("Hi Sam, I'd like to unlock my full Stress Test report for "+pj+" (AED "+one+", one report)."), u2=P.monthly||wa("Hi Sam, I'd like Premium: unlimited full Stress Test reports for AED "+mon+"/month.");
+    var u1=P.one||wa("Hi Sam, I'd like to unlock my full Stress Test report for "+pj+" (AED "+one+", one report)."), u2=P.monthly||wa("Hi Sam, I'd like Premium: 10 full Stress Test reports for AED "+mon+"/month.");
     return '<div id="paywall" data-n="'+n+'" class="pw"><div class="pwh">🔒 Unlock your full report</div>'+
       '<div class="pws">You\'ve checked <b>'+n+' projects</b> with this WhatsApp number. Your first <b>'+fr+' full reports</b> were free.</div>'+
       '<a class="pwo" href="'+u1+'" target="_blank" rel="noopener"><span>📄</span><b>This report<small>One-time · full report for '+esc(pj)+'</small></b><i>AED '+one+'</i></a>'+
-      '<a class="pwo best" href="'+u2+'" target="_blank" rel="noopener"><em>Best value</em><span>⭐</span><b>Premium<small>Unlimited full reports every month · cancel anytime</small></b><i>AED '+mon+'<small>/month</small></i></a>'+
+      '<a class="pwo best" href="'+u2+'" target="_blank" rel="noopener"><em>Best value</em><span>⭐</span><b>Premium<small>10 full reports every month · cancel anytime</small></b><i>AED '+mon+'<small>/month</small></i></a>'+
       '<div class="pwn">After paying, tap below and send your receipt. Sam sends your unlocked report on WhatsApp.</div>'+
       '<a class="pwr" href="'+wa("Hi Sam, I've paid to unlock my full Stress Test report for "+pj+". Here is my receipt:")+'" target="_blank" rel="noopener">🧾 I\'ve paid: send my report</a>'+
       '<a class="pwc" href="'+wa("Hi Sam, I'm your existing client. Could you unlock my full Stress Test report for "+pj+" please?")+'" target="_blank" rel="noopener">🤝 Already Sam\'s client? Request free access</a></div>'; }
@@ -1240,9 +1240,9 @@ html:not(.eoion) .ans .eoin{display:none}
     var id="mp"+Math.random().toString(36).slice(2,7); MPST[id]={c:c,sc:c||"Dubai"};
     var head='<h4>⭐ Premium market dashboard</h4>';
     if(PREM) return head+'<div class="box" id="'+id+'">'+mpInner(id)+'</div>';
-    var P=PAYJ||{}, mon=P.price_monthly||49, u=P.monthly||("https://wa.me/971528728248?text="+encodeURIComponent("Hi Sam, I'd like Premium: unlimited full Stress Test reports and the Premium market dashboard for AED "+mon+"/month."));
+    var P=PAYJ||{}, mon=P.price_monthly||49, u=P.monthly||("https://wa.me/971528728248?text="+encodeURIComponent("Hi Sam, I'd like Premium: 10 full Stress Test reports and the Premium market dashboard for AED "+mon+"/month."));
     return head+'<div class="box pmlock"><div class="pmblur" aria-hidden="true" id="'+id+'">'+mpInner(id)+'</div><div class="pmov"><div class="pmcard"><div style="font-size:30px">⭐🔒</div><b>Premium members only</b><div>See the whole Dubai off-plan market every month: busiest areas, best-selling projects, top 10 charts, price and size breakdowns and the 12-month table'+(c?', for '+esc(c)+' and all of Dubai':'')+'.</div>'+
-      '<a href="'+u+'" target="_blank" rel="noopener">Go Premium · AED '+mon+'/month</a><small>Unlimited full reports included</small></div></div></div>'; }
+      '<a href="'+u+'" target="_blank" rel="noopener">Go Premium · AED '+mon+'/month</a><small>10 full reports a month included</small></div></div></div>'; }
   function report(sc){
     var e=function(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
     var CRIT=[0,2,4,6], h='', I=INS||{d:{},p:{},t:{},r:{}};

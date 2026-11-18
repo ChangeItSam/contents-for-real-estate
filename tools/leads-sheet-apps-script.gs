@@ -2,10 +2,10 @@ var SHEET = 'Leads';
 var HEAD = ['Date (Dubai)', 'Name', 'WhatsApp', 'Project', 'Deal Score', 'Verdict', 'Price / sq ft (AED)',
             'Area average (AED)', 'Price rating', 'Result link', 'Send result', 'Status',
             'Checks by this number', 'Access', 'I am', 'Device'];
-// Free full reports per WhatsApp number before the paywall. Existing clients (tab "Customers") and
-// paid members (tab "Premium") are never asked to pay.
+// Free full reports per WhatsApp number before the paywall. Existing clients (tab "Customers") are never asked to pay.
+// Premium members (tab "Premium") get 10 different projects a month (PREMIUM_LIMIT), then AED 19 each.
 var FREE_REPORTS = 3;
-var PRICE_ONE = 19, PRICE_MONTH = 49;
+var PRICE_ONE = 19, PRICE_MONTH = 49, PREMIUM_LIMIT = 10;   // Premium (AED 49) = 10 different projects a month; more = AED 19 each
 // Agent Pro (portal: samsuryarealty.com/agent/). Pro = AGENT_PRO_LIMIT projects a month (+ AED 19 top-ups), Unlimited = no limit.
 var PRICE_AGENT = 199, PRICE_AGENT_UNL = 299, AGENT_PRO_LIMIT = 30;
 var AGP_TAB = 'Agent Pro', AGP_HEAD = ['Token (keep private)', 'Name', 'Agency', 'BRN', 'WhatsApp', 'Email', 'Plan', 'Status', 'Paid until', 'Top-up credits', 'Signed up', 'Send link', 'Note'];
@@ -169,6 +169,20 @@ function accessFor(digits) {
   return '';
 }
 
+// different projects this number checked in this calendar month (Dubai), this one included
+function monthChecksFor(sh, digits, project) {
+  var k = key9(digits), seen = {}, rows = sh.getLastRow(), month = Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM');
+  if (rows > 1) {
+    var v = sh.getRange(2, 1, rows - 1, 4).getValues();
+    for (var i = 0; i < v.length; i++) {
+      var d = v[i][0] instanceof Date ? Utilities.formatDate(v[i][0], 'Asia/Dubai', 'yyyy-MM') : String(v[i][0] || '').slice(0, 7);
+      if (d === month && key9(v[i][2]) === k) seen[String(v[i][3]).toLowerCase().trim()] = 1;
+    }
+  }
+  seen[String(project || '').toLowerCase().trim()] = 1;
+  return Object.keys(seen).length;
+}
+
 // how many different projects this number has checked (this one included)
 function checksFor(sh, digits, project) {
   var k = key9(digits), seen = {}, rows = sh.getLastRow();
@@ -190,8 +204,14 @@ function resultMessage(first, project, score, verdict, link, locked, n) {
     (project ? ' for ' + project : '') + ': ' + (score || '') + '/100, ' + (verdict || '') + '.\n\n' +
     (locked ? '🔒 You have checked ' + n + ' projects with this number, and the first ' + FREE_REPORTS +
               ' full reports are free. Unlock this one for AED ' + PRICE_ONE + ', or go Premium for AED ' + PRICE_MONTH +
-              '/month (unlimited reports): ' + link
+              '/month (' + PREMIUM_LIMIT + ' full reports a month): ' + link
             : (link ? '📊 Your full report: ' + link : '')) +
+    '\n\nHappy to go through it with you. When suits you for a quick call?';
+}
+
+function premOverMessage(first, project, score, verdict, link) {
+  return 'Hi ' + first + ', this is Sam Surya. Here is your Off-Plan Deal Stress Test result' + (project ? ' for ' + project : '') + ': ' + (score || '') + '/100, ' + (verdict || '') + '.\n\n' +
+    '⭐ You have used your ' + PREMIUM_LIMIT + ' Premium reports this month. Unlock this one for AED ' + PRICE_ONE + ' (your Premium resets on the 1st): ' + link +
     '\n\nHappy to go through it with you. When suits you for a quick call?';
 }
 
@@ -310,15 +330,17 @@ function doPost(e) {
       var od = otherNumbers(sh, dev, digits); if (od.length >= 2) why.push('this device also sent ' + od.length + ' other numbers: ' + od.slice(0, 4).join(', '));
     }
     var maybe = !agent && why.length > 0;
-    var locked = !acc && !agent && !maybe && n > FREE_REPORTS && !!link;
+    var mn = acc === 'Premium' ? monthChecksFor(sh, digits, p.project) : 0, premOver = mn > PREMIUM_LIMIT && !!link;
+    var locked = (!acc && !agent && !maybe && n > FREE_REPORTS && !!link) || premOver;
     if (locked) link = payLink(link, n);
     else if (acc) link = premLink(link);   // Premium members and existing clients get everything
-    var access = acc ? (acc === 'Customer' ? 'Free (existing client)' : 'Premium') :
+    var access = premOver ? 'Premium: ' + PREMIUM_LIMIT + ' of ' + PREMIUM_LIMIT + ' used this month · AED ' + PRICE_ONE + ' for this one' :
+      acc ? (acc === 'Customer' ? 'Free (existing client)' : 'Premium (' + mn + ' of ' + PREMIUM_LIMIT + ' this month)') :
       agent ? (dld ? '🚫 Registered broker (DLD) · score only' : '🚫 Agent (score only)') :
       maybe ? '⚠️ Possible agent: ' + why.join('; ') + '. Check, then use the menu' :
       (locked ? 'Payment needed (AED ' + PRICE_ONE + ' / ' + PRICE_MONTH + ' monthly)' : 'Free (' + Math.min(n, FREE_REPORTS) + ' of ' + FREE_REPORTS + ')');
     // agents and possible agents: the message carries the score only; the link stays in the sheet for Sam
-    var msg = resultMessage(first, p.project, p.score, p.verdict, agent || maybe ? '' : link, locked, n);
+    var msg = premOver ? premOverMessage(first, p.project, p.score, p.verdict, link) : resultMessage(first, p.project, p.score, p.verdict, agent || maybe ? '' : link, locked, n);
     if (agent) msg += '\n\nAre you an agent? Get full reports with your own name and BRN for your clients with Agent Pro: ' + SITE + '/pricing/?for=agent';
     var when = Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm');
     sh.appendRow([when, clean(name), clean(p.phone), clean(p.project), Number(p.score) || 0, clean(p.verdict),
