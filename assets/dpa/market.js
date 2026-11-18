@@ -124,8 +124,9 @@
     draw();
   }
   window.DPMarket = {
-    mount: function (el, base) {
-      root = el; el.innerHTML = '<div class="mx"><div class="mx-nodata" style="padding:30px;text-align:center">Loading Dubai Land Department data…</div></div>';
+    show: function (area) { ST.sc = area || "Dubai"; if (root && MS) { var ai = root.querySelector("#mxa"); if (ai) ai.value = ST.sc === "Dubai" ? "" : ST.sc; draw(); } },
+    mount: function (el, base, area) {
+      root = el; if (area) ST.sc = area; el.innerHTML = '<div class="mx"><div class="mx-nodata" style="padding:30px;text-align:center">Loading Dubai Land Department data…</div></div>';
       base = base || "../checklist/data/";
       Promise.all([fetch(base + "market_stats.json").then(function (r) { return r.json(); }), fetch(base + "market_premium.json").then(function (r) { return r.json(); })])
         .then(function (a) { MS = a[0]; MP = a[1]; ui(); })
