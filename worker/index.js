@@ -1,0 +1,27 @@
+// Small router in front of the static site.
+// agents.samsuryarealty.com  -> the Agent Pro portal lives at its root (the rest of the site works as usual).
+// samsuryarealty.com/agent/  -> moves to the agent domain once AGENT_HOST is set in wrangler.jsonc.
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    // AGENT_HOST: the agent site's domain(s), comma-separated (e.g. "dataproagent.ae,www.dataproagent.ae"). The first is the main one.
+    const hosts = String(env.AGENT_HOST || "").toLowerCase().split(",").map(s => s.trim()).filter(Boolean);
+    const onAgents = hosts.includes(url.hostname) || url.hostname.startsWith("agents.");
+    const p = url.pathname;
+    if (onAgents) {
+      if (p === "/agent" || p.startsWith("/agent/")) {           // old portal path -> the subdomain root
+        url.pathname = "/" + p.replace(/^\/agent\/?/, "");
+        return Response.redirect(url.toString(), 301);
+      }
+      if (p === "/" || p === "/index.html") {                    // root = the portal
+        url.pathname = "/agent/";
+        return env.ASSETS.fetch(new Request(url.toString(), request));
+      }
+    } else if (hosts.length && (p === "/agent" || p.startsWith("/agent/"))) {
+      url.hostname = hosts[0];
+      url.pathname = "/";
+      return Response.redirect(url.toString(), 301);
+    }
+    return env.ASSETS.fetch(request);
+  }
+};

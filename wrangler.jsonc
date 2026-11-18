@@ -1,12 +1,18 @@
-// Cloudflare: serve this repo as a static site on samsuryarealty.com (no server code)
+// Cloudflare: serve this repo as a static site on samsuryarealty.com.
+// worker/index.js only handles "/" and "/agent/..." (Agent Pro on agents.samsuryarealty.com); everything else is served straight from the files.
 {
   "name": "contents-for-real-estate",
+  "main": "worker/index.js",
   "compatibility_date": "2026-11-01",
   "workers_dev": false,
   "preview_urls": false,
   "assets": {
     "directory": "./",
+    "binding": "ASSETS",
     "not_found_handling": "404-page",
-    "html_handling": "auto-trailing-slash"
-  }
+    "html_handling": "auto-trailing-slash",
+    "run_worker_first": ["/", "/index.html", "/agent", "/agent/*"]
+  },
+  // Set to "agents.samsuryarealty.com" once that custom domain is added in Cloudflare: then samsuryarealty.com/agent/ moves there.
+  "vars": { "AGENT_HOST": "" }
 }
