@@ -1397,7 +1397,11 @@ html:not(.eoion) .ans .eoin{display:none}
     // it glides down to the long-run rate of a mature Dubai community (villas/townhouses ~4%/yr, apartments ~3%/yr; Dubai-wide
     // median price per sq ft grew ~4.4%/yr 2010–2025). The glide takes 5 years in a new community, 2 years where the community
     // is already established (10+ years of sales), so growth flattens as the community saturates.
-    var PT=xv("xptype"), MR=/Villa|Townhouse/.test(PT)?4:/Apartment/.test(PT)?3:3.5;
+    // property type: the buyer's answer, else the project's DLD sales mix (cma.json), else the launch tags (villas / townhouses)
+    var PT=xv("xptype")||(function(){ var c=pn&&CMAJ&&CMAJ.p&&CMAJ.p[pn]; if(c) return c[0]==="apt"?"Apartment":c[0]==="th"?"Townhouse":"Villa";
+      var pv=((document.getElementById("proj")||{}).value||"").toLowerCase(), mk=(typeof MKT!=="undefined"&&MKT||[]).filter(function(m){ return m.name.toLowerCase()===pv; })[0];
+      return mk&&/villa|townhouse/i.test((mk.tags||"")+" "+(mk.name||""))?"Villa":mk?"Apartment":""; })();
+    var MR=/Villa|Townhouse/.test(PT)?4:/Apartment/.test(PT)?3:3.5;
     var CAGE=(function(){ var Y=MS&&MS.cy&&comm&&MS.cy[comm]; if(!Y) return 0; var f0=0; Y.forEach(function(x){ if(!f0&&x[1]>=50) f0=x[0]; }); return f0?new Date().getFullYear()-f0:0; })();
     var GLIDE=CAGE>=10?2:5;
     var rateAt=function(t){ if(t<=AP.yh) return AP.rate; var u=Math.min(1,(t-AP.yh)/GLIDE); return AP.rate+(MR-AP.rate)*u; };
