@@ -75,8 +75,19 @@ function refreshBrokerList() {
   if (!url) throw new Error('Could not reach the DLD broker register on Dubai Pulse. Kept the old list.');
   var r = UrlFetchApp.fetch(url, { muteHttpExceptions: true, followRedirects: true });
   if (r.getResponseCode() !== 200) throw new Error('Broker file download failed: HTTP ' + r.getResponseCode());
-  var rows = Utilities.parseCsv(r.getContentText('UTF-8'));
-  var h = rows[0].map(function (x) { return String(x).toLowerCase(); });
+  saveBrokerRows(Utilities.parseCsv(r.getContentText('UTF-8')), 'DLD via Dubai Pulse');
+}
+// Import the broker CSV you downloaded from data.dubai (Real Estate Brokers) and saved anywhere in Google Drive.
+// Picks the newest file whose name starts with "brokers". Menu: Stress Test > Import DLD broker list from Drive.
+function importBrokerListFromDrive() {
+  var it = DriveApp.searchFiles("title contains 'brokers' and trashed = false"), best = null;
+  while (it.hasNext()) { var f = it.next(); if (!/^brokers.*\.csv$/i.test(f.getName())) continue; if (!best || f.getLastUpdated() > best.getLastUpdated()) best = f; }
+  if (!best) throw new Error('No brokers….csv found in your Google Drive. Download the CSV from data.dubai (Real Estate Brokers) and upload it to Drive first.');
+  var n = saveBrokerRows(Utilities.parseCsv(best.getBlob().getDataAsString('UTF-8')), 'data.dubai file ' + best.getName());
+  SpreadsheetApp.getActive().toast('DLD broker list imported: ' + n + ' phone numbers from ' + best.getName());
+}
+function saveBrokerRows(rows, source) {
+  var h = rows[0].map(function (x) { return String(x).toLowerCase().replace(/^\ufeff/, '').trim(); });
   var col = function (re) { for (var i = 0; i < h.length; i++) if (re.test(h[i])) return i; return -1; };
   var cPh = [], cBrn = col(/broker_number|^brn|card/), cName = col(/broker_name_en|name_en|broker_name/), cOff = col(/real_estate_name_en|office_name_en|real_estate_name|office/), cEnd = col(/license_end|end_date|expiry/);
   h.forEach(function (x, i) { if (/phone|mobile/.test(x)) cPh.push(i); });
@@ -91,10 +102,10 @@ function refreshBrokerList() {
   sh.clear();
   sh.getRange(1, 1, 1, 5).setValues([['Phone (last 9 digits)', 'BRN', 'Broker', 'Agency', 'Licence end']]).setFontWeight('bold');
   sh.getRange(2, 1, out.length, 5).setNumberFormat('@').setValues(out);
-  sh.getRange(1, 7).setValue('Updated ' + Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm') + ' · ' + out.length + ' numbers · source: DLD via Dubai Pulse');
+  sh.getRange(1, 7).setValue('Updated ' + Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm') + ' · ' + out.length + ' numbers · source: ' + source);
   sh.hideSheet();
-  CacheService.getScriptCache().remove('brk');
-  Logger.log('Broker list refreshed: ' + out.length + ' numbers');
+  Logger.log('Broker list saved: ' + out.length + ' numbers');
+  return out.length;
 }
 function setupWeeklyBrokerRefresh() {
   ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'refreshBrokerList') ScriptApp.deleteTrigger(t); });
@@ -183,7 +194,7 @@ function onOpen() {
     .addItem('🚫 Mark selected number as agent / broker (score only)', 'markAgent')
     .addItem('✅ Not an agent: approve and send full report', 'approveBuyer')
     .addSeparator()
-    .addItem('🔄 Refresh DLD broker list now', 'refreshBrokerList')
+    .addItem('📥 Import DLD broker list from Drive', 'importBrokerListFromDrive')
     .addToUi();
 }
 function selectedLead() {
