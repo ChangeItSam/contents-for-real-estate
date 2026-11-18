@@ -1,5 +1,5 @@
 {
- "_how": "Sam's projects that passed the 20-check Stress Test. RULE (Sam, 14-15 Nov 2026): each type (villa / townhouse / apartment) shows 6 projects (Sam 18 Nov: 6 per type): 2 pinned top-developer projects (pin: true) that never move unless Sam moves them or they sell out (available: false), plus the 4 most recently added non-pinned projects (by 'added' date), which rotate as Sam posts a new project reel each day: add the reel's project here with today's date and it takes a rotating slot, pushing the oldest rotating one off the page (it stays in this file). 'dld' = DLD project numbers (the page reads construction %, escrow bank and completion date from ../checklist/data/projects.json); leave [] if not registered; eoi true = EOI / pre-launch. REEL PAGE: samsuryarealty.com/picks/?p=<slug>&want=brochure|plan|layout shows one project: 'summary' (what the reel said), stills from 'gallery', live DLD badge, then WhatsApp buttons for brochure / payment plan / floor plans with the one the commenter asked for first, then a link to all picks. Each project reel gets 3 post-only comment rules: BROCHURE/DETAILS/PRICE -> want=brochure, PAYMENT -> want=plan, LAYOUT/FLOOR -> want=layout. CARD (Sam 18 Nov): price = launch 'from' price, bed = unit it buys, plan = payment plan text, hl = 2 highlights (community selling point + what buyers like). Missing price/plan shows 'ask me'. The 'below area price per sq ft' chip is automatic from DLD (checklist/data/psf.json) and only shows when the project is cheaper.",
+ "_how": "Sam's projects that passed the 20-check Stress Test. RULE (Sam, 14-15 Nov 2026): each type (villa / townhouse / apartment) shows 6 projects (Sam 18 Nov: 6 per type): 2 pinned top-developer projects (pin: true) that never move unless Sam moves them or they sell out (available: false), plus the 4 most recently added non-pinned projects (by 'added' date), which rotate as Sam posts a new project reel each day: add the reel's project here with today's date and it takes a rotating slot, pushing the oldest rotating one off the page (it stays in this file). 'dld' = DLD project numbers (the page reads construction %, escrow bank and completion date from ../checklist/data/projects.json); leave [] if not registered; eoi true = EOI / pre-launch. REEL PAGE: samsuryarealty.com/picks/?p=<slug>&want=brochure|plan|layout shows one project: 'summary' (what the reel said), stills from 'gallery', live DLD badge, then WhatsApp buttons for brochure / payment plan / floor plans with the one the commenter asked for first, then a link to all picks. Each project reel gets 3 post-only comment rules: BROCHURE/DETAILS/PRICE -> want=brochure, PAYMENT -> want=plan, LAYOUT/FLOOR -> want=layout. CARD RULE (Sam 18 Nov): each card shows ONE lead, never both: lead='price' (starting price; if DLD price per sq ft is 3%+ below the area it adds 'AED X/sq ft, Y% below the area' automatically) or lead='plan' when the plan is the attraction (40%+ at/after handover, 1% monthly or post-handover: mortgageable, less cash outflow). ps = short plan line, pitch = the one-line selling comment, hl = 2 highlights. price/plan keep the full facts for WhatsApp.",
  "p": [
   {
    "cat": "villa",
@@ -25,7 +25,9 @@
    "hl": [
     "Swimmable lagoons and beaches inside The Oasis",
     "Only 346 stand-alone villas, about 20 min to Dubai Hills"
-   ]
+   ],
+   "lead": "price",
+   "pitch": "Stand-alone lagoon villa by Emaar at launch price"
   },
   {
    "cat": "villa",
@@ -48,7 +50,10 @@
    "hl": [
     "Stand-alone villas in Dubai South's Golf District",
     "Launch offer: 2% DLD fee waiver (ask if it's still on)"
-   ]
+   ],
+   "lead": "plan",
+   "pitch": "Pay 30% over 2 years after you get the keys: less cash now, rent helps pay the rest",
+   "ps": "40% during construction · 60% at & after handover"
   },
   {
    "cat": "villa",
@@ -70,7 +75,9 @@
    "hl": [
     "Next to Palm Jebel Ali, Dubai's new waterfront",
     "Built by Nakheel, the developer of Palm Jumeirah"
-   ]
+   ],
+   "lead": "price",
+   "pitch": ""
   },
   {
    "cat": "villa",
@@ -94,7 +101,9 @@
    "hl": [
     "Nature-themed Aldar community in Dubailand",
     "Villas with private pools, handover Q2 2029"
-   ]
+   ],
+   "lead": "price",
+   "pitch": "Aldar villa with a private pool, handover Q2 2029"
   },
   {
    "cat": "villa",
@@ -118,7 +127,10 @@
    "hl": [
     "Forest-themed villa community",
     "Sobha builds in-house: known for its finishing quality"
-   ]
+   ],
+   "lead": "plan",
+   "pitch": "The 40% at handover can go on a mortgage: less cash outflow while it's built",
+   "ps": "60% during construction · 40% at handover"
   },
   {
    "cat": "townhouse",
@@ -142,7 +154,10 @@
    "hl": [
     "Next to Academic City and Silicon Oasis",
     "Fully furnished homes with private gardens"
-   ]
+   ],
+   "lead": "plan",
+   "pitch": "Pay it like rent: 1% a month, then mortgage the 30% at handover",
+   "ps": "1% a month during construction · 30% at handover"
   },
   {
    "cat": "townhouse",
@@ -171,7 +186,9 @@
    "hl": [
     "Tropical island-themed lagoons and beaches",
     "Big-brand townhouse at a mid-range entry price"
-   ]
+   ],
+   "lead": "price",
+   "pitch": "Lagoon-side townhouse from a big brand at a mid-range ticket"
   },
   {
    "cat": "townhouse",
@@ -194,7 +211,10 @@
    "hl": [
     "Lived-in DAMAC Hills 2: supermarket, clinic, community centre open",
     "4BR with private garden and rooftop terrace"
-   ]
+   ],
+   "lead": "plan",
+   "pitch": "40% at handover is mortgageable: less cash out before you get the keys",
+   "ps": "60% during construction · 40% at handover"
   },
   {
    "cat": "townhouse",
@@ -216,7 +236,9 @@
    "hl": [
     "Binghatti's first villa & townhouse community (1,200 homes)",
     "Lakes, beach and clubhouse at the centre, 18 min to Burj Khalifa"
-   ]
+   ],
+   "lead": "price",
+   "pitch": "Get in early on Binghatti's first villa community at launch price"
   },
   {
    "cat": "townhouse",
@@ -241,7 +263,10 @@
    "hl": [
     "Low-density gated community by Sobha",
     "Townhouses from 2,700 sq ft"
-   ]
+   ],
+   "lead": "plan",
+   "pitch": "40% at handover can be mortgaged: Sobha quality with less cash upfront",
+   "ps": "60% during construction · 40% at handover"
   },
   {
    "cat": "apartment",
@@ -266,7 +291,9 @@
    "hl": [
     "Creek and skyline views from every balcony",
     "Across from the retail hub with metro links"
-   ]
+   ],
+   "lead": "price",
+   "pitch": "Creek-view 1BR by Emaar, close to metro links"
   },
   {
    "cat": "townhouse",
@@ -291,7 +318,9 @@
    "hl": [
     "Wellness-focused Aldar community in Dubailand",
     "10 min to Global Village, handover Q3 2027"
-   ]
+   ],
+   "lead": "price",
+   "pitch": "Aldar townhouse with the earliest handover here: Q3 2027"
   },
   {
    "cat": "apartment",
@@ -314,7 +343,9 @@
    "hl": [
     "Lagoon-facing low-rise in MBR City",
     "Boutique: only 209 homes, handover Q4 2030"
-   ]
+   ],
+   "lead": "price",
+   "pitch": "Boutique lagoon-side 1BR in central MBR City"
   },
   {
    "cat": "apartment",
@@ -337,7 +368,9 @@
    "hl": [
     "Near the metro and Sheikh Zayed Road",
     "One of the lowest entry prices on this list"
-   ]
+   ],
+   "lead": "price",
+   "pitch": "Studio under AED 700K near the metro: a low entry ticket"
   },
   {
    "cat": "apartment",
@@ -362,7 +395,10 @@
    "hl": [
     "Fully furnished smart homes, studio to 2BR",
     "Close to Global Village and Dubai Outlet Mall"
-   ]
+   ],
+   "lead": "plan",
+   "pitch": "Half at handover (mortgageable), or spread 30% over 3 years after the keys",
+   "ps": "50% during construction · 50% at handover"
   },
   {
    "cat": "apartment",
@@ -385,7 +421,9 @@
    "hl": [
     "About 300 m to Ghaf Woods Mall, 35,000 trees in the community",
     "Only 349 homes, 1–2BR"
-   ]
+   ],
+   "lead": "price",
+   "pitch": "1BR 300 m from the new Ghaf Woods Mall"
   },
   {
    "cat": "villa",
@@ -410,7 +448,9 @@
    "hl": [
     "The Valley: Emaar's family community on Al Ain Road",
     "Only 133 villas, handover Q4 2029"
-   ]
+   ],
+   "lead": "price",
+   "pitch": "Emaar villa in The Valley at launch price, only 133 homes"
   },
   {
    "cat": "apartment",
@@ -435,7 +475,9 @@
    "hl": [
     "Next to an 18-hole championship golf course",
     "Only 161 homes, near Al Maktoum airport"
-   ]
+   ],
+   "lead": "price",
+   "pitch": "Emaar golf-side 1BR, only 161 homes"
   }
  ]
 }

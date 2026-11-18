@@ -38,14 +38,14 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
 .badge div{display:flex;justify-content:space-between;gap:8px;margin-top:3px}
 .badge div b{text-align:right}
 .pp{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
-.pr{margin-top:12px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
-.pr small{color:var(--muted);font-size:13px;font-weight:700}
-.pr b{color:var(--navy);font-size:26px;font-weight:900;letter-spacing:-.3px}
-.pr i{font-style:normal;color:var(--muted);font-size:13.5px}
-.pr.ask b{font-size:19px}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-.chip{background:#F7F4EC;color:var(--navy);border-radius:20px;padding:6px 11px;font-size:13.5px;font-weight:700;line-height:1.3}
-.chip.dn{background:#E8F8EE;color:var(--green)}
+.ld{margin-top:12px;background:#FBF6E8;border:1px solid #EFE2BC;border-radius:14px;padding:10px 12px}
+.ld small{display:block;color:var(--muted);font-size:13px;font-weight:700}
+.ld b{color:var(--navy);font-size:26px;font-weight:900;letter-spacing:-.3px}
+.ld b.pl{display:block;font-size:19px;line-height:1.25;margin-top:2px}
+.ld i{font-style:normal;color:var(--muted);font-size:13.5px;margin-left:6px}
+.ld .dn{display:inline-block;margin-top:6px;background:#E8F8EE;color:var(--green);border-radius:20px;padding:4px 10px;font-size:13.5px;font-weight:800}
+.ld .pt{margin:6px 0 0;font-size:14.5px;font-weight:700;color:#7A5A12;line-height:1.35}
+.ld.ask b{font-size:18px}
 .hl{list-style:none;margin:10px 0 0;padding:0}
 .hl li{position:relative;padding:4px 0 4px 26px;font-size:15px;line-height:1.35}
 .hl li:before{content:"⭐";position:absolute;left:0;top:4px}
@@ -124,15 +124,22 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
       (ends.length?'<div><span>DLD completion date</span><b>'+e(fmtDate(ends[ends.length-1]))+'</b></div>':'')+'</div>';
   }
   function cheaper(p){
-    if(!PSF) return 0; var best=0;
-    (p.dld||[]).forEach(function(n){ var r=PSF.byNo[n]; if(!r||!r[6]) return; var ref=(r[4]&&PSF.c[r[4]])||PSF.a[r[5]]; if(!ref) return; var d=Math.round((1-r[6]/ref)*100); if(d>best) best=d; });
-    return best>=3?best:0;
+    if(!PSF) return null; var best=null;
+    (p.dld||[]).forEach(function(n){ var r=PSF.byNo[n]; if(!r||!r[6]) return; var ref=(r[4]&&PSF.c[r[4]])||PSF.a[r[5]]; if(!ref) return; var d=Math.round((1-r[6]/ref)*100); if(d>=3&&(!best||d>best.d)) best={d:d,psf:r[6]}; });
+    return best;
   }
+  // ONE lead per card (Sam): the starting price (with price per sq ft when it's cheap) OR the payment plan when that's the better hook
   function sell(p){
-    var dn=cheaper(p);
-    var h=p.price? '<div class="pr"><small>From</small><b>'+e(p.price)+'</b>'+(p.bed?'<i>'+e(p.bed)+'</i>':'')+'</div>'
-      : '<div class="pr ask"><b>💬 Ask me for today\'s price</b></div>';
-    h+='<div class="chips"><span class="chip">💳 '+e(p.plan||"Payment plan: ask me")+'</span>'+(dn?'<span class="chip dn">📉 '+dn+'% below the area\'s price per sq ft</span>':'')+'</div>';
+    var dn=cheaper(p), h;
+    if(p.lead==="plan" && (p.ps||p.plan)){
+      h='<div class="ld"><small>💳 Payment plan</small><b class="pl">'+e(p.ps||p.plan)+'</b>';
+    } else if(p.price){
+      h='<div class="ld"><small>From</small><b>'+e(p.price)+'</b>'+(p.bed?'<i>'+e(p.bed)+'</i>':'')+
+        (dn?'<span class="dn">📉 AED '+dn.psf.toLocaleString("en-US")+'/sq ft: '+dn.d+'% below the area</span>':'');
+    } else {
+      h='<div class="ld ask"><b>💬 Ask me for today\'s price & payment plan</b>';
+    }
+    h+=(p.pitch?'<p class="pt">✅ '+e(p.pitch)+'</p>':'')+'</div>';
     if(p.hl&&p.hl.length) h+='<ul class="hl">'+p.hl.slice(0,2).map(function(x){ return '<li>'+e(x)+'</li>'; }).join("")+'</ul>';
     return h;
   }
