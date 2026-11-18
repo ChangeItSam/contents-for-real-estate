@@ -296,7 +296,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
   var MPL=false, MAREA="";
   function dmap(cb){
     function go(){ var el=document.getElementById("dmroot"); if(!el||!window.DPMap) return; if(el.dataset.on){ window.DPMap.resize(); return; } el.dataset.on="1"; window.DPMap.mount(el,"/checklist/data/",cb); }
-    if(window.DPMap) return go(); if(MPL) return; MPL=true; var sc=document.createElement("script"); sc.src="/assets/dpa/map.js?v=1"; sc.onload=go; document.head.appendChild(sc); }
+    if(window.DPMap) return go(); if(MPL) return; MPL=true; var sc=document.createElement("script"); sc.src="/assets/dpa/map.js?v=2"; sc.onload=go; document.head.appendChild(sc); }
   function mkt(area){ if(area) MAREA=area;
     function go(){ var el=document.getElementById("mxroot"); if(!el||!window.DPMarket) return; if(el.dataset.on){ if(area) window.DPMarket.show(area); return; } el.dataset.on="1"; window.DPMarket.mount(el,"/checklist/data/",MAREA); }
     if(window.DPMarket) return go(); if(MXL) return; MXL=true; var sc=document.createElement("script"); sc.src="/assets/dpa/market.js?v=2"; sc.onload=go; document.head.appendChild(sc); }

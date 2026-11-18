@@ -74,9 +74,11 @@
     var el = root.querySelector(".dm-tbl"); if (!el) return;
     var q = (root.querySelector("#dmq").value || "").toLowerCase().trim();
     var L = D.c.filter(function (r) { return !q || r[0].toLowerCase().indexOf(q) >= 0 || (r[13] || "").toLowerCase().indexOf(q) >= 0; }).slice().sort(function (a, b) { var x = a[SORT.k], y = b[SORT.k]; if (x == null) return 1; if (y == null) return -1; return typeof x === "string" ? x.localeCompare(y) * SORT.d : (x - y) * SORT.d; });
+    var top = !q; if (top) L = L.slice(0, 3);
     var C = [["Area", 0], ["Price / sq ft", F.psf], ["1Y change", F.yoy], ["Sales 12m", F.n], ["Off-plan", F.op], ["Yield", F.yld], ["Rent", F.rent]];
     el.innerHTML = '<table class="dm-t dm-rank"><tr>' + C.map(function (c) { return '<th data-k="' + c[1] + '">' + c[0] + (SORT.k === c[1] ? (SORT.d > 0 ? " ▲" : " ▼") : "") + "</th>"; }).join("") + "</tr>" +
-      L.map(function (r) { return '<tr data-n="' + esc(r[0]) + '"' + (r[0] === SEL ? ' class="on"' : "") + "><td>" + esc(r[0]) + "</td><td>" + n(r[F.psf]) + '</td><td style="color:' + ((r[F.yoy] || 0) >= 0 ? "#7fd6a5" : "#f3a59a") + '">' + (r[F.yoy] == null ? "–" : (r[F.yoy] >= 0 ? "+" : "") + r[F.yoy] + "%") + "</td><td>" + n(r[F.n]) + "</td><td>" + (r[F.op] == null ? "–" : Math.round(r[F.op]) + "%") + "</td><td>" + (r[F.yld] == null ? "–" : r[F.yld] + "%") + "</td><td>" + (r[F.rent] ? k(r[F.rent]) : "–") + "</td></tr>"; }).join("") + "</table>";
+      L.map(function (r) { return '<tr data-n="' + esc(r[0]) + '"' + (r[0] === SEL ? ' class="on"' : "") + "><td>" + esc(r[0]) + "</td><td>" + n(r[F.psf]) + '</td><td style="color:' + ((r[F.yoy] || 0) >= 0 ? "#7fd6a5" : "#f3a59a") + '">' + (r[F.yoy] == null ? "–" : (r[F.yoy] >= 0 ? "+" : "") + r[F.yoy] + "%") + "</td><td>" + n(r[F.n]) + "</td><td>" + (r[F.op] == null ? "–" : Math.round(r[F.op]) + "%") + "</td><td>" + (r[F.yld] == null ? "–" : r[F.yld] + "%") + "</td><td>" + (r[F.rent] ? k(r[F.rent]) : "–") + "</td></tr>"; }).join("") + "</table>" +
+      (top ? '<div class="dm-u" style="text-align:left;margin-top:8px">Showing the top 3 by ' + (C.filter(function (c) { return c[1] === SORT.k; })[0] || C[3])[0] + '. Pick a location above to see any other area.</div>' : (L.length ? "" : '<div class="dm-u" style="text-align:left;margin-top:8px">No area matches. Try another name.</div>'));
     Array.prototype.forEach.call(el.querySelectorAll("th"), function (th) { th.addEventListener("click", function () { var kk = +th.dataset.k; SORT = { k: kk, d: SORT.k === kk ? -SORT.d : (kk === 0 ? 1 : -1) }; table(); }); });
     Array.prototype.forEach.call(el.querySelectorAll("tr[data-n]"), function (tr) { tr.addEventListener("click", function () { pick(tr.dataset.n, true); }); });
   }
@@ -113,10 +115,11 @@
       '<div class="dm-chips">' + Object.keys(METRICS).map(function (m) { return '<button type="button" data-m="' + m + '"' + (m === M ? ' class="on"' : "") + ">" + METRICS[m].t + "</button>"; }).join("") + "</div>" +
       '<div class="dm-map" id="dmmap"></div><div class="dm-leg"></div>' +
       '<div class="dm-det"></div>' +
-      '<div class="dm-c"><div class="dm-h">All areas ranked <small>(tap a column to sort, a row to see it)</small></div><input id="dmq" class="dm-q" placeholder="🔎 Filter areas, e.g. Marina, JVC, Hills" autocomplete="off"><div class="dm-tbl" style="overflow-x:auto"></div></div>' +
+      '<div class="dm-c"><div class="dm-h">Top areas <small>(tap a column to rank by it, a row to see it on the map)</small></div><input id="dmq" class="dm-q" list="dmareas" placeholder="📍 Choose a location, e.g. Business Bay, JVC, Dubai Hills" autocomplete="off"><datalist id="dmareas">' + D.c.map(function (r) { return '<option value="' + esc(r[0]) + '">'; }).join("") + '</datalist><div class="dm-tbl" style="overflow-x:auto"></div></div>' +
       '<div class="dm-src">Last 12 complete months, data through ' + esc(D.data_through || D.updated) + '. Sales and prices: Dubai Land Department transactions (built homes, outliers trimmed). Rents: Ejari contracts. Yield: median rent over median price within the same unit type. Source: Dubai Land Department open data via Dubai Data (CC BY 4.0). Map points © OpenStreetMap contributors. Updated weekly.</div></div>';
     Array.prototype.forEach.call(root.querySelectorAll(".dm-chips button"), function (b) { b.addEventListener("click", function () { M = b.dataset.m; Array.prototype.forEach.call(root.querySelectorAll(".dm-chips button"), function (x) { x.classList.toggle("on", x === b); }); paint(); }); });
     root.querySelector("#dmq").addEventListener("input", table);
+    root.querySelector("#dmq").addEventListener("change", function () { var v = this.value.trim(), r = v && rowOf(v); if (r) pick(r[0], true); });
     detail(); table();
     leaflet(function () {
       MAP = L.map("dmmap", { scrollWheelZoom: false, tap: true }).setView([25.12, 55.25], 10);
