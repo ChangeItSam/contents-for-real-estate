@@ -9,6 +9,6 @@ jobs:
       - name: Post test lead to the lead sheet
         run: |
           U=$(grep -o 'https://script.google.com/macros/s/[A-Za-z0-9_-]*/exec' checklist/index.html | head -1)
-          curl -sS -m 60 -L -X POST "$U" --data-urlencode "name=TEST - delete me" --data-urlencode "phone=+971500000001" \
+          curl -sS -m 60 -L "$U" --data-urlencode "name=TEST - delete me" --data-urlencode "phone=+971500000001" \
             --data-urlencode "project=TEST project" --data-urlencode "score=50" --data-urlencode "verdict=Test" \
             --data-urlencode "link=https://samsuryarealty.com/checklist/#r=test" -w "\nHTTP %{http_code}\n" | tail -c 600
