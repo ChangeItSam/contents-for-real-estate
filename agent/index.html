@@ -85,7 +85,7 @@ input.i:focus{outline:0;border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,1
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
 @media(max-width:700px){.grid3{grid-template-columns:1fr}}
 .ph{display:flex;align-items:center;gap:12px;margin-top:8px;flex-wrap:wrap}.ph input{font:inherit;font-size:14px;max-width:220px}.pv{width:56px;height:56px;border-radius:50%;background:#F1EBDC;display:grid;place-items:center;font-size:22px;overflow:hidden;flex:none}.pv img,.av img{width:100%;height:100%;object-fit:cover}.av{position:relative;overflow:hidden;cursor:pointer}.av em{position:absolute;right:0;bottom:0;left:0;background:rgba(8,24,48,.55);font-style:normal;font-size:12px;text-align:center;line-height:20px}
-.tabs{display:flex;gap:8px;margin:18px 0 6px;flex-wrap:wrap}.tabs a{flex:1;min-width:140px;text-align:center;text-decoration:none;font-weight:800;border-radius:14px;padding:12px;background:#fff;border:1.5px solid var(--line);color:var(--navy)}.tabs a.on{background:var(--navy);color:var(--gold2);border-color:var(--navy)}
+.tabs{display:flex;gap:8px;margin:18px 0 6px;flex-wrap:wrap}.tabs a{flex:1;min-width:140px;text-align:center;text-decoration:none;font-weight:800;border-radius:14px;padding:12px;background:#fff;border:1.5px solid var(--line);color:var(--navy)}.tabs a.on{background:var(--navy);color:var(--gold2);border-color:var(--navy)}.tabs a.hot{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,162,74,.18)}.tabs a.hot:not(.on){background:#FFF9EA}@media(max-width:600px){.tabs a{min-width:calc(50% - 4px);flex:0 0 calc(50% - 4px);font-size:14.5px;padding:11px 6px}}
 .dm{background:linear-gradient(170deg,#0B1F3A,#13284A);color:#fff;border-radius:20px;padding:14px;margin-top:12px}
 .dm-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}.dm-chips button{border:0;border-radius:20px;padding:9px 13px;font:inherit;font-weight:800;font-size:13.5px;cursor:pointer;background:rgba(255,255,255,.1);color:#fff}.dm-chips button.on{background:#C9A24A;color:#111}
 .dm-map{height:440px;border-radius:14px;overflow:hidden;background:#dfe6ee}@media(max-width:600px){.dm-map{height:360px}}
@@ -301,9 +301,12 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
       var N=(a[2].p||[]).filter(function(m){ return m&&m.name&&!seen[m.name.toLowerCase()]; }).sort(function(x,y){ return String(y.added||"").localeCompare(String(x.added||"")); });
       FT=[F.slice(0,6),N.slice(0,6)]; cb(FT[0],FT[1]); }); }
   var MPL=false, MAREA="";
-  function dmap(cb){
-    function go(){ var el=document.getElementById("dmroot"); if(!el||!window.DPMap) return; if(el.dataset.on){ window.DPMap.resize(); return; } el.dataset.on="1"; window.DPMap.mount(el,"/checklist/data/",cb); }
-    if(window.DPMap) return go(); if(MPL) return; MPL=true; var sc=document.createElement("script"); sc.src="/assets/dpa/map.js?v=3"; sc.onload=go; document.head.appendChild(sc); }
+  var MPQ=[];
+  function dmap(cb,area,only){
+    function go(){ if(only) return only(); var el=document.getElementById("dmroot"); if(!el||!window.DPMap) return;
+      if(!el.dataset.on){ el.dataset.on="1"; window.DPMap.mount(el,"/checklist/data/",cb); } else window.DPMap.resize();
+      if(area) setTimeout(function(){ window.DPMap.pickArea(area); var m=document.getElementById("dmmap"); if(m) m.scrollIntoView({behavior:"smooth",block:"center"}); },400); }
+    if(window.DPMap) return go(); MPQ.push(go); if(MPL) return; MPL=true; var sc=document.createElement("script"); sc.src="/assets/dpa/map.js?v=4"; sc.onload=function(){ var q=MPQ; MPQ=[]; q.forEach(function(f){ f(); }); }; document.head.appendChild(sc); }
   function mkt(area){ if(area) MAREA=area;
     function go(){ var el=document.getElementById("mxroot"); if(!el||!window.DPMarket) return; if(el.dataset.on){ if(area) window.DPMarket.show(area); return; } el.dataset.on="1"; window.DPMarket.mount(el,"/checklist/data/",MAREA); }
     if(window.DPMarket) return go(); if(MXL) return; MXL=true; var sc=document.createElement("script"); sc.src="/assets/dpa/market.js?v=2"; sc.onload=go; document.head.appendChild(sc); }
@@ -318,9 +321,10 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
     document.getElementById("ht").innerHTML='Welcome back, <span>'+e((A.n||"").split(" ")[0])+'</span>.';
     document.getElementById("hp").textContent="Type a project below. The full analysis opens with your name, agency and BRN on it.";
     var rec=ls("sam-agent-recent")||[];
-    var TAB=location.hash==="#market"?"market":location.hash==="#map"?"map":"reports";
-    app.innerHTML='<div class="tabs"><a href="#reports" id="t1"'+(TAB==="reports"?' class="on"':'')+'>📄 Client reports</a><a href="#market" id="t2"'+(TAB==="market"?' class="on"':'')+'>📊 Market statistics</a><a href="#map" id="t3"'+(TAB==="map"?' class="on"':'')+'>🗺️ Price map</a></div>'+
-      '<div class="card fade" id="mapc"'+(TAB==="map"?'':' hidden')+'><h2>🗺️ Dubai price map</h2><p class="muted">Every master community on one map: price per sq ft, 1-year change, rental yield, rent, sales and off-plan share. Tap an area for its unit-type breakdown, or rank all areas below.</p><div id="dmroot"></div></div>'+
+    var TAB=location.hash==="#market"?"market":location.hash==="#map"?"map":location.hash==="#focus"?"focus":"reports";
+    app.innerHTML='<div class="tabs"><a href="#reports" id="t1"'+(TAB==="reports"?' class="on"':'')+'>📄 Client reports</a><a href="#focus" id="t4" class="hot'+(TAB==="focus"?' on':'')+'">🎯 Where to focus</a><a href="#market" id="t2"'+(TAB==="market"?' class="on"':'')+'>📊 Market statistics</a><a href="#map" id="t3"'+(TAB==="map"?' class="on"':'')+'>🗺️ Price map</a></div>'+
+      '<div class="card fade" id="focc"'+(TAB==="focus"?'':' hidden')+'><h2>🎯 Where to focus now</h2><p class="muted">The top 3 Dubai areas to work this month: rising prices, high yields, the busiest buyers and off-plan hotspots, plus where supply is piling up. Built from DLD sales and Ejari rents, updated weekly.</p><div id="foroot"></div></div>'+
+      '<div class="card fade" id="mapc"'+(TAB==="map"?'':' hidden')+'><h2>🗺️ Dubai price map</h2><p class="muted">Every master community on one map: price per sq ft, 1-year change, rental yield, rent, sales and off-plan share. Tap an area for its unit-type breakdown.</p><div id="dmroot"></div></div>'+
       '<div class="card fade" id="mkt"'+(TAB==="market"?'':' hidden')+'><h2>📊 Dubai market statistics</h2><p class="muted">Any area, any period: sales, off-plan sales and share, prices per sq ft, best-selling projects, price ranges and month-by-month reports. Dubai Land Department data, updated weekly.</p><div id="mxroot"></div></div>'+
       '<div class="card fade" id="rpt"'+(TAB==="reports"?'':' hidden')+'><div class="id"><label class="av" title="Change photo">'+(A.img?'<img src="'+A.img+'" alt="">':e((A.n||"?").split(/\s+/).map(function(w){ return w[0]; }).join("").slice(0,2).toUpperCase()))+'<input type="file" id="fi2" accept="image/*" hidden><em>📷</em></label>'+
       '<div><h2>'+e(A.n||"")+'</h2><div class="muted">'+e(A.ag||"")+(A.brn?' · BRN '+e(A.brn):'')+(A.ph?' · '+e(A.ph):'')+'</div><span class="pb">'+(pro?'Agent Pro':'Agent Unlimited')+'</span> <span class="muted" style="font-size:13px">until '+e(S.until||"")+'</span></div>'+
@@ -333,9 +337,13 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
       (rec.length?'<div class="rec"><h2 style="font-size:17px;margin-top:20px">Recent reports</h2>'+rec.slice(0,8).map(function(r){ return '<a href="'+e(r.l||("../checklist/?agent=1&proj="+encodeURIComponent(r.p)))+'"><b>'+e(r.p)+(r.c?' <span>· for '+e(r.c)+'</span>':'')+'</b><span>'+e(r.d||"")+(r.s?' · '+r.s+'/100':'')+'</span></a>'; }).join("")+'</div>':'')+
       '<p class="hint" style="margin-top:18px">Tap your photo to change it · <a href="'+wa("Hi, I'd like to change my Agent Pro details. Name: "+A.n+", BRN "+A.brn+".")+'">Change my details</a> · <a href="#" id="out">Log out</a></p></div>';
     document.getElementById("out").addEventListener("click",function(ev){ ev.preventDefault(); logout(); });
-    function tab(t,area){ document.getElementById("t1").classList.toggle("on",t==="reports"); document.getElementById("t2").classList.toggle("on",t==="market"); document.getElementById("t3").classList.toggle("on",t==="map");
-      document.getElementById("rpt").hidden=t!=="reports"; document.getElementById("mkt").hidden=t!=="market"; document.getElementById("mapc").hidden=t!=="map";
-      if(t==="market") mkt(area); if(t==="map") dmap(function(a){ history.replaceState(null,"","#market"); tab("market",a); window.scrollTo({top:0,behavior:"smooth"}); }); }
+    function toStats(a){ history.replaceState(null,"","#market"); tab("market",a); window.scrollTo({top:0,behavior:"smooth"}); }
+    function tab(t,area){ [["t1","reports"],["t4","focus"],["t2","market"],["t3","map"]].forEach(function(x){ document.getElementById(x[0]).classList.toggle("on",t===x[1]); });
+      document.getElementById("rpt").hidden=t!=="reports"; document.getElementById("focc").hidden=t!=="focus"; document.getElementById("mkt").hidden=t!=="market"; document.getElementById("mapc").hidden=t!=="map";
+      if(t==="market") mkt(area);
+      if(t==="map") dmap(toStats,area);
+      if(t==="focus") dmap(null,null,function(){ var el=document.getElementById("foroot"); if(el&&!el.dataset.on){ el.dataset.on="1"; window.DPMap.mountFocus(el,"/checklist/data/",toStats,function(a){ history.replaceState(null,"","#map"); tab("map",a); window.scrollTo({top:0,behavior:"smooth"}); }); } }); }
+    document.getElementById("t4").addEventListener("click",function(ev){ ev.preventDefault(); history.replaceState(null,"","#focus"); tab("focus"); });
     document.getElementById("t3").addEventListener("click",function(ev){ ev.preventDefault(); history.replaceState(null,"","#map"); tab("map"); });
     document.getElementById("t1").addEventListener("click",function(ev){ ev.preventDefault(); history.replaceState(null,"","#reports"); tab("reports"); });
     document.getElementById("t2").addEventListener("click",function(ev){ ev.preventDefault(); history.replaceState(null,"","#market"); tab("market"); });

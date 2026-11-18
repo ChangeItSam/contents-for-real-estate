@@ -1,6 +1,7 @@
 // DealPro Agent: Dubai price map (every master community: price per sq ft, change, yield, rent, sales, off-plan share)
 // Data: checklist/data/dxb_map.json (Dubai Land Department open data via Dubai Data, CC BY 4.0; centre points (c) OpenStreetMap)
 (function () {
+  var froot = null, onMap = null, DP = null;
   var D = null, MAP = null, LAYER = null, root = null, M = "psf", SEL = "", SORT = { k: 3, d: -1 }, onStats = null;
   var F = { name: 0, lat: 1, lng: 2, n: 3, price: 4, psf: 5, yoy: 6, pyoy: 7, nyoy: 8, op: 9, yld: 10, rent: 11, nr: 12 };
   var METRICS = {
@@ -71,7 +72,7 @@
     return bits.slice(0, 3).join(" · ");
   }
   function focus() {
-    var el = root.querySelector(".dm-foc"); if (!el) return;
+    var el = froot && froot.querySelector(".dm-foc"); if (!el) return;
     var P = D.c.filter(function (r) { return (r[F.n] || 0) >= 500 && r[F.psf]; });
     var hiY = P.slice().sort(function (a, b) { return (b[F.yld] || 0) - (a[F.yld] || 0); })[0], hiU = focusList("up")[0];
     var hiS = D.c.slice().sort(function (a, b) { return sup(b[0])[0] - sup(a[0])[0]; })[0];
@@ -89,7 +90,7 @@
         '<div class="dm-why">🎯 ' + esc(why(r, FOC)) + '</div><div class="dm-fb"><button type="button" data-p="' + esc(r[0]) + '">🗺️ See on map</button>' + (onStats ? '<button type="button" data-s="' + esc(r[0]) + '">📊 Full statistics</button>' : "") + "</div></div>"; }).join("");
     el.innerHTML = h;
     Array.prototype.forEach.call(el.querySelectorAll(".dm-fchips button"), function (b) { b.addEventListener("click", function () { FOC = b.dataset.f; focus(); }); });
-    Array.prototype.forEach.call(el.querySelectorAll("[data-p]"), function (b) { b.addEventListener("click", function () { pick(b.dataset.p, true); var m = root.querySelector("#dmmap"); if (m) m.scrollIntoView({ behavior: "smooth", block: "center" }); }); });
+    Array.prototype.forEach.call(el.querySelectorAll("[data-p]"), function (b) { b.addEventListener("click", function () { if (onMap) onMap(b.dataset.p); }); });
     Array.prototype.forEach.call(el.querySelectorAll("[data-s]"), function (b) { b.addEventListener("click", function () { onStats(b.dataset.s); }); });
   }
 
@@ -169,8 +170,7 @@
     var s = document.createElement("script"); s.src = "/checklist/vendor/leaflet/leaflet.js"; s.onload = cb; document.head.appendChild(s);
   }
   function ui() {
-    root.innerHTML = '<div class="dm"><div class="dm-c dm-focw"><div class="dm-h" style="font-size:19px">🎯 Where to focus now <small>· top 3 areas</small></div><div class="dm-k">Last 12 months vs the year before. Pick what matters for your clients.</div><div class="dm-foc"></div></div>' +
-      '<div class="dm-h" style="margin:16px 0 8px;font-size:17px">🗺️ Every area on the map</div><div class="dm-chips">' + Object.keys(METRICS).map(function (m) { return '<button type="button" data-m="' + m + '"' + (m === M ? ' class="on"' : "") + ">" + METRICS[m].t + "</button>"; }).join("") + "</div>" +
+    root.innerHTML = '<div class="dm"><div class="dm-chips">' + Object.keys(METRICS).map(function (m) { return '<button type="button" data-m="' + m + '"' + (m === M ? ' class="on"' : "") + ">" + METRICS[m].t + "</button>"; }).join("") + "</div>" +
       '<div class="dm-map" id="dmmap"></div><div class="dm-leg"></div>' +
       '<div class="dm-det"></div>' +
       '<div class="dm-c"><div class="dm-h">Top areas <small>(tap a column to rank by it, a row to see it on the map)</small></div><input id="dmq" class="dm-q" list="dmareas" placeholder="📍 Choose a location, e.g. Business Bay, JVC, Dubai Hills" autocomplete="off"><datalist id="dmareas">' + D.c.map(function (r) { return '<option value="' + esc(r[0]) + '">'; }).join("") + '</datalist><div class="dm-tbl" style="overflow-x:auto"></div></div>' +
@@ -178,19 +178,26 @@
     Array.prototype.forEach.call(root.querySelectorAll(".dm-chips button"), function (b) { b.addEventListener("click", function () { M = b.dataset.m; Array.prototype.forEach.call(root.querySelectorAll(".dm-chips button"), function (x) { x.classList.toggle("on", x === b); }); paint(); }); });
     root.querySelector("#dmq").addEventListener("input", table);
     root.querySelector("#dmq").addEventListener("change", function () { var v = this.value.trim(), r = v && rowOf(v); if (r) pick(r[0], true); });
-    focus(); detail(); table();
+    detail(); table();
     leaflet(function () {
       MAP = L.map("dmmap", { scrollWheelZoom: false, tap: true }).setView([25.12, 55.25], 10);
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 18, attribution: "© OpenStreetMap contributors" }).addTo(MAP);
       paint();
     });
   }
+  function load(base, cb) { if (D) return cb(); if (DP) return DP.then(cb); DP = fetch((base || "/checklist/data/") + "dxb_map.json").then(function (r) { return r.json(); }).then(function (j) { D = j; }); DP.then(cb).catch(function () {}); return DP; }
   window.DPMap = {
+    mountFocus: function (el, base, statsCb, mapCb) {
+      froot = el; onStats = statsCb || onStats; onMap = mapCb || null;
+      el.innerHTML = '<div class="dm"><div style="padding:30px;text-align:center;opacity:.75">Loading…</div></div>';
+      var p = load(base, function () { el.innerHTML = '<div class="dm"><div class="dm-c dm-focw" style="margin:0"><div class="dm-k">Last 12 months vs the year before. Pick what matters for your clients.</div><div class="dm-foc"></div></div><div class="dm-src">Source: Dubai Land Department open data via Dubai Data (CC BY 4.0), data through ' + esc(D.data_through || D.updated) + '. Upcoming supply = units in DLD-registered projects still under construction; sold so far = DLD sales in those projects. Pre-launch (EOI) projects are not counted. Updated weekly.</div></div>'; focus(); });
+      if (p && p.catch) p.catch(function () { el.innerHTML = '<div class="dm"><div style="padding:20px">Couldn\'t load the data. Please try again.</div></div>'; });
+    },
+    pickArea: function (name) { if (D && root) pick(name, true); },
     mount: function (el, base, statsCb) {
       root = el; onStats = statsCb || null;
       el.innerHTML = '<div class="dm"><div style="padding:30px;text-align:center;opacity:.75">Loading the Dubai price map…</div></div>';
-      fetch((base || "/checklist/data/") + "dxb_map.json").then(function (r) { return r.json(); }).then(function (j) { D = j; ui(); })
-        .catch(function () { el.innerHTML = '<div class="dm"><div style="padding:20px">Couldn\'t load the map data. Please try again.</div></div>'; });
+      var p = load(base, function () { ui(); }); if (p && p.catch) p.catch(function () { el.innerHTML = '<div class="dm"><div style="padding:20px">Couldn\'t load the map data. Please try again.</div></div>'; });
     },
     resize: function () { if (MAP) setTimeout(function () { MAP.invalidateSize(); }, 50); }
   };
