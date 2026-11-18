@@ -35,6 +35,64 @@
   }
   var PAL = ["#C9A24A", "#7fb0ef", "#3fae7a", "#e07a5f", "#b388eb", "#4fc1c6", "#f2cc8f", "#8a94a6"];
 
+  // ---------- where to focus now: top 3 areas for agents ----------
+  var FOC = "best";
+  var FOCUS = {
+    best: { t: "⭐ Best overall", d: "Strong sales, rising prices and good yields together" },
+    up: { t: "📈 Prices rising", d: "Fastest price per sq ft growth over the last year" },
+    yld: { t: "💰 High yield", d: "Best gross rental yields for investor clients" },
+    busy: { t: "🔥 Busiest", d: "Most sales: the most buyers to talk to" },
+    op: { t: "🏗️ Off-plan hotspots", d: "Busy areas where most sales are off-plan" },
+    sup: { t: "⚠️ Watch: high supply", d: "Most units still under construction: check exit plans" }
+  };
+  function sup(name) { return (D.s && D.s[name]) || [0, 0, 0]; }
+  function prank(arr, i) { var v = arr.map(function (r) { return r[i]; }).filter(function (x) { return x != null; }).sort(function (a, b) { return a - b; }); return function (x) { if (x == null || !v.length) return 0; var c = 0; while (c < v.length && v[c] <= x) c++; return c / v.length; }; }
+  function focusList(kind) {
+    var P = D.c.filter(function (r) { return (r[F.n] || 0) >= 500 && r[F.psf]; });
+    var ry = prank(P, F.yoy), rn = prank(P, F.n), rl = prank(P, F.yld), ro = prank(P, F.op);
+    var by = function (f) { return P.slice().sort(function (a, b) { return f(b) - f(a); }); };
+    if (kind === "up") return by(function (r) { return r[F.yoy] == null || r[F.yoy] > 60 ? -99 : r[F.yoy]; });   // a jump of more than 60% is usually new, pricier projects changing the mix, not real growth
+    if (kind === "yld") return by(function (r) { return r[F.yld] == null ? -1 : r[F.yld]; });
+    if (kind === "busy") return by(function (r) { return r[F.n]; });
+    if (kind === "op") return by(function (r) { return (r[F.op] || 0) >= 60 ? r[F.n] : -1; });
+    if (kind === "sup") return by(function (r) { return sup(r[0])[0]; });
+    return by(function (r) { return ry(r[F.yoy]) * 0.35 + rn(r[F.n]) * 0.35 + rl(r[F.yld]) * 0.2 + ro(r[F.op]) * 0.1 - ((r[F.yoy] || 0) < 0 ? 0.15 : 0); });
+  }
+  function why(r, kind) {
+    var u = sup(r[0]), bits = [];
+    if (r[F.yoy] != null && r[F.yoy] > 60) bits.push("price per sq ft up " + r[F.yoy] + "%, mostly new pricier projects launching");
+    else if (r[F.yoy] != null && r[F.yoy] >= 5) bits.push("prices up " + r[F.yoy] + "% in a year");
+    else if (r[F.yoy] != null && r[F.yoy] < 0) bits.push("prices down " + Math.abs(r[F.yoy]) + "% in a year: room to negotiate");
+    if ((r[F.n] || 0) >= 3000) bits.push(n(r[F.n]) + " sales a year, so plenty of buyers");
+    if (r[F.yld] != null && r[F.yld] >= 7) bits.push(r[F.yld] + "% gross yield for investors");
+    if ((r[F.op] || 0) >= 70) bits.push(Math.round(r[F.op]) + "% of sales are off-plan");
+    if (kind === "sup" || u[0] >= 8000) bits.push(n(u[0]) + " units still under construction: pick projects with a clear exit");
+    if (!bits.length) bits.push("steady market with " + n(r[F.n]) + " sales a year");
+    return bits.slice(0, 3).join(" · ");
+  }
+  function focus() {
+    var el = root.querySelector(".dm-foc"); if (!el) return;
+    var P = D.c.filter(function (r) { return (r[F.n] || 0) >= 500 && r[F.psf]; });
+    var hiY = P.slice().sort(function (a, b) { return (b[F.yld] || 0) - (a[F.yld] || 0); })[0], hiU = focusList("up")[0];
+    var hiS = D.c.slice().sort(function (a, b) { return sup(b[0])[0] - sup(a[0])[0]; })[0];
+    var h = '<div class="dm-hl"><div><small>Fastest price rise</small><b>' + esc(hiU[0]) + '</b><i style="color:#7fd6a5">+' + hiU[F.yoy] + '% a year</i></div>' +
+      '<div><small>Highest gross yield</small><b>' + esc(hiY[0]) + '</b><i style="color:#7fd6a5">' + hiY[F.yld] + '%</i></div>' +
+      '<div><small>Largest upcoming supply</small><b>' + esc(hiS[0]) + '</b><i>' + n(sup(hiS[0])[0]) + ' units</i></div></div>';
+    h += '<div class="dm-fchips">' + Object.keys(FOCUS).map(function (k) { return '<button type="button" data-f="' + k + '"' + (k === FOC ? ' class="on"' : "") + ">" + FOCUS[k].t + "</button>"; }).join("") + '</div><div class="dm-k" style="margin:2px 0 8px">' + FOCUS[FOC].d + "</div>";
+    h += focusList(FOC).slice(0, 3).map(function (r, i) { var u = sup(r[0]), sold = u[0] ? Math.round(u[1] / u[0] * 100) : null;
+      return '<div class="dm-fc"><div class="dm-fh"><span class="dm-n">' + (i + 1) + "</span><div><b>" + esc(r[0]) + "</b>" + (r[13] && r[13] !== r[0] ? "<small>" + esc(r[13]) + "</small>" : "") + "</div></div>" +
+        '<div class="dm-fg"><div><small>Price / sq ft</small><b>AED ' + n(r[F.psf]) + '</b><em style="color:' + ((r[F.yoy] || 0) >= 0 ? "#7fd6a5" : "#f3a59a") + '">' + (r[F.yoy] == null ? "" : ((r[F.yoy] >= 0 ? "▲ +" : "▼ ") + r[F.yoy] + "%")) + "</em></div>" +
+        "<div><small>Sales (12m)</small><b>" + n(r[F.n]) + '</b><em style="color:' + ((r[F.nyoy] || 0) >= 0 ? "#7fd6a5" : "#f3a59a") + '">' + (r[F.nyoy] == null ? "" : ((r[F.nyoy] >= 0 ? "▲ +" : "▼ ") + r[F.nyoy] + "%")) + "</em></div>" +
+        "<div><small>Upcoming supply</small><b>" + (u[0] ? n(u[0]) : "–") + "</b><em>" + (u[2] ? u[2] + " projects" : "units") + "</em></div>" +
+        "<div><small>Gross yield</small><b>" + (r[F.yld] == null ? "–" : r[F.yld] + "%") + "</b><em>" + (r[F.rent] ? "rent AED " + k(r[F.rent]) : "") + "</em></div></div>" +
+        (sold != null ? '<div class="dm-sold"><div><span>Sold so far in projects under construction</span><b>' + sold + '%</b></div><div class="dm-bar"><i style="width:' + sold + '%"></i></div><small>' + (sold >= 70 ? "Selling fast" : sold >= 45 ? "Selling steadily" : "Plenty still available") + "</small></div>" : "") +
+        '<div class="dm-why">🎯 ' + esc(why(r, FOC)) + '</div><div class="dm-fb"><button type="button" data-p="' + esc(r[0]) + '">🗺️ See on map</button>' + (onStats ? '<button type="button" data-s="' + esc(r[0]) + '">📊 Full statistics</button>' : "") + "</div></div>"; }).join("");
+    el.innerHTML = h;
+    Array.prototype.forEach.call(el.querySelectorAll(".dm-fchips button"), function (b) { b.addEventListener("click", function () { FOC = b.dataset.f; focus(); }); });
+    Array.prototype.forEach.call(el.querySelectorAll("[data-p]"), function (b) { b.addEventListener("click", function () { pick(b.dataset.p, true); var m = root.querySelector("#dmmap"); if (m) m.scrollIntoView({ behavior: "smooth", block: "center" }); }); });
+    Array.prototype.forEach.call(el.querySelectorAll("[data-s]"), function (b) { b.addEventListener("click", function () { onStats(b.dataset.s); }); });
+  }
+
   // ---------- panels ----------
   function rowOf(name) { return D.c.filter(function (r) { return r[0] === name; })[0]; }
   function detail() {
@@ -111,8 +169,8 @@
     var s = document.createElement("script"); s.src = "/checklist/vendor/leaflet/leaflet.js"; s.onload = cb; document.head.appendChild(s);
   }
   function ui() {
-    root.innerHTML = '<div class="dm">' +
-      '<div class="dm-chips">' + Object.keys(METRICS).map(function (m) { return '<button type="button" data-m="' + m + '"' + (m === M ? ' class="on"' : "") + ">" + METRICS[m].t + "</button>"; }).join("") + "</div>" +
+    root.innerHTML = '<div class="dm"><div class="dm-c dm-focw"><div class="dm-h" style="font-size:19px">🎯 Where to focus now <small>· top 3 areas</small></div><div class="dm-k">Last 12 months vs the year before. Pick what matters for your clients.</div><div class="dm-foc"></div></div>' +
+      '<div class="dm-h" style="margin:16px 0 8px;font-size:17px">🗺️ Every area on the map</div><div class="dm-chips">' + Object.keys(METRICS).map(function (m) { return '<button type="button" data-m="' + m + '"' + (m === M ? ' class="on"' : "") + ">" + METRICS[m].t + "</button>"; }).join("") + "</div>" +
       '<div class="dm-map" id="dmmap"></div><div class="dm-leg"></div>' +
       '<div class="dm-det"></div>' +
       '<div class="dm-c"><div class="dm-h">Top areas <small>(tap a column to rank by it, a row to see it on the map)</small></div><input id="dmq" class="dm-q" list="dmareas" placeholder="📍 Choose a location, e.g. Business Bay, JVC, Dubai Hills" autocomplete="off"><datalist id="dmareas">' + D.c.map(function (r) { return '<option value="' + esc(r[0]) + '">'; }).join("") + '</datalist><div class="dm-tbl" style="overflow-x:auto"></div></div>' +
@@ -120,7 +178,7 @@
     Array.prototype.forEach.call(root.querySelectorAll(".dm-chips button"), function (b) { b.addEventListener("click", function () { M = b.dataset.m; Array.prototype.forEach.call(root.querySelectorAll(".dm-chips button"), function (x) { x.classList.toggle("on", x === b); }); paint(); }); });
     root.querySelector("#dmq").addEventListener("input", table);
     root.querySelector("#dmq").addEventListener("change", function () { var v = this.value.trim(), r = v && rowOf(v); if (r) pick(r[0], true); });
-    detail(); table();
+    focus(); detail(); table();
     leaflet(function () {
       MAP = L.map("dmmap", { scrollWheelZoom: false, tap: true }).setView([25.12, 55.25], 10);
       L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 18, attribution: "© OpenStreetMap contributors" }).addTo(MAP);

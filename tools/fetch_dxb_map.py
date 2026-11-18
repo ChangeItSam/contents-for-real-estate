@@ -45,10 +45,21 @@ for r in rows("data/community_bedrooms.csv"):
 dub = [[r["code"], r["label"], num(r["n"]), num(r["price_median"]), num(r["psf_median"]), num(r["sqft_median"]), num(r["rent_median"]), num(r["n_rents"]), num(r["yield_pct"], 2)]
        for r in rows("data/market_bedrooms.csv")]
 
+# upcoming supply per community: units in DLD projects still under construction, and how many of them DLD shows as sold
+sup = {}
+try:
+    ins = json.load(open(os.path.join(OUT, "insights.json")))
+    for r in ins["p"].values():
+        if r[1] == "Active" and r[9]:
+            x = sup.setdefault(r[9], [0, 0, 0]); x[0] += r[4] or 0; x[1] += min(r[5] or 0, r[4] or 0); x[2] += 1
+except Exception as e:
+    print("supply skipped:", e)
+
 out = {"updated": datetime.date.today().isoformat(), "data_through": through,
        "source": "Dubai Land Department open data via Dubai Data (datadubai.ae), CC BY 4.0; centre points (c) OpenStreetMap contributors",
        "f": ["name", "lat", "lng", "sales_12m", "price_median", "psf", "psf_yoy", "price_yoy", "sales_yoy", "offplan_share", "yield", "rent_median", "rents_12m", "top_area", "quality"],
        "bf": ["code", "label", "sales_12m", "price_median", "psf", "sqft", "rent_median", "rents_12m", "yield"],
-       "c": sorted(comms, key=lambda x: -x[3]), "b": bed, "d": dub}
+       "c": sorted(comms, key=lambda x: -x[3]), "b": bed, "d": dub,
+       "sf": ["units_under_construction", "units_sold", "projects_under_construction"], "s": sup}
 json.dump(out, open(os.path.join(OUT, "dxb_map.json"), "w"), ensure_ascii=False, separators=(",", ":"))
 print(f"dxb_map.json: {len(comms)} communities on the map, {len(bed)} with bedroom data, through {through}")
