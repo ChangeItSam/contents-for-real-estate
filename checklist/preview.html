@@ -321,6 +321,8 @@ html:not(.eoion) .ans .eoin{display:none}
 .agtop a{color:#E8CF8E;font-weight:800;text-decoration:none}.agtop b{color:#fff}.agtop span{color:#B9C7DD;font-size:13px}
 .agtop input{margin-left:auto;font:inherit;font-size:14px;padding:7px 11px;border-radius:10px;border:1px solid rgba(232,207,142,.45);background:rgba(255,255,255,.08);color:#fff;min-width:170px}
 .agtop input::placeholder{color:#9FB0C8}
+body.agself .hero2 .by,body.agself .hpill,body.agself .hero2>h1,body.agself .sub2,body.agself .trust,body.agself .samplelink,body.agself section.sample,body.agself section.game,body.agself footer.foot2,body.agself a.sticky.wa-link,body.agself .lockgate,body.agself .prog a[href*="wa.me"]{display:none!important}
+.aghd{background:linear-gradient(135deg,#081830,#18406F);color:#fff;border-radius:18px;padding:16px 18px;margin:4px 0 14px}.aghd b{display:block;font-size:20px}.aghd span{color:#C9D5E8;font-size:14.5px}
 body.agm .brandbar,body.agm .peek,body.agm .pend,body.agm .fullcta,body.agm #callb,body.agm .rescta,body.agm .grule{display:none!important}
 body.agm:not(.agself) #rclose,body.agm:not(.agself) #review{display:none!important}
 .agact{display:grid;gap:10px;margin:16px 0}
@@ -1673,7 +1675,11 @@ html:not(.eoion) .ans .eoin{display:none}
     document.body.insertBefore(bar,document.body.firstChild);
     agUsed(agLs("sam-agent-st"));
     agApi({a:"me",t:a.t},function(d){ if(d&&d.ok){ agLs("sam-agent-st",{st:d.st,plan:d.plan,until:d.until,used:d.used,limit:d.limit,cr:d.cr,at:Date.now()}); agUsed(d); if(!agOk(d)) location.href="../agent/"; } });
-    var pj=q.get("proj"); if(pj){ pin.value=pj; load(function(){ var lo=pj.toLowerCase(), hit=P.p.some(function(r){ if(r[1].toLowerCase()===lo){ pick(r); return true; } }); if(!hit){ pin.dispatchEvent(new Event("input",{bubbles:true})); } }); }
+    var hd=document.querySelector(".hero2"); if(hd) hd.insertAdjacentHTML("afterbegin",'<div class="aghd"><b>🏢 Deal analysis</b><span>Check the project, tick what you have confirmed, then tap <b style="display:inline;font-size:inherit">Get my result</b> for the full client report.</span></div>');
+    var pj=q.get("proj"); if(pj){ pin.value=pj; load(function(){ var lo=pj.toLowerCase(), hit=P.p.some(function(r){ if(r[1].toLowerCase()===lo){ pick(r); return true; } });
+      if(hit) return;
+      var tries=0; (function mk(){ var m=MKT.filter(function(x){ return x.name.toLowerCase()===lo; })[0];
+        if(m){ mktPick(m); return; } if(++tries<20&&!MKT.length) return setTimeout(mk,250); pin.dispatchEvent(new Event("input",{bubbles:true})); })(); }); }
   },0);
   // shared result link: restore answers and show result directly (after the page has set up)
   setTimeout(function(){

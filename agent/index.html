@@ -177,8 +177,11 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
   // ---------- 3. dashboard ----------
   var PJ=null;
   function projects(cb){ if(PJ) return cb(PJ);
-    Promise.all([fetch("../checklist/data/projects.json").then(function(r){ return r.json(); }),fetch("../checklist/data/projects_extra.json").then(function(r){ return r.ok?r.json():{p:[]}; }).catch(function(){ return {p:[]}; })]).then(function(a){
-      var have={}, L=[]; a[0].p.concat(a[1].p||[]).forEach(function(r){ var k=r[1].toLowerCase(); if(!have[k]){ have[k]=1; L.push(r); } }); PJ=L; cb(L); }).catch(function(){ cb([]); }); }
+    Promise.all([fetch("../checklist/data/projects.json").then(function(r){ return r.json(); }),fetch("../checklist/data/projects_extra.json").then(function(r){ return r.ok?r.json():{p:[]}; }).catch(function(){ return {p:[]}; }),fetch("../checklist/data/market.json").then(function(r){ return r.ok?r.json():{p:[]}; }).catch(function(){ return {p:[]}; })]).then(function(a){
+      var have={}, L=[]; a[0].p.concat(a[1].p||[]).forEach(function(r){ var k=r[1].toLowerCase(); if(!have[k]){ have[k]=1; L.push(r); } });
+      // new launches / EOI (not in DLD yet), same list the test uses
+      (a[2].p||[]).forEach(function(m){ var k=String(m.name||"").toLowerCase(); if(k&&!have[k]){ have[k]=1; L.push(["",m.name,m.dev||"","EOI","","","",m.area||m.comm||"",m.tags||""]); } });
+      PJ=L; cb(L); }).catch(function(){ cb([]); }); }
   function dash(){
     var pro=S.plan!=="unlimited", used=S.used||0, lim=S.limit||30, left=Math.max(0,lim-used)+(S.cr||0), pct=pro?Math.min(100,Math.round(used/lim*100)):100;
     document.getElementById("ht").innerHTML='Welcome back, <span>'+e((A.n||"").split(" ")[0])+'</span>.';
@@ -199,8 +202,8 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
     var qi=document.getElementById("q"), sg=document.getElementById("sg"), hi=-1, list=[];
     function go(name){ location.href="../checklist/?agent=1&proj="+encodeURIComponent(name); }
     function draw(){ var v=qi.value.trim().toLowerCase(); if(v.length<2){ sg.hidden=true; return; }
-      projects(function(L){ var a=v.split(/\s+/); list=L.filter(function(r){ var s=(r[1]+" "+(r[2]||"")+" "+(r[7]||"")).toLowerCase(); return a.every(function(w){ return s.indexOf(w)>=0; }); }).sort(function(x,y){ return (x[1].toLowerCase().indexOf(v)===0?0:1)-(y[1].toLowerCase().indexOf(v)===0?0:1); }).slice(0,8);
-        hi=-1; sg.innerHTML=list.length?list.map(function(r,i){ return '<button type="button" data-i="'+i+'"><b>'+e(r[1])+'</b><small>'+e([r[7],String(r[2]||"").replace(/\s*(L\.?L\.?C|P\.?J\.?S\.?C)\.?$/i,"")].filter(Boolean).join(" · "))+((r[3]||"").match(/cancel/i)?' · 🚩 cancelled':'')+'</small></button>'; }).join(""):'<button type="button" data-free="1"><b>Check "'+e(qi.value.trim())+'"</b><small>Not in the DLD list yet (EOI / pre-launch): open the test anyway</small></button>';
+      projects(function(L){ var a=v.split(/\s+/); list=L.filter(function(r){ var s=(r[1]+" "+(r[2]||"")+" "+(r[7]||"")+" "+(r[8]||"")).toLowerCase(); return a.every(function(w){ return s.indexOf(w)>=0; }); }).sort(function(x,y){ return (x[1].toLowerCase().indexOf(v)===0?0:1)-(y[1].toLowerCase().indexOf(v)===0?0:1); }).slice(0,8);
+        hi=-1; sg.innerHTML=list.length?list.map(function(r,i){ return '<button type="button" data-i="'+i+'"><b>'+e(r[1])+'</b><small>'+e([r[7],String(r[2]||"").replace(/\s*(L\.?L\.?C|P\.?J\.?S\.?C)\.?$/i,"")].filter(Boolean).join(" · "))+((r[3]||"").match(/cancel/i)?' · 🚩 cancelled':'')+(r[3]==="EOI"?' · 🟡 new launch / EOI':'')+'</small></button>'; }).join(""):'<button type="button" data-free="1"><b>Check "'+e(qi.value.trim())+'"</b><small>Not in the DLD list yet (EOI / pre-launch): open the test anyway</small></button>';
         sg.hidden=false;
         Array.prototype.forEach.call(sg.querySelectorAll("button"),function(b){ b.addEventListener("mousedown",function(ev){ ev.preventDefault(); go(b.dataset.free?qi.value.trim():list[+b.dataset.i][1]); }); }); }); }
     qi.addEventListener("input",draw); qi.addEventListener("focus",draw); qi.addEventListener("blur",function(){ setTimeout(function(){ sg.hidden=true; },150); });
