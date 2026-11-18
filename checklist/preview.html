@@ -1429,13 +1429,20 @@ html:not(.eoion) .ans .eoin{display:none}
     var GLIDE=(CAGE>=10||SINGLE)?2:5;
     var rateAt=function(t){ if(t<=AP.yh) return AP.rate; var u=Math.min(1,(t-AP.yh)/GLIDE); return AP.rate+(MR-AP.rate)*u; };
     var gpath=function(y){ var v=1, t=0, st=0.25; while(t<y-1e-9){ var d=Math.min(st,y-t); v*=Math.pow(1+rateAt(t+d/2)/100,d); t+=d; } return (v-1)*100; };
-    var tot=function(k,y){ return Math.max(-40,gpath(y)+k*STEP); }, rng=function(k,y){ var m=tot(k,y); return Math.round(m-1)+"–"+Math.round(m+1)+"%"; };
+    // hand-set scenarios for a project (data/exit_overrides.json), e.g. a Nakheel first-phase launch: total growth to handover,
+    // then the same post-handover glide as every project
+    var OVK=((document.getElementById("proj")||{}).value||"").trim().toLowerCase(), OV=null;
+    if(EXO) Object.keys(EXO).forEach(function(k){ if(k.charAt(0)!=="_"&&k.toLowerCase()===OVK) OV=EXO[k]; });
+    var OVR=OV?{"-1":OV.c,"0":OV.r,"1":OV.o}:null;
+    var tot=function(k,y){ if(OVR){ var R=OVR[String(k)], mid=(R[0]+R[1])/2, post=(1+gpath(y)/100)/(1+gpath(AP.yh)/100); return Math.max(-40,((1+mid/100)*(y>AP.yh?post:1)-1)*100); } return Math.max(-40,gpath(y)+k*STEP); },
+        rng=function(k,y){ if(OVR&&y<=AP.yh+1e-9){ var R=OVR[String(k)]; return R[0]+"–"+R[1]+"%"; } var m=tot(k,y), w=OVR?1.5:1; return Math.round(m-w)+"–"+Math.round(m+w)+"%"; };
     var GOAL=xv("xgoal"), HOLD=GOAL==="live"?Math.max(xn("xyrs"),0):xn("xyrs"), RENT=GOAL==="live"?0:(xn("xrent")||(rb?rb[0]:0)), SZ=xn("xsize")||xn("psize"), PX=xn("xprice")||xn("pprice")||(PSFV&&SZ?PSFV*SZ:0);
     var HB=h; h="";
     (function(){ h+='<h4>🚪 Exit strategy: appreciation and rent</h4><div class="box">'+
       '<div style="margin-bottom:6px">Expected price growth until handover ('+AP.hy+', about '+AP.yh.toFixed(1)+' years from now):</div>'+
       '<table class="ex3"><tr><th>Scenario</th><th>To handover</th>'+(HOLD?'<th>+ '+HOLD+' yr after</th>':'')+'</tr>'+
-      SCN.map(function(x){ return '<tr'+(x[0]==="Realistic"?' class="r"':'')+'><td>'+x[0]+'</td><td>'+rng(x[1],AP.yh)+'</td>'+(HOLD?'<td>'+rng(x[1],AP.yh+HOLD)+'</td>':'')+'</tr>'; }).join("")+'</table>';
+      SCN.map(function(x){ return '<tr'+(x[0]==="Realistic"?' class="r"':'')+'><td>'+x[0]+'</td><td>'+rng(x[1],AP.yh)+'</td>'+(HOLD?'<td>'+rng(x[1],AP.yh+HOLD)+'</td>':'')+'</tr>'; }).join("")+'</table>'+
+      (OV&&OV.why?'<div style="margin-top:6px;font-size:13px;color:#E8CF8E">🌴 '+e(OV.why)+'</div>':'');
       if(PX){ var dld=PX*0.04, T=xn("xtf"), ag=Math.min(xn("xag")||0,20), scY=xn("xsc")*SZ, cost=PX+dld+T;
         h+='<div style="margin:12px 0 4px;font-weight:800">💼 If you sell '+(HOLD?HOLD+' year'+(HOLD>1?"s":"")+' after handover ('+(AP.hy+HOLD)+')':'at handover ('+AP.hy+')')+(GOAL==="live"?' after living in it':HOLD&&RENT?' after renting it out':'')+'</div>'+
         '<div style="overflow-x:auto"><table class="ex3"><tr><th></th><th>Sale price</th>'+(HOLD&&RENT?'<th>Rent</th>':'')+'<th>Profit</th><th>Return</th></tr>'+
@@ -1782,6 +1789,7 @@ html:not(.eoion) .ans .eoin{display:none}
     document.getElementById("rcyes").addEventListener("click",function(){ rc.hidden=true; document.getElementById("reset").click();
       setTimeout(function(){ if(typeof mtoast==="function") mtoast("↺ All cleared. Start again from the top"); },400); });
   })();
+  var EXO=null; try{ fetch("data/exit_overrides.json",{cache:"no-cache"}).then(function(r){ return r.ok?r.json():null; }).then(function(j){ EXO=j; }).catch(function(){}); }catch(x){}
   var MKT=[]; try{ fetch("data/market.json").then(function(r){ return r.json(); }).then(function(j){ MKT=(j&&j.p)||[]; }).catch(function(){}); }catch(x){}
   function shortDev(n){ n=String(n||""); var t=n.replace(/\b(l\.?\s?l\.?\s?c\.?|llc|fzco|fze|pjsc|p\.j\.s\.c\.?|real estate|development|developments|developer|developers|properties|property|holding|investments?|group|co\.?|company|\(.*?\))\b/gi,"").replace(/\s+/g," ").replace(/[\s\-·,.]+$/,"").trim(); return t||n; }
   function mktPick(m){

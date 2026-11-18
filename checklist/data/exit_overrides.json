@@ -1,0 +1,4 @@
+{
+ "_how_to_edit": "Set the exit scenarios for one project by hand (total price growth to handover, %). Key = project name as it appears in the test (lower/upper case doesn't matter). Ask Claude to add or change one.",
+ "Palm Springs": {"c": [12, 15], "r": [22, 25], "o": [35, 40], "why": "Nakheel launch, first phase: early phases of Nakheel master communities have historically appreciated as the community builds out."}
+}
