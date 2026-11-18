@@ -1,7 +1,7 @@
 var SHEET = 'Leads';
 var HEAD = ['Date (Dubai)', 'Name', 'WhatsApp', 'Project', 'Deal Score', 'Verdict', 'Price / sq ft (AED)',
             'Area average (AED)', 'Price rating', 'Result link', 'Send result', 'Status',
-            'Checks by this number', 'Access'];
+            'Checks by this number', 'Access', 'I am', 'Device'];
 // Free full reports per WhatsApp number before the paywall. Existing clients (tab "Customers") and
 // paid members (tab "Premium") are never asked to pay.
 var FREE_REPORTS = 3;
@@ -134,6 +134,18 @@ function recentChecks(sh, digits, project, days) {
   }
   seen[String(project || '').trim().toLowerCase()] = 1;
   return Object.keys(seen).filter(function (x) { return x; }).length;
+}
+// other names used with this number, and other numbers sent from this device (this lead not yet in the sheet)
+function otherNames(sh, digits, name) {
+  var k = key9(digits), nz = function (x) { return String(x || '').toLowerCase().replace(/[^a-z\u0600-\u06ff]+/g, ' ').trim(); }, me = nz(name), seen = {}, v = sh.getDataRange().getValues();
+  for (var i = 1; i < v.length; i++) if (key9(v[i][2]) === k) { var x = nz(v[i][1]); if (x && x !== me && x.split(' ')[0] !== me.split(' ')[0]) seen[v[i][1]] = 1; }
+  return Object.keys(seen);
+}
+function otherNumbers(sh, dev, digits) {
+  if (!dev) return [];
+  var k = key9(digits), seen = {}, v = sh.getDataRange().getValues();
+  for (var i = 1; i < v.length; i++) if (String(v[i][15] || '') === dev && key9(v[i][2]) !== k && key9(v[i][2]).length >= 8) seen[v[i][2]] = 1;
+  return Object.keys(seen);
 }
 function key9(v) { var d = String(v || '').replace(/[^0-9]/g, ''); return d.slice(-9); }
 
@@ -277,25 +289,35 @@ function doPost(e) {
       dld = dldBroker(digits);
       if (dld) { agent = true; agentsSheet().appendRow([clean(p.phone), clean(name), 'DLD register: BRN ' + dld[0] + ', ' + dld[1] + ', ' + dld[2] + ' (auto ' + Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd') + ')']); }
     }
+    var role = clean(p.role), dev = String(p.dev || '').replace(/[^a-z0-9]/gi, '').slice(0, 24);
+    if (!acc && !verified && !agent && /agent|broker/i.test(role)) {   // said so on the form
+      agent = true; agentsSheet().appendRow([clean(p.phone), clean(name), 'Chose "Agent / broker" on the form (' + Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd') + ')']);
+    }
     var rc = acc || agent || verified ? 0 : recentChecks(sh, digits, p.project, AGENT_DAYS);
-    var maybe = !agent && rc >= AGENT_LIMIT;
+    var why = [];
+    if (!acc && !agent && !verified) {
+      if (rc >= AGENT_LIMIT) why.push(rc + ' different projects in ' + AGENT_DAYS + ' days');
+      var on = otherNames(sh, digits, name); if (on.length) why.push('this number also used the name(s): ' + on.slice(0, 4).join(', '));
+      var od = otherNumbers(sh, dev, digits); if (od.length >= 2) why.push('this device also sent ' + od.length + ' other numbers: ' + od.slice(0, 4).join(', '));
+    }
+    var maybe = !agent && why.length > 0;
     var locked = !acc && !agent && !maybe && n > FREE_REPORTS && !!link;
     if (locked) link = payLink(link, n);
     else if (acc) link = premLink(link);   // Premium members and existing clients get everything
     var access = acc ? (acc === 'Customer' ? 'Free (existing client)' : 'Premium') :
       agent ? (dld ? '🚫 Registered broker (DLD) · score only' : '🚫 Agent (score only)') :
-      maybe ? '⚠️ Possible agent: ' + rc + ' projects in ' + AGENT_DAYS + ' days. Check, then use the menu' :
+      maybe ? '⚠️ Possible agent: ' + why.join('; ') + '. Check, then use the menu' :
       (locked ? 'Payment needed (AED ' + PRICE_ONE + ' / ' + PRICE_MONTH + ' monthly)' : 'Free (' + Math.min(n, FREE_REPORTS) + ' of ' + FREE_REPORTS + ')');
     // agents and possible agents: the message carries the score only; the link stays in the sheet for Sam
     var msg = resultMessage(first, p.project, p.score, p.verdict, agent || maybe ? '' : link, locked, n);
     var when = Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm');
     sh.appendRow([when, clean(name), clean(p.phone), clean(p.project), Number(p.score) || 0, clean(p.verdict),
-                  Number(p.psf) || '', Number(p.avg) || '', clean(p.rating), link, '', 'New', n, access]);
+                  Number(p.psf) || '', Number(p.avg) || '', clean(p.rating), link, '', 'New', n, access, role, dev]);
     var row = sh.getLastRow();
     setSend(sh, row, digits, msg);
     if (agent || maybe) sh.getRange(row, 1, 1, HEAD.length).setBackground(agent ? '#F8D7D3' : '#FFF1C2');
     if (agent) sh.getRange(row, 3).setNote((dld ? '🚫 REGISTERED BROKER (DLD register): BRN ' + dld[0] + ' · ' + dld[1] + ' · ' + dld[2] + (dld[3] ? ' · licence until ' + dld[3] : '') + '\n' : '🚫 AGENT / BROKER: this number is in your Agents list.\n') + 'Score only, no full report sent. Wrong? Use the menu: Not an agent (approve).' + (dld ? '' : agentNote(digits)));
-    else if (maybe) sh.getRange(row, 3).setNote('⚠️ POSSIBLE AGENT: ' + rc + ' different projects checked in ' + AGENT_DAYS + ' days. Full report held back. Use the Stress Test menu: Mark as agent, or Not an agent (approve).');
+    else if (maybe) sh.getRange(row, 3).setNote('⚠️ POSSIBLE AGENT:\n• ' + why.join('\n• ') + '\nFull report held back. Use the Stress Test menu: Mark as agent, or Not an agent (approve).');
     alertSam(clean(name), clean(p.phone), clean(p.project), p.score, clean(p.verdict), access, n, digits, sh);
     return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
   } finally {

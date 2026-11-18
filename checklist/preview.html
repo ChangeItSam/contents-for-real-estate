@@ -315,6 +315,7 @@ html:not(.eoion) .ans .eoin{display:none}
 .eoinote{background:#FFF6E3;color:#6B4E12;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:15px;line-height:1.45}
 #res .mstile{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:8px;margin-bottom:12px}#res .mstile>div{background:rgba(255,255,255,.06);border:1px solid rgba(232,207,142,.22);border-radius:12px;padding:9px 10px}#res .mstile small{display:block;font-size:11.5px;opacity:.75;line-height:1.3;margin-bottom:4px}#res .mstile b{font-size:19px;white-space:nowrap}#res .msc{background:rgba(0,0,0,.18);border-radius:12px;padding:10px;margin:10px 0}#res .msh{font-weight:800;font-size:15px;margin-bottom:2px}#res .msh small{font-weight:500;opacity:.7}
 #res .mph{font-size:20px;font-weight:800;line-height:1.25}#res .mps{font-size:12.5px;opacity:.75;margin-bottom:8px}#res .mpg{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:10px 0}#res .mpg2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:10px}#res .mpg2 .msc{margin:0 0 10px}#res .mpl{background:rgba(0,0,0,.18);border-radius:12px;padding:10px}#res .mpl .row span{font-size:13.5px}#res .mpb{display:grid;grid-template-columns:minmax(90px,38%) 1fr;gap:8px;align-items:center;margin:5px 0;font-size:12.5px}#res .mpb>span{text-align:right;line-height:1.2;opacity:.9}#res .mpb>div{display:flex;align-items:center;gap:6px}#res .mpb i{display:block;height:18px;border-radius:0 6px 6px 0}#res .mpb b{font-size:12px;white-space:nowrap}#res .mpt{width:100%;border-collapse:collapse;font-size:13px;min-width:460px}#res .mpt th{text-align:left;opacity:.7;font-weight:600;padding:6px 4px}#res .mpt td{padding:7px 4px;border-top:1px solid rgba(255,255,255,.08)}#res .mpq details{border-top:1px solid rgba(255,255,255,.08);padding:8px 0}#res .mpq summary{cursor:pointer;font-weight:700;font-size:14px}#res .mpq details div{margin-top:6px;font-size:14px;opacity:.9}#res .pmlock{position:relative;overflow:hidden;max-height:620px}#res .pmblur{filter:blur(5px);pointer-events:none;user-select:none;opacity:.8}#res .pmov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(10,20,40,.15),rgba(10,20,40,.75) 60%);padding:14px}#res .pmcard{background:linear-gradient(160deg,#1b2d4f,#0f1b33);border:1.5px solid #C9A24A;border-radius:18px;padding:18px;max-width:360px;text-align:center;box-shadow:0 14px 40px rgba(0,0,0,.45)}#res .pmcard b{display:block;font-size:20px;color:#E8CF8E;margin:4px 0 6px}#res .pmcard div{font-size:14px;line-height:1.45}#res .pmcard a{display:block;margin:12px 0 6px;background:linear-gradient(180deg,#f0d78f,#C9A24A);color:#111;font-weight:800;border-radius:12px;padding:12px;text-decoration:none;font-size:16px}#res .pmcard small{opacity:.75}
+#res .wmh{font-size:12.5px;opacity:.8;text-align:center;margin:0 0 10px;padding:6px 10px;border:1px dashed rgba(232,207,142,.35);border-radius:10px}#gate select{width:100%;font:inherit;padding:12px;border-radius:12px;border:1.5px solid #d9d3c4;background:#fff;margin-top:6px}
 </style>
 <script>
 // Access gate: the test opens from the Instagram DM link (it carries ?k=...). A plain copied link goes to Instagram first.
@@ -702,6 +703,7 @@ html:not(.eoion) .ans .eoin{display:none}
   <h3>Where should Sam send your report?</h3>
   <label>Your name<input id="gname" type="text" autocomplete="name" placeholder="e.g. Ahmed Khan" required></label>
   <label>WhatsApp number (with country code)<input id="gphone" type="tel" autocomplete="tel" inputmode="tel" placeholder="e.g. +44 7700 900123" required></label>
+  <label>I am a… <small style="font-weight:500;opacity:.7">(optional)</small><select id="grole"><option value="">Choose one</option><option>Buyer</option><option>Investor</option><option>Agent / broker</option><option>Other</option></select></label>
   <div class="err" id="gerr"></div>
   <button class="btn go2" type="submit">📲 Send my report on WhatsApp</button>
   <small>Your details are only used to send you your result and Dubai property updates. Reply STOP any time.</small>
@@ -1021,7 +1023,7 @@ html:not(.eoion) .ans .eoin{display:none}
         document.getElementById("why3").innerHTML=why3();
         var PAYQ=(function(){ try{ var q=new URLSearchParams(location.search); return q.get("pay")==="1"?(+q.get("n")||4):0; }catch(e){ return 0; } })();
         if(FROMLINK&&PAYQ){ g.className="rep"; g.innerHTML=paywall(PAYQ); pend.hidden=true; var pkp=document.querySelector("#res .peek"); if(pkp){ pkp.hidden=false; var pf=pkp.querySelector(".peekf"); if(pf) pf.innerHTML="Unlock to see all of this for <b>"+esc(document.getElementById("proj").value.trim()||"your project")+"</b>."; } }
-        else if(FROMLINK){ g.className="rep"; g.innerHTML=report(sc); pend.hidden=true; var pk=document.querySelector("#res .peek"); if(pk) pk.hidden=true; cw.innerHTML="💬 Questions about your report?"; document.getElementById("share").lastChild.textContent="Talk it through with Sam →"; }
+        else if(FROMLINK){ g.className="rep"; g.innerHTML=report(sc); watermark(g); pend.hidden=true; var pk=document.querySelector("#res .peek"); if(pk) pk.hidden=true; cw.innerHTML="💬 Questions about your report?"; document.getElementById("share").lastChild.textContent="Talk it through with Sam →"; }
         else { g.className="gaps"; g.innerHTML=""; pend.hidden=false; var pk2=document.querySelector("#res .peek"); if(pk2) pk2.hidden=false; cw.innerHTML="Want the full report?"; }
         var m="My Dubai Off-Plan Deal Stress Test result"+(proj?(" for "+proj):"")+": "+sc+"/100, "+tier.v.replace(/[^A-Za-z ()]/g,"").trim()+"."+(PSFR?("\nPrice: AED "+PSFV.toLocaleString("en-US")+"/sq ft vs average AED "+PSFR.avg.toLocaleString("en-US")+" ("+PSFR.diffTxt+", "+PSFR.basis+")."):"")+"\n\nHi Sam, I'm "+(who.n||"")+(who.p?(" (WhatsApp: "+who.p+")"):"")+". Can you go through my result with me? I'd also like to discuss my off-plan purchase options.";
         document.getElementById("share").href="https://wa.me/971528728248?text="+encodeURIComponent(m);
@@ -1040,12 +1042,19 @@ html:not(.eoion) .ans .eoin{display:none}
     else rows.push(["n","3. Price: not checked (add your price per sq ft)"]);
     return '<div class="w3h">3 reasons why</div>'+rows.map(function(r){ return '<div class="w3 '+r[0]+'">'+(r[0]==="y"?"✅":r[0]==="w"?"🟡":"❌")+' '+r[1]+'</div>'; }).join("");
   }
+  // random id for this browser (no personal data): lets the lead sheet spot one device sending many numbers
+  function devId(){ var k="sam-dev", v=""; try{ v=localStorage.getItem(k)||""; if(!v){ v=Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4); localStorage.setItem(k,v); } }catch(e){} return v; }
+  var WMK=null;
+  function watermark(g){ if(!WMK||!WMK.n) return; var t="Prepared by Sam Surya for "+WMK.n+(WMK.ph?" (•••"+WMK.ph+")":"");
+    g.insertAdjacentHTML("afterbegin",'<div class="wmh">📄 '+esc(t)+' · samsuryarealty.com</div>');
+    var svg='<svg xmlns="http://www.w3.org/2000/svg" width="420" height="220"><text x="20" y="130" transform="rotate(-24 210 110)" font-family="Arial" font-size="17" fill="rgba(232,207,142,0.10)">'+esc(t)+'</text></svg>';
+    g.style.backgroundImage='url("data:image/svg+xml,'+encodeURIComponent(svg)+'")'; g.style.backgroundRepeat="repeat"; }
   function sendLead(sc,tier){
     if(!LEADS_URL || FROMLINK || !who.p) return;
     var proj=document.getElementById("proj").value.trim(), sig=[who.p,proj,sc].join("|");
     if(sig===sentFor) return; sentFor=sig;
     var d={name:who.n||"",phone:who.p,project:proj,score:sc,verdict:tier.v.replace(/[^A-Za-z ()]/g,"").trim(),
-           psf:PSFV||"",avg:PSFR?PSFR.avg:"",rating:(PSFR&&PSFR.rating)||"",link:resultLink(sc)};
+           psf:PSFV||"",avg:PSFR?PSFR.avg:"",rating:(PSFR&&PSFR.rating)||"",link:resultLink(sc),role:who.r||"",dev:devId()};
     try{ fetch(LEADS_URL,{method:"POST",mode:"no-cors",body:new URLSearchParams(d)}).catch(function(){}); }catch(e){}
   }
   // ---------- Extra checks: calculators (not scored) ----------
@@ -1481,7 +1490,7 @@ html:not(.eoion) .ans .eoin{display:none}
   function close(){ res.hidden=true; document.body.style.overflow=""; }
   var gate=document.getElementById("gate"), who={};
   try{ who=JSON.parse(localStorage.getItem("sam-who")||"{}"); }catch(e){}
-  function openGate(){ document.getElementById("gname").value=who.n||""; document.getElementById("gphone").value=who.p||""; gate.hidden=false; setTimeout(function(){document.getElementById(who.n?"gphone":"gname").focus();},50); }
+  function openGate(){ document.getElementById("gname").value=who.n||""; document.getElementById("gphone").value=who.p||""; document.getElementById("grole").value=who.r||""; gate.hidden=false; setTimeout(function(){document.getElementById(who.n?"gphone":"gname").focus();},50); }
   var nudge=document.getElementById("nudge");
   var HOLD=null;
   function holdClear(){ if(!HOLD) return; clearTimeout(HOLD.t); if(HOLD.w && HOLD.w.parentNode) HOLD.w.parentNode.removeChild(HOLD.w); HOLD=null; }
@@ -1528,13 +1537,13 @@ html:not(.eoion) .ans .eoin{display:none}
     if(n.length<2){er.textContent="Please enter your name.";return;}
     if(dg.length<8||dg.length>15){er.textContent="Please enter your WhatsApp number with country code.";return;}
     if(!/^\s*(\+|00)/.test(p)){ if(/^05\d{8}$/.test(dg)) p="+971"+dg.slice(1); else if(/^5\d{8}$/.test(dg)) p="+971"+dg; else if(/^971\d{8,9}$/.test(dg)) p="+"+dg; }
-    er.textContent=""; who={n:n,p:p}; try{localStorage.setItem("sam-who",JSON.stringify(who));}catch(x){}
+    er.textContent=""; who={n:n,p:p,r:document.getElementById("grole").value}; try{localStorage.setItem("sam-who",JSON.stringify(who));}catch(x){}
     gate.hidden=true; show();
   });
   function resultLink(sc){
     var bits=boxes.map(function(b){return b.checked?"1":"0";}).join("");
     var proj=document.getElementById("proj").value.trim();
-    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0,dv:DEVSEL?DEVSEL.no:"",la:LAUNCH,pin:EOI&&PIN?PIN:"",ag:window.getAgent?window.getAgent():""})))));
+    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0,dv:DEVSEL?DEVSEL.no:"",la:LAUNCH,pin:EOI&&PIN?PIN:"",ag:window.getAgent?window.getAgent():"",ph:(who.p||"").replace(/[^0-9]/g,"").slice(-4)})))));
   }
   // shared result link: restore answers and show result directly (after the page has set up)
   setTimeout(function(){
@@ -1542,7 +1551,7 @@ html:not(.eoion) .ans .eoin{display:none}
     try{
       var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true; if(o.ag&&window.setAgent) setTimeout(function(){ window.setAgent(o.ag,false); },0); if(o.pin&&o.pin.length===2){ PIN=o.pin; pinOut(); } setEoi(o.e===1,false); devBoxShow(); setLaunch(o.la||""); if(o.dv) insLoad(function(){ var d=INS.d&&INS.d[o.dv]; if(d){ DEVSEL={no:o.dv,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devCard.className="dld devcard "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false; } });
       boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; var v=o.s&&o.s.charAt(i); b.dataset.st=(!b.checked&&(v==="u"||(v==="n"&&naOK(i))))?v:""; });
-      document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n;
+      document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n; WMK={n:o.n||"",ph:o.ph||""};
       if(o.x){ ["xprice:pprice","xsize:psize"].forEach(function(pr){ var a=pr.split(":"), el=document.getElementById(a[1]); if(o.x[a[0]]&&el&&!el.value) el.value=o.x[a[0]]; }); xset(o.x); }
       update();
       load(function(){ var q=(o.p||"").toLowerCase(); P.p.some(function(r){ if(r[1].toLowerCase()===q){ PROJROW=r; eoiShow(true); return true; } }); });
