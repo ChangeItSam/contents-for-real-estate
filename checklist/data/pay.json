@@ -1,0 +1,8 @@
+{
+ "_how_to_edit": "Payment links for the full-report paywall (shown only on full-report links that the lead sheet marks as 'Payment needed'). one = AED 19 single report, monthly = AED 49/month Premium. Paste the payment-link URLs from Stripe / Ziina here. While a link is empty, the button opens WhatsApp to Sam instead.",
+ "one": "",
+ "monthly": "",
+ "free_reports": 3,
+ "price_one": 19,
+ "price_monthly": 49
+}

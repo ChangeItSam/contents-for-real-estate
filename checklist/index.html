@@ -1015,7 +1015,9 @@ html:not(.eoion) .ans .eoin{display:none}
         var g=document.getElementById("gaps");
         var pend=document.getElementById("pend"), cw=document.getElementById("cwait");
         document.getElementById("why3").innerHTML=why3();
-        if(FROMLINK){ g.className="rep"; g.innerHTML=report(sc); pend.hidden=true; var pk=document.querySelector("#res .peek"); if(pk) pk.hidden=true; cw.innerHTML="💬 Questions about your report?"; document.getElementById("share").lastChild.textContent="Talk it through with Sam →"; }
+        var PAYQ=(function(){ try{ var q=new URLSearchParams(location.search); return q.get("pay")==="1"?(+q.get("n")||4):0; }catch(e){ return 0; } })();
+        if(FROMLINK&&PAYQ){ g.className="rep"; g.innerHTML=paywall(PAYQ); pend.hidden=true; var pkp=document.querySelector("#res .peek"); if(pkp){ pkp.hidden=false; var pf=pkp.querySelector(".peekf"); if(pf) pf.innerHTML="Unlock to see all of this for <b>"+esc(document.getElementById("proj").value.trim()||"your project")+"</b>."; } }
+        else if(FROMLINK){ g.className="rep"; g.innerHTML=report(sc); pend.hidden=true; var pk=document.querySelector("#res .peek"); if(pk) pk.hidden=true; cw.innerHTML="💬 Questions about your report?"; document.getElementById("share").lastChild.textContent="Talk it through with Sam →"; }
         else { g.className="gaps"; g.innerHTML=""; pend.hidden=false; var pk2=document.querySelector("#res .peek"); if(pk2) pk2.hidden=false; cw.innerHTML="Want the full report?"; }
         var m="My Dubai Off-Plan Deal Stress Test result"+(proj?(" for "+proj):"")+": "+sc+"/100, "+tier.v.replace(/[^A-Za-z ()]/g,"").trim()+"."+(PSFR?("\nPrice: AED "+PSFV.toLocaleString("en-US")+"/sq ft vs average AED "+PSFR.avg.toLocaleString("en-US")+" ("+PSFR.diffTxt+", "+PSFR.basis+")."):"")+"\n\nHi Sam, I'm "+(who.n||"")+(who.p?(" (WhatsApp: "+who.p+")"):"")+". Can you go through my result with me? I'd also like to discuss my off-plan purchase options.";
         document.getElementById("share").href="https://wa.me/971528728248?text="+encodeURIComponent(m);
@@ -1099,6 +1101,18 @@ html:not(.eoion) .ans .eoin{display:none}
   function wavg(a){ var s=0,n=0; a.forEach(function(x){ s+=x[1]*(x[2]||1); n+=(x[2]||1); }); return n?s/n:0; }
 
   function shortDevN(n){ return String(n||"").replace(/\s*(Real Estate|Properties|Property|Developments?|Developers?|Investments?|Holding|Group)?\s*(L\.?L\.?C\.?|P\.?J\.?S\.?C\.?|\(.*?\)|FZ.?LLC|Sole Proprietorship)\s*$/i,"").replace(/\s+(Real Estate Development|Real Estate)$/i,"").trim(); }
+  // full-report paywall: the lead sheet adds ?pay=1&n=<checks> to the link after the free reports are used
+  var PAYJ=null; fetch("data/pay.json",{cache:"no-cache"}).then(function(r){ return r.json(); }).then(function(j){ PAYJ=j; var w=document.getElementById("paywall"); if(w) w.outerHTML=paywall(+w.dataset.n||4); }).catch(function(){ PAYJ={}; });
+  function paywall(n){ var P=PAYJ||{}, one=P.price_one||19, mon=P.price_monthly||49, fr=P.free_reports||3, pj=(document.getElementById("proj")||{}).value||"my project";
+    var wa=function(t){ return "https://wa.me/971528728248?text="+encodeURIComponent(t); };
+    var u1=P.one||wa("Hi Sam, I'd like to unlock my full Stress Test report for "+pj+" (AED "+one+", one report)."), u2=P.monthly||wa("Hi Sam, I'd like Premium: unlimited full Stress Test reports for AED "+mon+"/month.");
+    return '<div id="paywall" data-n="'+n+'" class="pw"><div class="pwh">🔒 Unlock your full report</div>'+
+      '<div class="pws">You\'ve checked <b>'+n+' projects</b> with this WhatsApp number. Your first <b>'+fr+' full reports</b> were free.</div>'+
+      '<a class="pwo" href="'+u1+'" target="_blank" rel="noopener"><span>📄</span><b>This report<small>One-time · full report for '+esc(pj)+'</small></b><i>AED '+one+'</i></a>'+
+      '<a class="pwo best" href="'+u2+'" target="_blank" rel="noopener"><em>Best value</em><span>⭐</span><b>Premium<small>Unlimited full reports every month · cancel anytime</small></b><i>AED '+mon+'<small>/month</small></i></a>'+
+      '<div class="pwn">After paying, tap below and send your receipt. Sam sends your unlocked report on WhatsApp.</div>'+
+      '<a class="pwr" href="'+wa("Hi Sam, I've paid to unlock my full Stress Test report for "+pj+". Here is my receipt:")+'" target="_blank" rel="noopener">🧾 I\'ve paid: send my report</a>'+
+      '<a class="pwc" href="'+wa("Hi Sam, I'm your existing client. Could you unlock my full Stress Test report for "+pj+" please?")+'" target="_blank" rel="noopener">🤝 Already Sam\'s client? Request free access</a></div>'; }
   function report(sc){
     var e=function(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
     var CRIT=[0,2,4,6], h='', I=INS||{d:{},p:{},t:{},r:{}};
@@ -2143,6 +2157,19 @@ h2 .icx{width:44px;height:44px}
 #res .peekc>b{display:block;color:#fff;font-size:16px;margin-bottom:8px}
 #res .peekcb{display:flex;gap:8px}#res .peekcb a{flex:1;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px 8px;border-radius:12px;font-weight:900;text-decoration:none;font-size:15.5px;box-shadow:0 5px 0 rgba(0,0,0,.25),0 10px 20px rgba(0,0,0,.3)}
 #res .pkc1{background:#fff;color:#0B1F3A}#res .pkc2{background:#25D366;color:#fff}
+
+/* full-report paywall */
+#res .pw{background:linear-gradient(180deg,#FFF8E7,#FFEFC8);color:#0B1F3A;border:2px solid #C9A24A;border-radius:18px;padding:16px;margin-top:18px;box-shadow:0 18px 40px rgba(0,0,0,.4)}
+#res .pwh{font-size:22px;font-weight:900;margin-bottom:4px}
+#res .pws{font-size:14.5px;color:#5b4a1d;margin-bottom:12px}
+#res .pwo{position:relative;display:flex;align-items:center;gap:12px;background:#fff;border:2px solid #E6D3A0;border-radius:14px;padding:13px 14px;margin:10px 0;color:#0B1F3A;text-decoration:none;box-shadow:0 5px 0 rgba(0,0,0,.08),0 10px 22px rgba(11,31,58,.12)}
+#res .pwo>span{font-size:28px}#res .pwo b{flex:1;font-size:18px}#res .pwo b small{display:block;font-size:12.5px;font-weight:600;color:#5b6475;margin-top:2px}
+#res .pwo i{font-style:normal;font-weight:900;font-size:20px;white-space:nowrap;text-align:right}#res .pwo i small{display:block;font-size:12px;font-weight:700;color:#5b6475}
+#res .pwo.best{border-color:#0B1F3A;background:linear-gradient(180deg,#0B1F3A,#163a66);color:#fff}#res .pwo.best b small,#res .pwo.best i small{color:#C9D4E5}#res .pwo.best i{color:#F3DFA6}
+#res .pwo em{position:absolute;top:-10px;right:12px;background:#C9A24A;color:#0B1F3A;font-style:normal;font-size:11.5px;font-weight:900;padding:2px 8px;border-radius:999px}
+#res .pwn{font-size:13px;color:#5b4a1d;margin:8px 0}
+#res .pwr,#res .pwc{display:block;text-align:center;border-radius:12px;padding:12px;font-weight:800;text-decoration:none;margin-top:8px}
+#res .pwr{background:#25D366;color:#fff}#res .pwc{background:transparent;color:#0B1F3A;border:1.5px solid #C9A24A}
 </style>
 </body>
 </html>
