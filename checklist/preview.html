@@ -811,7 +811,7 @@ html:not(.eoion) .ans .eoin{display:none}
     b.addEventListener("change", function(ev){ if(b.checked) b.dataset.st=""; if(ev.isTrusted) showNextLine(b); });
     b.addEventListener("change", update);
     var row=document.createElement("div"); row.className="ans";
-    var yn=YN_IDX.indexOf(i)>=0, okq=OK_IDX.indexOf(i)>=0; row.innerHTML='<button type="button" class="y" data-v="y">'+(okq?'👍 Okay, I\'ll check':yn?'✅ Yes':'✅ Checked')+'</button><button type="button" class="u" data-v="u">'+(okq?(i===5?'🚫 Not on my booking form':'🚫 Doesn\'t match'):yn?'❌ No':'❓ Not known')+'</button>'+(NA_OK.indexOf(i)>=0?'<button type="button" class="n" data-v="n">N/A</button>':EOI_IDX.indexOf(i)>=0?'<button type="button" class="n eoin" data-v="n">N/A</button>':'');
+    var yn=YN_IDX.indexOf(i)>=0, okq=OK_IDX.indexOf(i)>=0; row.innerHTML='<button type="button" class="y" data-v="y">'+(okq?'👍 Okay, I\'ll check':yn?'✅ Yes':'✅ Yes, confirmed')+'</button><button type="button" class="u" data-v="u">'+(okq?(i===5?'🚫 Not on my booking form':'🚫 Doesn\'t match'):yn?'❌ No':'❓ No, I\'ll ask')+'</button>'+(NA_OK.indexOf(i)>=0?'<button type="button" class="n" data-v="n">N/A</button>':EOI_IDX.indexOf(i)>=0?'<button type="button" class="n eoin" data-v="n">N/A</button>':'');
     row.addEventListener("click",function(ev){ var t=ev.target.closest("button"); if(!t) return; var v=t.dataset.v, same=stOf(b)===v;
       if(v==="y"){ b.checked=true; b.dataset.st=""; } else { b.checked=false; b.dataset.st=same?"":v; }
       b.dispatchEvent(new Event("change",{bubbles:true})); showNextLine(b); });
@@ -958,7 +958,8 @@ html:not(.eoion) .ans .eoin{display:none}
       note.innerHTML="✅ Buying straight from the developer's sales team: checks 8–9 are about brokers, so we marked them N/A.<br>💡 A broker can show you other projects that fit, help you resell later and save you the leg work. See <b>Why this matters</b> below."; note.hidden=false; var wm=document.getElementById("agq").closest(".body").querySelector("details.whym"); if(wm&&go) wm.open=true; }
     else { ab.forEach(function(b){ if(b.dataset.st==="n") b.dataset.st=""; if(b._ans) b._ans.hidden=false; }); agT.hidden=false;
       note.innerHTML=AGENT==="b"?"👍 Ask your broker for their BRN and check it below.<br>🚩 Off-plan, the broker is the developer's channel partner: same price as buying direct. If a broker asks <b>you</b> for commission, <b>RUN</b>.<br>💡 What a broker does for you vs the developer's agent: see <b>Why this matters</b> below.":""; note.hidden=AGENT!=="b";
-      if(AGENT==="b"&&go){ var wb=document.getElementById("agq").closest(".body").querySelector("details.whym"); if(wb) wb.open=true; } }
+      if(AGENT==="b"&&go){ var wb=document.getElementById("agq").closest(".body").querySelector("details.whym"); if(wb) wb.open=true;
+        setTimeout(function(){ var b8=boxes[7], r8=b8&&(b8._ans||b8.closest("label")); if(!r8||b8.checked||b8.dataset.st) return; var lb=b8.closest("label"); (lb||r8).scrollIntoView({behavior:"smooth",block:"center"}); [lb,r8].forEach(function(x){ if(!x) return; x.classList.remove("flash"); void x.offsetWidth; x.classList.add("flash"); }); },350); } }
     update();
     if(go&&AGENT==="d"&&window.guideGo) setTimeout(function(){ window.guideGo(document.getElementById("agq").closest(".card")); },700); }
   agBtns.forEach(function(b){ b.addEventListener("click",function(){ setAgent(AGENT===b.dataset.a?"":b.dataset.a,true); }); });
