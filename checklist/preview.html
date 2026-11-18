@@ -719,6 +719,7 @@ html:not(.eoion) .ans .eoin{display:none}
    <div class="grule">🔐 <b>Golden rule:</b> No DLD registration, no escrow account, no Oqood? <b>No deal.</b></div>
    <div class="gaps" id="gaps"></div>
    <div class="pend" id="pend">📩 <b>Your detailed report is on its way</b>Sam will personally review your answers and send your detailed report on WhatsApp shortly: what to fix first, how your price compares with nearby projects, and the off-plan options that fit you.</div>
+   <div class="peek"><div class="peekh">👀 What you'll get in your full report</div><div class="peeks"><div class="pk"><div class="pki">⚖️</div><b>Quick SWOT</b><small>Strength, weakness, opportunity and threat for this project</small><div class="pkb"><span>Strength ████████</span><span>Threat ██████ ████</span></div><div class="pkl">🔒</div></div><div class="pk"><div class="pki">📊</div><b>Like-for-like comparison</b><small>Same type and bedrooms: about the same price, ~15% cheaper, ~15% dearer nearby</small><div class="pkb"><span>███████ · AED █,███/sq ft</span><span>████████ · −██%</span></div><div class="pkl">🔒</div></div><div class="pk"><div class="pki">📈</div><b>Appreciation to handover</b><small>Conservative, realistic and optimistic growth for your project</small><div class="pkb"><span>Realistic ██–██%</span><span>Optimistic ██–██%</span></div><div class="pkl">🔒</div></div><div class="pk"><div class="pki">🚪</div><b>Exit plan</b><small>Sale price, rent collected, profit and return when you sell</small><div class="pkb"><span>Sale AED █.██M</span><span>Return ██%</span></div><div class="pkl">🔒</div></div><div class="pk"><div class="pki">🏁</div><b>Sam's verdict</b><small>Buy, buy with care or skip, for your goal: rental, appreciation or living</small><div class="pkb"><span>██ BUY ██████</span><span>Rental ████ · Living ████</span></div><div class="pkl">🔒</div></div></div><div class="peekf">This is just a preview. The full analysis and Sam's verdict come in your <b>full report</b> on WhatsApp.</div></div>
    <div class="fullcta"><h3 id="cwait">Want the full report?</h3>
    <p>Developer track record, sales in your exact project, promised rent vs real Ejari contracts, nearest metro + Blue Line, payment plan and resale break-even.</p>
    <a class="btn pulse" id="share" href="#"><svg class="lg"><use href="#waw"/></svg>Get my full report on WhatsApp →</a>
@@ -1012,8 +1013,8 @@ html:not(.eoion) .ans .eoin{display:none}
         var g=document.getElementById("gaps");
         var pend=document.getElementById("pend"), cw=document.getElementById("cwait");
         document.getElementById("why3").innerHTML=why3();
-        if(FROMLINK){ g.className="rep"; g.innerHTML=report(sc); pend.hidden=true; cw.innerHTML="💬 Questions about your report?"; document.getElementById("share").lastChild.textContent="Talk it through with Sam →"; }
-        else { g.className="gaps"; g.innerHTML=""; pend.hidden=false; cw.innerHTML="Want the full report?"; }
+        if(FROMLINK){ g.className="rep"; g.innerHTML=report(sc); pend.hidden=true; var pk=document.querySelector("#res .peek"); if(pk) pk.hidden=true; cw.innerHTML="💬 Questions about your report?"; document.getElementById("share").lastChild.textContent="Talk it through with Sam →"; }
+        else { g.className="gaps"; g.innerHTML=""; pend.hidden=false; var pk2=document.querySelector("#res .peek"); if(pk2) pk2.hidden=false; cw.innerHTML="Want the full report?"; }
         var m="My Dubai Off-Plan Deal Stress Test result"+(proj?(" for "+proj):"")+": "+sc+"/100, "+tier.v.replace(/[^A-Za-z ()]/g,"").trim()+"."+(PSFR?("\nPrice: AED "+PSFV.toLocaleString("en-US")+"/sq ft vs average AED "+PSFR.avg.toLocaleString("en-US")+" ("+PSFR.diffTxt+", "+PSFR.basis+")."):"")+"\n\nHi Sam, I'm "+(who.n||"")+(who.p?(" (WhatsApp: "+who.p+")"):"")+". Can you go through my result with me? I'd also like to discuss my off-plan purchase options.";
         document.getElementById("share").href="https://wa.me/971528728248?text="+encodeURIComponent(m);
         if(sc>=95) confetti();
@@ -2166,6 +2167,21 @@ h2 .icx{width:44px;height:44px}
 #res .rv{opacity:0;transform:translateY(18px) scale(.985);transition:opacity .5s ease,transform .5s ease}
 #res .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){#res .rv{opacity:1;transform:none}}
+
+/* full-report preview tiles on the result screen (preview) */
+#res .peek{margin:18px 0 6px;text-align:left}
+#res .peekh{font-weight:900;font-size:18px;color:#F3DFA6;margin-bottom:10px;text-align:center}
+#res .peeks{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+#res .pk{position:relative;overflow:hidden;border-radius:16px;padding:12px 12px 10px;background:linear-gradient(180deg,rgba(255,255,255,.10),rgba(255,255,255,.035));border:1px solid rgba(232,207,142,.25);box-shadow:0 12px 26px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.12)}
+#res .pk:last-child{grid-column:1/-1;background:linear-gradient(180deg,#FFF8E7,#FFEFC8);color:#0B1F3A;border-color:#C9A24A}
+#res .pk .pki{font-size:24px;line-height:1;margin-bottom:6px}
+#res .pk b{display:block;font-size:15px;color:#fff}#res .pk:last-child b{color:#0B1F3A}
+#res .pk small{display:block;font-size:12.5px;line-height:1.35;color:#C9D4E5;margin:3px 0 8px}#res .pk:last-child small{color:#5b4a1d}
+#res .pkb span{display:block;font-size:13px;font-weight:700;filter:blur(4px);opacity:.85;margin:3px 0;color:#E8CF8E;user-select:none}#res .pk:last-child .pkb span{color:#1e8e5a}
+#res .pkl{position:absolute;right:10px;top:10px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:rgba(201,162,74,.95);box-shadow:0 4px 10px rgba(0,0,0,.35);font-size:14px}
+#res .peekf{margin-top:10px;font-size:13.5px;color:#D5DDEA;text-align:center}
+#res .peekf b{color:#F3DFA6}
+@media(max-width:360px){#res .peeks{grid-template-columns:1fr}}
 </style>
 <script>
 (function(){ var res=document.getElementById("res"); if(!res||!("IntersectionObserver" in window)) return;
