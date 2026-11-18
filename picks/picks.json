@@ -1,5 +1,5 @@
 {
- "_how": "Sam's projects that passed the 20-check Stress Test. RULE (Sam, 14-15 Nov 2026): each type (villa / townhouse / apartment) shows 5 projects: 2 pinned top-developer projects (pin: true) that never move unless Sam moves them or they sell out (available: false), plus the 3 most recently added non-pinned projects (by 'added' date), which rotate as Sam posts a new project reel each day: add the reel's project here with today's date and it takes a rotating slot, pushing the oldest rotating one off the page (it stays in this file). 'dld' = DLD project numbers (the page reads construction %, escrow bank and completion date from ../checklist/data/projects.json); leave [] if not registered; eoi true = EOI / pre-launch. REEL PAGE: samsuryarealty.com/picks/?p=<slug>&want=brochure|plan|layout shows one project: 'summary' (what the reel said), stills from 'gallery', live DLD badge, then WhatsApp buttons for brochure / payment plan / floor plans with the one the commenter asked for first, then a link to all picks. Each project reel gets 3 post-only comment rules: BROCHURE/DETAILS/PRICE -> want=brochure, PAYMENT -> want=plan, LAYOUT/FLOOR -> want=layout.",
+ "_how": "Sam's projects that passed the 20-check Stress Test. RULE (Sam, 14-15 Nov 2026): each type (villa / townhouse / apartment) shows 6 projects (Sam 18 Nov: 6 per type): 2 pinned top-developer projects (pin: true) that never move unless Sam moves them or they sell out (available: false), plus the 4 most recently added non-pinned projects (by 'added' date), which rotate as Sam posts a new project reel each day: add the reel's project here with today's date and it takes a rotating slot, pushing the oldest rotating one off the page (it stays in this file). 'dld' = DLD project numbers (the page reads construction %, escrow bank and completion date from ../checklist/data/projects.json); leave [] if not registered; eoi true = EOI / pre-launch. REEL PAGE: samsuryarealty.com/picks/?p=<slug>&want=brochure|plan|layout shows one project: 'summary' (what the reel said), stills from 'gallery', live DLD badge, then WhatsApp buttons for brochure / payment plan / floor plans with the one the commenter asked for first, then a link to all picks. Each project reel gets 3 post-only comment rules: BROCHURE/DETAILS/PRICE -> want=brochure, PAYMENT -> want=plan, LAYOUT/FLOOR -> want=layout.",
  "p": [
   {
    "cat": "villa",
@@ -43,8 +43,8 @@
   {
    "cat": "villa",
    "name": "Palm Springs",
-   "dev": "",
-   "area": "",
+   "dev": "Nakheel",
+   "area": "Palm Springs, Hessyan First (by Palm Jebel Ali)",
    "dld": [],
    "added": "2026-11-14",
    "available": true,
@@ -293,6 +293,64 @@
    "eoi": false,
    "pin": false,
    "slug": "cove-edition-6-by-imtiaz",
+   "gallery": [],
+   "reel": "",
+   "summary": []
+  },
+  {
+   "cat": "villa",
+   "name": "Lyra at Ghaf Woods",
+   "dev": "Majid Al Futtaim",
+   "area": "Ghaf Woods, Wadi Al Safa 4 (near Global Village)",
+   "dld": [],
+   "added": "2026-11-18",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "",
+   "eoi": true,
+   "pin": false,
+   "slug": "lyra-ghaf-woods",
+   "gallery": [],
+   "reel": "",
+   "summary": []
+  },
+  {
+   "cat": "townhouse",
+   "name": "The Valley · Ovelle",
+   "dev": "Emaar",
+   "area": "The Valley (Al Ain Road)",
+   "dld": [
+    "4219"
+   ],
+   "added": "2026-11-18",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "",
+   "eoi": false,
+   "pin": false,
+   "slug": "the-valley-ovelle",
+   "gallery": [],
+   "reel": "",
+   "summary": []
+  },
+  {
+   "cat": "apartment",
+   "name": "Golf Trails",
+   "dev": "Emaar",
+   "area": "Emaar South (Dubai South)",
+   "dld": [
+    "4523"
+   ],
+   "added": "2026-11-18",
+   "available": true,
+   "price": "",
+   "plan": "",
+   "note": "",
+   "eoi": false,
+   "pin": false,
+   "slug": "golf-trails",
    "gallery": [],
    "reel": "",
    "summary": []
