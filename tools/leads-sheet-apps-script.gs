@@ -71,7 +71,9 @@ function checksFor(sh, digits, project) {
 }
 
 function payLink(link, n) { return link ? link.replace('#', '?pay=1&n=' + n + '#') : link; }
-function freeLink(link) { return String(link || '').replace(/\?pay=1&n=\d+/, ''); }
+function freeLink(link) { return String(link || '').replace(/\?pay=1&n=\d+/, '').replace(/\?pm=1/, ''); }
+// Premium members get ?pm=1: the report then opens the Premium market dashboard
+function premLink(link) { link = freeLink(link); return link ? link.replace('#', '?pm=1#') : link; }
 
 function resultMessage(first, project, score, verdict, link, locked, n) {
   return 'Hi ' + first + ', this is Sam Surya. Here is your Off-Plan Deal Stress Test result' +
@@ -119,7 +121,11 @@ function markCustomer() {
 function markPremium() {
   var L = selectedLead(), until = new Date(); until.setMonth(until.getMonth() + 1);
   premiumSheet().appendRow([String(L.v[2]), String(L.v[1]), 'monthly', Utilities.formatDate(until, 'Asia/Dubai', 'yyyy-MM-dd'), 'Added from menu']);
-  unlockSelected();
+  var v = L.v, link = premLink(v[9]), digits = String(v[2]).replace(/[^0-9]/g, '');
+  L.sh.getRange(L.row, 10).setValue(link);
+  L.sh.getRange(L.row, 14).setValue('Premium');
+  setSend(L.sh, L.row, digits, resultMessage(String(v[1]).split(/\s+/)[0] || 'there', v[3], v[4], v[5], link, false, 0));
+  SpreadsheetApp.getActive().toast('Premium added for 1 month. Tap "📲 Send result" in this row to send the Premium report.');
 }
 
 function setup() {
@@ -146,6 +152,7 @@ function doPost(e) {
     var n = checksFor(sh, digits, p.project), acc = accessFor(digits);
     var locked = !acc && n > FREE_REPORTS && !!link;
     if (locked) link = payLink(link, n);
+    else if (acc === 'Premium') link = premLink(link);
     var access = acc ? (acc === 'Customer' ? 'Free (existing client)' : 'Premium') : (locked ? 'Payment needed (AED ' + PRICE_ONE + ' / ' + PRICE_MONTH + ' monthly)' : 'Free (' + Math.min(n, FREE_REPORTS) + ' of ' + FREE_REPORTS + ')');
     var msg = resultMessage(first, p.project, p.score, p.verdict, link, locked, n);
     var when = Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm');
