@@ -332,8 +332,8 @@ function doGet() {
 // Email alert to the sheet owner for every new lead (shows as a Gmail notification on the phone)
 function alertSam(name, phone, project, score, verdict, access, n, digits, sh) {
   try {
-    var to = Session.getEffectiveUser().getEmail();
-    if (!to) return;
+    var to = PropertiesService.getScriptProperties().getProperty('ALERT_TO') || Session.getEffectiveUser().getEmail();
+    if (!to) { Logger.log('alert: no email address. Run testAlert once in the editor.'); return; }
     var wa = digits.length >= 8 ? 'https://wa.me/' + digits : '';
     var subject = '🔔 New Stress Test lead: ' + (name || 'Someone') + ' · ' + (project || 'project') + ' · ' + (score || '?') + '/100';
     var body = 'New lead from the Off-Plan Stress Test\n\n' +
@@ -343,4 +343,14 @@ function alertSam(name, phone, project, score, verdict, access, n, digits, sh) {
       '\n\nOpen the sheet: ' + sh.getParent().getUrl() + '\nTap "📲 Send result" in the new row to send the report.';
     MailApp.sendEmail({ to: to, subject: subject, body: body, name: 'Stress Test Leads' });
   } catch (err) { Logger.log('alert failed: ' + err); }
+}
+
+// Run this ONCE from the Apps Script editor (choose testAlert, press Run): it asks Google for the
+// "send email" permission, remembers your address for the alerts and sends you a test email.
+function testAlert() {
+  var to = Session.getEffectiveUser().getEmail() || Session.getActiveUser().getEmail();
+  if (!to) throw new Error('Google did not give the script your email address.');
+  PropertiesService.getScriptProperties().setProperty('ALERT_TO', to);
+  MailApp.sendEmail({ to: to, subject: '🔔 Test: Stress Test lead alerts are on', body: 'Lead alerts are working. Every new Stress Test lead will email you like this.', name: 'Stress Test Leads' });
+  Logger.log('Test alert sent. Emails left today: ' + MailApp.getRemainingDailyQuota());
 }
