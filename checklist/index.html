@@ -1264,8 +1264,6 @@ html:not(.eoion) .ans .eoin{display:none}
     if(yy&&yy[1]!=null){ h+='<h4>📈 Price trend in '+e(comm)+'</h4><div class="box"><div class="big"><span>Median / sq ft (12 months)<b>'+aed(yy[0])+'</b></span><span>vs the year before<b>'+(yy[1]>0?"+":"")+yy[1].toFixed(1)+'%</b></span></div>'+
         (t&&t.length>=6?spark(t):'')+
         '<div style="opacity:.75;font-size:13.5px">From '+(yy[2]||0).toLocaleString("en-US")+' registered sales in the last 12 months. The line shows monthly medians, which jump with big launches, so read the year-on-year figure first.</div></div>'; }
-    h+=msBlock([comm,(ip&&ip[9])||"",(PSFP&&PSFP.community)||"",place,(document.getElementById("ploc")||{}).value||"",(typeof MKT!=="undefined"&&(MKT||[]).filter(function(m){ return m.name.toLowerCase()===((document.getElementById("proj")||{}).value||"").toLowerCase(); })[0]||{}).comm||""]);
-    h+=mpBlock([comm,(ip&&ip[9])||"",(PSFP&&PSFP.community)||"",place]);
     // 4. side by side
     if(PD&&place){ var me=pn&&PD.byNo[pn], g=me&&me[3];
       var cand=PD.p.filter(function(r){ return r[0]!==pn && (comm?r[4]===comm:r[5]===place); });
@@ -1418,6 +1416,8 @@ html:not(.eoion) .ans .eoin{display:none}
     var AGv=window.getAgent?window.getAgent():"";
     if(AGv) h+='<h4>🤝 Who is helping you buy</h4><div class="box">'+(AGv==="b"?'A broker / agency. Make sure their BRN is verified and the agency is named on your paperwork. Off-plan, the broker is the developer\'s channel partner, so the price is the same as buying direct: if a broker asks you for commission, walk away.':'The developer\'s own sales agent. A broker can also show you other projects that fit your goal, and help you resell or rent it out later. Ask Sam.')+'</div>';
     h+='<h4>🧭 Next step</h4><div class="box">'+(sc>=95?"This project passes the key checks. Next: a site or show-room visit and the paperwork, checked together.":sc>=80?"Close the items above before you pay anything. I can help you get each one confirmed with the developer.":"There are real gaps here. Let's go through them together, and I'll show you off-plan projects that pass these checks.")+'</div>';
+    h+=msBlock([comm,(ip&&ip[9])||"",(PSFP&&PSFP.community)||"",place,(document.getElementById("ploc")||{}).value||"",(typeof MKT!=="undefined"&&(MKT||[]).filter(function(m){ return m.name.toLowerCase()===((document.getElementById("proj")||{}).value||"").toLowerCase(); })[0]||{}).comm||""]);
+    h+=mpBlock([comm,(ip&&ip[9])||"",(PSFP&&PSFP.community)||"",place]);
     // 9. Sam's verdict (bottom line). Ratings only; the reasoning is for the call.
     (function(){
       var yl=PX&&RENT?RENT/PX*100:(rb&&rb[2])||0, R=["S","Strong"], G=["G","Good"], M=["M","Moderate"], W=["W","Weak"], lower=function(x){ return x===R?G:x===G?M:W; };
