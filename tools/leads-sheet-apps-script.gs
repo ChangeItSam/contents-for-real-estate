@@ -163,6 +163,7 @@ function doPost(e) {
                   Number(p.psf) || '', Number(p.avg) || '', clean(p.rating), link, '', 'New', n, access]);
     var row = sh.getLastRow();
     setSend(sh, row, digits, msg);
+    alertSam(clean(name), clean(p.phone), clean(p.project), p.score, clean(p.verdict), access, n, digits, sh);
     return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
   } finally {
     lock.releaseLock();
@@ -171,4 +172,20 @@ function doPost(e) {
 
 function doGet() {
   return ContentService.createTextOutput('Stress Test lead sheet is running. Leads go to: ' + book().getUrl());
+}
+
+// Email alert to the sheet owner for every new lead (shows as a Gmail notification on the phone)
+function alertSam(name, phone, project, score, verdict, access, n, digits, sh) {
+  try {
+    var to = Session.getEffectiveUser().getEmail();
+    if (!to) return;
+    var wa = digits.length >= 8 ? 'https://wa.me/' + digits : '';
+    var subject = '🔔 New Stress Test lead: ' + (name || 'Someone') + ' · ' + (project || 'project') + ' · ' + (score || '?') + '/100';
+    var body = 'New lead from the Off-Plan Stress Test\n\n' +
+      'Name: ' + (name || '-') + '\nWhatsApp: ' + (phone || '-') + (wa ? '  (' + wa + ')' : '') +
+      '\nProject: ' + (project || '-') + '\nScore: ' + (score || '-') + '/100 · ' + (verdict || '') +
+      '\nAccess: ' + access + '\nProjects checked by this number: ' + n +
+      '\n\nOpen the sheet: ' + sh.getParent().getUrl() + '\nTap "📲 Send result" in the new row to send the report.';
+    MailApp.sendEmail({ to: to, subject: subject, body: body, name: 'Stress Test Leads' });
+  } catch (err) { Logger.log('alert failed: ' + err); }
 }
