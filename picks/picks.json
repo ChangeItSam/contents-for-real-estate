@@ -99,8 +99,8 @@
    "reel": "",
    "summary": [],
    "hl": [
-    "Nature-themed Aldar community in Dubailand",
-    "Villas with private pools, handover Q2 2029"
+    "Nature-themed community in Dubailand",
+    "Built by Aldar, Abu Dhabi's largest developer"
    ],
    "lead": "price",
    "pitch": "Aldar villa with a private pool, handover Q2 2029"
@@ -185,10 +185,10 @@
    "summary": [],
    "hl": [
     "Tropical island-themed lagoons and beaches",
-    "Big-brand townhouse at a mid-range entry price"
+    "Townhouses and villas in a gated master community"
    ],
    "lead": "price",
-   "pitch": "Lagoon-side townhouse from a big brand at a mid-range ticket"
+   "pitch": "Resort-style townhouse from a big brand at a mid-range ticket"
   },
   {
    "cat": "townhouse",
@@ -238,7 +238,7 @@
     "Lakes, beach and clubhouse at the centre, 18 min to Burj Khalifa"
    ],
    "lead": "price",
-   "pitch": "Get in early on Binghatti's first villa community at launch price"
+   "pitch": "Get in early at launch price in a brand-new villa district"
   },
   {
    "cat": "townhouse",
@@ -293,7 +293,7 @@
     "Across from the retail hub with metro links"
    ],
    "lead": "price",
-   "pitch": "Creek-view 1BR by Emaar, close to metro links"
+   "pitch": "Creek-view 1BR by Emaar at launch price"
   },
   {
    "cat": "townhouse",
@@ -317,7 +317,7 @@
    "summary": [],
    "hl": [
     "Wellness-focused Aldar community in Dubailand",
-    "10 min to Global Village, handover Q3 2027"
+    "10 min to Global Village"
    ],
    "lead": "price",
    "pitch": "Aldar townhouse with the earliest handover here: Q3 2027"
@@ -345,7 +345,7 @@
     "Boutique: only 209 homes, handover Q4 2030"
    ],
    "lead": "price",
-   "pitch": "Boutique lagoon-side 1BR in central MBR City"
+   "pitch": "1BR in central MBR City, minutes from Downtown"
   },
   {
    "cat": "apartment",
@@ -367,7 +367,7 @@
    "bed": "studio",
    "hl": [
     "Near the metro and Sheikh Zayed Road",
-    "One of the lowest entry prices on this list"
+    "Studios to 2BR in Downtown Jebel Ali"
    ],
    "lead": "price",
    "pitch": "Studio under AED 700K near the metro: a low entry ticket"
@@ -423,7 +423,7 @@
     "Only 349 homes, 1–2BR"
    ],
    "lead": "price",
-   "pitch": "1BR 300 m from the new Ghaf Woods Mall"
+   "pitch": "1BR by Majid Al Futtaim, the group behind Mall of the Emirates"
   },
   {
    "cat": "villa",
@@ -450,7 +450,7 @@
     "Only 133 villas, handover Q4 2029"
    ],
    "lead": "price",
-   "pitch": "Emaar villa in The Valley at launch price, only 133 homes"
+   "pitch": "Emaar villa in The Valley at launch price"
   },
   {
    "cat": "apartment",
@@ -477,7 +477,7 @@
     "Only 161 homes, near Al Maktoum airport"
    ],
    "lead": "price",
-   "pitch": "Emaar golf-side 1BR, only 161 homes"
+   "pitch": "An Emaar 1BR at a Dubai South price"
   }
  ]
 }
