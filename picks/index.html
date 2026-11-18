@@ -38,6 +38,17 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
 .badge div{display:flex;justify-content:space-between;gap:8px;margin-top:3px}
 .badge div b{text-align:right}
 .pp{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.pr{margin-top:12px;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.pr small{color:var(--muted);font-size:13px;font-weight:700}
+.pr b{color:var(--navy);font-size:26px;font-weight:900;letter-spacing:-.3px}
+.pr i{font-style:normal;color:var(--muted);font-size:13.5px}
+.pr.ask b{font-size:19px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chip{background:#F7F4EC;color:var(--navy);border-radius:20px;padding:6px 11px;font-size:13.5px;font-weight:700;line-height:1.3}
+.chip.dn{background:#E8F8EE;color:var(--green)}
+.hl{list-style:none;margin:10px 0 0;padding:0}
+.hl li{position:relative;padding:4px 0 4px 26px;font-size:15px;line-height:1.35}
+.hl li:before{content:"⭐";position:absolute;left:0;top:4px}
 .pp div{flex:1;min-width:130px;background:#F7F4EC;border-radius:12px;padding:8px 10px;font-size:13px;color:var(--muted)}
 .pp div b{display:block;color:var(--navy);font-size:17px}
 .btn{display:flex;align-items:center;justify-content:center;gap:8px;background:var(--wa);color:#fff;text-decoration:none;font-weight:800;font-size:16.5px;border-radius:30px;padding:12px 14px;margin-top:12px}
@@ -93,7 +104,7 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
 <a class="sticky" id="wa" href="https://wa.me/971528728248"><span>💬 Chat on WhatsApp</span><small>+971 52 872 8248</small></a>
 <script>
 (function(){
-  var WA="971528728248", SHOW=6, CAT="villa", PICKS=[], DLD={};
+  var WA="971528728248", SHOW=6, CAT="villa", PICKS=[], DLD={}, PSF=null;
   try{ var h=(location.hash||"").replace("#",""); if(["villa","townhouse","apartment"].indexOf(h)>=0) CAT=h; }catch(e){}
   function e(t){ return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
   function fmtDate(d){ if(!d) return ""; var m=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], p=d.split("-"); return p.length>1? m[+p[1]-1]+" "+p[0] : d; }
@@ -112,12 +123,24 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
       '<div><span>Construction</span><b>'+(pct>0?pct+"%":"Not started yet")+'</b></div>'+
       (ends.length?'<div><span>DLD completion date</span><b>'+e(fmtDate(ends[ends.length-1]))+'</b></div>':'')+'</div>';
   }
+  function cheaper(p){
+    if(!PSF) return 0; var best=0;
+    (p.dld||[]).forEach(function(n){ var r=PSF.byNo[n]; if(!r||!r[6]) return; var ref=(r[4]&&PSF.c[r[4]])||PSF.a[r[5]]; if(!ref) return; var d=Math.round((1-r[6]/ref)*100); if(d>best) best=d; });
+    return best>=3?best:0;
+  }
+  function sell(p){
+    var dn=cheaper(p);
+    var h=p.price? '<div class="pr"><small>From</small><b>'+e(p.price)+'</b>'+(p.bed?'<i>'+e(p.bed)+'</i>':'')+'</div>'
+      : '<div class="pr ask"><b>💬 Ask me for today\'s price</b></div>';
+    h+='<div class="chips"><span class="chip">💳 '+e(p.plan||"Payment plan: ask me")+'</span>'+(dn?'<span class="chip dn">📉 '+dn+'% below the area\'s price per sq ft</span>':'')+'</div>';
+    if(p.hl&&p.hl.length) h+='<ul class="hl">'+p.hl.slice(0,2).map(function(x){ return '<li>'+e(x)+'</li>'; }).join("")+'</ul>';
+    return h;
+  }
   function card(p){
     var title=p.name+(p.dev && p.name.toLowerCase().indexOf(p.dev.toLowerCase())<0?" by "+p.dev:"");
     return '<div class="card"><div class="ph">'+(p.img?'<img src="'+e(p.img)+'" alt="'+e(p.name)+'" loading="lazy">':'')+'<div class="sh"></div><div class="nm"><b>'+e(p.name)+'</b><em>📍 '+e(p.area||"Location: ask me")+'</em></div><span>'+e(p.dev||"")+'</span></div>'+
-      '<div class="body">'+badge(p)+
-      ((p.price||p.plan)?'<div class="pp">'+(p.price?'<div>From<b>'+e(p.price)+'</b></div>':'')+(p.plan?'<div>Payment plan<b>'+e(p.plan)+'</b></div>':'')+'</div>':'')+
-      '<a class="btn" href="'+wa("Hi Sam, I saw "+title+" on your 20-check list. Please send me the price list, payment plan and floor plans.")+'">💬 Price list & floor plans on WhatsApp</a></div></div>';
+      '<div class="body">'+sell(p)+badge(p)+
+      '<a class="btn" href="'+wa("Hi Sam, I saw "+title+(p.price?" (from "+p.price+")":"")+" on your 20-check list. Please send me the price list, payment plan and floor plans.")+'">💬 Price list & floor plans on WhatsApp</a></div></div>';
   }
   var ONE=""; try{ ONE=(new URLSearchParams(location.search).get("p")||"").toLowerCase(); }catch(x){}
   var WANT=""; try{ WANT=(new URLSearchParams(location.search).get("want")||"").toLowerCase(); }catch(x){}
@@ -135,8 +158,7 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
     var h=(imgs.length?'<div class="gal'+(imgs.length===1?' one1':'')+'">'+imgs.map(function(u){ return '<img src="'+e(u)+'" alt="'+e(p.name)+'" loading="lazy">'; }).join("")+'</div>':'')+
       '<div class="pvh"><span class="pill">✅ Passed the 20 checks</span><h1>'+e(p.name)+'</h1><em>'+(p.dev?e(p.dev)+' · ':'')+'📍 '+e(p.area||"Location: ask me")+'</em></div>'+
       ((p.summary&&p.summary.length)?'<div class="card sumc"><div class="body"><b class="sh2">🎬 From the reel</b><ul>'+p.summary.map(function(x){ return '<li>'+e(x)+'</li>'; }).join('')+'</ul></div></div>':'')+
-      '<div class="card"><div class="body">'+badge(p)+
-      ((p.price||p.plan)?'<div class="pp">'+(p.price?'<div>From<b>'+e(p.price)+'</b></div>':'')+(p.plan?'<div>Payment plan<b>'+e(p.plan)+'</b></div>':'')+'</div>':'')+
+      '<div class="card"><div class="body">'+sell(p)+badge(p)+
       opts(p,title)+
       '<a class="bro2" href="./#'+e(p.cat)+'">🏆 Explore more projects that passed all 20 checks →</a>'+
       '<a class="bro3" href="../checklist/">🎲 Buy or skip? Take my free Stress Test</a></div></div>';
@@ -146,7 +168,7 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
   function render(){
     if(ONE){ var m=PICKS.filter(function(p){ return (p.slug||"")===ONE; })[0]; if(m){ one(m); return; } }
     Array.prototype.forEach.call(document.querySelectorAll("#tabs button"),function(b){ b.classList.toggle("on",b.dataset.c===CAT); });
-    // 2 pinned top-developer projects stay put; the other 3 slots rotate to the newest project reels
+    // 2 pinned top-developer projects stay put; the other 4 slots rotate to the newest project reels
     var live=PICKS.filter(function(p){ return p.cat===CAT && p.available!==false; }), byNew=function(a,b){ return (b.added||"").localeCompare(a.added||""); };
     var pins=live.filter(function(p){ return p.pin; }).slice(0,2), rest=live.filter(function(p){ return !p.pin; }).sort(byNew);
     var list=pins.concat(rest).slice(0,SHOW);
@@ -157,8 +179,9 @@ body{font-family:Inter,system-ui,-apple-system,sans-serif;color:var(--ink);backg
   document.getElementById("wa").href=wa("Hi Sam, I'm looking at your projects that passed the 20 checks.");
   Promise.all([
     fetch("picks.json",{cache:"no-cache"}).then(function(r){return r.json();}),
-    fetch("../checklist/data/projects.json",{cache:"no-cache"}).then(function(r){return r.json();}).catch(function(){ return {p:[]}; })
-  ]).then(function(a){ PICKS=a[0].p||[]; (a[1].p||[]).forEach(function(r){ DLD[r[0]]=r; }); render(); })
+    fetch("../checklist/data/projects.json",{cache:"no-cache"}).then(function(r){return r.json();}).catch(function(){ return {p:[]}; }),
+    fetch("../checklist/data/psf.json",{cache:"no-cache"}).then(function(r){return r.json();}).catch(function(){ return null; })
+  ]).then(function(a){ PICKS=a[0].p||[]; if(a[2]&&a[2].p){ PSF=a[2]; PSF.byNo={}; a[2].p.forEach(function(r){ PSF.byNo[r[0]]=r; }); } (a[1].p||[]).forEach(function(r){ DLD[r[0]]=r; }); render(); })
     .catch(function(){ document.getElementById("list").innerHTML='<div class="empty">Couldn\'t load the list. Please message me on WhatsApp.</div>'; });
 })();
 </script>
