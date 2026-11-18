@@ -6,6 +6,11 @@ var HEAD = ['Date (Dubai)', 'Name', 'WhatsApp', 'Project', 'Deal Score', 'Verdic
 // paid members (tab "Premium") are never asked to pay.
 var FREE_REPORTS = 3;
 var PRICE_ONE = 19, PRICE_MONTH = 49;
+// Agent Pro (portal: samsuryarealty.com/agent/). Pro = AGENT_PRO_LIMIT projects a month (+ AED 19 top-ups), Unlimited = no limit.
+var PRICE_AGENT = 199, PRICE_AGENT_UNL = 299, AGENT_PRO_LIMIT = 30;
+var AGP_TAB = 'Agent Pro', AGP_HEAD = ['Token (keep private)', 'Name', 'Agency', 'BRN', 'WhatsApp', 'Email', 'Plan', 'Status', 'Paid until', 'Top-up credits', 'Signed up', 'Send link', 'Note'];
+var AGR_TAB = 'Agent reports', AGR_HEAD = ['Date (Dubai)', 'Token', 'Agent', 'Project', 'Month', 'Client'];
+var SITE = 'https://samsuryarealty.com';
 // Broker filter: a number in tab "Agents" only ever gets the score, never the full report.
 // A number that checks AGENT_LIMIT or more different projects within AGENT_DAYS days is flagged
 // "Possible agent": the full-report link is held back until Sam approves it from the menu.
@@ -207,6 +212,9 @@ function onOpen() {
     .addItem('✅ Not an agent: approve and send full report', 'approveBuyer')
     .addSeparator()
     .addItem('📥 Import DLD broker list from Drive', 'importBrokerListFromDrive')
+    .addSeparator()
+    .addItem('🏢 Agent Pro: activate / renew 1 month (selected row)', 'agpActivate')
+    .addItem('➕ Agent Pro: add 1 top-up project (selected row)', 'agpTopup')
     .addToUi();
 }
 function selectedLead() {
@@ -276,6 +284,7 @@ function doPost(e) {
   lock.waitLock(20000);
   try {
     var p = (e && e.parameter) || {};
+    if (p.a === 'agent_signup') return agpSignup(p);
     var sh = leadsSheet();
     var digits = String(p.phone || '').replace(/[^0-9]/g, '');
     var name = String(p.name || '').trim();
@@ -310,6 +319,7 @@ function doPost(e) {
       (locked ? 'Payment needed (AED ' + PRICE_ONE + ' / ' + PRICE_MONTH + ' monthly)' : 'Free (' + Math.min(n, FREE_REPORTS) + ' of ' + FREE_REPORTS + ')');
     // agents and possible agents: the message carries the score only; the link stays in the sheet for Sam
     var msg = resultMessage(first, p.project, p.score, p.verdict, agent || maybe ? '' : link, locked, n);
+    if (agent) msg += '\n\nAre you an agent? Get full reports with your own name and BRN for your clients with Agent Pro: ' + SITE + '/pricing/?for=agent';
     var when = Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm');
     sh.appendRow([when, clean(name), clean(p.phone), clean(p.project), Number(p.score) || 0, clean(p.verdict),
                   Number(p.psf) || '', Number(p.avg) || '', clean(p.rating), link, '', 'New', n, access, role, dev]);
@@ -325,8 +335,106 @@ function doPost(e) {
   }
 }
 
-function doGet() {
+function doGet(e) {
+  var p = (e && e.parameter) || {}, cb = String(p.callback || '').replace(/[^\w$]/g, '').slice(0, 60);
+  if (p.a) {
+    var out, lock = LockService.getScriptLock();
+    lock.waitLock(20000);
+    try {
+      if (p.a === 'use') out = agpUse(p.t, p.p, p.c);
+      else if (p.a === 'me') { var f = agpFind(p.t); out = f ? agpState(f) : { ok: false, st: 'unknown' }; }
+      else out = { ok: false };
+    } catch (err) { out = { ok: false, err: String(err) }; }
+    finally { lock.releaseLock(); }
+    var js = JSON.stringify(out);
+    return cb ? ContentService.createTextOutput(cb + '(' + js + ');').setMimeType(ContentService.MimeType.JAVASCRIPT)
+              : ContentService.createTextOutput(js).setMimeType(ContentService.MimeType.JSON);
+  }
   return ContentService.createTextOutput('Stress Test lead sheet is running. Leads go to: ' + book().getUrl());
+}
+
+// ---------------- Agent Pro ----------------
+function agpSheet() { return listSheet(AGP_TAB, AGP_HEAD); }
+function agrSheet() { return listSheet(AGR_TAB, AGR_HEAD); }
+function dstr(d) { return d instanceof Date ? Utilities.formatDate(d, 'Asia/Dubai', 'yyyy-MM-dd') : String(d || '').trim(); }
+function mstr(d) { return d instanceof Date ? Utilities.formatDate(d, 'Asia/Dubai', 'yyyy-MM') : String(d || '').trim(); }
+function agpTok(t) { t = String(t || '').replace(/[^A-Za-z0-9]/g, ''); return t.length >= 12 ? t.slice(0, 40) : ''; }
+function agpFind(t) {
+  t = agpTok(t); if (!t) return null;
+  var sh = agpSheet(), v = sh.getDataRange().getValues();
+  for (var i = 1; i < v.length; i++) if (String(v[i][0]) === t) return { sh: sh, row: i + 1, v: v[i] };
+  return null;
+}
+function agpUsed(t, month) {
+  var v = agrSheet().getDataRange().getValues(), seen = {};
+  for (var i = 1; i < v.length; i++) if (String(v[i][1]) === t && mstr(v[i][4]) === month) seen[String(v[i][3]).toLowerCase().trim()] = 1;
+  return Object.keys(seen);
+}
+function agpState(f) {
+  var v = f.v, today = dstr(new Date()), until = dstr(v[8]), st = String(v[7] || '');
+  var plan = /unl/i.test(String(v[6])) ? 'unlimited' : 'pro';
+  var isAct = /active/i.test(st), live = isAct && until && until >= today;
+  return { ok: true, st: live ? 'active' : (isAct ? 'expired' : 'pending'), n: String(v[1]), ag: String(v[2]), brn: String(v[3]), ph: String(v[4]),
+           plan: plan, until: until, used: agpUsed(String(v[0]), today.slice(0, 7)).length, limit: plan === 'pro' ? AGENT_PRO_LIMIT : 0, cr: Number(v[9]) || 0 };
+}
+// one full report: counts each different project once per month; Pro stops at the limit unless top-up credits are left
+function agpUse(t, project, client) {
+  var f = agpFind(t); if (!f) return { ok: false, st: 'unknown' };
+  var s = agpState(f); if (s.st !== 'active') return s;
+  var month = dstr(new Date()).slice(0, 7), key = String(project || '').toLowerCase().trim();
+  var used = agpUsed(String(f.v[0]), month), already = used.indexOf(key) >= 0;
+  if (!already) {
+    if (s.plan === 'pro' && used.length >= AGENT_PRO_LIMIT) {
+      if (s.cr > 0) { s.cr -= 1; f.sh.getRange(f.row, 10).setValue(s.cr); }
+      else { s.ok = false; s.need = 'topup'; return s; }
+    }
+    agrSheet().appendRow([Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm'), String(f.v[0]), String(f.v[1]), clean(project), "'" + month, clean(client)]);
+    s.used = used.length + 1;
+  }
+  s.counted = !already;
+  return s;
+}
+function agpSignup(p) {
+  var t = agpTok(p.t), out = function (o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); };
+  if (!t) return out({ ok: false });
+  if (agpFind(t)) return out({ ok: true });
+  var unl = /unl/i.test(String(p.plan || '')), plan = unl ? 'Unlimited (AED ' + PRICE_AGENT_UNL + '/month)' : 'Pro (AED ' + PRICE_AGENT + '/month, ' + AGENT_PRO_LIMIT + ' projects)';
+  var when = Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm');
+  agpSheet().appendRow([t, clean(p.name), clean(p.agency), clean(p.brn), clean(p.phone), clean(p.email), plan, 'Awaiting payment', '', 0, when, '', '']);
+  try {
+    var to = PropertiesService.getScriptProperties().getProperty('ALERT_TO') || Session.getEffectiveUser().getEmail();
+    if (to) MailApp.sendEmail({ to: to, name: 'Stress Test Leads', subject: '🏢 New Agent Pro sign-up: ' + clean(p.name) + ' · ' + plan,
+      body: 'New Agent Pro sign-up\n\nName: ' + clean(p.name) + '\nAgency: ' + clean(p.agency) + '\nBRN: ' + clean(p.brn) + '\nWhatsApp: ' + clean(p.phone) + '\nEmail: ' + clean(p.email) + '\nPlan: ' + plan +
+            '\n\nWhen the Ziina payment arrives: open the sheet, tab "' + AGP_TAB + '", select the row, menu Stress Test → Agent Pro: activate / renew 1 month, then tap "📲 Send link".\n' + book().getUrl() });
+  } catch (err) { Logger.log('agent alert failed: ' + err); }
+  return out({ ok: true });
+}
+function agpSelected() {
+  var sh = SpreadsheetApp.getActiveSheet();
+  if (sh.getName() !== AGP_TAB) throw new Error('Open the "' + AGP_TAB + '" tab and select the agent\'s row first.');
+  var row = sh.getActiveRange().getRow();
+  if (row < 2) throw new Error('Select an agent row (not the header).');
+  return { sh: sh, row: row, v: sh.getRange(row, 1, 1, AGP_HEAD.length).getValues()[0] };
+}
+function agpActivate() {
+  var f = agpSelected(), today = dstr(new Date()), cur = dstr(f.v[8]);
+  var base = cur && cur > today && /active/i.test(String(f.v[7])) ? new Date(cur + 'T12:00:00') : new Date();
+  base.setMonth(base.getMonth() + 1);
+  var until = Utilities.formatDate(base, 'Asia/Dubai', 'yyyy-MM-dd');
+  f.sh.getRange(f.row, 8).setValue('Active');
+  f.sh.getRange(f.row, 9).setValue("'" + until);
+  var digits = String(f.v[4]).replace(/[^0-9]/g, ''), first = String(f.v[1]).split(/\s+/)[0] || 'there';
+  var msg = 'Hi ' + first + ', your ' + (/unl/i.test(String(f.v[6])) ? 'Agent Unlimited' : 'Agent Pro') + ' is active until ' + until + '. ✅\n\n' +
+    'Open your portal here (keep this link private, it is your login): ' + SITE + '/agent/?t=' + f.v[0] + '\n\n' +
+    'Type any project and the full report opens with your name, agency and BRN, ready to send to your client.';
+  if (digits.length >= 8) f.sh.getRange(f.row, 12).setRichTextValue(SpreadsheetApp.newRichTextValue().setText('📲 Send link').setLinkUrl('https://wa.me/' + digits + '?text=' + encodeURIComponent(msg)).build());
+  f.sh.getRange(f.row, 1, 1, AGP_HEAD.length).setBackground('#E8F8EE');
+  SpreadsheetApp.getActive().toast('Active until ' + until + '. Tap "📲 Send link" in this row to send the portal link.');
+}
+function agpTopup() {
+  var f = agpSelected(), n = (Number(f.v[9]) || 0) + 1;
+  f.sh.getRange(f.row, 10).setValue(n);
+  SpreadsheetApp.getActive().toast('Top-up added. ' + n + ' extra project' + (n === 1 ? '' : 's') + ' available.');
 }
 
 // Email alert to the sheet owner for every new lead (shows as a Gmail notification on the phone)

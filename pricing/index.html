@@ -169,7 +169,7 @@ footer a{color:var(--gold2)}
 <body>
 <nav><div class="wrap">
   <a class="logo" href="../checklist/"><i>S</i><span>SamSurya<em>Realty</em></span></a>
-  <div class="lk"><a class="hm" href="../picks/">Top picks</a><a href="../checklist/">Free test</a><a class="on" href="#plans">Pricing</a></div>
+  <div class="lk"><a class="hm" href="../picks/">Top picks</a><a href="../agent/">Agent login</a><a href="../checklist/">Free test</a><a class="on" href="#plans">Pricing</a></div>
 </div></nav>
 
 <header class="hero">
@@ -216,7 +216,7 @@ footer a{color:var(--gold2)}
       <tr><td>Market statistics &amp; charts</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
       <tr><td>Premium market dashboard</td><td class="n">Preview</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
       <tr><td>Top-up when you run out</td><td>AED 19 / report</td><td class="n">–</td><td>AED 19 / project</td><td class="n">Not needed</td></tr>
-      <tr><td>Reports with your own name &amp; number</td><td class="n">–</td><td class="n">–</td><td>Coming soon</td><td>Coming soon</td></tr>
+      <tr><td>Reports with your own name, agency &amp; BRN</td><td class="n">–</td><td class="n">–</td><td class="y">✓</td><td class="y">✓</td></tr>
       <tr><td>Priority WhatsApp support</td><td class="n">–</td><td class="n">–</td><td class="y">✓</td><td class="y">✓</td></tr>
     </tbody>
   </table></div>
@@ -247,11 +247,11 @@ footer a{color:var(--gold2)}
 </div></section>
 
 <section><div class="wrap">
-  <div class="rv"><div class="kick">How it works</div><h2>Three steps. No sign-up forms.</h2></div>
+  <div class="rv"><div class="kick">How it works</div><h2>Three steps, same day.</h2></div>
   <div class="steps">
-    <div class="stp rv"><b>Pick a plan and pay</b><span>Secure card payment with Ziina, in AED.</span></div>
-    <div class="stp rv"><b>Send me the receipt</b><span>On WhatsApp. I activate your plan on your number the same day.</span></div>
-    <div class="stp rv"><b>Run the Stress Test</b><span>Every report you run unlocks in full, ready to share.</span></div>
+    <div class="stp rv"><b>Pick a plan and pay</b><span>Agents create a profile first (name, agency, BRN). Secure card payment with Ziina, in AED.</span></div>
+    <div class="stp rv"><b>Send me the receipt</b><span>On WhatsApp. I activate your plan the same day and send your portal link.</span></div>
+    <div class="stp rv"><b>Type a project</b><span>The full report opens with your name on it, ready to send to your client.</span></div>
   </div>
 </div></section>
 
@@ -291,8 +291,8 @@ footer a{color:var(--gold2)}
   function link(k,msg){ return PAY[k]||wa(msg); }
   function plans(){
     var A=[
-      {n:"Agent Pro",f:"For agents who check a few projects a week.",p:PAY.price_agent||199,u:"/month",note:"30 projects a month",k:"agent",msg:"Hi Sam, I'd like Agent Pro (AED 199/month, 30 projects).",li:["30 full project reports every month","Exit scenarios & appreciation analysis","Premium market dashboard","Top up at AED 19 per extra project","Priority WhatsApp support","<span class=soon-t>Reports with your name & number</span>"],b:"Start Agent Pro"},
-      {n:"Agent Unlimited",f:"For agents and teams who check projects every day.",p:PAY.price_agent_unl||299,u:"/month",note:"Unlimited projects",k:"agent_unl",msg:"Hi Sam, I'd like Agent Unlimited (AED 299/month, unlimited projects).",li:["Unlimited full project reports","Everything in Agent Pro","No top-ups, ever","Best value from 36 projects a month","Priority WhatsApp support","<span class=soon-t>Reports with your name & number</span>"],b:"Go Unlimited",hot:"Best value"},
+      {n:"Agent Pro",f:"For agents who check a few projects a week.",p:PAY.price_agent||199,u:"/month",note:"30 projects a month",k:"agent",msg:"Hi Sam, I'd like Agent Pro (AED 199/month, 30 projects).",href:"../agent/?plan=pro",li:["30 full project reports every month","Exit scenarios & appreciation analysis","Premium market dashboard","Top up at AED 19 per extra project","Priority WhatsApp support","Reports with your name, agency & BRN"],b:"Start Agent Pro"},
+      {n:"Agent Unlimited",f:"For agents and teams who check projects every day.",p:PAY.price_agent_unl||299,u:"/month",note:"Unlimited projects",k:"agent_unl",msg:"Hi Sam, I'd like Agent Unlimited (AED 299/month, unlimited projects).",href:"../agent/?plan=unlimited",li:["Unlimited full project reports","Everything in Agent Pro","No top-ups, ever","Best value from 36 projects a month","Priority WhatsApp support","Reports with your name, agency & BRN"],b:"Go Unlimited",hot:"Best value"},
       {n:"Single report",f:"Need just one more project checked?",p:PAY.price_one||19,u:"/project",note:"One-off, no subscription",k:"one",msg:"Hi Sam, I'd like one full Stress Test report (AED 19).",li:["One full project report","Exit scenarios & appreciation analysis","Market statistics & charts","Use it as a top-up on Agent Pro"],b:"Buy one report"}];
     var B=[
       {n:"Free",f:"Try the test on the project you're considering.",p:0,u:"",note:"No card needed",k:"",href:"../checklist/",li:["20-check Stress Test & score","3 full reports to start","DLD developer track record","Market statistics & charts"],b:"Take the free test"},

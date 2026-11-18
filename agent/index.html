@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agent Pro portal | Off-Plan Stress Test</title>
+<meta name="description" content="Agent Pro: type any Dubai off-plan project and get the full Stress Test analysis, branded with your name and BRN, ready to send to your client.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../favicon.svg">
+<style>
+:root{--navy:#081830;--navy2:#0F2748;--navy3:#18406F;--gold:#C9A24A;--gold2:#E8CF8E;--gold3:#F6E7BE;--ink:#1B2433;--muted:#5B6678;--line:#E6E1D6;--cream:#FAF7F0;--wa:#25D366;--green:#167A45;--red:#B3261E}
+*{box-sizing:border-box;margin:0}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--cream);line-height:1.5;font-size:16.5px;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:980px;margin:0 auto;padding:0 18px}
+nav{position:sticky;top:0;z-index:20;background:rgba(8,24,48,.9);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(232,207,142,.15)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:58px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:800}
+.logo i{width:30px;height:30px;border-radius:50%;background:conic-gradient(from 200deg,var(--gold),var(--gold3),var(--gold));display:grid;place-items:center;color:var(--navy);font-style:normal;font-weight:900;font-size:15px}
+.logo em{font-style:normal;color:var(--gold2)}
+nav .lk{display:flex;gap:16px;font-size:14px}nav .lk a{text-decoration:none;color:#D9E2F0}
+.hero{background:radial-gradient(900px 380px at 85% -20%,#1E4B82 0%,transparent 60%),linear-gradient(170deg,var(--navy),var(--navy2));color:#fff;padding:42px 0 90px;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(232,207,142,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(232,207,142,.06) 1px,transparent 1px);background-size:40px 40px;mask-image:linear-gradient(180deg,#000,transparent 90%);-webkit-mask-image:linear-gradient(180deg,#000,transparent 90%)}
+.hero .wrap{position:relative}
+.tag{display:inline-block;border:1px solid rgba(232,207,142,.5);color:var(--gold2);border-radius:30px;padding:5px 13px;font-size:12px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase}
+h1{font-size:clamp(30px,5.2vw,46px);line-height:1.08;letter-spacing:-1px;margin:14px 0 10px;font-weight:900}
+h1 span{background:linear-gradient(90deg,var(--gold),var(--gold3),var(--gold));background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sh 5s linear infinite}
+@keyframes sh{to{background-position:200% center}}
+.hero p{color:#C9D5E8;max-width:640px}
+.card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 20px 50px rgba(8,24,48,.08)}
+.lift{margin-top:-64px;position:relative;z-index:3}
+h2{font-size:22px;color:var(--navy);font-weight:900;letter-spacing:-.3px}
+.muted{color:var(--muted);font-size:15px}
+label.f{display:block;margin-top:14px;font-weight:700;font-size:14.5px;color:var(--navy)}
+label.f small{font-weight:500;color:var(--muted)}
+input.i{width:100%;font:inherit;padding:13px 14px;border-radius:14px;border:1.5px solid #D9D3C4;background:#FDFCF8;margin-top:6px;transition:border .2s,box-shadow .2s}
+input.i:focus{outline:0;border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,162,74,.18)}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
+@media(max-width:620px){.g2{grid-template-columns:1fr}}
+.plans{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+.plan{position:relative;border:2px solid var(--line);border-radius:18px;padding:14px;cursor:pointer;transition:all .25s;background:#FDFCF8}
+.plan input{position:absolute;opacity:0}
+.plan b{display:block;color:var(--navy)}.plan big{display:block;font-size:26px;font-weight:900;color:var(--navy);letter-spacing:-.5px}
+.plan small{color:var(--muted);font-size:13.5px}
+.plan.on{border-color:var(--gold);background:linear-gradient(160deg,#FFF9EA,#fff);box-shadow:0 10px 24px rgba(201,162,74,.2)}
+.plan.on:after{content:"✓";position:absolute;top:10px;right:12px;width:24px;height:24px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:900;display:grid;place-items:center;font-size:13px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;font:inherit;font-weight:800;font-size:16.5px;border-radius:40px;padding:15px;margin-top:18px;cursor:pointer;text-decoration:none;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.gold{background:linear-gradient(135deg,var(--gold),var(--gold3) 55%,var(--gold));background-size:200% auto;color:var(--navy);animation:sh 4s linear infinite;box-shadow:0 10px 26px rgba(201,162,74,.35)}
+.dark{background:var(--navy);color:#fff}
+.wa{background:var(--wa);color:#fff}
+.ghost{background:transparent;border:1.5px solid var(--line);color:var(--navy)}
+.err{color:var(--red);font-weight:700;font-size:14.5px;margin-top:10px;min-height:20px}
+.steps{display:grid;gap:12px;margin-top:16px}
+.st{display:flex;gap:14px;align-items:flex-start;padding:14px;border-radius:16px;background:#FBF8F0;border:1px solid var(--line)}
+.st i{font-style:normal;flex:none;width:34px;height:34px;border-radius:50%;background:var(--navy);color:var(--gold2);font-weight:900;display:grid;place-items:center}
+.st.done i{background:var(--green);color:#fff}
+.st.now{border-color:var(--gold);background:#FFF9EA}
+.st b{color:var(--navy)}
+/* dashboard */
+.id{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.av{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold3));color:var(--navy);display:grid;place-items:center;font-weight:900;font-size:24px;flex:none;box-shadow:0 0 0 5px rgba(201,162,74,.18)}
+.id h2{font-size:24px}
+.pb{display:inline-block;margin-top:4px;background:var(--navy);color:var(--gold2);font-size:12px;font-weight:800;letter-spacing:1px;text-transform:uppercase;border-radius:20px;padding:4px 11px}
+.meter{margin-left:auto;text-align:center}
+.ring{--v:0;width:86px;height:86px;border-radius:50%;background:conic-gradient(var(--gold) calc(var(--v)*1%),#EFE9DA 0);display:grid;place-items:center;transition:--v 1s}
+.ring b{width:68px;height:68px;border-radius:50%;background:#fff;display:grid;place-items:center;font-weight:900;color:var(--navy);font-size:17px;line-height:1.05;text-align:center}
+.ring b small{display:block;font-size:10.5px;color:var(--muted);font-weight:700}
+.meter small{color:var(--muted);font-size:12.5px}
+@media(max-width:560px){.meter{margin-left:0}}
+.search{position:relative;margin-top:22px}
+.search input{width:100%;font:inherit;font-size:clamp(16px,4.4vw,19px);font-weight:600;padding:18px 18px 18px 54px;border-radius:20px;border:2px solid var(--gold);background:#fff;box-shadow:0 14px 34px rgba(201,162,74,.18)}
+.search input:focus{outline:0;box-shadow:0 0 0 5px rgba(201,162,74,.22),0 14px 34px rgba(201,162,74,.18)}
+.search:before{content:"🔎";position:absolute;left:18px;top:50%;transform:translateY(-50%);font-size:21px}
+.sg{position:absolute;left:0;right:0;top:calc(100% + 6px);background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 20px 40px rgba(8,24,48,.16);overflow:hidden;z-index:10}
+.sg button{display:block;width:100%;text-align:left;border:0;background:none;font:inherit;padding:12px 16px;cursor:pointer;border-bottom:1px solid #F2EDE1}
+.sg button:hover,.sg button.hi{background:#FFF9EA}
+.sg b{color:var(--navy)}.sg small{display:block;color:var(--muted);font-size:13px}
+.hint{color:var(--muted);font-size:14px;margin-top:10px}
+.rec{margin-top:14px}
+.rec a{display:flex;justify-content:space-between;gap:10px;padding:12px 0;border-bottom:1px dashed var(--line);text-decoration:none}
+.rec a b{color:var(--navy)}.rec a span{color:var(--muted);font-size:14px;white-space:nowrap}
+.warn{background:#FFF4E0;border:1.5px solid #F0C36A;border-radius:16px;padding:14px;margin-top:16px}
+.warn b{color:#7A4A00}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
+@media(max-width:700px){.grid3{grid-template-columns:1fr}}
+.ft{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}
+.ft b{color:var(--navy);display:block;margin-top:6px}.ft span{color:var(--muted);font-size:14.5px}
+.fade{animation:fd .5s ease both}@keyframes fd{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="../pricing/"><i>S</i><span>SamSurya<em>Realty</em></span></a><div class="lk"><a href="../pricing/?for=agent">Plans</a><a href="../checklist/">Free test</a></div></div></nav>
+<header class="hero"><div class="wrap">
+  <span class="tag">🏢 Agent Pro</span>
+  <h1 id="ht">Your own <span>branded</span> deal analysis.</h1>
+  <p id="hp">Type any Dubai off-plan project. Get the full Stress Test report with your name, agency and BRN on every page, ready to send to your client.</p>
+</div></header>
+<main class="wrap"><div class="lift" id="app"><div class="card"><p class="muted">Loading…</p></div></div>
+<div class="grid3" id="feat">
+  <div class="ft">🏗️<b>DLD-backed checks</b><span>Registration, escrow, construction and the developer's track record.</span></div>
+  <div class="ft">📈<b>Exit &amp; appreciation</b><span>Three realistic exit scenarios and the 10 factors behind them.</span></div>
+  <div class="ft">🪪<b>Your name on it</b><span>Your name, agency, BRN and number on the report and its background.</span></div>
+</div></main>
+<footer>Market data: Dubai Land Department via Dubai Data (CC BY 4.0). Reports are a data check, not financial advice.</footer>
+<script>
+(function(){
+  var API="https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec", WA="971528728248", PAY={}, A=null, S=null, PLAN="pro";
+  var app=document.getElementById("app");
+  function e(t){ return String(t==null?"":t).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];}); }
+  function wa(t){ return "https://wa.me/"+WA+"?text="+encodeURIComponent(t); }
+  function ls(k,v){ try{ if(v===undefined) return JSON.parse(localStorage.getItem(k)||"null"); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,JSON.stringify(v)); }catch(x){ return null; } }
+  function tok(){ var a="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789", r=new Uint8Array(20), s=""; (window.crypto||window.msCrypto).getRandomValues(r); for(var i=0;i<r.length;i++) s+=a[r[i]%a.length]; return s; }
+  function api(p,cb){ var n="agcb"+Math.random().toString(36).slice(2), s=document.createElement("script"), done=false;
+    function end(d){ if(done) return; done=true; try{ delete window[n]; }catch(x){ window[n]=undefined; } if(s.parentNode) s.parentNode.removeChild(s); cb(d); }
+    window[n]=function(d){ end(d); }; p.callback=n; s.src=API+"?"+new URLSearchParams(p).toString(); s.onerror=function(){ end(null); }; setTimeout(function(){ end(null); },15000); document.head.appendChild(s); }
+  var q=new URLSearchParams(location.search);
+  if(q.get("plan")) PLAN=/unl/i.test(q.get("plan"))?"unlimited":"pro";
+  var T=q.get("t"); if(T&&/^[A-Za-z0-9]{12,40}$/.test(T)){ A=ls("sam-agent")||{}; if(A.t!==T) A={t:T}; ls("sam-agent",A); history.replaceState(null,"",location.pathname); }
+  A=ls("sam-agent"); S=ls("sam-agent-st");
+  fetch("../checklist/data/pay.json",{cache:"no-cache"}).then(function(r){ return r.json(); }).then(function(j){ PAY=j||{}; if(A&&(!S||S.st!=="active")) render(); }).catch(function(){});
+  var today=new Date().toISOString().slice(0,10);
+  function price(p){ return p==="unlimited"?(PAY.price_agent_unl||299):(PAY.price_agent||199); }
+
+  // ---------- 1. sign up ----------
+  function signup(){
+    document.getElementById("ht").innerHTML='Create your <span>Agent Pro</span> profile.';
+    app.innerHTML='<div class="card fade"><h2>Your agent profile</h2><p class="muted">This is what appears on every report you send. Takes one minute.</p>'+
+      '<form id="sf" novalidate><div class="g2">'+
+      '<label class="f">Full name<input class="i" id="fn" autocomplete="name" maxlength="60" placeholder="As on your broker card"></label>'+
+      '<label class="f">Agency / brokerage<input class="i" id="fa" autocomplete="organization" maxlength="60" placeholder="e.g. Your Realty LLC"></label>'+
+      '<label class="f">BRN <small>(broker registration no.)</small><input class="i" id="fb" inputmode="numeric" maxlength="12" placeholder="e.g. 12345"></label>'+
+      '<label class="f">WhatsApp number<input class="i" id="fp" type="tel" autocomplete="tel" maxlength="20" placeholder="+971 5X XXX XXXX"></label>'+
+      '</div><label class="f">Email<input class="i" id="fe" type="email" autocomplete="email" maxlength="80" placeholder="you@agency.com"></label>'+
+      '<label class="f">Plan</label><div class="plans">'+
+      '<label class="plan" data-p="pro"><input type="radio" name="pl" value="pro"><b>Agent Pro</b><big>AED '+price("pro")+'</big><small>a month · 30 projects · top up AED '+(PAY.price_one||19)+' each</small></label>'+
+      '<label class="plan" data-p="unlimited"><input type="radio" name="pl" value="unlimited"><b>Agent Unlimited</b><big>AED '+price("unlimited")+'</big><small>a month · unlimited projects</small></label></div>'+
+      '<div class="err" id="er"></div><button class="btn gold" type="submit">Create my profile →</button>'+
+      '<p class="hint">Already have Agent Pro on another phone? Open the activation link I sent you on WhatsApp.</p></form></div>';
+    function sel(p){ PLAN=p; Array.prototype.forEach.call(app.querySelectorAll(".plan"),function(x){ x.classList.toggle("on",x.dataset.p===p); x.querySelector("input").checked=x.dataset.p===p; }); }
+    Array.prototype.forEach.call(app.querySelectorAll(".plan"),function(x){ x.addEventListener("click",function(){ sel(x.dataset.p); }); }); sel(PLAN);
+    document.getElementById("sf").addEventListener("submit",function(ev){ ev.preventDefault();
+      var v=function(id){ return document.getElementById(id).value.trim(); }, er=document.getElementById("er"), n=v("fn"), ag=v("fa"), brn=v("fb").replace(/[^0-9]/g,""), p=v("fp"), em=v("fe"), dg=p.replace(/[^0-9]/g,"");
+      if(n.length<3) return er.textContent="Please enter your full name.";
+      if(ag.length<2) return er.textContent="Please enter your agency.";
+      if(brn.length<3) return er.textContent="Please enter your BRN (broker registration number).";
+      if(dg.length<8||dg.length>15) return er.textContent="Please enter your WhatsApp number with country code.";
+      if(!/^\s*(\+|00)/.test(p)){ if(/^05\d{8}$/.test(dg)) p="+971"+dg.slice(1); else if(/^5\d{8}$/.test(dg)) p="+971"+dg; else p="+"+dg; }
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) return er.textContent="Please enter a valid email.";
+      er.textContent=""; A={t:tok(),n:n,ag:ag,brn:brn,ph:p,em:em,plan:PLAN}; ls("sam-agent",A); S={st:"pending",plan:PLAN}; ls("sam-agent-st",S);
+      try{ fetch(API,{method:"POST",mode:"no-cors",body:new URLSearchParams({a:"agent_signup",t:A.t,name:n,agency:ag,brn:brn,phone:p,email:em,plan:PLAN})}).catch(function(){}); }catch(x){}
+      render(); window.scrollTo({top:0,behavior:"smooth"}); });
+  }
+  // ---------- 2. pay + activation ----------
+  function pending(expired){
+    var pl=(S&&S.plan)||A.plan||PLAN, pr=price(pl), link=(pl==="unlimited"?PAY.agent_unl:PAY.agent)||"";
+    var msg=(expired?"Hi Sam, I'd like to renew ":"Hi Sam, I've signed up for ")+(pl==="unlimited"?"Agent Unlimited":"Agent Pro")+" (AED "+pr+"/month). Here is my payment receipt.\nName: "+(A.n||"")+"\nAgency: "+(A.ag||"")+"\nBRN: "+(A.brn||"")+"\nWhatsApp: "+(A.ph||"");
+    document.getElementById("ht").innerHTML=expired?'Renew your <span>Agent Pro</span>.':'Almost there, <span>'+e((A.n||"").split(" ")[0]||"")+'</span>.';
+    app.innerHTML='<div class="card fade"><h2>'+(expired?'Your plan ended on '+e(S.until||""):'Activate your plan')+'</h2><p class="muted">'+(pl==="unlimited"?"Agent Unlimited":"Agent Pro")+' · AED '+pr+' a month'+(expired?'':'. Your profile is saved on this phone.')+'</p>'+
+      '<div class="steps">'+
+      (expired?'':'<div class="st done"><i>✓</i><div><b>Profile created</b><br><span class="muted">'+e(A.n||"")+(A.brn?' · BRN '+e(A.brn):'')+'</span></div></div>')+
+      '<div class="st now"><i>'+(expired?1:2)+'</i><div><b>Pay AED '+pr+' securely with Ziina</b><br><span class="muted">Card or Apple Pay.</span></div></div>'+
+      '<div class="st"><i>'+(expired?2:3)+'</i><div><b>Send me the receipt on WhatsApp</b><br><span class="muted">I activate your plan the same day and send your portal link.</span></div></div></div>'+
+      (link?'<a class="btn gold" href="'+e(link)+'" target="_blank" rel="noopener">💳 Pay AED '+pr+' with Ziina</a>':'')+
+      '<a class="btn wa" href="'+wa(link?msg:msg.replace("Here is my payment receipt.","How do I pay?"))+'" target="_blank" rel="noopener">💬 '+(link?'Send my receipt on WhatsApp':'Get the payment link on WhatsApp')+'</a>'+
+      '<button class="btn ghost" id="chk" type="button">🔄 I\'ve been activated: check again</button>'+
+      '<p class="hint" style="text-align:center">'+(pl==="unlimited"?'<a href="#" id="sw">Switch to Agent Pro (AED '+price("pro")+')</a>':'<a href="#" id="sw">Switch to Agent Unlimited (AED '+price("unlimited")+')</a>')+' · <a href="#" id="out">Not you? Start again</a></p></div>';
+    document.getElementById("chk").addEventListener("click",function(){ this.textContent="Checking…"; refresh(true); });
+    document.getElementById("sw").addEventListener("click",function(ev){ ev.preventDefault(); var np=pl==="unlimited"?"pro":"unlimited"; A.plan=np; S=S||{}; S.plan=np; ls("sam-agent",A); ls("sam-agent-st",S); render(); });
+    document.getElementById("out").addEventListener("click",function(ev){ ev.preventDefault(); ls("sam-agent",null); ls("sam-agent-st",null); A=null; S=null; render(); });
+  }
+  // ---------- 3. dashboard ----------
+  var PJ=null;
+  function projects(cb){ if(PJ) return cb(PJ);
+    Promise.all([fetch("../checklist/data/projects.json").then(function(r){ return r.json(); }),fetch("../checklist/data/projects_extra.json").then(function(r){ return r.ok?r.json():{p:[]}; }).catch(function(){ return {p:[]}; })]).then(function(a){
+      var have={}, L=[]; a[0].p.concat(a[1].p||[]).forEach(function(r){ var k=r[1].toLowerCase(); if(!have[k]){ have[k]=1; L.push(r); } }); PJ=L; cb(L); }).catch(function(){ cb([]); }); }
+  function dash(){
+    var pro=S.plan!=="unlimited", used=S.used||0, lim=S.limit||30, left=Math.max(0,lim-used)+(S.cr||0), pct=pro?Math.min(100,Math.round(used/lim*100)):100;
+    document.getElementById("ht").innerHTML='Welcome back, <span>'+e((A.n||"").split(" ")[0])+'</span>.';
+    document.getElementById("hp").textContent="Type a project below. The full analysis opens with your name, agency and BRN on it.";
+    var rec=ls("sam-agent-recent")||[];
+    app.innerHTML='<div class="card fade"><div class="id"><div class="av">'+e((A.n||"?").split(/\s+/).map(function(w){ return w[0]; }).join("").slice(0,2).toUpperCase())+'</div>'+
+      '<div><h2>'+e(A.n||"")+'</h2><div class="muted">'+e(A.ag||"")+(A.brn?' · BRN '+e(A.brn):'')+(A.ph?' · '+e(A.ph):'')+'</div><span class="pb">'+(pro?'Agent Pro':'Agent Unlimited')+'</span> <span class="muted" style="font-size:13px">until '+e(S.until||"")+'</span></div>'+
+      '<div class="meter"><div class="ring" id="rg" style="--v:0"><b>'+(pro?used+'<small>of '+lim+'</small>':'∞<small>unlimited</small>')+'</b></div><small>'+(pro?'projects this month'+(S.cr?' · +'+S.cr+' top-ups':''):'projects')+'</small></div></div>'+
+      '<div class="search"><input id="q" placeholder="Type a project, e.g. Golf Trails" autocomplete="off"><div class="sg" id="sg" hidden></div></div>'+
+      '<p class="hint">Opening the same project again this month doesn\'t use another one.</p>'+
+      (pro&&left<=0?'<div class="warn"><b>You\'ve used your '+lim+' projects this month.</b><br><span class="muted">Top up for AED '+(PAY.price_one||19)+' per project, or move to Unlimited.</span><a class="btn gold" style="margin-top:10px" href="'+e(PAY.one||wa("Hi Sam, I'm on Agent Pro ("+A.n+", BRN "+A.brn+") and need a top-up project (AED 19)."))+'" target="_blank" rel="noopener">➕ Top up AED '+(PAY.price_one||19)+'</a><a class="btn wa" style="margin-top:8px" href="'+wa("Hi Sam, I topped up Agent Pro. Name: "+A.n+", BRN "+A.brn+". Here is my receipt.")+'" target="_blank" rel="noopener">💬 Send top-up receipt</a></div>':
+       (pro&&left<=5?'<div class="warn"><b>'+left+' project'+(left===1?'':'s')+' left this month.</b> <a href="../pricing/?for=agent">Go Unlimited →</a></div>':''))+
+      (rec.length?'<div class="rec"><h2 style="font-size:17px;margin-top:20px">Recent reports</h2>'+rec.slice(0,8).map(function(r){ return '<a href="'+e(r.l||("../checklist/?agent=1&proj="+encodeURIComponent(r.p)))+'"><b>'+e(r.p)+(r.c?' <span>· for '+e(r.c)+'</span>':'')+'</b><span>'+e(r.d||"")+(r.s?' · '+r.s+'/100':'')+'</span></a>'; }).join("")+'</div>':'')+
+      '<p class="hint" style="margin-top:18px"><a href="'+wa("Hi Sam, I'd like to change my Agent Pro details. Name: "+A.n+", BRN "+A.brn+".")+'">Change my details</a> · <a href="../pricing/?for=agent">Plans</a></p></div>';
+    setTimeout(function(){ var rg=document.getElementById("rg"); if(rg){ var k=0; (function f(){ k+=4; rg.style.setProperty("--v",Math.min(k,pct)); if(k<pct) requestAnimationFrame(f); })(); } },150);
+    var qi=document.getElementById("q"), sg=document.getElementById("sg"), hi=-1, list=[];
+    function go(name){ location.href="../checklist/?agent=1&proj="+encodeURIComponent(name); }
+    function draw(){ var v=qi.value.trim().toLowerCase(); if(v.length<2){ sg.hidden=true; return; }
+      projects(function(L){ var a=v.split(/\s+/); list=L.filter(function(r){ var s=(r[1]+" "+(r[2]||"")+" "+(r[7]||"")).toLowerCase(); return a.every(function(w){ return s.indexOf(w)>=0; }); }).sort(function(x,y){ return (x[1].toLowerCase().indexOf(v)===0?0:1)-(y[1].toLowerCase().indexOf(v)===0?0:1); }).slice(0,8);
+        hi=-1; sg.innerHTML=list.length?list.map(function(r,i){ return '<button type="button" data-i="'+i+'"><b>'+e(r[1])+'</b><small>'+e([r[7],String(r[2]||"").replace(/\s*(L\.?L\.?C|P\.?J\.?S\.?C)\.?$/i,"")].filter(Boolean).join(" · "))+((r[3]||"").match(/cancel/i)?' · 🚩 cancelled':'')+'</small></button>'; }).join(""):'<button type="button" data-free="1"><b>Check "'+e(qi.value.trim())+'"</b><small>Not in the DLD list yet (EOI / pre-launch): open the test anyway</small></button>';
+        sg.hidden=false;
+        Array.prototype.forEach.call(sg.querySelectorAll("button"),function(b){ b.addEventListener("mousedown",function(ev){ ev.preventDefault(); go(b.dataset.free?qi.value.trim():list[+b.dataset.i][1]); }); }); }); }
+    qi.addEventListener("input",draw); qi.addEventListener("focus",draw); qi.addEventListener("blur",function(){ setTimeout(function(){ sg.hidden=true; },150); });
+    qi.addEventListener("keydown",function(ev){ var bs=sg.querySelectorAll("button"); if(ev.key==="ArrowDown"||ev.key==="ArrowUp"){ ev.preventDefault(); hi=Math.max(0,Math.min(bs.length-1,hi+(ev.key==="ArrowDown"?1:-1))); Array.prototype.forEach.call(bs,function(b,i){ b.classList.toggle("hi",i===hi); }); }
+      if(ev.key==="Enter"){ ev.preventDefault(); if(hi>=0&&list[hi]) go(list[hi][1]); else if(list[0]) go(list[0][1]); else if(qi.value.trim()) go(qi.value.trim()); } });
+    projects(function(){});
+  }
+  function render(){
+    if(!A||!A.t) return signup();
+    if(S&&S.st==="active"&&S.until>=today) return dash();
+    if(S&&(S.st==="expired"||(S.st==="active"&&S.until<today))) return pending(true);
+    return pending(false);
+  }
+  function refresh(loud){
+    if(!A||!A.t) return;
+    api({a:"me",t:A.t},function(d){
+      if(d&&d.ok){ S={st:d.st,plan:d.plan,until:d.until,used:d.used,limit:d.limit,cr:d.cr,at:Date.now()}; ["n","ag","brn","ph"].forEach(function(k){ if(d[k]) A[k]=String(d[k]); }); ls("sam-agent",A); ls("sam-agent-st",S); }
+      else if(d&&d.st==="unknown"&&loud&&S){ S.st="pending"; }
+      render();
+      if(loud&&(!d||d.st!=="active")){ var c=document.getElementById("chk"); if(c) c.textContent=d?"⏳ Not activated yet. Send me your receipt on WhatsApp.":"Couldn't reach the server. Try again in a minute."; }
+    });
+  }
+  render(); refresh(false);
+})();
+</script>
+</body>
+</html>
