@@ -7,6 +7,7 @@ on:
     paths:
       - "tools/fetch_market_premium.py"
       - "tools/fetch_dxb_map.py"
+      - "tools/fetch_supply.py"
       - ".github/workflows/market.yml"
 permissions:
   contents: write
@@ -22,9 +23,11 @@ jobs:
       - run: python tools/fetch_market_premium.py
       - run: python tools/fetch_dxb_map.py
         continue-on-error: true
+      - run: python tools/fetch_supply.py
+        continue-on-error: true
       - name: Commit if changed
         run: |
           git config user.name "market-refresh-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add checklist/data/market_premium.json checklist/data/dxb_map.json
+          git add checklist/data/market_premium.json checklist/data/dxb_map.json checklist/data/supply.json
           git diff --cached --quiet || (git commit -m "Refresh Premium market dashboard" && git pull --rebase -q && git push)
