@@ -1870,19 +1870,19 @@ html:not(.eoion) .ans .eoin{display:none}
   var PD=null, PSFP=null, pwait=[], ploading=false;
   // developer resale rule + NOC fee: fill by default, buyer can change
   var RSJ=null; fetch("data/resale.json",{cache:"no-cache"}).then(function(r){ return r.json(); }).then(function(j){ RSJ=j; setTimeout(resaleFill,300); }).catch(function(){ RSJ={}; });
-  var RSAUTO={xre:"",xtf:""};
+  var RSAUTO={xre:"",xtf:""}, RSUSR={};
   function resaleFill(){ if(!RSJ||!INS||!INS.d) return; var re=document.getElementById("xre"), tf=document.getElementById("xtf"), note=document.getElementById("xresrc"); if(!re||!tf) return;
     var no=(PSFP&&PSFP.no&&INS.p[PSFP.no]&&INS.p[PSFP.no][0])||(DEVSEL&&DEVSEL.no)||"", key=no?bk(no):"", b=key&&RSJ[key]?key:"", r=b?RSJ[b]:RSJ._default;
     if(!r||(!no&&!b)) return;
     var nm=key?bTitle(key):(no&&INS.d[no]?shortDevN(INS.d[no].name):"this developer"), did=false; window.RSLAST=nm+"'s usual rule: "+r.re+"% paid, NOC about AED "+r.noc.toLocaleString("en-US");
     var v1=String(r.re), v2=r.noc.toLocaleString("en-US");
-    if((!re.value.trim()||re.value===RSAUTO.xre)&&re.value!==v1){ re.value=v1; RSAUTO.xre=v1; did=true; }
-    if((!tf.value.trim()||tf.value===RSAUTO.xtf)&&tf.value!==v2){ tf.value=v2; RSAUTO.xtf=v2; did=true; }
+    if(!RSUSR.xre&&(!re.value.trim()||re.value===RSAUTO.xre)&&re.value!==v1){ re.value=v1; RSAUTO.xre=v1; did=true; }
+    if(!RSUSR.xtf&&(!tf.value.trim()||tf.value===RSAUTO.xtf)&&tf.value!==v2){ tf.value=v2; RSAUTO.xtf=v2; did=true; }
     if(did&&note){ note.innerHTML="ℹ️ Filled with "+esc(nm)+"'s usual rule: resale after <b>"+r.re+"% paid</b>, NOC about <b>AED "+r.noc.toLocaleString("en-US")+"</b> ("+esc(r.src)+"). <b>Change it if your SPA says otherwise.</b>"; note.hidden=false; re.dispatchEvent(new Event("input",{bubbles:true})); } }
   window.resaleFill=resaleFill;
   var SCJ=null; fetch("data/service_charges.json",{cache:"no-cache"}).then(function(r){ return r.json(); }).then(function(j){ SCJ=j; }).catch(function(){ SCJ={}; });
-  var AUTO={}, AUTOTXT={};
-  function autoSet(id,v,txt){ var el=document.getElementById(id); if(!el||v==null||v==="") return; v=String(v);
+  var AUTO={}, AUTOTXT={}, USR={};   // USR: fields the buyer has typed in; never refilled, even when cleared to type a new number
+  function autoSet(id,v,txt){ var el=document.getElementById(id); if(!el||v==null||v==="") return; v=String(v); if(USR[id]){ delete AUTOTXT[id]; return; }
     if((!el.value.trim()||el.value===AUTO[id])&&el.value!==v){ el.value=v; AUTO[id]=v; if(id==="xspa"){ spaSync(); } el.dispatchEvent(new Event("input",{bubbles:true})); }
     if(AUTO[id]&&el.value===AUTO[id]) AUTOTXT[id]=txt; else delete AUTOTXT[id]; }
   function autoFill(){
@@ -1895,9 +1895,10 @@ html:not(.eoion) .ans .eoin{display:none}
     var n=document.getElementById("xautonote"), ks=Object.keys(AUTOTXT);
     if(n){ n.hidden=!ks.length; n.innerHTML=ks.length?"ℹ️ Filled for you: "+ks.map(function(k){ return esc(AUTOTXT[k]); }).join("; ")+". <b>Estimates: change any of them if your SPA differs.</b>":""; } }
   window.autoFill=autoFill;
-  ["xspam","xspay","xyrs","xag","xsc"].forEach(function(id){ var el=document.getElementById(id); if(el) ["input","change"].forEach(function(t){ el.addEventListener(t,function(ev){ if(ev.isTrusted){ var k=(id==="xspam"||id==="xspay")?"xspa":id; delete AUTO[k]; delete AUTOTXT[k]; setTimeout(autoFill,0); } }); }); });
+  ["xspam","xspay","xyrs","xag","xsc"].forEach(function(id){ var el=document.getElementById(id); if(el) ["input","change"].forEach(function(t){ el.addEventListener(t,function(ev){ if(ev.isTrusted){ var k=(id==="xspam"||id==="xspay")?"xspa":id; USR[k]=1; delete AUTO[k]; delete AUTOTXT[k]; setTimeout(autoFill,0); } }); }); });
   ["xptype","ploc"].forEach(function(id){ var el=document.getElementById(id); if(el) ["change","input"].forEach(function(t){ el.addEventListener(t,function(){ setTimeout(autoFill,50); }); }); });
-  ["xre","xtf"].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener("input",function(ev){ if(ev.isTrusted){ RSAUTO[id]=""; var n=document.getElementById("xresrc"); if(n) n.innerHTML="✏️ You changed this (your SPA figures). For reference, "+esc(window.RSLAST||"the developer's usual rule")+"."; } }); });
+  document.getElementById("reset").addEventListener("click",function(){ USR={}; RSUSR={}; });
+  ["xre","xtf"].forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener("input",function(ev){ if(ev.isTrusted){ RSAUTO[id]=""; RSUSR[id]=1; var n=document.getElementById("xresrc"); if(n) n.innerHTML="✏️ You changed this (your SPA figures). For reference, "+esc(window.RSLAST||"the developer's usual rule")+"."; } }); });
   var CMAJ=null; fetch("data/cma.json",{cache:"no-cache"}).then(function(r){ return r.ok?r.json():{p:{}}; }).then(function(j){ CMAJ=j; }).catch(function(){ CMAJ={p:{}}; });
   var PPTG=null; fetch("data/place_points.json",{cache:"force-cache"}).then(function(r){ return r.json(); }).then(function(j){ PPTG=j; }).catch(function(){ PPTG={}; });
   var psfIn=document.getElementById("psf"), locIn=document.getElementById("ploc"), cma=document.getElementById("cma");
