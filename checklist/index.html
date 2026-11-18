@@ -313,6 +313,7 @@ html:not(.eoion) .ans .eoin{display:none}
 #xrentl{grid-column:1/-1}
 .hero2 h1 .g{color:#1A9E62}
 .eoinote{background:#FFF6E3;color:#6B4E12;border-radius:12px;padding:10px 12px;margin-top:10px;font-size:15px;line-height:1.45}
+#res .mstile{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:8px;margin-bottom:12px}#res .mstile>div{background:rgba(255,255,255,.06);border:1px solid rgba(232,207,142,.22);border-radius:12px;padding:9px 10px}#res .mstile small{display:block;font-size:11.5px;opacity:.75;line-height:1.3;margin-bottom:4px}#res .mstile b{font-size:19px;white-space:nowrap}#res .msc{background:rgba(0,0,0,.18);border-radius:12px;padding:10px;margin:10px 0}#res .msh{font-weight:800;font-size:15px;margin-bottom:2px}#res .msh small{font-weight:500;opacity:.7}
 </style>
 <script>
 // Access gate: the test opens from the Instagram DM link (it carries ?k=...). A plain copied link goes to Instagram first.
@@ -1086,7 +1087,8 @@ html:not(.eoion) .ans .eoin{display:none}
   function insLoad(cb){ if(INS&&PIN&&EOI&&!PL){ return fetch("data/places.json",{cache:"no-cache"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ PL=j; cb(); }).catch(function(){ PL={}; cb(); }); }
     if(INS) return cb(); iwait.push(cb); if(iloading) return; iloading=true;
     var needPL=!!(PIN&&EOI); if(needPL) fetch("data/places.json",{cache:"no-cache"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ PL=j; done(); }).catch(function(){ PL={}; done(); });
-    var done=function(){ if(INS&&TR&&OUT&&(!needPL||PL)){ iwait.forEach(function(f){f();}); iwait=[]; } };
+    var done=function(){ if(INS&&TR&&OUT&&MS&&(!needPL||PL)){ iwait.forEach(function(f){f();}); iwait=[]; } };
+    fetch("data/market_stats.json",{cache:"no-cache"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ MS=j; done(); }).catch(function(){ MS={}; done(); });
     fetch("data/outlook.json",{cache:"no-cache"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ OUT=j; done(); }).catch(function(){ OUT={}; done(); });
     fetch("data/insights.json",{cache:"no-cache"}).then(function(r){return r.json();}).then(function(j){ INS=j; done(); }).catch(function(){ INS={d:{},p:{},t:{},r:{}}; done(); });
     fetch("data/transit.json",{cache:"no-cache"}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ TR=j; done(); }).catch(function(){ TR={a:{}}; done(); }); }
@@ -1113,6 +1115,59 @@ html:not(.eoion) .ans .eoin{display:none}
       '<div class="pwn">After paying, tap below and send your receipt. Sam sends your unlocked report on WhatsApp.</div>'+
       '<a class="pwr" href="'+wa("Hi Sam, I've paid to unlock my full Stress Test report for "+pj+". Here is my receipt:")+'" target="_blank" rel="noopener">🧾 I\'ve paid: send my report</a>'+
       '<a class="pwc" href="'+wa("Hi Sam, I'm your existing client. Could you unlock my full Stress Test report for "+pj+" please?")+'" target="_blank" rel="noopener">🤝 Already Sam\'s client? Request free access</a></div>'; }
+  // ---------- Market statistics in the full report (data/market_stats.json): community vs Dubai ----------
+  var MS=null;
+  function msFind(cands){ if(!MS||!MS.cm) return ""; var K=Object.keys(MS.cm), nz=function(s){ return String(s||"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim(); }, i, j;
+    cands=cands.filter(Boolean);
+    for(i=0;i<cands.length;i++) if(MS.cm[cands[i]]) return cands[i];
+    for(i=0;i<cands.length;i++){ var c=nz(cands[i]); for(j=0;j<K.length;j++) if(nz(K[j])===c) return K[j]; }
+    for(i=0;i<cands.length;i++){ var c2=" "+nz(cands[i])+" ", best=""; K.forEach(function(k){ var z=nz(k); if(z.length>=5&&c2.indexOf(" "+z+" ")>=0&&z.length>best.length) best=k; }); if(best) return best; }
+    return ""; }
+  var MSST={};
+  function msChg(sc,P){ var M=sc==="Dubai"?MS.dm:MS.cm[sc], Y=sc==="Dubai"?MS.dy:MS.cy[sc]; if(!M||!M.length) return null;
+    var last=M.slice(-12), want={}; last.forEach(function(r){ want[(+r[0].slice(0,4)-P)+r[0].slice(4)]=1; });
+    var w=function(a){ var s=0,n=0; a.forEach(function(r){ if(r[1]&&r[3]){ s+=r[1]*r[3]; n+=r[3]; } }); return n?s/n:0; };
+    var old=M.filter(function(r){ return want[r[0]]; });
+    if(old.length>=9){ var a=w(last), b=w(old); return a&&b?(a/b-1)*100:null; }
+    if(!Y) return null; var ly=+M[M.length-1][0].slice(0,4)-(M[M.length-1][0].slice(5)==="12"?0:1), yr=function(y){ var r=Y.filter(function(x){ return x[0]===y; })[0]; return r&&r[3]&&r[1]>=20?r[3]:0; };
+    var a2=yr(ly), b2=yr(ly-P); return a2&&b2?(a2/b2-1)*100:null; }
+  function msSeries(sc,per){ var M=sc==="Dubai"?MS.dm:MS.cm[sc], Y=sc==="Dubai"?MS.dy:MS.cy[sc], need=per*12;
+    if(M.length+1>=need) return {k:"m",r:M.slice(-need)};
+    var y0=+M[M.length-1][0].slice(0,4)-per; return {k:"y",r:(Y||[]).filter(function(x){ return x[0]>y0; }).map(function(x){ return [String(x[0]),x[3],x[2],x[1]]; })}; }
+  function msChart(S,which){ var r=S.r.filter(function(x){ return which==="psf"?x[1]:true; }); if(r.length<2) return '<div style="opacity:.7;font-size:13px">Not enough sales to draw this.</div>';
+    var W=420,H=230,L=50,R=which==="psf"?10:52,T=12,B=28,iw=W-L-R,ih=H-T-B,n=r.length,bw=iw/n, k=function(v){ return v>=1e6?(v/1e6).toFixed(v>=1e7?0:1)+"M":v>=1e3?(v/1e3).toFixed(v>=1e4?0:1)+"K":Math.round(v)+""; };
+    var lab=function(m){ return S.k==="y"?m:fmtMonth(m).replace(/^(\w{3}) 20(\d\d)$/,"$1 '$2"); };
+    var g='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto;max-height:320px;display:block">';
+    for(var q=0;q<=4;q++) g+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+(T+ih*q/4)+'" y2="'+(T+ih*q/4)+'" stroke="rgba(255,255,255,.08)"/>';
+    if(which==="psf"){ var v=r.map(function(x){ return x[1]; }), mn=Math.min.apply(null,v)*0.97, mx=Math.max.apply(null,v)*1.02, y=function(z){ return T+ih-(z-mn)/(mx-mn)*ih; }, x=function(i){ return L+bw*(i+.5); };
+      var pts=r.map(function(z,i){ return x(i).toFixed(1)+","+y(z[1]).toFixed(1); });
+      g+='<polygon points="'+x(0).toFixed(1)+','+(T+ih)+' '+pts.join(" ")+' '+x(n-1).toFixed(1)+','+(T+ih)+'" fill="rgba(232,207,142,.14)"/><polyline points="'+pts.join(" ")+'" fill="none" stroke="#E8CF8E" stroke-width="3" stroke-linejoin="round"/>';
+      for(q=0;q<=4;q++) g+='<text x="'+(L-6)+'" y="'+(T+ih*q/4+4)+'" fill="rgba(255,255,255,.6)" font-size="14" text-anchor="end">'+Math.round(mx-(mx-mn)*q/4).toLocaleString("en-US")+'</text>';
+    } else { var sv=r.map(function(x){ return x[3]||0; }), smx=Math.max.apply(null,sv)||1, pv=r.map(function(x){ return x[2]; }).filter(Boolean), pmn=Math.min.apply(null,pv)*0.9, pmx=Math.max.apply(null,pv)*1.05;
+      r.forEach(function(z,i){ var hh=(z[3]||0)/smx*ih; g+='<rect x="'+(L+bw*i+bw*0.15).toFixed(1)+'" y="'+(T+ih-hh).toFixed(1)+'" width="'+Math.max(1.5,bw*0.7).toFixed(1)+'" height="'+hh.toFixed(1)+'" rx="2" fill="#C9A24A" opacity=".75"/>'; });
+      var pp=[]; r.forEach(function(z,i){ if(z[2]) pp.push((L+bw*(i+.5)).toFixed(1)+","+(T+ih-(z[2]-pmn)/(pmx-pmn)*ih).toFixed(1)); });
+      g+='<polyline points="'+pp.join(" ")+'" fill="none" stroke="#7fb0ef" stroke-width="3" stroke-linejoin="round"/>';
+      for(q=0;q<=4;q++){ g+='<text x="'+(L-6)+'" y="'+(T+ih*q/4+4)+'" fill="#E8CF8E" font-size="14" text-anchor="end">'+k(smx*(1-q/4))+'</text><text x="'+(W-R+6)+'" y="'+(T+ih*q/4+4)+'" fill="#7fb0ef" font-size="14">'+k(pmx-(pmx-pmn)*q/4)+'</text>'; } }
+    [0,Math.floor((n-1)/2),n-1].forEach(function(i,j){ g+='<text x="'+(L+bw*(i+.5))+'" y="'+(H-8)+'" fill="rgba(255,255,255,.65)" font-size="14" text-anchor="'+(j===0?"start":j===2?"end":"middle")+'">'+lab(r[i][0])+'</text>'; });
+    return g+'</svg>'; }
+  function msInner(id){ var st=MSST[id], sc=st.sc, per=st.per, S=msSeries(sc,per), M=sc==="Dubai"?MS.dm:MS.cm[sc], lm=M[M.length-1], tot=S.r.reduce(function(a,x){ return a+(x[3]||0); },0);
+    var pc=function(P){ var v=msChg(sc,P); return v==null?'<b style="opacity:.6">N/A</b>':'<b style="color:'+(v>=0?'#7fd6a5':'#f3a59a')+'">'+(v>=0?'+':'')+v.toFixed(1)+'% '+(v>=0?'↗':'↘')+'</b>'; };
+    var btn=function(lbl,on,js){ return '<button type="button" onclick="'+js+'" style="border:0;border-radius:9px;padding:7px 12px;font:inherit;font-size:13.5px;font-weight:700;cursor:pointer;'+(on?'background:#C9A24A;color:#111':'background:rgba(255,255,255,.1);color:#fff')+'">'+lbl+'</button>'; };
+    var h='<div style="display:flex;flex-wrap:wrap;gap:6px;justify-content:space-between;margin-bottom:10px"><div style="display:flex;gap:4px">'+
+      [1,2,5,10].map(function(p){ return btn(p+"Y",p===per,"msSet('"+id+"',null,"+p+")"); }).join("")+'</div><div style="display:flex;gap:4px">'+
+      (st.c?btn(esc(st.c),sc!=="Dubai","msSet('"+id+"','c')"):'')+btn("Dubai",sc==="Dubai","msSet('"+id+"','Dubai')")+'</div></div>';
+    h+='<div class="mstile">'+
+      '<div><small>'+fmtMonth(lm[0])+'<br>Median price</small><b style="color:#a9c6ec">'+(lm[2]?"AED "+aedK(lm[2]):"–")+'</b></div>'+
+      '<div><small>Sold ('+per+'Y)<br>Registered sales</small><b style="color:#a9c6ec">'+tot.toLocaleString("en-US")+'</b></div>'+
+      '<div><small>1 year<br>value change</small>'+pc(1)+'</div><div><small>5 years<br>value change</small>'+pc(5)+'</div><div><small>10 years<br>value change</small>'+pc(10)+'</div></div>';
+    h+='<div class="msc"><div class="msh">Monthly sales &amp; median price'+(S.k==="y"?' <small>(yearly for 10Y)</small>':'')+'</div><div style="font-size:12.5px;opacity:.75;margin-bottom:4px"><span style="color:#E8CF8E">■ sales</span> · <span style="color:#7fb0ef">― median price (AED)</span></div>'+msChart(S,"tx")+'</div>';
+    h+='<div class="msc"><div class="msh">Median price per sq ft</div><div style="font-size:12.5px;opacity:.75;margin-bottom:4px">What buyers pay per sq ft, so bigger or smaller units don\'t skew the trend</div>'+msChart(S,"psf")+'</div>';
+    if(sc!=="Dubai"&&MS.op&&MS.op[sc]!=null) h+='<div class="row"><span>Off-plan share of sales here (last 12 months)</span><b>'+MS.op[sc]+'%</b></div>';
+    return h+'<div style="margin-top:6px;opacity:.75;font-size:13px">All registered sales (off-plan and ready) from Dubai Land Department open data via Dubai Data, data through '+esc(MS.data_through||MS.updated||"")+'. Value change compares the median price per sq ft over the last 12 months with the same months 1, 5 and 10 years earlier. 📞 Ask Sam what these numbers mean for your project.</div>'; }
+  window.msSet=function(id,sc,per){ var st=MSST[id]; if(!st) return; if(sc==="c") st.sc=st.c; else if(sc) st.sc=sc; if(per) st.per=per; var el=document.getElementById(id); if(el) el.innerHTML=msInner(id); };
+  function msBlock(cands){ if(!MS||!MS.dm) return ""; var c=msFind(cands), id="ms"+Math.random().toString(36).slice(2,7);
+    MSST[id]={c:c,sc:c||"Dubai",per:c?5:10};
+    return '<h4>📊 Market statistics: '+esc(c||"Dubai")+(c?' vs Dubai':'')+'</h4><div class="box" id="'+id+'">'+msInner(id)+'</div>'; }
   function report(sc){
     var e=function(t){return String(t==null?"":t).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
     var CRIT=[0,2,4,6], h='', I=INS||{d:{},p:{},t:{},r:{}};
@@ -1161,6 +1216,7 @@ html:not(.eoion) .ans .eoin{display:none}
     if(yy&&yy[1]!=null){ h+='<h4>📈 Price trend in '+e(comm)+'</h4><div class="box"><div class="big"><span>Median / sq ft (12 months)<b>'+aed(yy[0])+'</b></span><span>vs the year before<b>'+(yy[1]>0?"+":"")+yy[1].toFixed(1)+'%</b></span></div>'+
         (t&&t.length>=6?spark(t):'')+
         '<div style="opacity:.75;font-size:13.5px">From '+(yy[2]||0).toLocaleString("en-US")+' registered sales in the last 12 months. The line shows monthly medians, which jump with big launches, so read the year-on-year figure first.</div></div>'; }
+    h+=msBlock([comm,(ip&&ip[9])||"",(PSFP&&PSFP.community)||"",place,(document.getElementById("ploc")||{}).value||"",(typeof MKT!=="undefined"&&(MKT||[]).filter(function(m){ return m.name.toLowerCase()===((document.getElementById("proj")||{}).value||"").toLowerCase(); })[0]||{}).comm||""]);
     // 4. side by side
     if(PD&&place){ var me=pn&&PD.byNo[pn], g=me&&me[3];
       var cand=PD.p.filter(function(r){ return r[0]!==pn && (comm?r[4]===comm:r[5]===place); });

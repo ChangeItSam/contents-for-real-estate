@@ -110,3 +110,34 @@ json.dump({"updated": today, "data_through": through, "source": CREDIT,
            "d": devs, "p": proj, "t": trend, "y": yoy, "r": rent, "g": g3},
           open(f"{OUT}/insights.json", "w"), separators=(",", ":"), ensure_ascii=False)
 print(f"insights.json: {len(proj)} projects, {len(devs)} developers, {len(trend)} trend series, {len(rent)} rent areas, through {through}")
+
+# --- market statistics for the full report (community vs Dubai): monthly sales, median price, median price per sq ft
+#     output: checklist/data/market_stats.json
+#       dm: Dubai monthly [month, psf, median price, sales]   (10 years)
+#       dy: Dubai yearly  [year, sales, median price, psf]    (since 2010)
+#       cm: community -> monthly rows as dm                   (5 years)
+#       cy: community -> yearly rows as dy                    (since 2010)
+#       op: community -> off-plan share of sales, last 12 months (%)
+try:
+    def mrow(r):
+        return [r["month"], num(r.get("median")), num(r.get("price")), num(r.get("n_sales")) or 0]
+    def yrow(r):
+        return [int(r["year"]), num(r.get("n")) or 0, num(r.get("price_median")), num(r.get("psf_median"))]
+    dm = [mrow(r) for r in rows("data/market_monthly.csv")]
+    dy = [yrow(r) for r in rows("data/market_yearly.csv")]
+    cm, cy = {}, {}
+    for r in rows("data/community_monthly.csv"):
+        cm.setdefault(r["community"], []).append(mrow(r))
+    for r in rows("data/community_yearly.csv"):
+        cy.setdefault(r["community"], []).append(yrow(r))
+    op = {r["name"]: num(r.get("offplan_share"), 1) for r in rows("data/communities.csv") if r.get("offplan_share") not in (None, "")}
+    for d in (cm, cy):
+        for k in d: d[k].sort()
+    dm.sort(); dy.sort()
+    if len(dm) < 60 or len(cm) < 50:
+        raise ValueError("market series too short")
+    json.dump({"updated": today, "data_through": through, "source": CREDIT, "dm": dm, "dy": dy, "cm": cm, "cy": cy, "op": op},
+              open(f"{OUT}/market_stats.json", "w"), separators=(",", ":"), ensure_ascii=False)
+    print(f"market_stats.json: Dubai {len(dm)} months, {len(cm)} communities")
+except Exception as e:
+    print("market_stats.json not refreshed:", repr(e)[:120])
