@@ -1393,7 +1393,16 @@ html:not(.eoion) .ans .eoin{display:none}
     var STEP=(AP.g3&&AP.g3[1]>=200)?7:8;
     var SCN=[["Conservative",-1],["Realistic",0],["Optimistic",1]];
     var grow=function(r,y){ return (Math.pow(1+r/100,y)-1)*100; };
-    var tot=function(k,y){ return Math.max(-40,grow(AP.rate,y)+k*STEP); }, rng=function(k,y){ var m=tot(k,y); return Math.round(m-1)+"–"+Math.round(m+1)+"%"; };
+    // Maturity rule (Sam 18 Nov, from DLD 2010–2026 history): the project's own rate applies until handover; after handover
+    // it glides down to the long-run rate of a mature Dubai community (villas/townhouses ~4%/yr, apartments ~3%/yr; Dubai-wide
+    // median price per sq ft grew ~4.4%/yr 2010–2025). The glide takes 5 years in a new community, 2 years where the community
+    // is already established (10+ years of sales), so growth flattens as the community saturates.
+    var PT=xv("xptype"), MR=/Villa|Townhouse/.test(PT)?4:/Apartment/.test(PT)?3:3.5;
+    var CAGE=(function(){ var Y=MS&&MS.cy&&comm&&MS.cy[comm]; if(!Y) return 0; var f0=0; Y.forEach(function(x){ if(!f0&&x[1]>=50) f0=x[0]; }); return f0?new Date().getFullYear()-f0:0; })();
+    var GLIDE=CAGE>=10?2:5;
+    var rateAt=function(t){ if(t<=AP.yh) return AP.rate; var u=Math.min(1,(t-AP.yh)/GLIDE); return AP.rate+(MR-AP.rate)*u; };
+    var gpath=function(y){ var v=1, t=0, st=0.25; while(t<y-1e-9){ var d=Math.min(st,y-t); v*=Math.pow(1+rateAt(t+d/2)/100,d); t+=d; } return (v-1)*100; };
+    var tot=function(k,y){ return Math.max(-40,gpath(y)+k*STEP); }, rng=function(k,y){ var m=tot(k,y); return Math.round(m-1)+"–"+Math.round(m+1)+"%"; };
     var GOAL=xv("xgoal"), HOLD=GOAL==="live"?Math.max(xn("xyrs"),0):xn("xyrs"), RENT=GOAL==="live"?0:(xn("xrent")||(rb?rb[0]:0)), SZ=xn("xsize")||xn("psize"), PX=xn("xprice")||xn("pprice")||(PSFV&&SZ?PSFV*SZ:0);
     (function(){ h+='<h4>🚪 Exit strategy: appreciation and rent</h4><div class="box">'+
       '<div style="margin-bottom:6px">Expected price growth until handover ('+AP.hy+', about '+AP.yh.toFixed(1)+' years from now):</div>'+
@@ -1406,6 +1415,7 @@ html:not(.eoion) .ans .eoin{display:none}
           return '<tr'+(x[0]==="Realistic"?' class="r"':'')+'><td>'+x[0]+'</td><td>'+aedK(v)+'</td>'+(HOLD&&RENT?'<td>'+aedK(rentT)+'</td>':'')+'<td>'+aedK(pr)+'</td><td>'+(pr/cost*100).toFixed(0)+'%</td></tr>'; }).join("")+'</table></div><div style="font-size:12px;opacity:.65;margin-top:2px">Amounts in AED (K = thousand, M = million).</div>'+
         '<div style="margin-top:6px;opacity:.75;font-size:13px">On '+aed(PX)+' plus DLD 4%'+(T?', transfer fee':'')+(ag?', '+ag+'% selling agent fee':'')+(scY&&HOLD?', service charges for '+HOLD+' yr':'')+(HOLD&&RENT?' and rent of '+aed(RENT)+'/yr ('+(xn("xrent")?'your figure':'Ejari median')+', before vacancies)':GOAL==="live"?'. No rent counted because you plan to live in it':'')+'. Mortgage costs not included.</div>'; }
       else h+='<div style="margin-top:8px;opacity:.85">Add your price in Check 19 to see the sale price, rent and profit for each scenario.</div>';
+      if(HOLD) h+='<div style="margin-top:8px;font-size:13px;opacity:.85">📉 After handover growth slows as the community matures: from about '+AP.rate.toFixed(1)+'%/yr now towards '+MR+'%/yr (a mature Dubai '+(/Villa|Townhouse/.test(PT)?'villa / townhouse':/Apartment/.test(PT)?'apartment':'')+' community) over '+GLIDE+' years'+(CAGE>=10?', because '+e(comm)+' is already established':'')+'.</div>';
       h+='<div style="margin-top:8px;opacity:.75;font-size:13px">Scenarios are estimates from DLD price history, the developer\'s record, supply due in the area, infrastructure, facilities, your entry price and today\'s market. Not a guarantee. 📞 How each figure is worked out is explained in a call with Sam.</div></div>'; })();
     // 7. extra checks
     var xl=xboxes.map(function(b){return {b:b,t:labelOf(b)};}), xo=xl.filter(function(x){return !x.b.checked;}), xd=xl.filter(function(x){return x.b.checked;});
