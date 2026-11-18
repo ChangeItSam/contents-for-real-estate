@@ -413,6 +413,19 @@
    "tags": "jumeirah branded residences beachfront peninsula",
    "added": "2026-11-17",
    "src": "TradeArabia, 10 Nov 2026; Property Finder (sales start 4 Aug 2026)"
+  },
+  {
+   "name": "Marwa Views",
+   "dev": "New World Developments",
+   "area": "Jumeirah Village Triangle",
+   "comm": "JVT District 4",
+   "ll": [
+    25.0438,
+    55.1934
+   ],
+   "tags": "jvt jumeirah village triangle marwa",
+   "added": "2026-11-18",
+   "src": "ezre.ae (listed 12 Nov 2026; handover Q1 2027); Bayut & Dubizzle new-projects pages (JVT, 40% complete), read 18 Nov 2026; DLD record not found"
   }
  ]
 }
