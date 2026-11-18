@@ -308,6 +308,7 @@ html:not(.eoion) .ans .eoin{display:none}
 .mgbtns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}.mgbtns button{flex:1 1 140px;font:inherit;font-weight:800;font-size:15px;border-radius:12px;padding:11px 10px;cursor:pointer}#mgyes{background:linear-gradient(135deg,#E9C46A,#C9A24A);border:0;color:#0B1F3A}#mgno{background:#fff;border:1.5px solid #D8DEE8;color:#475467}
 .mgskip{font-size:13.5px;color:#6B7280;margin:6px 0 10px}.mgskip a{color:#8A6A1F;font-weight:800}
 [hidden]{display:none!important}
+.tick span.alrt{background:#FFF6E0;border:1.5px solid #F0C866;border-radius:12px;padding:8px 10px;display:block;color:#5a3d00;font-size:15px;line-height:1.45}
 .esc7{background:#EEF6FF;border:1.5px solid #B9D6F7;border-radius:12px;padding:10px 12px;margin:6px 0 10px;font-size:14.5px;line-height:1.5;color:#0B1F3A}.esc7 small{display:block;margin-top:6px;font-size:11px;color:#6B7280}
 #xrentl{grid-column:1/-1}
 .hero2 h1 .g{color:#1A9E62}
@@ -543,7 +544,7 @@ html:not(.eoion) .ans .eoin{display:none}
 
 <section class="sec">
  <div class="kicker">Step 2 of 3 · Checks 5–9</div><h2>🔐 Is your money protected?</h2><p class="lead">Where your money goes and who you deal with.</p>
- <div class="card"><div class="num"><span class="ic">🏦</span><span class="n">5–7</span></div><div class="body"><h3>Your money goes into the project's escrow account</h3><p>By law (<b>Law No. 8 of 2007</b>), off-plan payments go into a regulated escrow account for that project, not the developer's company account. When your project is registered, we show you its escrow bank from DLD records, so the only thing left for you is to check that the account on your payment instructions matches it.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><b class="cn">5</b><span>Project has an escrow account registered with DLD</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">6</b><span>Escrow bank &amp; account shown on <b>your</b> payment instructions</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">7</b><span>They match the project's escrow on DLD records</span></label></div><div class="tip warn">⚠️ Never pay a deposit into a personal or general company account.</div></div></div>
+ <div class="card"><div class="num"><span class="ic">🏦</span><span class="n">5–7</span></div><div class="body"><h3>Your money goes into the project's escrow account</h3><p>By law (<b>Law No. 8 of 2007</b>), off-plan payments go into a regulated escrow account for that project, not the developer's company account. When your project is registered, we show you its escrow bank from DLD records, so the only thing left for you is to check that the account on your payment instructions matches it.</p><div class="ticks"><label class="tick"><input type="checkbox" data-w="8"><b class="cn">5</b><span>Project has an escrow account registered with DLD</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">6</b><span class="alrt">⚠️ Pay only into the project's <b>escrow account</b>. It will be written on your booking form, payment instructions or SPA.</span></label><label class="tick"><input type="checkbox" data-w="5"><b class="cn">7</b><span class="alrt">⚠️ That escrow bank must <b>match the DLD records</b> below, in the project's name, never a company or personal account.</span></label></div><div class="tip warn">⚠️ Never pay a deposit into a personal or general company account.</div></div></div>
  <div class="card"><div class="num"><span class="ic">🪪</span><span class="n">8–9</span></div><div class="body"><h3>Who is helping you buy</h3><p>Only a RERA-licensed agent can legally sell you property, and a licensed agent is answerable to the regulator if something goes wrong. This is the one thing we can't look up for you: ask your agent for their BRN (Broker Registration Number), and make sure the agency and the agent are named on your paperwork.</p>
 <div class="agq" id="agq"><div class="aglab">A broker or the developer's own sales agent?</div><div class="agb"><button type="button" data-a="b">🤝 A broker / agency</button><button type="button" data-a="d">🏢 The developer's own sales agent</button></div><div class="agnote" id="agnote" hidden></div></div><div class="ticks" id="agticks"><label class="tick"><input type="checkbox" data-w="5"><b class="cn">8</b><span>Agent BRN verified</span></label><label class="tick"><input type="checkbox" data-w="2"><b class="cn">9</b><span>Agency and agent named on the paperwork</span></label></div>
 <div class="agwhy" id="agwhy"><div class="agw b"><b>🤝 Why choose a broker</b><ul><li>Shows you several projects that fit your budget and goal, not just one developer's</li><li>Helps you resell or rent it out later</li><li>Stays with you from entry to exit: booking, SPA, handover, resale</li><li>Saves busy buyers a lot of time and leg work</li><li>A broker is the developer's channel partner, so the price is the same as buying direct</li></ul><div class="agrun">🚩 If a broker asks <b>you</b> for commission on an off-plan purchase: <b>RUN.</b> The developer pays the broker.</div><ul style="display:none"></ul></div>
@@ -787,7 +788,8 @@ html:not(.eoion) .ans .eoin{display:none}
   var DLDFOUND=false;
   var EOI_IDX=[2,3,4,5,6,14], EOI=false; try{ EOI=localStorage.getItem("sam-dealtest-eoi")==="1"; }catch(e){}
   function naOK(i){ return NA_OK.indexOf(i)>=0 || (EOI && EOI_IDX.indexOf(i)>=0); }
-  var YN_IDX=[7,8,9,10,11,12,13,15,16,17]; // things the buyer did or knows: answer Yes / No
+  var YN_IDX=[7,8,9,10,11,12,13,15,16,17];
+  var OK_IDX=[5,6]; // escrow reminders: answer Okay / Not sure // things the buyer did or knows: answer Yes / No
   var NA_OK=[3,7,8,16]; // can genuinely not apply: progress claim at launch, agent checks when buying direct, resale rules when holding long term
   function stOf(b){ return b.checked?"y":(b.dataset.st||""); }
   // after an answer, bring the next unanswered line of the same card into view if it is hidden behind the bottom bars
@@ -805,7 +807,7 @@ html:not(.eoion) .ans .eoin{display:none}
     b.addEventListener("change", function(ev){ if(b.checked) b.dataset.st=""; if(ev.isTrusted) showNextLine(b); });
     b.addEventListener("change", update);
     var row=document.createElement("div"); row.className="ans";
-    var yn=YN_IDX.indexOf(i)>=0; row.innerHTML='<button type="button" class="y" data-v="y">'+(yn?'✅ Yes':'✅ Checked')+'</button><button type="button" class="u" data-v="u">'+(yn?'❌ No':'❓ Not known')+'</button>'+(NA_OK.indexOf(i)>=0?'<button type="button" class="n" data-v="n">N/A</button>':EOI_IDX.indexOf(i)>=0?'<button type="button" class="n eoin" data-v="n">N/A</button>':'');
+    var yn=YN_IDX.indexOf(i)>=0, okq=OK_IDX.indexOf(i)>=0; row.innerHTML='<button type="button" class="y" data-v="y">'+(okq?'👍 Okay, I\'ll check':yn?'✅ Yes':'✅ Checked')+'</button><button type="button" class="u" data-v="u">'+(okq?'🤔 Not sure':yn?'❌ No':'❓ Not known')+'</button>'+(NA_OK.indexOf(i)>=0?'<button type="button" class="n" data-v="n">N/A</button>':EOI_IDX.indexOf(i)>=0?'<button type="button" class="n eoin" data-v="n">N/A</button>':'');
     row.addEventListener("click",function(ev){ var t=ev.target.closest("button"); if(!t) return; var v=t.dataset.v, same=stOf(b)===v;
       if(v==="y"){ b.checked=true; b.dataset.st=""; } else { b.checked=false; b.dataset.st=same?"":v; }
       b.dispatchEvent(new Event("change",{bubbles:true})); showNextLine(b); });
@@ -1289,7 +1291,7 @@ html:not(.eoion) .ans .eoin{display:none}
     var conf=boxes.filter(function(b){return b.checked;});
     h+='<h4>❗ Still to confirm ('+miss.length+')</h4>'+(miss.length?'<div class="box">'+miss.map(function(x,k){
         var tag=CRIT.indexOf(x.i)>=0?'<span class="tag">Must-have</span>':(k<3?'<span class="tag p">Priority</span>':'');
-        return '<div class="row"><span>'+e(labelOf(x.b))+(stOf(x.b)==="u"?' <i style="opacity:.75">('+(YN_IDX.indexOf(boxes.indexOf(x.b))>=0?'no':'not known')+')</i>':'')+'</span>'+tag+'</div>';}).join("")+'</div>':'<div class="box ok">Nothing missing. Every check is confirmed.</div>');
+        return '<div class="row"><span>'+e(labelOf(x.b))+(stOf(x.b)==="u"?' <i style="opacity:.75">('+(OK_IDX.indexOf(boxes.indexOf(x.b))>=0?'not sure':YN_IDX.indexOf(boxes.indexOf(x.b))>=0?'no':'not known')+')</i>':'')+'</span>'+tag+'</div>';}).join("")+'</div>':'<div class="box ok">Nothing missing. Every check is confirmed.</div>');
     var nas=boxes.filter(function(b){return stOf(b)==="n";});
     if(nas.length) h+='<h4>➖ Marked not applicable ('+nas.length+')</h4><div class="box">'+nas.map(function(b){return '<div class="row"><span>'+e(labelOf(b))+'</span></div>';}).join("")+'</div>';
     h+='<h4>✅ Already confirmed ('+conf.length+')</h4>'+(conf.length?'<div class="box">'+conf.map(function(b){return '<div class="row ok"><span>✓ '+e(labelOf(b))+'</span></div>';}).join("")+'</div>':'<div class="box">Nothing confirmed yet.</div>');
@@ -1471,7 +1473,7 @@ html:not(.eoion) .ans .eoin{display:none}
     } else {
       tickAuto(DEV); tickAuto(PROJ); if(escb) tickAuto(ESC);
       (function(){ var lb=boxes[6].closest("label"); if(!lb) return; var x=document.createElement("div"); x.className="esc7";
-        x.innerHTML=escb?'🏦 <b>Escrow on DLD records:</b> '+esc(escb)+'<br>🔢 DLD project no. <b>'+esc(no||"–")+'</b><br>👉 The escrow bank on <b>your</b> payment instructions, booking form or SPA must be <b>this bank</b>, and the account must be in the project&#39;s name (an escrow account), never the developer&#39;s company or a person. Ask the developer for the official escrow letter before you pay.<small>Extracted from live Dubai Land Department records ('+esc(P.updated)+')</small>'
+        x.innerHTML=escb?'🏦 <b>Escrow on DLD records:</b> '+esc(escb)+'<br>🔢 DLD project no. <b>'+esc(no||"–")+'</b><br>👉 When you book, the bank on your booking form or SPA should be <b>this bank</b>. Ask the developer for the official escrow letter before you pay.<small>Extracted from live Dubai Land Department records ('+esc(P.updated)+')</small>'
           :'⚠️ <b>DLD records list no escrow bank for this project yet.</b> Ask the developer for the official escrow letter (bank + account in the project&#39;s name) before you pay. Don&#39;t pay into a company or personal account.<small>Extracted from live Dubai Land Department records ('+esc(P.updated)+')</small>';
         var an=boxes[6]._ans||lb; an.parentNode.insertBefore(x, an); })();
       card.className="dld "+(escb?"ok":"warn");
