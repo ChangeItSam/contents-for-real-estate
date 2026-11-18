@@ -1387,8 +1387,12 @@ html:not(.eoion) .ans .eoin{display:none}
       var now=new Date(), yh=Math.max(0.5,(hy+0.5)-(now.getFullYear()+now.getMonth()/12));
       return {f:f,rate:rate,hy:hy,yh:yh,due:due,dueN:dueN,done:done,ratio:ratio,g3:g3,dd:dd,dg:dg};
     })();
-    var SCN=[["Conservative",AP.rate>0?AP.rate*0.6:AP.rate*1.4],["Realistic",AP.rate],["Optimistic",AP.rate>0?AP.rate*1.3:AP.rate*0.6]];
-    var grow=function(r,y){ return (Math.pow(1+r/100,y)-1)*100; }, rng=function(r,y){ var a=grow(r-0.75,y), b=grow(r+0.75,y); return Math.round(a)+"–"+Math.round(b)+"%"; };
+    // Sam 18 Nov: the three scenarios sit about 7–8 points apart in total growth (e.g. 20% / 27% / 35%),
+    // a little tighter (7) when the area has solid DLD price history, a little wider (8) when it doesn't
+    var STEP=(AP.g3&&AP.g3[1]>=200)?7:8;
+    var SCN=[["Conservative",-1],["Realistic",0],["Optimistic",1]];
+    var grow=function(r,y){ return (Math.pow(1+r/100,y)-1)*100; };
+    var tot=function(k,y){ return Math.max(-40,grow(AP.rate,y)+k*STEP); }, rng=function(k,y){ var m=tot(k,y); return Math.round(m-1)+"–"+Math.round(m+1)+"%"; };
     var GOAL=xv("xgoal"), HOLD=GOAL==="live"?Math.max(xn("xyrs"),0):xn("xyrs"), RENT=GOAL==="live"?0:(xn("xrent")||(rb?rb[0]:0)), SZ=xn("xsize")||xn("psize"), PX=xn("xprice")||xn("pprice")||(PSFV&&SZ?PSFV*SZ:0);
     (function(){ h+='<h4>🚪 Exit strategy: appreciation and rent</h4><div class="box">'+
       '<div style="margin-bottom:6px">Expected price growth until handover ('+AP.hy+', about '+AP.yh.toFixed(1)+' years from now):</div>'+
@@ -1397,7 +1401,7 @@ html:not(.eoion) .ans .eoin{display:none}
       if(PX){ var dld=PX*0.04, T=xn("xtf"), ag=Math.min(xn("xag")||0,20), scY=xn("xsc")*SZ, cost=PX+dld+T;
         h+='<div style="margin:12px 0 4px;font-weight:800">💼 If you sell '+(HOLD?HOLD+' year'+(HOLD>1?"s":"")+' after handover ('+(AP.hy+HOLD)+')':'at handover ('+AP.hy+')')+(GOAL==="live"?' after living in it':HOLD&&RENT?' after renting it out':'')+'</div>'+
         '<div style="overflow-x:auto"><table class="ex3"><tr><th></th><th>Sale price</th>'+(HOLD&&RENT?'<th>Rent</th>':'')+'<th>Profit</th><th>Return</th></tr>'+
-        SCN.map(function(x){ var v=PX*(1+grow(x[1],AP.yh+HOLD)/100), rentT=RENT*HOLD, scT=scY*HOLD, sell=v*ag/100, pr=v-sell-cost-scT+rentT;
+        SCN.map(function(x){ var v=PX*(1+tot(x[1],AP.yh+HOLD)/100), rentT=RENT*HOLD, scT=scY*HOLD, sell=v*ag/100, pr=v-sell-cost-scT+rentT;
           return '<tr'+(x[0]==="Realistic"?' class="r"':'')+'><td>'+x[0]+'</td><td>'+aedK(v)+'</td>'+(HOLD&&RENT?'<td>'+aedK(rentT)+'</td>':'')+'<td>'+aedK(pr)+'</td><td>'+(pr/cost*100).toFixed(0)+'%</td></tr>'; }).join("")+'</table></div><div style="font-size:12px;opacity:.65;margin-top:2px">Amounts in AED (K = thousand, M = million).</div>'+
         '<div style="margin-top:6px;opacity:.75;font-size:13px">On '+aed(PX)+' plus DLD 4%'+(T?', transfer fee':'')+(ag?', '+ag+'% selling agent fee':'')+(scY&&HOLD?', service charges for '+HOLD+' yr':'')+(HOLD&&RENT?' and rent of '+aed(RENT)+'/yr ('+(xn("xrent")?'your figure':'Ejari median')+', before vacancies)':GOAL==="live"?'. No rent counted because you plan to live in it':'')+'. Mortgage costs not included.</div>'; }
       else h+='<div style="margin-top:8px;opacity:.85">Add your price in Check 19 to see the sale price, rent and profit for each scenario.</div>';
