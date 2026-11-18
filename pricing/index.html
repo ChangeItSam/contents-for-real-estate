@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Premium & Agent Pro | Off-Plan Stress Test · Sam Surya</title>
+<meta name="description" content="Full off-plan Stress Test reports from Dubai Land Department data: exit scenarios, appreciation analysis and the Premium market dashboard. Plans for buyers and agents.">
+<meta property="og:title" content="Off-Plan Stress Test: Premium & Agent Pro">
+<meta property="og:description" content="Know if an off-plan deal is worth it before you sign. Full reports built on DLD data, for buyers and agents.">
+<meta property="og:image" content="https://samsuryarealty.com/assets/reels/dld-check-2026-11-18.jpg">
+<link rel="icon" href="../favicon.svg">
+<style>
+:root{--navy:#081830;--navy2:#0F2748;--navy3:#18406F;--gold:#C9A24A;--gold2:#E8CF8E;--gold3:#F6E7BE;--ink:#1B2433;--muted:#5B6678;--line:#E6E1D6;--cream:#FAF7F0;--wa:#25D366;--green:#167A45}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--cream);line-height:1.55;font-size:17px;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+/* nav */
+nav{position:sticky;top:0;z-index:20;background:rgba(8,24,48,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid rgba(232,207,142,.15)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-weight:800;letter-spacing:.5px}
+.logo i{width:30px;height:30px;border-radius:50%;background:conic-gradient(from 200deg,var(--gold),var(--gold3),var(--gold));display:grid;place-items:center;color:var(--navy);font-style:normal;font-weight:900;font-size:15px;box-shadow:0 0 18px rgba(201,162,74,.45)}
+.logo span em{font-style:normal;color:var(--gold2)}
+nav .lk{display:flex;gap:18px;font-size:14.5px}
+nav .lk a{text-decoration:none;color:#D9E2F0}
+nav .lk a.on{color:var(--gold2);font-weight:700}
+@media(max-width:640px){nav .lk a.hm{display:none}}
+/* hero */
+.hero{background:radial-gradient(1200px 500px at 80% -10%,#1E4B82 0%,transparent 60%),linear-gradient(170deg,var(--navy) 0%,var(--navy2) 70%,#0B2140 100%);color:#fff;position:relative;overflow:hidden;padding:64px 0 0}
+.hero:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(232,207,142,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(232,207,142,.07) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(180deg,#000 10%,transparent 85%);-webkit-mask-image:linear-gradient(180deg,#000 10%,transparent 85%);animation:grid 18s linear infinite}
+@keyframes grid{to{background-position:44px 44px}}
+.hero .wrap{position:relative;z-index:2}
+.tag{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(232,207,142,.5);color:var(--gold2);border-radius:30px;padding:6px 14px;font-size:12.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.tag b{width:8px;height:8px;border-radius:50%;background:#3BE08A;box-shadow:0 0 0 0 rgba(59,224,138,.7);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 10px rgba(59,224,138,0)}100%{box-shadow:0 0 0 0 rgba(59,224,138,0)}}
+h1{font-size:clamp(34px,6vw,60px);line-height:1.06;letter-spacing:-1.2px;margin:18px 0 16px;max-width:820px;font-weight:900}
+h1 span{background:linear-gradient(90deg,var(--gold) 0%,var(--gold3) 40%,var(--gold) 60%,var(--gold2) 100%);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 5s linear infinite}
+@keyframes shine{to{background-position:200% center}}
+.sub{font-size:clamp(17px,2.2vw,20px);color:#C9D5E8;max-width:680px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+.b1,.b2{display:inline-flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;font-weight:800;border-radius:40px;padding:15px 26px;font-size:16.5px;transition:transform .2s,box-shadow .2s;cursor:pointer;border:0}
+.b1{background:linear-gradient(135deg,var(--gold),var(--gold3) 55%,var(--gold));background-size:200% auto;color:var(--navy);box-shadow:0 10px 30px rgba(201,162,74,.35);animation:shine 4s linear infinite}
+.b1:hover,.b2:hover{transform:translateY(-2px)}
+.b2{border:1.5px solid rgba(232,207,142,.55);color:var(--gold2);background:transparent}
+.sky{display:block;width:100%;height:150px;margin-top:40px}
+.sky path{fill:none;stroke:var(--gold);stroke-width:1.6;stroke-dasharray:2600;stroke-dashoffset:2600;animation:draw 4.5s ease forwards .3s;opacity:.85}
+.sky .fill{fill:url(#sk);stroke:none;opacity:0;animation:fade 1.5s ease forwards 3.4s}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes fade{to{opacity:1}}
+/* ticker */
+.tick{background:#050F20;color:#C9D5E8;border-top:1px solid rgba(232,207,142,.2);border-bottom:1px solid rgba(232,207,142,.2);overflow:hidden;white-space:nowrap;font-size:14px;position:relative;z-index:2}
+.tick div{display:inline-block;padding:11px 0;animation:tk 40s linear infinite}
+.tick span{margin:0 26px}
+.tick b{color:#fff}.tick .up{color:#3BE08A}.tick .dn{color:#FF8A7A}.tick em{font-style:normal;color:var(--gold2);font-weight:800}
+@keyframes tk{to{transform:translateX(-50%)}}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:-1px 0 0;padding:34px 0}
+.st{background:#fff;border:1px solid var(--line);border-radius:18px;padding:18px;text-align:center}
+.st b{display:block;font-size:clamp(26px,4vw,36px);font-weight:900;color:var(--navy);letter-spacing:-.5px}
+.st small{color:var(--muted);font-size:14px}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}}
+/* sections */
+section{padding:56px 0}
+.kick{color:var(--gold);font-weight:800;letter-spacing:2px;text-transform:uppercase;font-size:13px}
+h2{font-size:clamp(28px,4.2vw,42px);line-height:1.12;letter-spacing:-.8px;color:var(--navy);margin:8px 0 10px;font-weight:900}
+.lead{color:var(--muted);max-width:680px}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.rv.in{opacity:1;transform:none}
+/* switch */
+.sw{display:inline-flex;background:#ECE6D6;border-radius:40px;padding:5px;margin:26px 0 8px;position:relative}
+.sw button{position:relative;z-index:2;border:0;background:none;font:inherit;font-weight:800;font-size:15.5px;padding:11px 22px;border-radius:40px;cursor:pointer;color:var(--muted);transition:color .3s}
+.sw button.on{color:var(--gold2)}
+.sw i{position:absolute;z-index:1;top:5px;bottom:5px;border-radius:40px;background:var(--navy);transition:all .35s cubic-bezier(.6,.1,.2,1)}
+/* plans */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px;align-items:stretch}
+@media(max-width:900px){.plans{grid-template-columns:1fr}}
+.pl{background:#fff;border:1px solid var(--line);border-radius:24px;padding:26px 22px;display:flex;flex-direction:column;position:relative;transition:transform .3s,box-shadow .3s}
+.pl:hover{transform:translateY(-4px);box-shadow:0 20px 40px rgba(8,24,48,.1)}
+.pl h3{font-size:20px;color:var(--navy)}
+.pl .for{color:var(--muted);font-size:14.5px;margin-top:2px;min-height:44px}
+.pr{margin:16px 0 4px;display:flex;align-items:baseline;gap:6px}
+.pr b{font-size:44px;font-weight:900;color:var(--navy);letter-spacing:-1.5px;line-height:1}
+.pr small{color:var(--muted);font-weight:700}
+.pr sup{font-size:16px;font-weight:800;color:var(--navy);align-self:flex-start;margin-top:6px}
+.pl .note{font-size:13.5px;color:var(--muted);min-height:20px}
+.pl ul{list-style:none;padding:0;margin:16px 0 20px;flex:1}
+.pl li{padding:6px 0 6px 28px;position:relative;font-size:15.5px;border-bottom:1px dashed #EEE8DA}
+.pl li:last-child{border:0}
+.pl li:before{content:"✓";position:absolute;left:0;top:6px;width:20px;height:20px;border-radius:50%;background:#E8F8EE;color:var(--green);font-size:12px;font-weight:900;display:grid;place-items:center}
+.pl li.soon:after{content:"Coming soon";margin-left:6px;font-size:11px;font-weight:800;color:#7A5A12;background:var(--gold3);border-radius:10px;padding:1px 7px;vertical-align:2px}
+.pl .go{display:block;text-align:center;text-decoration:none;font-weight:800;border-radius:40px;padding:14px;background:var(--navy);color:#fff;transition:transform .2s}
+.pl .go:hover{transform:translateY(-2px)}
+.pl.hot{background:linear-gradient(165deg,var(--navy) 0%,var(--navy3) 100%);color:#fff;border:0;box-shadow:0 24px 60px rgba(8,24,48,.35)}
+.pl.hot:before{content:"";position:absolute;inset:-2px;border-radius:26px;padding:2px;background:linear-gradient(130deg,var(--gold),transparent 40%,transparent 60%,var(--gold3));background-size:300% 300%;animation:bord 6s ease infinite;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
+@keyframes bord{50%{background-position:100% 100%}}
+.pl.hot h3,.pl.hot .pr b,.pl.hot .pr sup{color:#fff}
+.pl.hot .for,.pl.hot .note,.pl.hot .pr small{color:#B9C7DD}
+.pl.hot li{border-color:rgba(255,255,255,.12)}
+.pl.hot li:before{background:rgba(59,224,138,.18);color:#3BE08A}
+.pl.hot .go{background:linear-gradient(135deg,var(--gold),var(--gold3) 55%,var(--gold));background-size:200% auto;color:var(--navy);animation:shine 4s linear infinite}
+.badge{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,var(--gold),var(--gold3));color:var(--navy);font-size:12px;font-weight:900;letter-spacing:1px;text-transform:uppercase;padding:5px 14px;border-radius:20px;white-space:nowrap}
+.topup{margin-top:18px;background:#fff;border:1.5px dashed var(--gold);border-radius:18px;padding:16px 20px;display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.topup b{color:var(--navy)}
+.topup a{text-decoration:none;font-weight:800;color:var(--navy);border:1.5px solid var(--navy);border-radius:30px;padding:9px 18px;white-space:nowrap}
+.after{font-size:14px;color:var(--muted);margin-top:14px}
+/* table */
+.tbl{margin-top:24px;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:auto}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:15px}
+th,td{padding:12px 14px;text-align:center;border-bottom:1px solid #F0EBDD}
+th:first-child,td:first-child{text-align:left}
+thead th{background:var(--navy);color:#fff;font-size:14px;position:sticky;top:0}
+thead th.hc{background:linear-gradient(180deg,#1E4B82,var(--navy3));color:var(--gold2)}
+td.y{color:var(--green);font-weight:900}td.n{color:#C9C3B4}
+tr:hover td{background:#FCFAF4}
+/* sample */
+.sample{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center}
+@media(max-width:860px){.sample{grid-template-columns:1fr}}
+.phone{position:relative;height:460px;border-radius:30px;background:#fff;border:8px solid var(--navy);overflow:hidden;box-shadow:0 30px 60px rgba(8,24,48,.25)}
+.phone .roll{animation:roll 22s ease-in-out infinite alternate;padding:16px}
+@keyframes roll{0%,8%{transform:translateY(0)}92%,100%{transform:translateY(-58%)}}
+.phone .lock{position:absolute;inset:auto 0 0 0;height:56%;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,255,255,.92) 35%);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:22px;text-align:center}
+.phone .lock b{color:var(--navy);font-size:17px}
+.phone .lock small{color:var(--muted)}
+.rs{border-radius:14px;padding:12px;margin-bottom:10px;background:#F7F4EC;font-size:13.5px}
+.rs h4{font-size:14px;color:var(--navy);margin-bottom:6px}
+.score{display:flex;align-items:center;gap:12px}
+.dial{--v:78;width:70px;height:70px;border-radius:50%;background:conic-gradient(var(--gold) calc(var(--v)*1%),#E6E1D6 0);display:grid;place-items:center;flex:none}
+.dial b{width:54px;height:54px;border-radius:50%;background:#F7F4EC;display:grid;place-items:center;font-weight:900;color:var(--navy);font-size:18px}
+.bar{height:8px;border-radius:5px;background:#E6E1D6;margin:4px 0 8px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold2));border-radius:5px}
+.vd{background:#D9731A;color:#fff;border-radius:10px;padding:8px 10px;font-weight:800;text-align:center}
+.ex{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center}
+.ex div{background:#fff;border-radius:10px;padding:6px 2px}.ex b{display:block;color:var(--navy);font-size:16px}
+.chart{height:70px;display:flex;align-items:flex-end;gap:4px}.chart i{flex:1;background:linear-gradient(180deg,var(--gold2),var(--gold));border-radius:3px 3px 0 0}
+.feat{display:grid;gap:14px}
+.ft{display:flex;gap:14px;align-items:flex-start}
+.ft i{font-style:normal;font-size:24px;width:48px;height:48px;border-radius:14px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;flex:none}
+.ft b{color:var(--navy);display:block}.ft span{color:var(--muted);font-size:15px}
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px;counter-reset:s}
+@media(max-width:760px){.steps{grid-template-columns:1fr}}
+.stp{background:#fff;border:1px solid var(--line);border-radius:20px;padding:22px;counter-increment:s;position:relative}
+.stp:before{content:counter(s);width:38px;height:38px;border-radius:50%;background:var(--navy);color:var(--gold2);font-weight:900;display:grid;place-items:center;margin-bottom:12px}
+.stp b{color:var(--navy);display:block;font-size:17.5px}.stp span{color:var(--muted);font-size:15px}
+/* trust */
+.trust{background:linear-gradient(170deg,var(--navy),var(--navy2));color:#fff;border-radius:28px;padding:36px;display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center}
+@media(max-width:760px){.trust{grid-template-columns:1fr;text-align:center;padding:28px 20px}}
+.trust img{width:130px;height:130px;border-radius:50%;object-fit:cover;border:3px solid var(--gold);box-shadow:0 0 0 8px rgba(201,162,74,.15);margin:0 auto}
+.trust h3{font-size:24px}.trust p{color:#C9D5E8;margin-top:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+@media(max-width:760px){.chips{justify-content:center}}
+.chips a,.chips span{font-size:13.5px;border:1px solid rgba(232,207,142,.4);color:var(--gold2);border-radius:20px;padding:6px 12px;text-decoration:none}
+/* faq */
+details{background:#fff;border:1px solid var(--line);border-radius:16px;margin-top:10px;padding:0 18px}
+summary{cursor:pointer;list-style:none;padding:16px 0;font-weight:800;color:var(--navy);display:flex;justify-content:space-between;gap:10px}
+summary::-webkit-details-marker{display:none}
+summary:after{content:"+";font-size:22px;line-height:1;color:var(--gold);transition:transform .3s}
+details[open] summary:after{transform:rotate(45deg)}
+details p{padding:0 0 16px;color:var(--muted)}
+.final{text-align:center;padding:70px 0 90px}
+.final .b1{margin-top:20px}
+footer{background:var(--navy);color:#8FA0BA;font-size:13px;padding:26px 0 90px;text-align:center}
+footer a{color:var(--gold2)}
+.wa{position:fixed;right:16px;bottom:16px;z-index:30;background:var(--wa);color:#fff;text-decoration:none;font-weight:800;border-radius:40px;padding:13px 18px;box-shadow:0 10px 30px rgba(0,0,0,.25);font-size:15px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.sky path{stroke-dashoffset:0}.sky .fill{opacity:1}}
+</style>
+</head>
+<body>
+<nav><div class="wrap">
+  <a class="logo" href="../checklist/"><i>S</i><span>SamSurya<em>Realty</em></span></a>
+  <div class="lk"><a class="hm" href="../picks/">Top picks</a><a href="../checklist/">Free test</a><a class="on" href="#plans">Pricing</a></div>
+</div></nav>
+
+<header class="hero">
+  <div class="wrap">
+    <span class="tag"><b></b> Live Dubai Land Department data</span>
+    <h1>Know if an off-plan deal is worth it <span>before you sign.</span></h1>
+    <p class="sub">The 20-check Off-Plan Stress Test, with the full report: developer track record, exit scenarios, appreciation analysis and the Premium market dashboard. For buyers who want certainty, and agents who want to close with proof.</p>
+    <div class="cta"><a class="b1" href="#plans" onclick="pick('agent')">🏢 Plans for agents</a><a class="b2" href="#plans" onclick="pick('buyer')">🏠 Plans for buyers</a></div>
+  </div>
+  <svg class="sky" viewBox="0 0 1200 150" preserveAspectRatio="none" aria-hidden="true">
+    <defs><linearGradient id="sk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9A24A" stop-opacity=".28"/><stop offset="1" stop-color="#C9A24A" stop-opacity="0"/></linearGradient></defs>
+    <path class="fill" d="M0 150 L0 120 L60 120 L60 95 L90 95 L90 120 L140 120 L140 80 L170 80 L170 60 L185 60 L185 80 L210 80 L210 120 L260 120 L260 100 L300 100 L300 70 L330 70 L330 100 L370 100 L370 120 L420 120 L420 88 L450 88 L450 50 L462 50 L468 8 L474 50 L486 50 L486 88 L520 88 L520 120 L580 120 L580 92 L640 92 L640 66 L680 66 L680 92 L720 92 L720 120 L770 120 L770 78 L800 78 L800 58 L830 58 L830 78 L860 78 L860 120 L920 120 L920 98 L960 98 L960 72 L1000 72 L1000 98 L1040 98 L1040 120 L1100 120 L1100 90 L1140 90 L1140 120 L1200 120 L1200 150 Z"/>
+    <path d="M0 120 L60 120 L60 95 L90 95 L90 120 L140 120 L140 80 L170 80 L170 60 L185 60 L185 80 L210 80 L210 120 L260 120 L260 100 L300 100 L300 70 L330 70 L330 100 L370 100 L370 120 L420 120 L420 88 L450 88 L450 50 L462 50 L468 8 L474 50 L486 50 L486 88 L520 88 L520 120 L580 120 L580 92 L640 92 L640 66 L680 66 L680 92 L720 92 L720 120 L770 120 L770 78 L800 78 L800 58 L830 58 L830 78 L860 78 L860 120 L920 120 L920 98 L960 98 L960 72 L1000 72 L1000 98 L1040 98 L1040 120 L1100 120 L1100 90 L1140 90 L1140 120 L1200 120"/>
+  </svg>
+  <div class="tick" id="tick"><div><span>📊 Loading this week's Dubai market…</span></div></div>
+</header>
+
+<div class="wrap">
+  <div class="stats rv">
+    <div class="st"><b data-n="200" data-s="+">0</b><small>clients advised</small></div>
+    <div class="st"><b data-n="600" data-p="AED " data-s="M+">0</b><small>in property sold</small></div>
+    <div class="st"><b data-n="20">0</b><small>checks on every deal</small></div>
+    <div class="st"><b id="nproj" data-n="700" data-s="+">0</b><small>DLD projects tracked</small></div>
+  </div>
+</div>
+
+<section id="plans"><div class="wrap">
+  <div class="rv"><div class="kick">Pricing</div><h2>Pick the plan that fits how you buy.</h2><p class="lead">Start free. Upgrade when you want the full numbers. Pay securely by card with Ziina.</p></div>
+  <div class="sw" id="sw"><i></i><button data-a="agent">🏢 For agents</button><button data-a="buyer">🏠 For buyers</button></div>
+  <div class="plans" id="pl"></div>
+  <div class="topup rv" id="topup"></div>
+  <p class="after">After you pay, send your Ziina receipt to me on WhatsApp. Your plan is activated the same day, and your links unlock the full report.</p>
+</div></section>
+
+<section style="padding-top:10px"><div class="wrap">
+  <div class="rv"><div class="kick">Compare</div><h2>Everything in one view.</h2></div>
+  <div class="tbl rv"><table>
+    <thead><tr><th>Feature</th><th>Free</th><th>Premium<br><small>AED 49/mo</small></th><th>Agent Pro<br><small>AED 199/mo</small></th><th class="hc">Agent Unlimited<br><small>AED 299/mo</small></th></tr></thead>
+    <tbody>
+      <tr><td>20-check Stress Test &amp; score</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
+      <tr><td>Full reports</td><td>3 to start</td><td>Unlimited</td><td>30 projects / month</td><td><b>Unlimited</b></td></tr>
+      <tr><td>DLD developer track record &amp; escrow</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
+      <tr><td>Exit scenarios &amp; appreciation analysis</td><td>In free reports</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
+      <tr><td>Market statistics &amp; charts</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
+      <tr><td>Premium market dashboard</td><td class="n">Preview</td><td class="y">✓</td><td class="y">✓</td><td class="y">✓</td></tr>
+      <tr><td>Top-up when you run out</td><td>AED 19 / report</td><td class="n">–</td><td>AED 19 / project</td><td class="n">Not needed</td></tr>
+      <tr><td>Reports with your own name &amp; number</td><td class="n">–</td><td class="n">–</td><td>Coming soon</td><td>Coming soon</td></tr>
+      <tr><td>Priority WhatsApp support</td><td class="n">–</td><td class="n">–</td><td class="y">✓</td><td class="y">✓</td></tr>
+    </tbody>
+  </table></div>
+</div></section>
+
+<section style="background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="wrap sample">
+  <div class="phone rv" aria-label="Sample report preview">
+    <div class="roll">
+      <div class="rs"><h4>📄 Sample report · Example project</h4><div class="score"><div class="dial" style="--v:78"><b>78</b></div><div><b style="color:var(--navy)">Score 78 / 100</b><br><small style="color:var(--muted)">Passed 16 of 20 checks</small></div></div></div>
+      <div class="rs"><h4>🏗️ Developer track record (DLD)</h4>Finished on time<div class="bar"><i style="width:82%"></i></div>Escrow registered<div class="bar"><i style="width:100%"></i></div>Construction progress<div class="bar"><i style="width:34%"></i></div></div>
+      <div class="rs"><h4>📈 Area price per sq ft, 5 years</h4><div class="chart"><i style="height:38%"></i><i style="height:42%"></i><i style="height:40%"></i><i style="height:51%"></i><i style="height:58%"></i><i style="height:63%"></i><i style="height:70%"></i><i style="height:76%"></i><i style="height:84%"></i><i style="height:92%"></i></div></div>
+      <div class="rs"><h4>💰 Exit at handover + 2 years</h4><div class="ex"><div>Conservative<b>+20%</b></div><div>Realistic<b>+27%</b></div><div>Optimistic<b>+35%</b></div></div></div>
+      <div class="rs"><h4>🧮 10 factors behind the numbers</h4>⬆️ Area price history · ⬆️ Developer · ➖ Supply at handover · ⬆️ Infrastructure · ➖ Entry price…</div>
+      <div class="rs"><h4>🏆 Premium market dashboard</h4>Top projects, price bands, buyer split, monthly off-plan sales…</div>
+      <div class="vd">🧐 SPEAK TO A SPECIALIST</div>
+    </div>
+    <div class="lock"><b>🔒 Full report</b><small>Sample with example numbers</small></div>
+  </div>
+  <div class="rv">
+    <div class="kick">What you get</div><h2>A report you can put in front of any client.</h2>
+    <div class="feat" style="margin-top:18px">
+      <div class="ft"><i>🏗️</i><div><b>Developer track record</b><span>Projects finished, late and cancelled, from Dubai Land Department records.</span></div></div>
+      <div class="ft"><i>📈</i><div><b>Exit scenarios that stay realistic</b><span>Conservative, realistic and optimistic, with growth that slows as a community matures.</span></div></div>
+      <div class="ft"><i>🧮</i><div><b>10 factors, explained simply</b><span>Area history, supply at handover, infrastructure, entry price and more.</span></div></div>
+      <div class="ft"><i>🏆</i><div><b>Premium market dashboard</b><span>Top-selling projects, price bands and monthly off-plan sales for the area, updated weekly.</span></div></div>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="rv"><div class="kick">How it works</div><h2>Three steps. No sign-up forms.</h2></div>
+  <div class="steps">
+    <div class="stp rv"><b>Pick a plan and pay</b><span>Secure card payment with Ziina, in AED.</span></div>
+    <div class="stp rv"><b>Send me the receipt</b><span>On WhatsApp. I activate your plan on your number the same day.</span></div>
+    <div class="stp rv"><b>Run the Stress Test</b><span>Every report you run unlocks in full, ready to share.</span></div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap">
+  <div class="trust rv">
+    <img src="../checklist/sam.jpg?v=2" alt="Sam Surya Tamang">
+    <div><div class="kick">Built by a working off-plan advisor</div><h3>Sam Surya Tamang</h3>
+      <p>Principal Property Advisor in Dubai. 200+ clients and more than AED 600 million in off-plan sales, about half of them from referrals. The Stress Test is the same checklist I use before I show a project to my own clients.</p>
+      <div class="chips"><span>📊 Data: Dubai Land Department via Dubai Data</span><a href="https://eservices.nma.gov.ae/#/page/verify?flag=1&id=haLCT91-3Ic" target="_blank" rel="noopener">✅ Verify my UAE media permit</a><span>🧾 eTrade licence</span><span>🔒 Payments by Ziina</span></div>
+    </div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="wrap" style="max-width:820px">
+  <div class="rv"><div class="kick">FAQ</div><h2>Questions</h2></div>
+  <details class="rv"><summary>What counts as one project on Agent Pro?</summary><p>One project you run a full report for. Re-opening or sharing the same project's report again in the same month doesn't use another one.</p></details>
+  <details class="rv"><summary>What if I run out of my 30 projects?</summary><p>Top up any time for AED 19 per extra project, or move to Agent Unlimited for AED 299 a month.</p></details>
+  <details class="rv"><summary>Where does the data come from?</summary><p>Dubai Land Department open data published on Dubai Data (CC BY 4.0): project registrations, escrow, construction progress and transactions. Market figures update every week.</p></details>
+  <details class="rv"><summary>Can I cancel?</summary><p>Yes. Plans are month to month. Message me on WhatsApp before your next payment and it stops.</p></details>
+  <details class="rv"><summary>Is this financial advice?</summary><p>No. It's a data check to help you ask the right questions. Always read your SPA and confirm with the developer.</p></details>
+</div></section>
+
+<div class="final"><div class="wrap rv">
+  <h2>Stop guessing. Check the deal.</h2>
+  <p class="lead" style="margin:0 auto">Run the free test on any off-plan project now, then upgrade when you want the full report.</p>
+  <a class="b1" href="../checklist/">🎲 Take the free Stress Test</a>
+</div></div>
+
+<footer>© <span id="yr"></span> Sam Surya · samsuryarealty.com · Market data: Dubai Land Department via Dubai Data (CC BY 4.0). Not financial advice. <a href="../privacy.html">Privacy</a></footer>
+<a class="wa" id="wa" href="https://wa.me/971528728248">💬 WhatsApp</a>
+
+<script>
+(function(){
+  var WA="971528728248", AUD="agent", PAY={};
+  try{ var f=new URLSearchParams(location.search).get("for"); if(f==="buyer") AUD="buyer"; }catch(e){}
+  function wa(t){ return "https://wa.me/"+WA+"?text="+encodeURIComponent(t); }
+  function link(k,msg){ return PAY[k]||wa(msg); }
+  function plans(){
+    var A=[
+      {n:"Agent Pro",f:"For agents who check a few projects a week.",p:PAY.price_agent||199,u:"/month",note:"30 projects a month",k:"agent",msg:"Hi Sam, I'd like Agent Pro (AED 199/month, 30 projects).",li:["30 full project reports every month","Exit scenarios & appreciation analysis","Premium market dashboard","Top up at AED 19 per extra project","Priority WhatsApp support","<span class=soon-t>Reports with your name & number</span>"],b:"Start Agent Pro"},
+      {n:"Agent Unlimited",f:"For agents and teams who check projects every day.",p:PAY.price_agent_unl||299,u:"/month",note:"Unlimited projects",k:"agent_unl",msg:"Hi Sam, I'd like Agent Unlimited (AED 299/month, unlimited projects).",li:["Unlimited full project reports","Everything in Agent Pro","No top-ups, ever","Best value from 36 projects a month","Priority WhatsApp support","<span class=soon-t>Reports with your name & number</span>"],b:"Go Unlimited",hot:"Best value"},
+      {n:"Single report",f:"Need just one more project checked?",p:PAY.price_one||19,u:"/project",note:"One-off, no subscription",k:"one",msg:"Hi Sam, I'd like one full Stress Test report (AED 19).",li:["One full project report","Exit scenarios & appreciation analysis","Market statistics & charts","Use it as a top-up on Agent Pro"],b:"Buy one report"}];
+    var B=[
+      {n:"Free",f:"Try the test on the project you're considering.",p:0,u:"",note:"No card needed",k:"",href:"../checklist/",li:["20-check Stress Test & score","3 full reports to start","DLD developer track record","Market statistics & charts"],b:"Take the free test"},
+      {n:"Premium",f:"For buyers comparing several projects.",p:PAY.price_monthly||49,u:"/month",note:"Cancel any time",k:"monthly",msg:"Hi Sam, I'd like Premium (AED 49/month).",li:["Unlimited full reports","Premium market dashboard","Exit scenarios & appreciation analysis","10-factor explainer on every project"],b:"Go Premium",hot:"Most popular"},
+      {n:"Single report",f:"Just one project to check?",p:PAY.price_one||19,u:"/report",note:"One-off, no subscription",k:"one",msg:"Hi Sam, I'd like one full Stress Test report (AED 19).",li:["One full project report","Exit scenarios & appreciation analysis","Market statistics & charts"],b:"Buy one report"}];
+    var L=AUD==="agent"?A:B;
+    document.getElementById("pl").innerHTML=L.map(function(x){
+      var href=x.href||link(x.k,x.msg);
+      return '<div class="pl'+(x.hot?' hot':'')+'">'+(x.hot?'<span class="badge">'+x.hot+'</span>':'')+'<h3>'+x.n+'</h3><div class="for">'+x.f+'</div>'+
+        '<div class="pr">'+(x.p?'<sup>AED</sup><b class="cnt" data-n="'+x.p+'">'+x.p+'</b><small>'+x.u+'</small>':'<b>Free</b>')+'</div><div class="note">'+x.note+'</div>'+
+        '<ul>'+x.li.map(function(t){ return t.indexOf("soon-t")>0?'<li class="soon">'+t.replace(/<[^>]+>/g,"")+'</li>':'<li>'+t+'</li>'; }).join("")+'</ul>'+
+        '<a class="go" href="'+href+'"'+(x.href?'':' target="_blank" rel="noopener"')+'>'+x.b+' →</a></div>';
+    }).join("");
+    var tu=document.getElementById("topup");
+    tu.style.display=AUD==="agent"?"flex":"none";
+    tu.innerHTML='<div>➕ <b>Ran out of projects on Agent Pro?</b> Top up for <b>AED '+(PAY.price_one||19)+' per project</b>, any time.</div><a href="'+link("one","Hi Sam, I'm on Agent Pro and need a top-up project (AED 19).")+'" target="_blank" rel="noopener">Top up</a>';
+    Array.prototype.forEach.call(document.querySelectorAll("#sw button"),function(b){ b.classList.toggle("on",b.dataset.a===AUD); });
+    var on=document.querySelector("#sw button.on"), i=document.querySelector("#sw i"); if(on&&i){ i.style.left=on.offsetLeft+"px"; i.style.width=on.offsetWidth+"px"; }
+    Array.prototype.forEach.call(document.querySelectorAll("#pl .pl"),function(c,j){ c.animate([{opacity:0,transform:"translateY(18px)"},{opacity:1,transform:"none"}],{duration:500,delay:j*90,easing:"ease-out",fill:"both"}); });
+    document.getElementById("wa").href=wa(AUD==="agent"?"Hi Sam, I'm an agent and I'd like to know more about Agent Pro.":"Hi Sam, I'd like to know more about Premium.");
+  }
+  window.pick=function(a){ AUD=a; plans(); };
+  Array.prototype.forEach.call(document.querySelectorAll("#sw button"),function(b){ b.addEventListener("click",function(){ pick(b.dataset.a); }); });
+  window.addEventListener("resize",function(){ var on=document.querySelector("#sw button.on"), i=document.querySelector("#sw i"); if(on&&i){ i.style.left=on.offsetLeft+"px"; i.style.width=on.offsetWidth+"px"; } });
+  plans();
+  fetch("../checklist/data/pay.json",{cache:"no-cache"}).then(function(r){ return r.json(); }).then(function(j){ PAY=j||{}; plans(); }).catch(function(){});
+  // count-up + reveal
+  function count(el){ var n=+el.dataset.n, p=el.dataset.p||"", s=el.dataset.s||"", t0=null; function f(t){ if(!t0) t0=t; var k=Math.min(1,(t-t0)/1600), v=Math.round(n*(1-Math.pow(1-k,3))); el.textContent=p+v.toLocaleString("en-US")+s; if(k<1) requestAnimationFrame(f); } requestAnimationFrame(f); }
+  var io="IntersectionObserver" in window? new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add("in"); Array.prototype.forEach.call(en.target.querySelectorAll("[data-n]"),function(x){ if(!x.dataset.done){ x.dataset.done=1; count(x);} }); io.unobserve(en.target); } }); },{threshold:.15}) : null;
+  Array.prototype.forEach.call(document.querySelectorAll(".rv"),function(el){ if(io) io.observe(el); else el.classList.add("in"); });
+  document.getElementById("yr").textContent=new Date().getFullYear();
+  // live market ticker from the weekly DLD stats
+  fetch("../checklist/data/market_stats.json",{cache:"no-cache"}).then(function(r){ return r.json(); }).then(function(M){
+    var dm=M.dm||[], last=dm[dm.length-1], prev=null, ym=null;
+    if(!last) return;
+    var mo=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"], lp=last[0].split("-");
+    // use the last complete month
+    if(M.data_through && M.data_through.slice(0,7)===last[0] && dm.length>1){ last=dm[dm.length-2]; lp=last[0].split("-"); }
+    var idx=dm.indexOf(last); prev=dm[idx-1]; ym=dm.filter(function(x){ return x[0]===(+lp[0]-1)+"-"+lp[1]; })[0];
+    function ch(a,b){ if(!a||!b) return ""; var c=(a/b-1)*100; return '<span class="'+(c>=0?'up':'dn')+'">'+(c>=0?'▲ ':'▼ ')+Math.abs(c).toFixed(1)+'%</span>'; }
+    var M1=mo[+lp[1]-1]+" "+lp[0], items=[
+      '📊 <em>DUBAI '+M1.toUpperCase()+'</em>',
+      'Sales <b>'+last[3].toLocaleString("en-US")+'</b> '+ch(last[3],ym&&ym[3])+' vs last year',
+      'Avg price per sq ft <b>AED '+last[1].toLocaleString("en-US")+'</b> '+ch(last[1],ym&&ym[1])+' YoY',
+      'Median price <b>AED '+(last[2]/1e6).toFixed(2)+'M</b>'];
+    var op=M.op||{}, top=Object.keys(op).slice(0,6);
+    top.forEach(function(k){ items.push('🏗️ '+k+' off-plan share <b>'+op[k]+'%</b>'); });
+    items.push('🗓️ Data through <b>'+M.data_through+'</b> · Dubai Land Department');
+    var h=items.map(function(x){ return '<span>'+x+'</span>'; }).join("");
+    document.querySelector("#tick div").innerHTML=h+h;
+  }).catch(function(){ document.querySelector("#tick div").innerHTML='<span>📊 Dubai Land Department data, updated weekly</span>'; });
+  fetch("../checklist/data/insights.json",{cache:"force-cache"}).then(function(r){ return r.json(); }).then(function(j){ var n=Object.keys(j.p||{}).length; if(n){ var el=document.getElementById("nproj"); el.dataset.n=Math.floor(n/50)*50; if(el.dataset.done) el.textContent=el.dataset.n+"+"; } }).catch(function(){});
+})();
+</script>
+</body>
+</html>
