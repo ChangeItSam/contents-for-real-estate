@@ -14,5 +14,5 @@
     "run_worker_first": ["/", "/index.html", "/agent", "/agent/*"]
   },
   // Set to "agents.samsuryarealty.com" once that custom domain is added in Cloudflare: then samsuryarealty.com/agent/ moves there.
-  "vars": { "AGENT_HOST": "" }
+  "vars": { "AGENT_HOST": "dealproagent.com,www.dealproagent.com" }
 }
