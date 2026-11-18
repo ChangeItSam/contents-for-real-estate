@@ -85,6 +85,20 @@ input.i:focus{outline:0;border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,1
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}
 @media(max-width:700px){.grid3{grid-template-columns:1fr}}
 .ph{display:flex;align-items:center;gap:12px;margin-top:8px;flex-wrap:wrap}.ph input{font:inherit;font-size:14px;max-width:220px}.pv{width:56px;height:56px;border-radius:50%;background:#F1EBDC;display:grid;place-items:center;font-size:22px;overflow:hidden;flex:none}.pv img,.av img{width:100%;height:100%;object-fit:cover}.av{position:relative;overflow:hidden;cursor:pointer}.av em{position:absolute;right:0;bottom:0;left:0;background:rgba(8,24,48,.55);font-style:normal;font-size:12px;text-align:center;line-height:20px}
+.tabs{display:flex;gap:8px;margin:18px 0 6px;flex-wrap:wrap}.tabs a{flex:1;min-width:140px;text-align:center;text-decoration:none;font-weight:800;border-radius:14px;padding:12px;background:#fff;border:1.5px solid var(--line);color:var(--navy)}.tabs a.on{background:var(--navy);color:var(--gold2);border-color:var(--navy)}
+.mx{background:linear-gradient(170deg,#0B1F3A,#13284A);color:#fff;border-radius:20px;padding:14px;margin-top:12px}
+.mx-ctl{display:grid;gap:10px;margin-bottom:12px}.mx-ctl label{display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:14px;color:#E8CF8E}
+.mx-ctl [hidden]{display:none!important}.mx-ctl input,.mx-ctl select{width:100%;min-width:0;font:inherit;font-size:16px;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(232,207,142,.45);background:rgba(255,255,255,.08);color:#fff}.mx-ctl select option{color:#111}
+.mx-per{display:flex;flex-wrap:wrap;gap:6px}.mx-per button{flex:1;min-width:44px;border:0;border-radius:10px;padding:10px 6px;font:inherit;font-weight:800;font-size:14px;cursor:pointer;background:rgba(255,255,255,.1);color:#fff}.mx-per button.on{background:#C9A24A;color:#111}
+.mx-title{font-size:19px;font-weight:900;margin:4px 0 10px;line-height:1.25}
+.mx-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:10px}.mx-tiles>div{background:rgba(255,255,255,.06);border:1px solid rgba(232,207,142,.22);border-radius:12px;padding:10px}.mx-tiles small{display:block;font-size:11.5px;opacity:.75;line-height:1.3;margin-bottom:4px}.mx-tiles b{font-size:19px;white-space:nowrap}
+.mx-c{background:rgba(0,0,0,.2);border-radius:14px;padding:12px;margin:10px 0}.mx-h{font-weight:800;font-size:15px;margin-bottom:4px}.mx-h small{font-weight:500;opacity:.7}.mx-k{font-size:12.5px;opacity:.75;margin-bottom:4px}
+.mx-g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:0 10px}.mx-svg{width:100%;height:auto;max-height:320px;display:block}
+.mx-r{display:flex;justify-content:space-between;gap:10px;padding:6px 0;border-top:1px solid rgba(255,255,255,.08);font-size:14px}.mx-r small{opacity:.6;display:inline-block;width:22px}.mx-r b{color:#7fd6a5}
+.mx-b{display:grid;grid-template-columns:minmax(90px,38%) 1fr;gap:8px;align-items:center;margin:5px 0;font-size:12.5px}.mx-b>span{text-align:right;line-height:1.2;opacity:.9}.mx-b>div{display:flex;align-items:center;gap:6px}.mx-b i{display:block;height:18px;border-radius:0 6px 6px 0}.mx-b b{font-size:12px}.mx-u{text-align:right;font-size:12px;opacity:.7}
+.mx-t{width:100%;border-collapse:collapse;font-size:13px;min-width:460px}.mx-t th{text-align:left;opacity:.7;font-weight:600;padding:6px 4px}.mx-t td{padding:7px 4px;border-top:1px solid rgba(255,255,255,.08)}.mx-t tr.on td{background:rgba(201,162,74,.16)}
+.mx-split{height:16px;border-radius:10px;background:#4f86e0;overflow:hidden;margin:8px 0}.mx-split i{display:block;height:100%;background:#C9A24A}
+.mx-note{font-size:13px;color:#E8CF8E;background:rgba(232,207,142,.08);border-radius:10px;padding:8px 10px;margin:6px 0}.mx-nodata{opacity:.7;font-size:14px}.mx-src{opacity:.65;font-size:12.5px;margin-top:8px}
 .ft{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}
 .ft b{color:var(--navy);display:block;margin-top:6px}.ft span{color:var(--muted);font-size:14.5px}
 .fade{animation:fd .5s ease both}@keyframes fd{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
@@ -258,7 +272,10 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
     document.getElementById("out").addEventListener("click",function(ev){ ev.preventDefault(); logout(); });
   }
   // ---------- 3. dashboard ----------
-  var PJ=null;
+  var PJ=null, MXL=false;
+  function mkt(){
+    function go(){ var el=document.getElementById("mxroot"); if(!el||el.dataset.on||!window.DPMarket) return; el.dataset.on="1"; window.DPMarket.mount(el,"/checklist/data/"); }
+    if(window.DPMarket) return go(); if(MXL) return; MXL=true; var sc=document.createElement("script"); sc.src="/assets/dpa/market.js?v=1"; sc.onload=go; document.head.appendChild(sc); }
   function projects(cb){ if(PJ) return cb(PJ);
     Promise.all([fetch("../checklist/data/projects.json").then(function(r){ return r.json(); }),fetch("../checklist/data/projects_extra.json").then(function(r){ return r.ok?r.json():{p:[]}; }).catch(function(){ return {p:[]}; }),fetch("../checklist/data/market.json").then(function(r){ return r.ok?r.json():{p:[]}; }).catch(function(){ return {p:[]}; })]).then(function(a){
       var have={}, L=[]; a[0].p.concat(a[1].p||[]).forEach(function(r){ var k=r[1].toLowerCase(); if(!have[k]){ have[k]=1; L.push(r); } });
@@ -270,7 +287,10 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
     document.getElementById("ht").innerHTML='Welcome back, <span>'+e((A.n||"").split(" ")[0])+'</span>.';
     document.getElementById("hp").textContent="Type a project below. The full analysis opens with your name, agency and BRN on it.";
     var rec=ls("sam-agent-recent")||[];
-    app.innerHTML='<div class="card fade"><div class="id"><label class="av" title="Change photo">'+(A.img?'<img src="'+A.img+'" alt="">':e((A.n||"?").split(/\s+/).map(function(w){ return w[0]; }).join("").slice(0,2).toUpperCase()))+'<input type="file" id="fi2" accept="image/*" hidden><em>📷</em></label>'+
+    var TAB=location.hash==="#market"?"market":"reports";
+    app.innerHTML='<div class="tabs"><a href="#reports" id="t1"'+(TAB==="reports"?' class="on"':'')+'>📄 Client reports</a><a href="#market" id="t2"'+(TAB==="market"?' class="on"':'')+'>📊 Market statistics</a></div>'+
+      '<div class="card fade" id="mkt"'+(TAB==="market"?'':' hidden')+'><h2>📊 Dubai market statistics</h2><p class="muted">Any area, any period: sales, off-plan sales and share, prices per sq ft, best-selling projects, price ranges and month-by-month reports. Dubai Land Department data, updated weekly.</p><div id="mxroot"></div></div>'+
+      '<div class="card fade" id="rpt"'+(TAB==="reports"?'':' hidden')+'><div class="id"><label class="av" title="Change photo">'+(A.img?'<img src="'+A.img+'" alt="">':e((A.n||"?").split(/\s+/).map(function(w){ return w[0]; }).join("").slice(0,2).toUpperCase()))+'<input type="file" id="fi2" accept="image/*" hidden><em>📷</em></label>'+
       '<div><h2>'+e(A.n||"")+'</h2><div class="muted">'+e(A.ag||"")+(A.brn?' · BRN '+e(A.brn):'')+(A.ph?' · '+e(A.ph):'')+'</div><span class="pb">'+(pro?'Agent Pro':'Agent Unlimited')+'</span> <span class="muted" style="font-size:13px">until '+e(S.until||"")+'</span></div>'+
       '<div class="meter"><div class="ring" id="rg" style="--v:0"><b>'+(pro?used+'<small>of '+lim+'</small>':'∞<small>unlimited</small>')+'</b></div><small>'+(pro?'projects this month'+(S.cr?' · +'+S.cr+' top-ups':''):'projects')+'</small></div></div>'+
       '<div class="search"><input id="q" placeholder="Type a project, e.g. Golf Trails" autocomplete="off"><div class="sg" id="sg" hidden></div></div>'+
@@ -281,6 +301,10 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
       (rec.length?'<div class="rec"><h2 style="font-size:17px;margin-top:20px">Recent reports</h2>'+rec.slice(0,8).map(function(r){ return '<a href="'+e(r.l||("../checklist/?agent=1&proj="+encodeURIComponent(r.p)))+'"><b>'+e(r.p)+(r.c?' <span>· for '+e(r.c)+'</span>':'')+'</b><span>'+e(r.d||"")+(r.s?' · '+r.s+'/100':'')+'</span></a>'; }).join("")+'</div>':'')+
       '<p class="hint" style="margin-top:18px">Tap your photo to change it · <a href="'+wa("Hi, I'd like to change my Agent Pro details. Name: "+A.n+", BRN "+A.brn+".")+'">Change my details</a> · <a href="#" id="out">Log out</a></p></div>';
     document.getElementById("out").addEventListener("click",function(ev){ ev.preventDefault(); logout(); });
+    function tab(t){ document.getElementById("t1").classList.toggle("on",t==="reports"); document.getElementById("t2").classList.toggle("on",t==="market"); document.getElementById("rpt").hidden=t!=="reports"; document.getElementById("mkt").hidden=t!=="market"; if(t==="market") mkt(); }
+    document.getElementById("t1").addEventListener("click",function(ev){ ev.preventDefault(); history.replaceState(null,"","#reports"); tab("reports"); });
+    document.getElementById("t2").addEventListener("click",function(ev){ ev.preventDefault(); history.replaceState(null,"","#market"); tab("market"); });
+    if(TAB==="market") mkt();
     photoPick(document.getElementById("fi2"),function(d){ A.img=d; ls("sam-agent",A); try{ fetch(API,{method:"POST",mode:"no-cors",body:new URLSearchParams({a:"agent_photo",t:A.t,photo:d})}).catch(function(){}); }catch(x){} dash(); });
     setTimeout(function(){ var rg=document.getElementById("rg"); if(rg){ var k=0; (function f(){ k+=4; rg.style.setProperty("--v",Math.min(k,pct)); if(k<pct) requestAnimationFrame(f); })(); } },150);
     var qi=document.getElementById("q"), sg=document.getElementById("sg"), hi=-1, list=[];

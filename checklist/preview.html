@@ -322,7 +322,7 @@ html:not(.eoion) .ans .eoin{display:none}
 .agtop input{margin-left:auto;font:inherit;font-size:14px;padding:7px 11px;border-radius:10px;border:1px solid rgba(232,207,142,.45);background:rgba(255,255,255,.08);color:#fff;min-width:170px}
 .agtop input::placeholder{color:#9FB0C8}
 body.agself .hero2 .by,body.agself .hpill,body.agself .hero2>h1,body.agself .sub2,body.agself .trust,body.agself .samplelink,body.agself section.sample,body.agself section.game,body.agself footer.foot2,body.agself a.sticky.wa-link,body.agself .lockgate,body.agself .prog a[href*="wa.me"]{display:none!important}
-.aghd{background:linear-gradient(135deg,#081830,#18406F);color:#fff;border-radius:18px;padding:16px 18px;margin:4px 0 14px}.aghd b{display:block;font-size:20px}.aghd span{color:#C9D5E8;font-size:14.5px}
+.aghd{background:linear-gradient(135deg,#081830,#18406F);color:#fff;border-radius:18px;padding:16px 18px;margin:4px 0 14px}.aghd b{display:block;font-size:20px}.aghd span{color:#C9D5E8;font-size:14.5px}.agbtns{margin-top:12px}.agbtns button{width:100%;border:0;border-radius:30px;padding:14px;font:inherit;font-weight:800;font-size:16.5px;cursor:pointer;background:linear-gradient(135deg,#C9A24A,#F6E7BE 55%,#C9A24A);color:#081830}
 body.agm .brandbar,body.agm .peek,body.agm .pend,body.agm .fullcta,body.agm #callb,body.agm .rescta,body.agm .grule{display:none!important}
 body.agm:not(.agself) #rclose,body.agm:not(.agself) #review{display:none!important}
 .agact{display:grid;gap:10px;margin:16px 0}
@@ -1600,7 +1600,7 @@ html:not(.eoion) .ans .eoin{display:none}
   function resultLink(sc){
     var bits=boxes.map(function(b){return b.checked?"1":"0";}).join("");
     var proj=document.getElementById("proj").value.trim();
-    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0,dv:DEVSEL?DEVSEL.no:"",la:LAUNCH,pin:EOI&&PIN?PIN:"",ab:AGB?{n:AGB.n,ag:AGB.ag,brn:AGB.brn,ph:AGB.ph,pid:AGB.pid||""}:"",ag:window.getAgent?window.getAgent():"",ph:(who.p||"").replace(/[^0-9]/g,"").slice(-4)})))));
+    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0,dv:DEVSEL?DEVSEL.no:"",la:LAUNCH,pin:EOI&&PIN?PIN:"",ab:AGB?{n:AGB.n,ag:AGB.ag,brn:AGB.brn,ph:AGB.ph,pid:AGB.pid||"",ai:AGINST?1:0}:"",ag:window.getAgent?window.getAgent():"",ph:(who.p||"").replace(/[^0-9]/g,"").slice(-4)})))));
   }
   // ---------- Agent Pro mode: the agent's portal opens ?agent=1&proj=<project> ----------
   var AGAPI="https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec";
@@ -1624,6 +1624,15 @@ html:not(.eoion) .ans .eoin{display:none}
       else location.href="../agent/";
     });
   }
+  // agent's one-tap report: every unanswered check is marked as confirmed by the agent, the price per sq ft comes from DLD sales of the project
+  var AGINST=false;
+  function agInstant(){
+    if(!document.getElementById("proj").value.trim()){ if(typeof mtoast==="function") mtoast("Type and pick the project first"); document.getElementById("proj").focus(); return; }
+    boxes.forEach(function(b){ if(stOf(b)===""){ b.checked=true; } });
+    try{ if(!PSFR && typeof PSFP!=="undefined" && PSFP && PSFP.psf && !psfIn.value){ psfIn.value=Math.round(PSFP.psf); psfCalc(); } }catch(x){}
+    update(); AGINST=true;
+    if(needLaunch()){ goLaunch(); return; }
+    openGate(); }
   function agTopup(d){ var P2=PAYJ||{}, one=P2.price_one||19, ov=document.createElement("div"); ov.className="agov";
     ov.innerHTML='<div><h3>You\'ve used your '+(d.limit||30)+' projects this month</h3><p style="margin-top:8px">Top up for <b>AED '+one+'</b> per extra project, or move to Unlimited.</p>'+
       '<a style="background:#C9A24A;color:#081830" target="_blank" rel="noopener" href="'+esc(P2.one||("https://wa.me/971528728248?text="+encodeURIComponent("Hi Sam, I need an Agent Pro top-up (AED "+one+").")))+'">➕ Top up AED '+one+'</a>'+
@@ -1649,7 +1658,7 @@ html:not(.eoion) .ans .eoin{display:none}
   function agBrand(g){
     var cl=(WMK&&WMK.n)||"", id=AGB.n+(AGB.ag?" · "+AGB.ag:"")+(AGB.brn?" · BRN "+AGB.brn:"");
     agRebrand(g);
-    g.insertAdjacentHTML("afterbegin",'<div class="wmh">📄 Prepared by '+esc(id)+(cl?' for '+esc(cl):'')+(AGB.ph?' · 📞 '+esc(AGB.ph):'')+'</div>');
+    g.insertAdjacentHTML("afterbegin",'<div class="wmh">📄 Prepared by '+esc(id)+(cl?' for '+esc(cl):'')+(AGB.ph?' · 📞 '+esc(AGB.ph):'')+'</div>'+(AGINST?'<div class="wmh" style="opacity:.85">✔️ Checks marked as confirmed by '+esc(AGB.n)+'. DLD figures are from official records. Confirm the contract details with the developer before signing.</div>':''));
     var bt=AGB.n+(AGB.brn?" · BRN "+AGB.brn:"")+(AGB.ag?" · "+AGB.ag:"");
     var svg='<svg xmlns="http://www.w3.org/2000/svg" width="440" height="230"><text x="14" y="135" transform="rotate(-24 220 115)" font-family="Arial" font-size="18" font-weight="700" fill="rgba(232,207,142,0.13)">'+esc(bt)+'</text></svg>';
     g.style.backgroundImage='url("data:image/svg+xml,'+encodeURIComponent(svg)+'")'; g.style.backgroundRepeat="repeat";
@@ -1675,7 +1684,8 @@ html:not(.eoion) .ans .eoin{display:none}
     document.body.insertBefore(bar,document.body.firstChild);
     agUsed(agLs("sam-agent-st"));
     agApi({a:"me",t:a.t},function(d){ if(d&&d.ok){ agLs("sam-agent-st",{st:d.st,plan:d.plan,until:d.until,used:d.used,limit:d.limit,cr:d.cr,at:Date.now()}); agUsed(d); if(!agOk(d)) location.href="../agent/"; } });
-    var hd=document.querySelector(".hero2"); if(hd) hd.insertAdjacentHTML("afterbegin",'<div class="aghd"><b>🏢 Deal analysis</b><span>Check the project, tick what you have confirmed, then tap <b style="display:inline;font-size:inherit">Get my result</b> for the full client report.</span></div>');
+    var hd=document.querySelector(".hero2"); if(hd) hd.insertAdjacentHTML("afterbegin",'<div class="aghd"><b>🏢 Deal analysis</b><span>Pick the project, then get the full client report in one tap. Want to answer the checks yourself? Scroll down and tick them, then tap Get my result.</span><div class="agbtns"><button type="button" id="aginst">⚡ Instant full report</button></div></div>');
+    var ib=document.getElementById("aginst"); if(ib) ib.addEventListener("click",agInstant);
     var pj=q.get("proj"); if(pj){ pin.value=pj; load(function(){ var lo=pj.toLowerCase(), hit=P.p.some(function(r){ if(r[1].toLowerCase()===lo){ pick(r); return true; } });
       if(hit) return;
       var tries=0; (function mk(){ var m=MKT.filter(function(x){ return x.name.toLowerCase()===lo; })[0];
@@ -1687,7 +1697,7 @@ html:not(.eoion) .ans .eoin{display:none}
     try{
       var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true; if(o.ag&&window.setAgent) setTimeout(function(){ window.setAgent(o.ag,false); },0); if(o.pin&&o.pin.length===2){ PIN=o.pin; pinOut(); } setEoi(o.e===1,false); devBoxShow(); setLaunch(o.la||""); if(o.dv) insLoad(function(){ var d=INS.d&&INS.d[o.dv]; if(d){ DEVSEL={no:o.dv,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devCard.className="dld devcard "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false; } });
       boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; var v=o.s&&o.s.charAt(i); b.dataset.st=(!b.checked&&(v==="u"||(v==="n"&&naOK(i))))?v:""; });
-      document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n; WMK={n:o.n||"",ph:o.ph||""}; if(o.ab&&o.ab.n&&!AGSELF){ AGB=o.ab; PREM=true; document.body.classList.add("agm"); agPage(); if(AGB.pid) agApi({a:"pic",id:AGB.pid},function(d){ if(d&&d.ok&&d.act===false){ agExpired(); return; } if(d&&d.img&&/^data:image\/jpeg;base64,/.test(d.img)){ AGB.img=d.img; agPics(); } }); }
+      document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n; WMK={n:o.n||"",ph:o.ph||""}; if(o.ab&&o.ab.n&&!AGSELF){ AGB=o.ab; AGINST=!!o.ab.ai; PREM=true; document.body.classList.add("agm"); agPage(); if(AGB.pid) agApi({a:"pic",id:AGB.pid},function(d){ if(d&&d.ok&&d.act===false){ agExpired(); return; } if(d&&d.img&&/^data:image\/jpeg;base64,/.test(d.img)){ AGB.img=d.img; agPics(); } }); }
       if(o.x){ ["xprice:pprice","xsize:psize"].forEach(function(pr){ var a=pr.split(":"), el=document.getElementById(a[1]); if(o.x[a[0]]&&el&&!el.value) el.value=o.x[a[0]]; }); xset(o.x); }
       update();
       load(function(){ var q=(o.p||"").toLowerCase(); P.p.some(function(r){ if(r[1].toLowerCase()===q){ PROJROW=r; eoiShow(true); return true; } }); });
