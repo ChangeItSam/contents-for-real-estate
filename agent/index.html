@@ -116,10 +116,85 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
   function api(p,cb){ var n="agcb"+Math.random().toString(36).slice(2), s=document.createElement("script"), done=false;
     function end(d){ if(done) return; done=true; try{ delete window[n]; }catch(x){ window[n]=undefined; } if(s.parentNode) s.parentNode.removeChild(s); cb(d); }
     window[n]=function(d){ end(d); }; p.callback=n; s.src=API+"?"+new URLSearchParams(p).toString(); s.onerror=function(){ end(null); }; setTimeout(function(){ end(null); },15000); document.head.appendChild(s); }
+  function post(p,cb){ try{ fetch(API,{method:"POST",body:new URLSearchParams(p)}).then(function(r){ return r.json(); }).then(function(d){ cb(d||null); }).catch(function(){ cb(null); }); }catch(x){ cb(null); } }
+  function session(d){ A={t:d.t,pid:d.pid||"",n:d.n||"",ag:d.ag||"",brn:d.brn||"",ph:d.ph||"",em:d.em||"",img:d.img||"",plan:d.plan}; S={st:d.st,plan:d.plan,until:d.until,used:d.used,limit:d.limit,cr:d.cr,at:Date.now()}; ls("sam-agent",A); ls("sam-agent-st",S); ls("sam-agent-v",null); }
+  function busy(b,on,txt){ if(!b) return; if(on){ b.dataset.t=b.textContent; b.textContent=txt||"Please wait…"; b.disabled=true; } else { b.textContent=b.dataset.t||b.textContent; b.disabled=false; } }
+  function logout(){ ls("sam-agent",null); ls("sam-agent-st",null); ls("sam-agent-v",null); A=null; S=null; MODE="login"; render(); window.scrollTo({top:0}); }
+  var MODE="login";
+  // ---------- log in ----------
+  function login(msg){
+    document.getElementById("ht").innerHTML='Welcome to <span>DealPro Agent</span>.';
+    document.getElementById("hp").textContent="Log in to run branded deal reports for your clients.";
+    app.innerHTML='<div class="card fade"><h2>Log in</h2><form id="lf" novalidate>'+
+      '<label class="f">Email<input class="i" id="le" type="email" autocomplete="email" maxlength="80" placeholder="you@agency.com"></label>'+
+      '<label class="f">Password<input class="i" id="lp" type="password" autocomplete="current-password" maxlength="80"></label>'+
+      '<div class="err" id="er">'+e(msg||"")+'</div><button class="btn gold" type="submit" id="lb">Log in →</button></form>'+
+      '<p class="hint" style="text-align:center"><a href="#" id="fg">Forgot password?</a></p>'+
+      '<button class="btn ghost" type="button" id="su">✨ New here? Create an agent account</button></div>';
+    var er=document.getElementById("er");
+    document.getElementById("su").addEventListener("click",function(){ MODE="signup"; render(); });
+    document.getElementById("fg").addEventListener("click",function(ev){ ev.preventDefault(); forgot(document.getElementById("le").value.trim()); });
+    document.getElementById("lf").addEventListener("submit",function(ev){ ev.preventDefault();
+      var em=document.getElementById("le").value.trim().toLowerCase(), pw=document.getElementById("lp").value, b=document.getElementById("lb");
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) return er.textContent="Please enter your email.";
+      if(!pw) return er.textContent="Please enter your password.";
+      busy(b,true,"Logging in…");
+      post({a:"agent_login",email:em,password:pw},function(d){ busy(b,false);
+        if(d&&d.ok&&d.s){ session(d.s); render(); return; }
+        if(d&&d.need==="verify"){ ls("sam-agent-v",{em:em}); verify(em,"Please verify your email first. We've sent you a new code."); return; }
+        er.textContent=d?"Wrong email or password.":"Couldn't reach the server. Please try again."; }); });
+  }
+  // ---------- verify email ----------
+  function verify(em,note){
+    document.getElementById("ht").innerHTML='Check your <span>email</span>.';
+    document.getElementById("hp").textContent="One last step before you log in.";
+    app.innerHTML='<div class="card fade"><h2>Verify your email</h2><p class="muted">'+e(note||"We've sent a 6-digit code to")+' <b>'+e(em)+'</b>. It comes from <b>DealPro Agent</b>. Not there? Check your spam or promotions folder.</p>'+
+      '<form id="vf" novalidate><label class="f">6-digit code<input class="i" id="vc" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="123456" style="font-size:24px;letter-spacing:6px;text-align:center"></label>'+
+      '<div class="err" id="er"></div><button class="btn gold" type="submit" id="vb">Verify email →</button></form>'+
+      '<p class="hint" style="text-align:center"><a href="#" id="rs">Send a new code</a> · <a href="#" id="bk">Back to log in</a></p></div>';
+    var er=document.getElementById("er");
+    document.getElementById("bk").addEventListener("click",function(ev){ ev.preventDefault(); ls("sam-agent-v",null); MODE="login"; render(); });
+    document.getElementById("rs").addEventListener("click",function(ev){ ev.preventDefault(); var a=this; a.textContent="Sending…";
+      post({a:"agent_resend",email:em},function(d){ a.textContent=d&&d.err==="wait"?"Wait a minute, then try again":(d?"✅ New code sent":"Couldn't send, try again"); }); });
+    document.getElementById("vf").addEventListener("submit",function(ev){ ev.preventDefault();
+      var c=document.getElementById("vc").value.replace(/\D/g,""), b=document.getElementById("vb");
+      if(c.length!==6) return er.textContent="Enter the 6-digit code from the email.";
+      busy(b,true,"Checking…");
+      post({a:"agent_verify",email:em,code:c},function(d){ busy(b,false);
+        if(d&&d.ok&&d.s){ session(d.s); render(); window.scrollTo({top:0}); return; }
+        er.textContent=!d?"Couldn't reach the server. Please try again.":d.err==="expired"?"This code has expired. Tap \"Send a new code\".":"That code isn't right. Please check the email again."; }); });
+  }
+  // ---------- forgot password ----------
+  function forgot(em0){
+    document.getElementById("ht").innerHTML='Reset your <span>password</span>.';
+    app.innerHTML='<div class="card fade"><h2>Forgot password</h2><p class="muted">Enter your email and we\'ll send you a code to set a new password.</p>'+
+      '<form id="ff" novalidate><label class="f">Email<input class="i" id="fe2" type="email" autocomplete="email" maxlength="80" value="'+e(em0||"")+'"></label>'+
+      '<div id="f2" hidden><label class="f">6-digit code from the email<input class="i" id="fc" inputmode="numeric" maxlength="6" style="font-size:22px;letter-spacing:5px;text-align:center"></label>'+
+      '<label class="f">New password <small>(8+ characters)</small><input class="i" id="fp2" type="password" autocomplete="new-password" maxlength="80"></label></div>'+
+      '<div class="err" id="er"></div><button class="btn gold" type="submit" id="fb2">Send me a code →</button></form>'+
+      '<p class="hint" style="text-align:center"><a href="#" id="bk">Back to log in</a></p></div>';
+    var er=document.getElementById("er"), step=1;
+    document.getElementById("bk").addEventListener("click",function(ev){ ev.preventDefault(); MODE="login"; render(); });
+    document.getElementById("ff").addEventListener("submit",function(ev){ ev.preventDefault();
+      var em=document.getElementById("fe2").value.trim().toLowerCase(), b=document.getElementById("fb2");
+      if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) return er.textContent="Please enter your email.";
+      if(step===1){ busy(b,true,"Sending…"); post({a:"agent_forgot",email:em},function(d){ busy(b,false);
+          if(!d) return er.textContent="Couldn't reach the server. Please try again.";
+          step=2; document.getElementById("f2").hidden=false; b.textContent="Set new password →"; er.textContent="";
+          er.insertAdjacentHTML("beforebegin",'<p class="muted" style="margin-top:10px">If <b>'+e(em)+'</b> has an account, a code is on its way (check spam too).</p>'); }); return; }
+      var c=document.getElementById("fc").value.replace(/\D/g,""), pw=document.getElementById("fp2").value;
+      if(c.length!==6) return er.textContent="Enter the 6-digit code from the email.";
+      if(pw.length<8) return er.textContent="Use at least 8 characters for your password.";
+      busy(b,true,"Saving…");
+      post({a:"agent_reset",email:em,code:c,password:pw},function(d){ busy(b,false);
+        if(d&&d.ok&&d.s){ session(d.s); render(); window.scrollTo({top:0}); return; }
+        er.textContent=!d?"Couldn't reach the server. Please try again.":d.err==="expired"?"This code has expired. Go back and ask for a new one.":"That code isn't right."; }); });
+  }
   // photo: square-crop and shrink to 240px JPEG so it fits in the sheet and loads fast
   function photoPick(inp,cb){ if(!inp) return; inp.addEventListener("change",function(){ var f=inp.files&&inp.files[0]; if(!f) return; var r=new FileReader(); r.onload=function(){ var im=new Image(); im.onload=function(){ var S=240, c=document.createElement("canvas"), m=Math.min(im.width,im.height); c.width=S; c.height=S; c.getContext("2d").drawImage(im,(im.width-m)/2,(im.height-m)/2,m,m,0,0,S,S); var q=.85, d=c.toDataURL("image/jpeg",q); while(d.length>40000&&q>.4){ q-=.1; d=c.toDataURL("image/jpeg",q); } cb(d); }; im.src=r.result; }; r.readAsDataURL(f); }); }
   var q=new URLSearchParams(location.search);
-  if(q.get("plan")) PLAN=/unl/i.test(q.get("plan"))?"unlimited":"pro";
+  if(q.get("plan")){ PLAN=/unl/i.test(q.get("plan"))?"unlimited":"pro"; MODE="signup"; }
+  if(ls("sam-agent-v")) MODE="verify";
   var T=q.get("t"); if(T&&/^[A-Za-z0-9]{12,40}$/.test(T)){ A=ls("sam-agent")||{}; if(A.t!==T) A={t:T}; ls("sam-agent",A); history.replaceState(null,"",location.pathname); }
   A=ls("sam-agent"); S=ls("sam-agent-st");
   fetch("../checklist/data/pay.json",{cache:"no-cache"}).then(function(r){ return r.json(); }).then(function(j){ PAY=j||{}; if(A&&(!S||S.st!=="active")) render(); }).catch(function(){});
@@ -135,12 +210,15 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
       '<label class="f">Agency / brokerage<input class="i" id="fa" autocomplete="organization" maxlength="60" placeholder="e.g. Your Realty LLC"></label>'+
       '<label class="f">BRN <small>(broker registration no.)</small><input class="i" id="fb" inputmode="numeric" maxlength="12" placeholder="e.g. 12345"></label>'+
       '<label class="f">WhatsApp number<input class="i" id="fp" type="tel" autocomplete="tel" maxlength="20" placeholder="+971 5X XXX XXXX"></label>'+
-      '</div><label class="f">Your photo <small>(shown on your reports, optional)</small><div class="ph"><span class="pv" id="pv">📷</span><input type="file" id="fi" accept="image/*"><span class="muted" style="font-size:13.5px">A clear headshot works best.</span></div></label><label class="f">Email<input class="i" id="fe" type="email" autocomplete="email" maxlength="80" placeholder="you@agency.com"></label>'+
+      '</div><label class="f">Your photo <small>(shown on your reports, optional)</small><div class="ph"><span class="pv" id="pv">📷</span><input type="file" id="fi" accept="image/*"><span class="muted" style="font-size:13.5px">A clear headshot works best.</span></div></label><label class="f">Email <small>(you will log in with this)</small><input class="i" id="fe" type="email" autocomplete="email" maxlength="80" placeholder="you@agency.com"></label>'+
+      '<div class="g2"><label class="f">Password <small>(8+ characters)</small><input class="i" id="fw" type="password" autocomplete="new-password" maxlength="80"></label>'+
+      '<label class="f">Confirm password<input class="i" id="fw2" type="password" autocomplete="new-password" maxlength="80"></label></div>'+
       '<label class="f">Plan</label><div class="plans">'+
       '<label class="plan" data-p="pro"><input type="radio" name="pl" value="pro"><b>Agent Pro</b><big>AED '+price("pro")+'</big><small>a month · 30 projects · top up AED '+(PAY.price_one||19)+' each</small></label>'+
       '<label class="plan" data-p="unlimited"><input type="radio" name="pl" value="unlimited"><b>Agent Unlimited</b><big>AED '+price("unlimited")+'</big><small>a month · unlimited projects</small></label></div>'+
-      '<div class="err" id="er"></div><button class="btn gold" type="submit">Create my profile →</button>'+
-      '<p class="hint">Already a member on another phone? Open the activation link you received on WhatsApp.</p></form></div>';
+      '<div class="err" id="er"></div><button class="btn gold" type="submit" id="sb">Create my account →</button>'+
+      '<p class="hint" style="text-align:center">Already have an account? <a href="#" id="tl">Log in</a></p></form></div>';
+    document.getElementById("tl").addEventListener("click",function(ev){ ev.preventDefault(); MODE="login"; render(); });
     function sel(p){ PLAN=p; Array.prototype.forEach.call(app.querySelectorAll(".plan"),function(x){ x.classList.toggle("on",x.dataset.p===p); x.querySelector("input").checked=x.dataset.p===p; }); }
     Array.prototype.forEach.call(app.querySelectorAll(".plan"),function(x){ x.addEventListener("click",function(){ sel(x.dataset.p); }); }); sel(PLAN);
     var IMG=""; photoPick(document.getElementById("fi"),function(d){ IMG=d; document.getElementById("pv").innerHTML='<img src="'+d+'" alt="">'; });
@@ -152,27 +230,32 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
       if(dg.length<8||dg.length>15) return er.textContent="Please enter your WhatsApp number with country code.";
       if(!/^\s*(\+|00)/.test(p)){ if(/^05\d{8}$/.test(dg)) p="+971"+dg.slice(1); else if(/^5\d{8}$/.test(dg)) p="+971"+dg; else p="+"+dg; }
       if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) return er.textContent="Please enter a valid email.";
-      er.textContent=""; A={t:tok(),pid:tok().slice(0,12),n:n,ag:ag,brn:brn,ph:p,em:em,plan:PLAN,img:IMG}; ls("sam-agent",A); S={st:"pending",plan:PLAN}; ls("sam-agent-st",S);
-      try{ fetch(API,{method:"POST",mode:"no-cors",body:new URLSearchParams({a:"agent_signup",t:A.t,pid:A.pid,name:n,agency:ag,brn:brn,phone:p,email:em,plan:PLAN,photo:IMG})}).catch(function(){}); }catch(x){}
-      render(); window.scrollTo({top:0,behavior:"smooth"}); });
+      var pw=document.getElementById("fw").value, pw2=document.getElementById("fw2").value;
+      if(pw.length<8) return er.textContent="Use at least 8 characters for your password.";
+      if(pw!==pw2) return er.textContent="The two passwords don't match.";
+      em=em.toLowerCase(); er.textContent=""; var b=document.getElementById("sb"); busy(b,true,"Creating your account…");
+      post({a:"agent_signup",t:tok(),pid:tok().slice(0,12),name:n,agency:ag,brn:brn,phone:p,email:em,password:pw,plan:PLAN,photo:IMG},function(d){ busy(b,false);
+        if(d&&d.ok){ ls("sam-agent-v",{em:em}); verify(em); window.scrollTo({top:0,behavior:"smooth"}); return; }
+        if(d&&d.err==="exists"){ er.innerHTML='An account with this email already exists. <a href="#" id="tl2">Log in</a> or reset your password.'; document.getElementById("tl2").addEventListener("click",function(x){ x.preventDefault(); MODE="login"; render(); }); return; }
+        er.textContent=d?"Please check your details and try again.":"Couldn't reach the server. Please try again."; }); });
   }
   // ---------- 2. pay + activation ----------
   function pending(expired){
     var pl=(S&&S.plan)||A.plan||PLAN, pr=price(pl), link=(pl==="unlimited"?PAY.agent_unl:PAY.agent)||"";
     var msg=(expired?"Hi, I'd like to renew ":"Hi, I've signed up for ")+(pl==="unlimited"?"Agent Unlimited":"Agent Pro")+" (AED "+pr+"/month). Here is my payment receipt.\nName: "+(A.n||"")+"\nAgency: "+(A.ag||"")+"\nBRN: "+(A.brn||"")+"\nWhatsApp: "+(A.ph||"");
     document.getElementById("ht").innerHTML=expired?'Renew your <span>Agent Pro</span>.':'Almost there, <span>'+e((A.n||"").split(" ")[0]||"")+'</span>.';
-    app.innerHTML='<div class="card fade"><h2>'+(expired?'Your plan ended on '+e(S.until||""):'Activate your plan')+'</h2><p class="muted">'+(pl==="unlimited"?"Agent Unlimited":"Agent Pro")+' · AED '+pr+' a month'+(expired?'':'. Your profile is saved on this phone.')+'</p>'+
+    app.innerHTML='<div class="card fade"><h2>'+(expired?'Your plan ended on '+e(S.until||""):'Activate your plan')+'</h2><p class="muted">'+(pl==="unlimited"?"Agent Unlimited":"Agent Pro")+' · AED '+pr+' a month'+(expired?'':'. Your account is ready.')+'</p>'+
       '<div class="steps">'+
       (expired?'':'<div class="st done"><i>✓</i><div><b>Profile created</b><br><span class="muted">'+e(A.n||"")+(A.brn?' · BRN '+e(A.brn):'')+'</span></div></div>')+
       '<div class="st now"><i>'+(expired?1:2)+'</i><div><b>Pay AED '+pr+' securely with Ziina</b><br><span class="muted">Card or Apple Pay.</span></div></div>'+
-      '<div class="st"><i>'+(expired?2:3)+'</i><div><b>Send the receipt on WhatsApp</b><br><span class="muted">Your plan is activated the same day and you get your portal link.</span></div></div></div>'+
+      '<div class="st"><i>'+(expired?2:3)+'</i><div><b>Send the receipt on WhatsApp</b><br><span class="muted">Your plan is activated the same day. Just log in again.</span></div></div></div>'+
       (link?'<a class="btn gold" href="'+e(link)+'" target="_blank" rel="noopener">💳 Pay AED '+pr+' with Ziina</a>':'')+
       '<a class="btn wa" href="'+wa(link?msg:msg.replace("Here is my payment receipt.","How do I pay?"))+'" target="_blank" rel="noopener">💬 '+(link?'Send my receipt on WhatsApp':'Get the payment link on WhatsApp')+'</a>'+
       '<button class="btn ghost" id="chk" type="button">🔄 I\'ve been activated: check again</button>'+
-      '<p class="hint" style="text-align:center">'+(pl==="unlimited"?'<a href="#" id="sw">Switch to Agent Pro (AED '+price("pro")+')</a>':'<a href="#" id="sw">Switch to Agent Unlimited (AED '+price("unlimited")+')</a>')+' · <a href="#" id="out">Not you? Start again</a></p></div>';
+      '<p class="hint" style="text-align:center">'+(pl==="unlimited"?'<a href="#" id="sw">Switch to Agent Pro (AED '+price("pro")+')</a>':'<a href="#" id="sw">Switch to Agent Unlimited (AED '+price("unlimited")+')</a>')+' · <a href="#" id="out">Log out</a></p></div>';
     document.getElementById("chk").addEventListener("click",function(){ this.textContent="Checking…"; refresh(true); });
     document.getElementById("sw").addEventListener("click",function(ev){ ev.preventDefault(); var np=pl==="unlimited"?"pro":"unlimited"; A.plan=np; S=S||{}; S.plan=np; ls("sam-agent",A); ls("sam-agent-st",S); render(); });
-    document.getElementById("out").addEventListener("click",function(ev){ ev.preventDefault(); ls("sam-agent",null); ls("sam-agent-st",null); A=null; S=null; render(); });
+    document.getElementById("out").addEventListener("click",function(ev){ ev.preventDefault(); logout(); });
   }
   // ---------- 3. dashboard ----------
   var PJ=null;
@@ -196,7 +279,8 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
        (pro&&left<=5?'<div class="warn"><b>'+left+' project'+(left===1?'':'s')+' left this month.</b> <a href="'+wa("Hi, I'd like to upgrade to Agent Unlimited (AED "+price("unlimited")+"/month). Name: "+A.n+", BRN "+A.brn+".")+'" target="_blank" rel="noopener">Go Unlimited →</a></div>':''))+
       (function(){ var dl=Math.round((new Date(S.until+"T23:59:59")-new Date())/864e5), lk=(pro?PAY.agent:PAY.agent_unl)||""; return dl<=5&&dl>=0?'<div class="warn"><b>Your plan renews on '+e(S.until)+' ('+(dl===0?'today':dl+' day'+(dl===1?'':'s')+' left')+').</b><br><span class="muted">Renew to keep your reports and your client links working.</span>'+(lk?'<a class="btn gold" style="margin-top:10px" href="'+e(lk)+'" target="_blank" rel="noopener">💳 Renew AED '+price(pro?"pro":"unlimited")+'</a>':'')+'<a class="btn wa" style="margin-top:8px" href="'+wa("Hi, I've renewed "+(pro?"Agent Pro":"Agent Unlimited")+". Name: "+A.n+", BRN "+A.brn+". Here is my receipt.")+'" target="_blank" rel="noopener">💬 Send renewal receipt</a></div>':''; })()+
       (rec.length?'<div class="rec"><h2 style="font-size:17px;margin-top:20px">Recent reports</h2>'+rec.slice(0,8).map(function(r){ return '<a href="'+e(r.l||("../checklist/?agent=1&proj="+encodeURIComponent(r.p)))+'"><b>'+e(r.p)+(r.c?' <span>· for '+e(r.c)+'</span>':'')+'</b><span>'+e(r.d||"")+(r.s?' · '+r.s+'/100':'')+'</span></a>'; }).join("")+'</div>':'')+
-      '<p class="hint" style="margin-top:18px">Tap your photo to change it · <a href="'+wa("Hi, I'd like to change my Agent Pro details. Name: "+A.n+", BRN "+A.brn+".")+'">Change my details</a></p></div>';
+      '<p class="hint" style="margin-top:18px">Tap your photo to change it · <a href="'+wa("Hi, I'd like to change my Agent Pro details. Name: "+A.n+", BRN "+A.brn+".")+'">Change my details</a> · <a href="#" id="out">Log out</a></p></div>';
+    document.getElementById("out").addEventListener("click",function(ev){ ev.preventDefault(); logout(); });
     photoPick(document.getElementById("fi2"),function(d){ A.img=d; ls("sam-agent",A); try{ fetch(API,{method:"POST",mode:"no-cors",body:new URLSearchParams({a:"agent_photo",t:A.t,photo:d})}).catch(function(){}); }catch(x){} dash(); });
     setTimeout(function(){ var rg=document.getElementById("rg"); if(rg){ var k=0; (function f(){ k+=4; rg.style.setProperty("--v",Math.min(k,pct)); if(k<pct) requestAnimationFrame(f); })(); } },150);
     var qi=document.getElementById("q"), sg=document.getElementById("sg"), hi=-1, list=[];
@@ -212,7 +296,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
     projects(function(){});
   }
   function render(){
-    if(!A||!A.t) return signup();
+    if(!A||!A.t){ var pv=ls("sam-agent-v"); if(pv&&pv.em&&MODE!=="login"&&MODE!=="signup") return verify(pv.em); return MODE==="signup"?signup():login(); }
     if(S&&S.st==="active"&&S.until>=today) return dash();
     if(S&&(S.st==="expired"||(S.st==="active"&&S.until<today))) return pending(true);
     return pending(false);
@@ -226,7 +310,10 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
       if(loud&&(!d||d.st!=="active")){ var c=document.getElementById("chk"); if(c) c.textContent=d?"⏳ Not activated yet. Send your receipt on WhatsApp.":"Couldn't reach the server. Try again in a minute."; }
     });
   }
-  render(); refresh(false);
+  var VC=q.get("verify"), VE=q.get("e");
+  if(VC&&VE&&/^\d{6}$/.test(VC)){ history.replaceState(null,"",location.pathname); app.innerHTML='<div class="card fade"><p class="muted">Verifying your email…</p></div>';
+    post({a:"agent_verify",email:VE.toLowerCase(),code:VC},function(d){ if(d&&d.ok&&d.s){ session(d.s); render(); } else { ls("sam-agent-v",{em:VE.toLowerCase()}); verify(VE.toLowerCase(), d&&d.err==="expired"?"That link has expired. Tap \"Send a new code\" below.":"Please enter the code we sent to"); } }); }
+  else { render(); refresh(false); }
 })();
 </script>
 </body>

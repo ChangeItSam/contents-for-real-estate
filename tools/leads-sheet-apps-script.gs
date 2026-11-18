@@ -8,7 +8,8 @@ var FREE_REPORTS = 3;
 var PRICE_ONE = 19, PRICE_MONTH = 49, PREMIUM_LIMIT = 10;   // Premium (AED 49) = 10 different projects a month; more = AED 19 each
 // Agent Pro (portal: samsuryarealty.com/agent/). Pro = AGENT_PRO_LIMIT projects a month (+ AED 19 top-ups), Unlimited = no limit.
 var PRICE_AGENT = 199, PRICE_AGENT_UNL = 299, AGENT_PRO_LIMIT = 30;
-var AGP_TAB = 'Agent Pro', AGP_HEAD = ['Token (keep private)', 'Name', 'Agency', 'BRN', 'WhatsApp', 'Email', 'Plan', 'Status', 'Paid until', 'Top-up credits', 'Signed up', 'Send link', 'Note', 'Photo', 'Public ID'];
+var AGP_TAB = 'Agent Pro', AGP_HEAD = ['Token (keep private)', 'Name', 'Agency', 'BRN', 'WhatsApp', 'Email', 'Plan', 'Status', 'Paid until', 'Top-up credits', 'Signed up', 'Send link', 'Note', 'Photo', 'Public ID',
+                'Email verified', 'Password (scrambled)', 'Salt', 'Email code', 'Code valid until', 'Code tries'];
 var AGR_TAB = 'Agent reports', AGR_HEAD = ['Date (Dubai)', 'Token', 'Agent', 'Project', 'Month', 'Client'];
 var SITE = 'https://samsuryarealty.com', AGENT_SITE = 'https://dealproagent.com';
 // Broker filter: a number in tab "Agents" only ever gets the score, never the full report.
@@ -306,6 +307,7 @@ function doPost(e) {
   try {
     var p = (e && e.parameter) || {};
     if (p.a === 'agent_signup') return agpSignup(p);
+    if (/^agent_(verify|resend|login|forgot|reset)$/.test(p.a || '')) return agpAuth(p);
     if (p.a === 'agent_photo') return agpPhoto(p);
     var sh = leadsSheet();
     var digits = String(p.phone || '').replace(/[^0-9]/g, '');
@@ -379,7 +381,13 @@ function doGet(e) {
 }
 
 // ---------------- Agent Pro ----------------
-function agpSheet() { return listSheet(AGP_TAB, AGP_HEAD); }
+function agpSheet() {
+  var sh = listSheet(AGP_TAB, AGP_HEAD);
+  if (sh.getLastColumn() < AGP_HEAD.length) {   // tab made by an older version: add the new column titles
+    sh.getRange(1, 1, 1, AGP_HEAD.length).setValues([AGP_HEAD]).setFontWeight('bold').setBackground('#0B1F3A').setFontColor('#E8CF8E');
+  }
+  return sh;
+}
 function agrSheet() { return listSheet(AGR_TAB, AGR_HEAD); }
 function dstr(d) { return d instanceof Date ? Utilities.formatDate(d, 'Asia/Dubai', 'yyyy-MM-dd') : String(d || '').trim(); }
 function mstr(d) { return d instanceof Date ? Utilities.formatDate(d, 'Asia/Dubai', 'yyyy-MM') : String(d || '').trim(); }
@@ -419,20 +427,102 @@ function agpUse(t, project, client) {
   s.counted = !already;
   return s;
 }
+function agpOut(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
+function agpMail(e) { e = String(e || '').trim().toLowerCase(); return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(e) && e.length < 120 ? e : ''; }
+function agpFindMail(e) {
+  e = agpMail(e); if (!e) return null;
+  var sh = agpSheet(), v = sh.getRange(1, 1, sh.getLastRow(), AGP_HEAD.length).getValues();
+  for (var i = 1; i < v.length; i++) if (String(v[i][5]).trim().toLowerCase() === e) return { sh: sh, row: i + 1, v: v[i] };
+  return null;
+}
+// passwords are never stored: only a salted SHA-256 (repeated 2,000 times)
+function agpHash(pw, salt) {
+  var h = salt + '|' + pw;
+  for (var i = 0; i < 2000; i++) h = Utilities.base64Encode(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, h, Utilities.Charset.UTF_8));
+  return h;
+}
+function agpSetPw(f, pw) {
+  var salt = Utilities.getUuid().replace(/-/g, '');
+  f.sh.getRange(f.row, 17, 1, 2).setValues([[agpHash(pw, salt), salt]]);
+}
+function agpCode(f, why) {
+  var code = String(Math.floor(100000 + Math.random() * 900000)), until = new Date(Date.now() + 30 * 60000).toISOString();
+  f.sh.getRange(f.row, 19, 1, 3).setValues([["'" + code, until, 0]]);
+  var e = String(f.v[5]).trim(), first = String(f.v[1]).split(/\s+/)[0] || 'there';
+  var link = AGENT_SITE + '/?verify=' + code + '&e=' + encodeURIComponent(e);
+  var title = why === 'reset' ? 'Reset your DealPro Agent password' : 'Verify your email for DealPro Agent';
+  var html = '<div style="font-family:Arial,sans-serif;max-width:480px;margin:auto;color:#1B2433">' +
+    '<div style="background:#081830;color:#fff;padding:18px 22px;border-radius:14px 14px 0 0;font-size:20px;font-weight:bold">DealPro <span style="color:#E8CF8E">Agent</span></div>' +
+    '<div style="border:1px solid #E6E1D6;border-top:0;padding:22px;border-radius:0 0 14px 14px">' +
+    '<p>Hi ' + first + ',</p><p>' + (why === 'reset' ? 'Use this code to set a new password:' : 'Use this code to verify your email:') + '</p>' +
+    '<p style="font-size:34px;font-weight:bold;letter-spacing:8px;color:#081830;margin:10px 0">' + code + '</p>' +
+    (why === 'reset' ? '' : '<p><a href="' + link + '" style="display:inline-block;background:#C9A24A;color:#081830;text-decoration:none;font-weight:bold;padding:12px 22px;border-radius:30px">Verify my email</a></p>') +
+    '<p style="color:#5B6678;font-size:13px">The code works for 30 minutes. If you didn\'t ask for this, ignore this email.</p></div></div>';
+  MailApp.sendEmail({ to: e, name: 'DealPro Agent', subject: title + ': ' + code, htmlBody: html,
+    body: title + '\n\nYour code: ' + code + (why === 'reset' ? '' : '\n\nOr open: ' + link) + '\n\nThe code works for 30 minutes.' });
+}
+function agpCodeOk(f, code) {
+  var want = String(f.v[18] || '').replace(/^'/, ''), until = String(f.v[19] || ''), tries = Number(f.v[20]) || 0;
+  if (!want || tries >= 5 || !until || new Date(until) < new Date()) return 'expired';
+  if (String(code || '').replace(/\D/g, '') !== want) { f.sh.getRange(f.row, 21).setValue(tries + 1); return tries + 1 >= 5 ? 'expired' : 'wrong'; }
+  f.sh.getRange(f.row, 19, 1, 3).setValues([['', '', 0]]);
+  return 'ok';
+}
+function agpSession(f) {
+  var v = f.sh.getRange(f.row, 1, 1, AGP_HEAD.length).getValues()[0], st = agpState({ sh: f.sh, row: f.row, v: v });
+  st.t = String(v[0]); st.pid = String(v[14] || ''); st.img = agpImg(v[13]); st.em = String(v[5] || '');
+  return st;
+}
+function agpAuth(p) {
+  var a = p.a, f = agpFindMail(p.email);
+  if (a === 'agent_login') {
+    if (!f || !f.v[16] || agpHash(String(p.password || ''), String(f.v[17])) !== String(f.v[16])) return agpOut({ ok: false, err: 'login' });
+    if (!/yes/i.test(String(f.v[15]))) { agpCode(f, 'verify'); return agpOut({ ok: false, need: 'verify' }); }
+    return agpOut({ ok: true, s: agpSession(f) });
+  }
+  if (!f) return agpOut({ ok: false, err: a === 'agent_forgot' ? 'sent' : 'nouser' });   // forgot: don't reveal who has an account
+  if (a === 'agent_verify') {
+    var r = agpCodeOk(f, p.code); if (r !== 'ok') return agpOut({ ok: false, err: r });
+    f.sh.getRange(f.row, 16).setValue('yes');
+    return agpOut({ ok: true, s: agpSession(f) });
+  }
+  if (a === 'agent_resend' || a === 'agent_forgot') {
+    var until = String(f.v[19] || '');
+    if (until && new Date(until).getTime() - Date.now() > 29 * 60000) return agpOut({ ok: true, err: 'wait' });   // one email a minute
+    agpCode(f, a === 'agent_forgot' ? 'reset' : 'verify');
+    return agpOut({ ok: true });
+  }
+  if (a === 'agent_reset') {
+    if (String(p.password || '').length < 8) return agpOut({ ok: false, err: 'short' });
+    var r2 = agpCodeOk(f, p.code); if (r2 !== 'ok') return agpOut({ ok: false, err: r2 });
+    agpSetPw(f, String(p.password)); f.sh.getRange(f.row, 16).setValue('yes');
+    return agpOut({ ok: true, s: agpSession(f) });
+  }
+  return agpOut({ ok: false });
+}
 function agpSignup(p) {
-  var t = agpTok(p.t), out = function (o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); };
-  if (!t) return out({ ok: false });
-  if (agpFind(t)) return out({ ok: true });
+  var t = agpTok(p.t), em = agpMail(p.email), pw = String(p.password || '');
+  if (!t) return agpOut({ ok: false });
+  if (agpFind(t)) return agpOut({ ok: true, need: 'verify' });
+  if (!em) return agpOut({ ok: false, err: 'email' });
+  if (pw.length < 8) return agpOut({ ok: false, err: 'short' });
+  if (agpFindMail(em)) return agpOut({ ok: false, err: 'exists' });
   var unl = /unl/i.test(String(p.plan || '')), plan = unl ? 'Unlimited (AED ' + PRICE_AGENT_UNL + '/month)' : 'Pro (AED ' + PRICE_AGENT + '/month, ' + AGENT_PRO_LIMIT + ' projects)';
   var when = Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm');
-  agpSheet().appendRow([t, clean(p.name), clean(p.agency), clean(p.brn), clean(p.phone), clean(p.email), plan, 'Awaiting payment', '', 0, when, '', '', agpImg(p.photo), agpTok(p.pid) || Utilities.getUuid().replace(/-/g, '').slice(0, 12)]);
+  var sh = agpSheet();
+  sh.appendRow([t, clean(p.name), clean(p.agency), clean(p.brn), clean(p.phone), em, plan, 'Awaiting payment', '', 0, when, '', '', agpImg(p.photo),
+                agpTok(p.pid) || Utilities.getUuid().replace(/-/g, '').slice(0, 12), '', '', '', '', '', 0]);
+  var f = { sh: sh, row: sh.getLastRow() };
+  f.v = sh.getRange(f.row, 1, 1, AGP_HEAD.length).getValues()[0];
+  agpSetPw(f, pw);
+  try { agpCode(f, 'verify'); } catch (err) { Logger.log('verify mail failed: ' + err); }
   try {
     var to = PropertiesService.getScriptProperties().getProperty('ALERT_TO') || Session.getEffectiveUser().getEmail();
     if (to) MailApp.sendEmail({ to: to, name: 'Stress Test Leads', subject: '🏢 New Agent Pro sign-up: ' + clean(p.name) + ' · ' + plan,
-      body: 'New Agent Pro sign-up\n\nName: ' + clean(p.name) + '\nAgency: ' + clean(p.agency) + '\nBRN: ' + clean(p.brn) + '\nWhatsApp: ' + clean(p.phone) + '\nEmail: ' + clean(p.email) + '\nPlan: ' + plan +
-            '\n\nWhen the Ziina payment arrives: open the sheet, tab "' + AGP_TAB + '", select the row, menu Stress Test → Agent Pro: activate / renew 1 month, then tap "📲 Send link".\n' + book().getUrl() });
+      body: 'New Agent Pro sign-up\n\nName: ' + clean(p.name) + '\nAgency: ' + clean(p.agency) + '\nBRN: ' + clean(p.brn) + '\nWhatsApp: ' + clean(p.phone) + '\nEmail: ' + em + '\nPlan: ' + plan +
+            '\n\nWhen the Ziina payment arrives: open the sheet, tab "' + AGP_TAB + '", select the row, menu Stress Test → Agent Pro: activate / renew 1 month. They log in with their email and password.\n' + book().getUrl() });
   } catch (err) { Logger.log('agent alert failed: ' + err); }
-  return out({ ok: true });
+  return agpOut({ ok: true, need: 'verify' });
 }
 // agent photo: a small JPEG (data URL) kept in the 'Photo' column; shown on the agent's reports
 function agpImg(d) { d = String(d || ''); return /^data:image\/jpeg;base64,[A-Za-z0-9+\/=]+$/.test(d) && d.length < 48000 ? d : ''; }
@@ -464,7 +554,7 @@ function agpActivate() {
   f.sh.getRange(f.row, 9).setValue("'" + until);
   var digits = String(f.v[4]).replace(/[^0-9]/g, ''), first = String(f.v[1]).split(/\s+/)[0] || 'there';
   var msg = 'Hi ' + first + ', your ' + (/unl/i.test(String(f.v[6])) ? 'Agent Unlimited' : 'Agent Pro') + ' is active until ' + until + '. ✅\n\n' +
-    'Open your portal here (keep this link private, it is your login): ' + AGENT_SITE + '/?t=' + f.v[0] + '\n\n' +
+    'Log in at ' + AGENT_SITE + ' with your email and password.\n\n' +
     'Type any project and the full report opens with your name, agency and BRN, ready to send to your client.';
   if (digits.length >= 8) f.sh.getRange(f.row, 12).setRichTextValue(SpreadsheetApp.newRichTextValue().setText('📲 Send link').setLinkUrl('https://wa.me/' + digits + '?text=' + encodeURIComponent(msg)).build());
   f.sh.getRange(f.row, 1, 1, AGP_HEAD.length).setBackground('#E8F8EE');
@@ -484,11 +574,14 @@ function agpMaster() {
   } else {
     sh.getRange(row, 8).setValue('Active'); sh.getRange(row, 9).setValue("'2099-12-31");
   }
+  var me = ''; try { me = Session.getEffectiveUser().getEmail(); } catch (err) {}
+  if (me && !sh.getRange(row, 6).getValue()) sh.getRange(row, 6).setValue(me.toLowerCase());
+  sh.getRange(row, 16).setValue('yes');
   try { sh.getRange(row, 1, 1, AGP_HEAD.length).setBackground('#FFF4D6'); } catch (err) {}
   if (!inList(customersSheet(), MASTER_PHONE)) customersSheet().appendRow(["'" + MASTER_PHONE, MASTER_NAME, 'Master (Sam): full reports, no limits']);
   var link = AGENT_SITE + '/?t=' + t;
   sh.getRange(row, 12).setRichTextValue(SpreadsheetApp.newRichTextValue().setText('📲 Send link').setLinkUrl('https://wa.me/' + MASTER_PHONE.replace(/[^0-9]/g, '') + '?text=' + encodeURIComponent('👑 My DealPro Agent master access (keep private): ' + link)).build());
-  Logger.log('👑 YOUR MASTER LINK (keep private): ' + link);
+  Logger.log('👑 YOUR MASTER LINK (keep private): ' + link + '  ·  or log in at ' + AGENT_SITE + ' with ' + sh.getRange(row, 6).getValue() + ' (first time: tap "Forgot password" to set one)');
   try { SpreadsheetApp.getUi().alert('👑 Master agent access', 'Your private link (open it once on each phone/laptop you use):\n\n' + link + '\n\nUnlimited projects, never expires. Tap "📲 Send link" in your row to WhatsApp it to yourself. Keep it private: it works like a password.', SpreadsheetApp.getUi().ButtonSet.OK); } catch (err) { /* run from the editor: the link is in the Execution log */ }
   return link;
 }
