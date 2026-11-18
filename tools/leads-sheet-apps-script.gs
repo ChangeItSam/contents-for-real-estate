@@ -233,6 +233,7 @@ function onOpen() {
     .addSeparator()
     .addItem('📥 Import DLD broker list from Drive', 'importBrokerListFromDrive')
     .addSeparator()
+    .addItem('👑 Create my master agent access (Sam)', 'agpMaster')
     .addItem('🏢 Agent Pro: activate / renew 1 month (selected row)', 'agpActivate')
     .addItem('➕ Agent Pro: add 1 top-up project (selected row)', 'agpTopup')
     .addToUi();
@@ -468,6 +469,26 @@ function agpActivate() {
   if (digits.length >= 8) f.sh.getRange(f.row, 12).setRichTextValue(SpreadsheetApp.newRichTextValue().setText('📲 Send link').setLinkUrl('https://wa.me/' + digits + '?text=' + encodeURIComponent(msg)).build());
   f.sh.getRange(f.row, 1, 1, AGP_HEAD.length).setBackground('#E8F8EE');
   SpreadsheetApp.getActive().toast('Active until ' + until + '. Tap "📲 Send link" in this row to send the portal link.');
+}
+// Sam's own master access: Agent Unlimited, active until 2099, on his number. Running it again re-sends the same link.
+var MASTER_PHONE = '+971528728248', MASTER_NAME = 'Sam Surya Tamang', MASTER_AGENCY = 'SamSurya Realty';
+function agpMaster() {
+  var sh = agpSheet(), v = sh.getDataRange().getValues(), row = 0, t = '';
+  for (var i = 1; i < v.length; i++) if (key9(v[i][4]) === key9(MASTER_PHONE) && /master/i.test(String(v[i][6]))) { row = i + 1; t = String(v[i][0]); break; }
+  if (!row) {
+    t = (Utilities.getUuid() + Utilities.getUuid()).replace(/[^A-Za-z0-9]/g, '').slice(0, 28);
+    sh.appendRow([t, MASTER_NAME, MASTER_AGENCY, '', "'" + MASTER_PHONE, '', 'Unlimited (master)', 'Active', "'2099-12-31", 0,
+                  Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm'), '', 'Master access for Sam: never expires, no limits. Put your BRN in column D if you want it on reports.', '',
+                  Utilities.getUuid().replace(/-/g, '').slice(0, 12)]);
+    row = sh.getLastRow();
+  } else {
+    sh.getRange(row, 8).setValue('Active'); sh.getRange(row, 9).setValue("'2099-12-31");
+  }
+  sh.getRange(row, 1, 1, AGP_HEAD.length).setBackground('#FFF4D6');
+  if (!inList(customersSheet(), MASTER_PHONE)) customersSheet().appendRow(["'" + MASTER_PHONE, MASTER_NAME, 'Master (Sam): full reports, no limits']);
+  var link = AGENT_SITE + '/?t=' + t;
+  sh.getRange(row, 12).setRichTextValue(SpreadsheetApp.newRichTextValue().setText('📲 Send link').setLinkUrl('https://wa.me/' + MASTER_PHONE.replace(/[^0-9]/g, '') + '?text=' + encodeURIComponent('👑 My DealPro Agent master access (keep private): ' + link)).build());
+  SpreadsheetApp.getUi().alert('👑 Master agent access', 'Your private link (open it once on each phone/laptop you use):\n\n' + link + '\n\nUnlimited projects, never expires. Tap "📲 Send link" in your row to WhatsApp it to yourself. Keep it private: it works like a password.', SpreadsheetApp.getUi().ButtonSet.OK);
 }
 function agpTopup() {
   var f = agpSelected(), n = (Number(f.v[9]) || 0) + 1;
