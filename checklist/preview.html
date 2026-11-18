@@ -1634,6 +1634,10 @@ html:not(.eoion) .ans .eoin{display:none}
     var dg=String(AGB.ph||"").replace(/[^0-9]/g,"");
     Array.prototype.forEach.call(root.querySelectorAll('a[href*="971528728248"]'),function(a){ if(dg) a.href=a.href.replace(/971528728248/g,dg); else a.removeAttribute("href"); }); }
   function agPics(){ if(!AGB||!AGB.img) return; Array.prototype.forEach.call(document.querySelectorAll(".agpic"),function(x){ x.innerHTML='<img src="'+AGB.img+'" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">'; }); Array.prototype.forEach.call(document.querySelectorAll('img[src*="sam.jpg"]'),function(im){ im.src=AGB.img; im.style.display=""; }); }
+  // a client opens a report from an agent whose plan has ended: the report is no longer shown
+  function agExpired(){ var r=document.getElementById("res"); if(r) r.hidden=true; var ov=document.createElement("div"); ov.className="agov"; var dg=String(AGB.ph||"").replace(/[^0-9]/g,"");
+    ov.innerHTML='<div><h3>This report link has expired</h3><p style="margin-top:8px">Ask '+esc((AGB.n||"your agent").split(/\s+/)[0])+' for an updated report.</p>'+(dg?'<a style="background:#25D366;color:#fff" href="https://wa.me/'+dg+'">💬 WhatsApp '+esc((AGB.n||"").split(/\s+/)[0])+'</a>':'')+'</div>';
+    document.body.appendChild(ov); }
   function agPage(){ if(!AGB||!AGB.n) return; document.body.classList.add("agm");
     agRebrand(document.body);
     Array.prototype.forEach.call(document.querySelectorAll('img[src*="sam.jpg"]'),function(im){ if(AGB.img) im.src=AGB.img; else im.style.display="none"; });
@@ -1677,7 +1681,7 @@ html:not(.eoion) .ans .eoin{display:none}
     try{
       var o=JSON.parse(decodeURIComponent(escape(atob(decodeURIComponent(m[1]))))); FROMLINK=true; if(o.ag&&window.setAgent) setTimeout(function(){ window.setAgent(o.ag,false); },0); if(o.pin&&o.pin.length===2){ PIN=o.pin; pinOut(); } setEoi(o.e===1,false); devBoxShow(); setLaunch(o.la||""); if(o.dv) insLoad(function(){ var d=INS.d&&INS.d[o.dv]; if(d){ DEVSEL={no:o.dv,name:d.name,fin:d.fin||0,act:d.act||0,late:d.late||0,can:d.can||0}; devIn.value=d.name; devCard.className="dld devcard "+(DEVSEL.can?"warn":"ok"); devCard.innerHTML=devCardHtml(DEVSEL); devCard.hidden=false; } });
       boxes.forEach(function(b,i){ b.checked=o.b.charAt(i)==="1"; var v=o.s&&o.s.charAt(i); b.dataset.st=(!b.checked&&(v==="u"||(v==="n"&&naOK(i))))?v:""; });
-      document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n; WMK={n:o.n||"",ph:o.ph||""}; if(o.ab&&o.ab.n&&!AGSELF){ AGB=o.ab; PREM=true; document.body.classList.add("agm"); agPage(); if(AGB.pid) agApi({a:"pic",id:AGB.pid},function(d){ if(d&&d.img&&/^data:image\/jpeg;base64,/.test(d.img)){ AGB.img=d.img; agPics(); } }); }
+      document.getElementById("proj").value=o.p||""; if(o.n && !who.n) who.n=o.n; WMK={n:o.n||"",ph:o.ph||""}; if(o.ab&&o.ab.n&&!AGSELF){ AGB=o.ab; PREM=true; document.body.classList.add("agm"); agPage(); if(AGB.pid) agApi({a:"pic",id:AGB.pid},function(d){ if(d&&d.ok&&d.act===false){ agExpired(); return; } if(d&&d.img&&/^data:image\/jpeg;base64,/.test(d.img)){ AGB.img=d.img; agPics(); } }); }
       if(o.x){ ["xprice:pprice","xsize:psize"].forEach(function(pr){ var a=pr.split(":"), el=document.getElementById(a[1]); if(o.x[a[0]]&&el&&!el.value) el.value=o.x[a[0]]; }); xset(o.x); }
       update();
       load(function(){ var q=(o.p||"").toLowerCase(); P.p.some(function(r){ if(r[1].toLowerCase()===q){ PROJROW=r; eoiShow(true); return true; } }); });

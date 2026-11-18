@@ -445,7 +445,7 @@ function agpPhoto(p) {
 function agpPic(id) {
   id = agpTok(id); if (!id) return { ok: false };
   var v = agpSheet().getDataRange().getValues();
-  for (var i = 1; i < v.length; i++) if (String(v[i][14]) === id) return { ok: true, img: agpImg(v[i][13]) };
+  for (var i = 1; i < v.length; i++) if (String(v[i][14]) === id) return { ok: true, img: agpImg(v[i][13]), act: agpState({ sh: null, row: i + 1, v: v[i] }).st === 'active' };
   return { ok: false };
 }
 function agpSelected() {
