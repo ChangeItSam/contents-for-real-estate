@@ -8,7 +8,7 @@ from each project's monthly median, weighted by its sales, so they are close est
 
   dubai / c[community]:
     m:   last 24 months  [month, sales, value AED, median price, median AED/sqft]
-    tp:  top 10 projects by registered sales (all time in the registry)   [name, sales]
+    tp:  top 10 projects by off-plan sales (all months in the data, up to completion)   [name, sales]
     ta:  (dubai only) top 10 communities by off-plan sales, last 10 years  [name, sales]
     am:  (dubai only) busiest communities in the latest month              [name, sales]
     ay:  (dubai only) busiest communities this year so far                 [name, sales]
@@ -90,7 +90,7 @@ for r in src:
         if n:
             mon.append([m, n, x.get("price") or 0, x.get("median") or 0])
     proj.append({"name": (r.get("name") or "").strip(), "c": (r.get("community") or "").strip() or (r.get("area_name") or "").strip(),
-                 "n": int(float(r.get("n_all") or r.get("n") or 0)), "villa": villa, "m": mon})
+                 "n": sum(x[1] for x in mon), "villa": villa, "m": mon})
     time.sleep(0.25)
 print(f"projects fetched: {len(proj)}, failures: {fail}")
 if len(proj) < 300:
