@@ -114,9 +114,12 @@ function unlockSelected() {
   SpreadsheetApp.getActive().toast('Unlocked. Tap "📲 Send result" in this row to send the full report.');
 }
 function markCustomer() {
-  var L = selectedLead();
-  customersSheet().appendRow([String(L.v[2]), String(L.v[1]), 'Added ' + Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd')]);
-  unlockSelected();
+  var L = selectedLead(), v = L.v, link = premLink(v[9]), digits = String(v[2]).replace(/[^0-9]/g, '');
+  customersSheet().appendRow([String(v[2]), String(v[1]), 'Added ' + Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd')]);
+  L.sh.getRange(L.row, 10).setValue(link);
+  L.sh.getRange(L.row, 14).setValue('Free (existing client)');
+  setSend(L.sh, L.row, digits, resultMessage(String(v[1]).split(/\s+/)[0] || 'there', v[3], v[4], v[5], link, false, 0));
+  SpreadsheetApp.getActive().toast('Marked as existing client. Tap "📲 Send result" in this row to send the full report.');
 }
 function markPremium() {
   var L = selectedLead(), until = new Date(); until.setMonth(until.getMonth() + 1);
@@ -152,7 +155,7 @@ function doPost(e) {
     var n = checksFor(sh, digits, p.project), acc = accessFor(digits);
     var locked = !acc && n > FREE_REPORTS && !!link;
     if (locked) link = payLink(link, n);
-    else if (acc === 'Premium') link = premLink(link);
+    else if (acc) link = premLink(link);   // Premium members and existing clients get everything
     var access = acc ? (acc === 'Customer' ? 'Free (existing client)' : 'Premium') : (locked ? 'Payment needed (AED ' + PRICE_ONE + ' / ' + PRICE_MONTH + ' monthly)' : 'Free (' + Math.min(n, FREE_REPORTS) + ' of ' + FREE_REPORTS + ')');
     var msg = resultMessage(first, p.project, p.score, p.verdict, link, locked, n);
     var when = Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm');
