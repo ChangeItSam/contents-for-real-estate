@@ -11,6 +11,13 @@ var PRICE_ONE = 19, PRICE_MONTH = 49;
 // "Possible agent": the full-report link is held back until Sam approves it from the menu.
 // Numbers in tab "Verified buyers" are never flagged.
 var AGENT_LIMIT = 5, AGENT_DAYS = 30;
+// DLD broker register (Dubai Pulse open data "dld_brokers-open"), refreshed weekly by refreshBrokerList()
+// into the hidden tab "DLD brokers" of THIS private sheet (never on the public website or GitHub).
+var BROKER_TAB = 'DLD brokers';
+var BROKER_SOURCES = [
+  'https://www.dubaipulse.gov.ae/api/3/action/package_show?id=dld_brokers-open',
+  'https://gslb.dubaipulse.gov.ae/api/3/action/package_show?id=dld_brokers-open'
+];
 
 function book() {
   var props = PropertiesService.getScriptProperties();
@@ -50,6 +57,58 @@ function premiumSheet() { return listSheet('Premium', ['WhatsApp', 'Name', 'Plan
 function agentsSheet() { return listSheet('Agents', ['WhatsApp', 'Name', 'Note']); }
 function agentNote(digits) { var k = key9(digits), v = agentsSheet().getDataRange().getValues();
   for (var i = 1; i < v.length; i++) if (key9(v[i][0]) === k) return (v[i][1] ? '\nName in list: ' + v[i][1] : '') + (v[i][2] ? '\nNote: ' + v[i][2] : ''); return ''; }
+// ---- DLD broker register ----
+function brokerCsvUrl() {
+  for (var i = 0; i < BROKER_SOURCES.length; i++) {
+    try {
+      var r = UrlFetchApp.fetch(BROKER_SOURCES[i], { muteHttpExceptions: true, followRedirects: true });
+      if (r.getResponseCode() !== 200) { Logger.log(BROKER_SOURCES[i] + ' -> HTTP ' + r.getResponseCode()); continue; }
+      var res = (JSON.parse(r.getContentText()).result || {}).resources || [];
+      for (var j = 0; j < res.length; j++) if (/csv/i.test(res[j].format || res[j].url || '')) return res[j].url;
+    } catch (e) { Logger.log(BROKER_SOURCES[i] + ' -> ' + e); }
+  }
+  return '';
+}
+// Run once by hand (Apps Script ▶ Run), then it runs itself every Monday
+function refreshBrokerList() {
+  var url = brokerCsvUrl();
+  if (!url) throw new Error('Could not reach the DLD broker register on Dubai Pulse. Kept the old list.');
+  var r = UrlFetchApp.fetch(url, { muteHttpExceptions: true, followRedirects: true });
+  if (r.getResponseCode() !== 200) throw new Error('Broker file download failed: HTTP ' + r.getResponseCode());
+  var rows = Utilities.parseCsv(r.getContentText('UTF-8'));
+  var h = rows[0].map(function (x) { return String(x).toLowerCase(); });
+  var col = function (re) { for (var i = 0; i < h.length; i++) if (re.test(h[i])) return i; return -1; };
+  var cPh = [], cBrn = col(/broker_number|^brn|card/), cName = col(/broker_name_en|name_en|broker_name/), cOff = col(/real_estate_name_en|office_name_en|real_estate_name|office/), cEnd = col(/license_end|end_date|expiry/);
+  h.forEach(function (x, i) { if (/phone|mobile/.test(x)) cPh.push(i); });
+  if (!cPh.length) throw new Error('The broker file has no phone column. Columns: ' + h.join(', '));
+  var out = [];
+  for (var k = 1; k < rows.length; k++) {
+    var x = rows[k];
+    cPh.forEach(function (c) { var key = key9(x[c]); if (key.length >= 8) out.push([key, cBrn >= 0 ? x[cBrn] : '', cName >= 0 ? x[cName] : '', cOff >= 0 ? x[cOff] : '', cEnd >= 0 ? x[cEnd] : '']); });
+  }
+  if (out.length < 500) throw new Error('Only ' + out.length + ' broker numbers found, kept the old list.');
+  var ss = book(), sh = ss.getSheetByName(BROKER_TAB) || ss.insertSheet(BROKER_TAB);
+  sh.clear();
+  sh.getRange(1, 1, 1, 5).setValues([['Phone (last 9 digits)', 'BRN', 'Broker', 'Agency', 'Licence end']]).setFontWeight('bold');
+  sh.getRange(2, 1, out.length, 5).setNumberFormat('@').setValues(out);
+  sh.getRange(1, 7).setValue('Updated ' + Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm') + ' · ' + out.length + ' numbers · source: DLD via Dubai Pulse');
+  sh.hideSheet();
+  CacheService.getScriptCache().remove('brk');
+  Logger.log('Broker list refreshed: ' + out.length + ' numbers');
+}
+function setupWeeklyBrokerRefresh() {
+  ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'refreshBrokerList') ScriptApp.deleteTrigger(t); });
+  ScriptApp.newTrigger('refreshBrokerList').timeBased().onWeekDay(ScriptApp.WeekDay.MONDAY).atHour(5).inTimezone('Asia/Dubai').create();
+  refreshBrokerList();
+}
+// [BRN, broker, agency, licence end] if this number is in the DLD register, else null
+function dldBroker(digits) {
+  var k = key9(digits); if (k.length < 8) return null;
+  var sh = book().getSheetByName(BROKER_TAB); if (!sh || sh.getLastRow() < 2) return null;
+  var f = sh.getRange(2, 1, sh.getLastRow() - 1, 1).createTextFinder(k).matchEntireCell(true).findNext();
+  if (!f) return null;
+  return sh.getRange(f.getRow(), 2, 1, 4).getValues()[0];
+}
 function buyersSheet() { return listSheet('Verified buyers', ['WhatsApp', 'Name', 'Note']); }
 function inList(sh, digits) { var k = key9(digits); if (k.length < 8) return false; var v = sh.getDataRange().getValues();
   for (var i = 1; i < v.length; i++) if (key9(v[i][0]) === k) return true; return false; }
@@ -123,6 +182,8 @@ function onOpen() {
     .addSeparator()
     .addItem('🚫 Mark selected number as agent / broker (score only)', 'markAgent')
     .addItem('✅ Not an agent: approve and send full report', 'approveBuyer')
+    .addSeparator()
+    .addItem('🔄 Refresh DLD broker list now', 'refreshBrokerList')
     .addToUi();
 }
 function selectedLead() {
@@ -199,14 +260,19 @@ function doPost(e) {
     var link = String(p.link || '');
     if (!/^https:\/\/((www\.)?samsuryarealty\.com|changeitsam\.github\.io)\//.test(link)) link = '';
     var n = checksFor(sh, digits, p.project), acc = accessFor(digits);
-    var agent = !acc && inList(agentsSheet(), digits);
-    var rc = acc || agent || inList(buyersSheet(), digits) ? 0 : recentChecks(sh, digits, p.project, AGENT_DAYS);
+    var verified = !acc && inList(buyersSheet(), digits);
+    var agent = !acc && !verified && inList(agentsSheet(), digits), dld = null;
+    if (!acc && !agent && !verified) {
+      dld = dldBroker(digits);
+      if (dld) { agent = true; agentsSheet().appendRow([clean(p.phone), clean(name), 'DLD register: BRN ' + dld[0] + ', ' + dld[1] + ', ' + dld[2] + ' (auto ' + Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd') + ')']); }
+    }
+    var rc = acc || agent || verified ? 0 : recentChecks(sh, digits, p.project, AGENT_DAYS);
     var maybe = !agent && rc >= AGENT_LIMIT;
     var locked = !acc && !agent && !maybe && n > FREE_REPORTS && !!link;
     if (locked) link = payLink(link, n);
     else if (acc) link = premLink(link);   // Premium members and existing clients get everything
     var access = acc ? (acc === 'Customer' ? 'Free (existing client)' : 'Premium') :
-      agent ? '🚫 Agent (score only)' :
+      agent ? (dld ? '🚫 Registered broker (DLD) · score only' : '🚫 Agent (score only)') :
       maybe ? '⚠️ Possible agent: ' + rc + ' projects in ' + AGENT_DAYS + ' days. Check, then use the menu' :
       (locked ? 'Payment needed (AED ' + PRICE_ONE + ' / ' + PRICE_MONTH + ' monthly)' : 'Free (' + Math.min(n, FREE_REPORTS) + ' of ' + FREE_REPORTS + ')');
     // agents and possible agents: the message carries the score only; the link stays in the sheet for Sam
@@ -217,7 +283,7 @@ function doPost(e) {
     var row = sh.getLastRow();
     setSend(sh, row, digits, msg);
     if (agent || maybe) sh.getRange(row, 1, 1, HEAD.length).setBackground(agent ? '#F8D7D3' : '#FFF1C2');
-    if (agent) sh.getRange(row, 3).setNote('🚫 AGENT / BROKER: this number is in your Agents list. Score only, no full report sent.' + agentNote(digits));
+    if (agent) sh.getRange(row, 3).setNote((dld ? '🚫 REGISTERED BROKER (DLD register): BRN ' + dld[0] + ' · ' + dld[1] + ' · ' + dld[2] + (dld[3] ? ' · licence until ' + dld[3] : '') + '\n' : '🚫 AGENT / BROKER: this number is in your Agents list.\n') + 'Score only, no full report sent. Wrong? Use the menu: Not an agent (approve).' + (dld ? '' : agentNote(digits)));
     else if (maybe) sh.getRange(row, 3).setNote('⚠️ POSSIBLE AGENT: ' + rc + ' different projects checked in ' + AGENT_DAYS + ' days. Full report held back. Use the Stress Test menu: Mark as agent, or Not an agent (approve).');
     alertSam(clean(name), clean(p.phone), clean(p.project), p.score, clean(p.verdict), access, n, digits, sh);
     return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
