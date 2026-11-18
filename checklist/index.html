@@ -1679,8 +1679,9 @@ html:not(.eoion) .ans .eoin{display:none}
     var a=agLs("sam-agent"); if(!a||!a.t){ location.href="../agent/"; return; }
     AGP=a; AGSELF=true; PREM=true; AGB={n:a.n||"",ag:a.ag||"",brn:a.brn||"",ph:a.ph||"",pid:a.pid||"",img:a.img||""}; agPage();
     document.body.classList.add("agm","agself");
-    var bar=document.createElement("div"); bar.className="agtop"; bar.innerHTML='<a href="../agent/">🏢 Agent Pro</a><b>'+esc(a.n||"")+'</b><span id="agused"></span><input id="agcl" placeholder="Client name (optional)" maxlength="40">';
+    var bar=document.createElement("div"); bar.className="agtop"; bar.innerHTML='<a href="../agent/">🏢 Agent Pro</a><b>'+esc(a.n||"")+'</b><span id="agused"></span><a href="#" id="agout" style="color:#C9D5E8;font-weight:600;font-size:13px">↪ Log out</a><input id="agcl" placeholder="Client name (optional)" maxlength="40">';
     document.body.insertBefore(bar,document.body.firstChild);
+    document.getElementById("agout").addEventListener("click",function(ev){ ev.preventDefault(); try{ ["sam-agent","sam-agent-st","sam-agent-v"].forEach(function(k){ localStorage.removeItem(k); }); }catch(x){} location.href="../agent/"; });
     agUsed(agLs("sam-agent-st"));
     agApi({a:"me",t:a.t},function(d){ if(d&&d.ok){ agLs("sam-agent-st",{st:d.st,plan:d.plan,until:d.until,used:d.used,limit:d.limit,cr:d.cr,at:Date.now()}); agUsed(d); if(!agOk(d)) location.href="../agent/"; } });
     var hd=document.querySelector(".hero2"); if(hd) hd.insertAdjacentHTML("afterbegin",'<div class="aghd"><b>🏢 Deal analysis</b><span>Pick the project, then get the full client report in one tap. Want to answer the checks yourself? Scroll down and tick them, then tap Get my result.</span><div class="agbtns"><button type="button" id="aginst">⚡ Instant full report</button></div></div>');
