@@ -808,7 +808,7 @@ html:not(.eoion) .ans .eoin{display:none}
     b.addEventListener("change", function(ev){ if(b.checked) b.dataset.st=""; if(ev.isTrusted) showNextLine(b); });
     b.addEventListener("change", update);
     var row=document.createElement("div"); row.className="ans";
-    var yn=YN_IDX.indexOf(i)>=0, okq=OK_IDX.indexOf(i)>=0; row.innerHTML='<button type="button" class="y" data-v="y">'+(okq?'👍 Okay, I\'ll check':yn?'✅ Yes':'✅ Checked')+'</button><button type="button" class="u" data-v="u">'+(okq?'🤔 Not sure':yn?'❌ No':'❓ Not known')+'</button>'+(NA_OK.indexOf(i)>=0?'<button type="button" class="n" data-v="n">N/A</button>':EOI_IDX.indexOf(i)>=0?'<button type="button" class="n eoin" data-v="n">N/A</button>':'');
+    var yn=YN_IDX.indexOf(i)>=0, okq=OK_IDX.indexOf(i)>=0; row.innerHTML='<button type="button" class="y" data-v="y">'+(okq?'👍 Okay, I\'ll check':yn?'✅ Yes':'✅ Checked')+'</button><button type="button" class="u" data-v="u">'+(okq?(i===5?'🚫 Not on my booking form':'🚫 Doesn\'t match'):yn?'❌ No':'❓ Not known')+'</button>'+(NA_OK.indexOf(i)>=0?'<button type="button" class="n" data-v="n">N/A</button>':EOI_IDX.indexOf(i)>=0?'<button type="button" class="n eoin" data-v="n">N/A</button>':'');
     row.addEventListener("click",function(ev){ var t=ev.target.closest("button"); if(!t) return; var v=t.dataset.v, same=stOf(b)===v;
       if(v==="y"){ b.checked=true; b.dataset.st=""; } else { b.checked=false; b.dataset.st=same?"":v; }
       b.dispatchEvent(new Event("change",{bubbles:true})); showNextLine(b); });
@@ -1292,7 +1292,7 @@ html:not(.eoion) .ans .eoin{display:none}
     var conf=boxes.filter(function(b){return b.checked;});
     h+='<h4>❗ Still to confirm ('+miss.length+')</h4>'+(miss.length?'<div class="box">'+miss.map(function(x,k){
         var tag=CRIT.indexOf(x.i)>=0?'<span class="tag">Must-have</span>':(k<3?'<span class="tag p">Priority</span>':'');
-        return '<div class="row"><span>'+e(labelOf(x.b))+(stOf(x.b)==="u"?' <i style="opacity:.75">('+(OK_IDX.indexOf(boxes.indexOf(x.b))>=0?'not sure':YN_IDX.indexOf(boxes.indexOf(x.b))>=0?'no':'not known')+')</i>':'')+'</span>'+tag+'</div>';}).join("")+'</div>':'<div class="box ok">Nothing missing. Every check is confirmed.</div>');
+        return '<div class="row"><span>'+e(labelOf(x.b))+(stOf(x.b)==="u"?' <i style="opacity:.75">('+(OK_IDX.indexOf(boxes.indexOf(x.b))>=0?(boxes.indexOf(x.b)===5?'not on the booking form':'does not match'):YN_IDX.indexOf(boxes.indexOf(x.b))>=0?'no':'not known')+')</i>':'')+'</span>'+tag+'</div>';}).join("")+'</div>':'<div class="box ok">Nothing missing. Every check is confirmed.</div>');
     var nas=boxes.filter(function(b){return stOf(b)==="n";});
     if(nas.length) h+='<h4>➖ Marked not applicable ('+nas.length+')</h4><div class="box">'+nas.map(function(b){return '<div class="row"><span>'+e(labelOf(b))+'</span></div>';}).join("")+'</div>';
     h+='<h4>✅ Already confirmed ('+conf.length+')</h4>'+(conf.length?'<div class="box">'+conf.map(function(b){return '<div class="row ok"><span>✓ '+e(labelOf(b))+'</span></div>';}).join("")+'</div>':'<div class="box">Nothing confirmed yet.</div>');
