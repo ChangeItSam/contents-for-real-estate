@@ -484,11 +484,13 @@ function agpMaster() {
   } else {
     sh.getRange(row, 8).setValue('Active'); sh.getRange(row, 9).setValue("'2099-12-31");
   }
-  sh.getRange(row, 1, 1, AGP_HEAD.length).setBackground('#FFF4D6');
+  try { sh.getRange(row, 1, 1, AGP_HEAD.length).setBackground('#FFF4D6'); } catch (err) {}
   if (!inList(customersSheet(), MASTER_PHONE)) customersSheet().appendRow(["'" + MASTER_PHONE, MASTER_NAME, 'Master (Sam): full reports, no limits']);
   var link = AGENT_SITE + '/?t=' + t;
   sh.getRange(row, 12).setRichTextValue(SpreadsheetApp.newRichTextValue().setText('📲 Send link').setLinkUrl('https://wa.me/' + MASTER_PHONE.replace(/[^0-9]/g, '') + '?text=' + encodeURIComponent('👑 My DealPro Agent master access (keep private): ' + link)).build());
-  SpreadsheetApp.getUi().alert('👑 Master agent access', 'Your private link (open it once on each phone/laptop you use):\n\n' + link + '\n\nUnlimited projects, never expires. Tap "📲 Send link" in your row to WhatsApp it to yourself. Keep it private: it works like a password.', SpreadsheetApp.getUi().ButtonSet.OK);
+  Logger.log('👑 YOUR MASTER LINK (keep private): ' + link);
+  try { SpreadsheetApp.getUi().alert('👑 Master agent access', 'Your private link (open it once on each phone/laptop you use):\n\n' + link + '\n\nUnlimited projects, never expires. Tap "📲 Send link" in your row to WhatsApp it to yourself. Keep it private: it works like a password.', SpreadsheetApp.getUi().ButtonSet.OK); } catch (err) { /* run from the editor: the link is in the Execution log */ }
+  return link;
 }
 function agpTopup() {
   var f = agpSelected(), n = (Number(f.v[9]) || 0) + 1;
