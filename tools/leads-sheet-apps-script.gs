@@ -48,6 +48,8 @@ function listSheet(name, head) {
 function customersSheet() { return listSheet('Customers', ['WhatsApp', 'Name', 'Note']); }
 function premiumSheet() { return listSheet('Premium', ['WhatsApp', 'Name', 'Plan (monthly / single)', 'Paid until (yyyy-mm-dd)', 'Note']); }
 function agentsSheet() { return listSheet('Agents', ['WhatsApp', 'Name', 'Note']); }
+function agentNote(digits) { var k = key9(digits), v = agentsSheet().getDataRange().getValues();
+  for (var i = 1; i < v.length; i++) if (key9(v[i][0]) === k) return (v[i][1] ? '\nName in list: ' + v[i][1] : '') + (v[i][2] ? '\nNote: ' + v[i][2] : ''); return ''; }
 function buyersSheet() { return listSheet('Verified buyers', ['WhatsApp', 'Name', 'Note']); }
 function inList(sh, digits) { var k = key9(digits); if (k.length < 8) return false; var v = sh.getDataRange().getValues();
   for (var i = 1; i < v.length; i++) if (key9(v[i][0]) === k) return true; return false; }
@@ -141,6 +143,8 @@ function markAgent() {
   var L = selectedLead(), v = L.v, digits = String(v[2]).replace(/[^0-9]/g, '');
   if (!inList(agentsSheet(), digits)) agentsSheet().appendRow([String(v[2]), String(v[1]), 'Added ' + Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd')]);
   L.sh.getRange(L.row, 14).setValue('🚫 Agent (score only)');
+  L.sh.getRange(L.row, 3).setNote('🚫 AGENT / BROKER: marked by Sam on ' + Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd') + '. Score only, no full report.');
+  L.sh.getRange(L.row, 1, 1, HEAD.length).setBackground('#F8D7D3');
   setSend(L.sh, L.row, digits, resultMessage(String(v[1]).split(/\s+/)[0] || 'there', v[3], v[4], v[5], '', false, 0));
   SpreadsheetApp.getActive().toast('Marked as agent. This number will only get the score, never the full report.');
 }
@@ -150,6 +154,8 @@ function approveBuyer() {
   var link = freeLink(v[9]);
   L.sh.getRange(L.row, 10).setValue(link);
   L.sh.getRange(L.row, 14).setValue('✅ Verified buyer');
+  L.sh.getRange(L.row, 3).setNote('✅ Verified buyer (approved by Sam). Never flagged again.');
+  L.sh.getRange(L.row, 1, 1, HEAD.length).setBackground(null);
   setSend(L.sh, L.row, digits, resultMessage(String(v[1]).split(/\s+/)[0] || 'there', v[3], v[4], v[5], link, false, 0));
   SpreadsheetApp.getActive().toast('Approved. Tap "📲 Send result" in this row to send the full report.');
 }
@@ -211,6 +217,8 @@ function doPost(e) {
     var row = sh.getLastRow();
     setSend(sh, row, digits, msg);
     if (agent || maybe) sh.getRange(row, 1, 1, HEAD.length).setBackground(agent ? '#F8D7D3' : '#FFF1C2');
+    if (agent) sh.getRange(row, 3).setNote('🚫 AGENT / BROKER: this number is in your Agents list. Score only, no full report sent.' + agentNote(digits));
+    else if (maybe) sh.getRange(row, 3).setNote('⚠️ POSSIBLE AGENT: ' + rc + ' different projects checked in ' + AGENT_DAYS + ' days. Full report held back. Use the Stress Test menu: Mark as agent, or Not an agent (approve).');
     alertSam(clean(name), clean(p.phone), clean(p.project), p.score, clean(p.verdict), access, n, digits, sh);
     return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
   } finally {
