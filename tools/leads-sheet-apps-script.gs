@@ -6,6 +6,11 @@ var HEAD = ['Date (Dubai)', 'Name', 'WhatsApp', 'Project', 'Deal Score', 'Verdic
 // paid members (tab "Premium") are never asked to pay.
 var FREE_REPORTS = 3;
 var PRICE_ONE = 19, PRICE_MONTH = 49;
+// Broker filter: a number in tab "Agents" only ever gets the score, never the full report.
+// A number that checks AGENT_LIMIT or more different projects within AGENT_DAYS days is flagged
+// "Possible agent": the full-report link is held back until Sam approves it from the menu.
+// Numbers in tab "Verified buyers" are never flagged.
+var AGENT_LIMIT = 5, AGENT_DAYS = 30;
 
 function book() {
   var props = PropertiesService.getScriptProperties();
@@ -42,6 +47,22 @@ function listSheet(name, head) {
 }
 function customersSheet() { return listSheet('Customers', ['WhatsApp', 'Name', 'Note']); }
 function premiumSheet() { return listSheet('Premium', ['WhatsApp', 'Name', 'Plan (monthly / single)', 'Paid until (yyyy-mm-dd)', 'Note']); }
+function agentsSheet() { return listSheet('Agents', ['WhatsApp', 'Name', 'Note']); }
+function buyersSheet() { return listSheet('Verified buyers', ['WhatsApp', 'Name', 'Note']); }
+function inList(sh, digits) { var k = key9(digits); if (k.length < 8) return false; var v = sh.getDataRange().getValues();
+  for (var i = 1; i < v.length; i++) if (key9(v[i][0]) === k) return true; return false; }
+// different projects checked by this number in the last `days` days (this check included)
+function recentChecks(sh, digits, project, days) {
+  var k = key9(digits), seen = {}, cut = new Date(Date.now() - days * 864e5), v = sh.getDataRange().getValues();
+  for (var i = 1; i < v.length; i++) {
+    if (key9(v[i][2]) !== k) continue;
+    var d = v[i][0] instanceof Date ? v[i][0] : new Date(String(v[i][0]).replace(' ', 'T') + ':00+04:00');
+    if (!isNaN(d) && d < cut) continue;
+    seen[String(v[i][3] || '').trim().toLowerCase()] = 1;
+  }
+  seen[String(project || '').trim().toLowerCase()] = 1;
+  return Object.keys(seen).filter(function (x) { return x; }).length;
+}
 function key9(v) { var d = String(v || '').replace(/[^0-9]/g, ''); return d.slice(-9); }
 
 // "Customer", "Premium" or "" for this number
@@ -97,6 +118,9 @@ function onOpen() {
     .addItem('🔓 Unlock full report (selected row)', 'unlockSelected')
     .addItem('🤝 Mark selected number as existing client (always free)', 'markCustomer')
     .addItem('⭐ Add selected number to Premium (1 month)', 'markPremium')
+    .addSeparator()
+    .addItem('🚫 Mark selected number as agent / broker (score only)', 'markAgent')
+    .addItem('✅ Not an agent: approve and send full report', 'approveBuyer')
     .addToUi();
 }
 function selectedLead() {
@@ -112,6 +136,22 @@ function unlockSelected() {
   L.sh.getRange(L.row, 14).setValue('Unlocked (paid)');
   setSend(L.sh, L.row, digits, resultMessage(String(v[1]).split(/\s+/)[0] || 'there', v[3], v[4], v[5], link, false, 0));
   SpreadsheetApp.getActive().toast('Unlocked. Tap "📲 Send result" in this row to send the full report.');
+}
+function markAgent() {
+  var L = selectedLead(), v = L.v, digits = String(v[2]).replace(/[^0-9]/g, '');
+  if (!inList(agentsSheet(), digits)) agentsSheet().appendRow([String(v[2]), String(v[1]), 'Added ' + Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd')]);
+  L.sh.getRange(L.row, 14).setValue('🚫 Agent (score only)');
+  setSend(L.sh, L.row, digits, resultMessage(String(v[1]).split(/\s+/)[0] || 'there', v[3], v[4], v[5], '', false, 0));
+  SpreadsheetApp.getActive().toast('Marked as agent. This number will only get the score, never the full report.');
+}
+function approveBuyer() {
+  var L = selectedLead(), v = L.v, digits = String(v[2]).replace(/[^0-9]/g, '');
+  if (!inList(buyersSheet(), digits)) buyersSheet().appendRow([String(v[2]), String(v[1]), 'Approved ' + Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd')]);
+  var link = freeLink(v[9]);
+  L.sh.getRange(L.row, 10).setValue(link);
+  L.sh.getRange(L.row, 14).setValue('✅ Verified buyer');
+  setSend(L.sh, L.row, digits, resultMessage(String(v[1]).split(/\s+/)[0] || 'there', v[3], v[4], v[5], link, false, 0));
+  SpreadsheetApp.getActive().toast('Approved. Tap "📲 Send result" in this row to send the full report.');
 }
 function markCustomer() {
   var L = selectedLead(), v = L.v, link = premLink(v[9]), digits = String(v[2]).replace(/[^0-9]/g, '');
@@ -153,16 +193,24 @@ function doPost(e) {
     var link = String(p.link || '');
     if (!/^https:\/\/((www\.)?samsuryarealty\.com|changeitsam\.github\.io)\//.test(link)) link = '';
     var n = checksFor(sh, digits, p.project), acc = accessFor(digits);
-    var locked = !acc && n > FREE_REPORTS && !!link;
+    var agent = !acc && inList(agentsSheet(), digits);
+    var rc = acc || agent || inList(buyersSheet(), digits) ? 0 : recentChecks(sh, digits, p.project, AGENT_DAYS);
+    var maybe = !agent && rc >= AGENT_LIMIT;
+    var locked = !acc && !agent && !maybe && n > FREE_REPORTS && !!link;
     if (locked) link = payLink(link, n);
     else if (acc) link = premLink(link);   // Premium members and existing clients get everything
-    var access = acc ? (acc === 'Customer' ? 'Free (existing client)' : 'Premium') : (locked ? 'Payment needed (AED ' + PRICE_ONE + ' / ' + PRICE_MONTH + ' monthly)' : 'Free (' + Math.min(n, FREE_REPORTS) + ' of ' + FREE_REPORTS + ')');
-    var msg = resultMessage(first, p.project, p.score, p.verdict, link, locked, n);
+    var access = acc ? (acc === 'Customer' ? 'Free (existing client)' : 'Premium') :
+      agent ? '🚫 Agent (score only)' :
+      maybe ? '⚠️ Possible agent: ' + rc + ' projects in ' + AGENT_DAYS + ' days. Check, then use the menu' :
+      (locked ? 'Payment needed (AED ' + PRICE_ONE + ' / ' + PRICE_MONTH + ' monthly)' : 'Free (' + Math.min(n, FREE_REPORTS) + ' of ' + FREE_REPORTS + ')');
+    // agents and possible agents: the message carries the score only; the link stays in the sheet for Sam
+    var msg = resultMessage(first, p.project, p.score, p.verdict, agent || maybe ? '' : link, locked, n);
     var when = Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm');
     sh.appendRow([when, clean(name), clean(p.phone), clean(p.project), Number(p.score) || 0, clean(p.verdict),
                   Number(p.psf) || '', Number(p.avg) || '', clean(p.rating), link, '', 'New', n, access]);
     var row = sh.getLastRow();
     setSend(sh, row, digits, msg);
+    if (agent || maybe) sh.getRange(row, 1, 1, HEAD.length).setBackground(agent ? '#F8D7D3' : '#FFF1C2');
     alertSam(clean(name), clean(p.phone), clean(p.project), p.score, clean(p.verdict), access, n, digits, sh);
     return ContentService.createTextOutput(JSON.stringify({ ok: true })).setMimeType(ContentService.MimeType.JSON);
   } finally {
