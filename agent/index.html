@@ -208,8 +208,8 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
   function keep(){ if(A&&A.t) ls("sam-agent-prof",{n:A.n||"",ag:A.ag||"",brn:A.brn||"",ph:A.ph||"",em:A.em||"",img:A.img||""}); }
   function session(d){ A={t:d.t,pid:d.pid||"",n:d.n||"",ag:d.ag||"",brn:d.brn||"",ph:d.ph||"",em:d.em||"",img:d.img||"",plan:d.plan}; S={st:d.st,plan:d.plan,until:d.until,used:d.used,limit:d.limit,cr:d.cr,at:Date.now()}; ls("sam-agent",A); ls("sam-agent-st",S); ls("sam-agent-v",null); keep(); }
   function busy(b,on,txt){ if(!b) return; if(on){ b.dataset.t=b.textContent; b.textContent=txt||"Please wait…"; b.disabled=true; } else { b.textContent=b.dataset.t||b.textContent; b.disabled=false; } }
-  function logout(){ keep(); ls("sam-agent",null); ls("sam-agent-st",null); ls("sam-agent-v",null); A=null; S=null; MODE="login"; render(); window.scrollTo({top:0}); }
-  var MODE="login";
+  function logout(){ keep(); ls("sam-agent",null); ls("sam-agent-st",null); ls("sam-agent-v",null); A=null; S=null; MODE="land"; render(); window.scrollTo({top:0}); }
+  var MODE="land";
   // ---------- log in ----------
   function login(msg){
     document.getElementById("ht").innerHTML='Welcome to <span>DealPro Agent</span>.';
@@ -219,12 +219,12 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
       '<label class="f">Password<input class="i" id="lp" type="password" autocomplete="current-password" maxlength="80"></label>'+
       '<div class="err" id="er">'+e(msg||"")+'</div><button class="btn gold" type="submit" id="lb">Log in →</button></form>'+
       '<p class="hint" style="text-align:center"><a href="#" id="fg">Forgot password?</a></p>'+
-      '<button class="btn ghost" type="button" id="su">✨ New here? Create an agent account</button></div>';
-    document.getElementById("ht").innerHTML='Close more off-plan deals with <span>data clients trust</span>.';
-    document.getElementById("hp").textContent="Type any Dubai project and send a DLD-backed report with your name, BRN and WhatsApp on it. Plus where to focus, market stats, upcoming supply, news and new launches. All in one place.";
+      '<button class="btn ghost" type="button" id="su">✨ New here? Create an agent account</button>'+
+      '<p class="hint" style="text-align:center"><a href="#" id="hm">← Back to DealPro Agent home</a></p></div>';
     var er=document.getElementById("er"), PF=ls("sam-agent-prof")||{};
     if(PF.em){ document.getElementById("le").value=PF.em; if(PF.n){ document.getElementById("ht").innerHTML='Welcome back, <span>'+e(PF.n.split(/\s+/)[0])+'</span>.'; document.getElementById("hp").textContent="Enter your password to open your dashboard."; } }
     document.getElementById("su").addEventListener("click",function(){ MODE="signup"; render(); });
+    document.getElementById("hm").addEventListener("click",function(ev){ ev.preventDefault(); MODE="land"; render(); window.scrollTo({top:0,behavior:"smooth"}); });
     document.getElementById("fg").addEventListener("click",function(ev){ ev.preventDefault(); forgot(document.getElementById("le").value.trim()); });
     document.getElementById("lf").addEventListener("submit",function(ev){ ev.preventDefault();
       var em=document.getElementById("le").value.trim().toLowerCase(), pw=document.getElementById("lp").value, b=document.getElementById("lb");
@@ -473,8 +473,11 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
   function landing(on){
     document.getElementById("land").hidden=!on; document.getElementById("hcta").hidden=!on; document.getElementById("hchips").hidden=!on;
     document.getElementById("feat").hidden=on||!(A&&A.t); Array.prototype.forEach.call(document.querySelectorAll(".lnav"),function(a){ a.hidden=!on; });
-    document.getElementById("navin").hidden=!!(A&&A.t)||on;
+    document.getElementById("navin").hidden=!!(A&&A.t)||MODE==="login";
+    document.getElementById("app").hidden=on;
     if(!on){ clearInterval(GT); GT=null; return; }
+    document.getElementById("ht").innerHTML='Close more off-plan deals with <span>data clients trust</span>.';
+    document.getElementById("hp").textContent="Type any Dubai project and send a DLD-backed report with your name, BRN and WhatsApp on it. Plus where to focus, market stats, upcoming supply, news and new launches. All in one place.";
     document.querySelectorAll(".lp-pro").forEach(function(x){ x.textContent=price("pro"); }); document.querySelectorAll(".lp-unl").forEach(function(x){ x.textContent=price("unlimited"); }); document.querySelectorAll(".lp-one").forEach(function(x){ x.textContent=PAY.price_one||19; });
     if(landing.done) return; landing.done=1;
     var io=window.IntersectionObserver?new IntersectionObserver(function(es){ es.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.unobserve(x.target); } }); },{threshold:.1}):null;
@@ -487,12 +490,12 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
     bs.forEach(function(b,j){ b.addEventListener("click",function(){ show(j,true); }); }); show(0);
     GT=setInterval(function(){ if(!document.getElementById("land").hidden) show((cur+1)%LSH.length); },6500);
     document.addEventListener("click",function(ev){ var a=ev.target.closest&&ev.target.closest("[data-go]"); if(!a) return; ev.preventDefault();
-      if(a.dataset.plan) PLAN=a.dataset.plan; MODE=a.dataset.go; render(); document.getElementById("app").scrollIntoView({behavior:"smooth",block:"center"});
+      if(a.dataset.plan) PLAN=a.dataset.plan; MODE=a.dataset.go; render(); window.scrollTo({top:0}); document.getElementById("app").scrollIntoView({behavior:"smooth",block:"start"});
       if(MODE==="login") setTimeout(function(){ var le=document.getElementById("le"), lp=document.getElementById("lp"); var f=le&&le.value?lp:le; if(f) f.focus({preventScroll:true}); },500); });
     document.getElementById("navin").addEventListener("click",function(ev){ ev.preventDefault(); MODE="login"; render(); window.scrollTo({top:0,behavior:"smooth"}); });
   }
-  function render(){ setTimeout(navOut,0); landing(!(A&&A.t)&&MODE==="login");
-    if(!A||!A.t){ var pv=ls("sam-agent-v"); if(pv&&pv.em&&MODE!=="login"&&MODE!=="signup") return verify(pv.em); return MODE==="signup"?signup():login(); }
+  function render(){ setTimeout(navOut,0); landing(!(A&&A.t)&&MODE==="land");
+    if(!A||!A.t){ var pv=ls("sam-agent-v"); if(pv&&pv.em&&MODE!=="login"&&MODE!=="signup") return verify(pv.em); return MODE==="land"?null:MODE==="signup"?signup():login(); }
     if(S&&S.st==="active"&&S.until>=today) return dash();
     if(S&&(S.st==="expired"||(S.st==="active"&&S.until<today))) return pending(true);
     return pending(false);
