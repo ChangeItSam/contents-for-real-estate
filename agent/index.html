@@ -152,6 +152,7 @@ input.i:focus{outline:0;border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,1
 .fin{margin-top:56px;background:radial-gradient(600px 260px at 80% 0,#1E4B82,transparent 70%),linear-gradient(160deg,var(--navy),var(--navy2));color:#fff;border-radius:28px;padding:34px 24px;text-align:center}.fin h2{color:#fff;font-size:clamp(24px,4vw,32px)}.fin p{color:#C9D5E8;margin:8px auto 0;max-width:520px}.fin .hcta{justify-content:center}
 .mean{margin-top:40px;text-align:center;background:#fff;border:1px solid var(--line);border-radius:24px;padding:26px 18px;box-shadow:0 20px 50px rgba(8,24,48,.06)}.mk{color:var(--gold);font-weight:900;font-size:12.5px;letter-spacing:2px;text-transform:uppercase}.mw{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 16px;margin:12px 0 10px;font-size:clamp(24px,4.6vw,38px);line-height:1.1;letter-spacing:-.5px}#htag.sl{letter-spacing:.6px;font-size:11.5px;text-transform:none;font-weight:800}.mw b{font-weight:900;color:var(--navy);background:linear-gradient(transparent 62%,rgba(201,162,74,.38) 0)}.mw span{font-weight:600;color:var(--muted)}.mw em{font-style:normal;font-weight:900;color:var(--gold)}.dbb{display:inline-block;margin:4px 0 12px;background:var(--navy);color:var(--gold2);font-weight:900;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;border-radius:30px;padding:8px 16px}.hchips .dbk{background:rgba(201,162,74,.22);border-color:#C9A24A;color:#F6E7BE;font-weight:800}.mean p{color:var(--muted);max-width:560px;margin:0 auto;font-size:15.5px}
 .rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}.rv.in{opacity:1;transform:none}
+footer .lgl a{color:var(--navy);font-weight:700;text-decoration:none}footer .lgl{display:inline-block;margin-top:8px;line-height:2}
 footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
 </style>
 </head>
@@ -202,7 +203,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
   <div class="ft">📈<b>Exit &amp; appreciation</b><span>Three realistic exit scenarios and the 10 factors behind them.</span></div>
   <div class="ft">🪪<b>Your name on it</b><span>Your photo, name, agency, BRN and number on the report and its background.</span></div>
 </div></main>
-<footer><b style="color:var(--navy)">DealPro Agent</b> · <i>Deal with Professional Agents who talk Data</i> · Data-Backed Off-Plan Deals<br>Market data: Dubai Land Department via Dubai Data (CC BY 4.0). Reports are a data check, not financial advice.</footer>
+<footer><b style="color:var(--navy)">DealPro Agent</b> · <i>Deal with Professional Agents who talk Data</i> · Data-Backed Off-Plan Deals<br>Market data: Dubai Land Department via Dubai Data (CC BY 4.0). Reports are a data check, not financial advice.<br><span class="lgl"><a href="/legal/terms/">Terms &amp; Conditions</a> · <a href="/legal/privacy/">Privacy Policy</a> · <a href="/legal/refunds/">Cancellation &amp; Refunds</a></span><br><small>SURYA TAMANG Marketing Management · DET Dubai Trade Licence 1661461</small></footer>
 <script>
 (function(){
   var API="https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec", WA="971528728248", PAY={}, A=null, S=null, PLAN="pro";
@@ -319,7 +320,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
       '<label class="plan" data-p="pro"><input type="radio" name="pl" value="pro"><b>Agent Pro</b><big>AED '+price("pro")+'</big><small>a month · 30 projects · top up AED '+(PAY.price_one||19)+' each</small></label>'+
       '<label class="plan" data-p="unlimited"><input type="radio" name="pl" value="unlimited"><b>Agent Unlimited</b><big>AED '+price("unlimited")+'</big><small>a month · unlimited projects</small></label></div>'+
       '<div class="err" id="er"></div><button class="btn gold" type="submit" id="sb">Create my account →</button>'+
-      '<p class="hint" style="text-align:center">Already have an account? <a href="#" id="tl">Log in</a></p></form></div>';
+      '<p class="hint" style="text-align:center;font-size:12.5px">By creating an account you agree to our <a href="/legal/terms/" target="_blank">Terms</a>, <a href="/legal/privacy/" target="_blank">Privacy Policy</a> and <a href="/legal/refunds/" target="_blank">Refund Policy</a>.</p><p class="hint" style="text-align:center">Already have an account? <a href="#" id="tl">Log in</a></p></form></div>';
     document.getElementById("tl").addEventListener("click",function(ev){ ev.preventDefault(); MODE="login"; render(); });
     function sel(p){ PLAN=p; Array.prototype.forEach.call(app.querySelectorAll(".plan"),function(x){ x.classList.toggle("on",x.dataset.p===p); x.querySelector("input").checked=x.dataset.p===p; }); }
     Array.prototype.forEach.call(app.querySelectorAll(".plan"),function(x){ x.addEventListener("click",function(){ sel(x.dataset.p); }); }); sel(PLAN);
