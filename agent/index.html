@@ -154,9 +154,10 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
     function end(d){ if(done) return; done=true; try{ delete window[n]; }catch(x){ window[n]=undefined; } if(s.parentNode) s.parentNode.removeChild(s); cb(d); }
     window[n]=function(d){ end(d); }; p.callback=n; s.src=API+"?"+new URLSearchParams(p).toString(); s.onerror=function(){ end(null); }; setTimeout(function(){ end(null); },15000); document.head.appendChild(s); }
   function post(p,cb){ try{ fetch(API,{method:"POST",body:new URLSearchParams(p)}).then(function(r){ return r.json(); }).then(function(d){ cb(d||null); }).catch(function(){ cb(null); }); }catch(x){ cb(null); } }
-  function session(d){ A={t:d.t,pid:d.pid||"",n:d.n||"",ag:d.ag||"",brn:d.brn||"",ph:d.ph||"",em:d.em||"",img:d.img||"",plan:d.plan}; S={st:d.st,plan:d.plan,until:d.until,used:d.used,limit:d.limit,cr:d.cr,at:Date.now()}; ls("sam-agent",A); ls("sam-agent-st",S); ls("sam-agent-v",null); }
+  function keep(){ if(A&&A.t) ls("sam-agent-prof",{n:A.n||"",ag:A.ag||"",brn:A.brn||"",ph:A.ph||"",em:A.em||"",img:A.img||""}); }
+  function session(d){ A={t:d.t,pid:d.pid||"",n:d.n||"",ag:d.ag||"",brn:d.brn||"",ph:d.ph||"",em:d.em||"",img:d.img||"",plan:d.plan}; S={st:d.st,plan:d.plan,until:d.until,used:d.used,limit:d.limit,cr:d.cr,at:Date.now()}; ls("sam-agent",A); ls("sam-agent-st",S); ls("sam-agent-v",null); keep(); }
   function busy(b,on,txt){ if(!b) return; if(on){ b.dataset.t=b.textContent; b.textContent=txt||"Please wait…"; b.disabled=true; } else { b.textContent=b.dataset.t||b.textContent; b.disabled=false; } }
-  function logout(){ ls("sam-agent",null); ls("sam-agent-st",null); ls("sam-agent-v",null); A=null; S=null; MODE="login"; render(); window.scrollTo({top:0}); }
+  function logout(){ keep(); ls("sam-agent",null); ls("sam-agent-st",null); ls("sam-agent-v",null); A=null; S=null; MODE="login"; render(); window.scrollTo({top:0}); }
   var MODE="login";
   // ---------- log in ----------
   function login(msg){
@@ -168,7 +169,8 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
       '<div class="err" id="er">'+e(msg||"")+'</div><button class="btn gold" type="submit" id="lb">Log in →</button></form>'+
       '<p class="hint" style="text-align:center"><a href="#" id="fg">Forgot password?</a></p>'+
       '<button class="btn ghost" type="button" id="su">✨ New here? Create an agent account</button></div>';
-    var er=document.getElementById("er");
+    var er=document.getElementById("er"), PF=ls("sam-agent-prof")||{};
+    if(PF.em){ document.getElementById("le").value=PF.em; if(PF.n){ document.getElementById("ht").innerHTML='Welcome back, <span>'+e(PF.n.split(/\s+/)[0])+'</span>.'; document.getElementById("hp").textContent="Enter your password to open your dashboard."; } }
     document.getElementById("su").addEventListener("click",function(){ MODE="signup"; render(); });
     document.getElementById("fg").addEventListener("click",function(ev){ ev.preventDefault(); forgot(document.getElementById("le").value.trim()); });
     document.getElementById("lf").addEventListener("submit",function(ev){ ev.preventDefault();
@@ -258,7 +260,11 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
     document.getElementById("tl").addEventListener("click",function(ev){ ev.preventDefault(); MODE="login"; render(); });
     function sel(p){ PLAN=p; Array.prototype.forEach.call(app.querySelectorAll(".plan"),function(x){ x.classList.toggle("on",x.dataset.p===p); x.querySelector("input").checked=x.dataset.p===p; }); }
     Array.prototype.forEach.call(app.querySelectorAll(".plan"),function(x){ x.addEventListener("click",function(){ sel(x.dataset.p); }); }); sel(PLAN);
-    var IMG=""; photoPick(document.getElementById("fi"),function(d){ IMG=d; document.getElementById("pv").innerHTML='<img src="'+d+'" alt="">'; });
+    var IMG=""; photoPick(document.getElementById("fi"),function(d){ IMG=d; document.getElementById("pv").innerHTML='<img src="'+d+'" alt="">'; var dr=ls("sam-agent-draft")||{}; dr.img=d; ls("sam-agent-draft",dr); });
+    (function(){ var P=Object.assign({},ls("sam-agent-prof")||{},ls("sam-agent-draft")||{}), M={fn:"n",fa:"ag",fb:"brn",fp:"ph",fe:"em"};
+      Object.keys(M).forEach(function(id){ var el=document.getElementById(id); if(P[M[id]]&&!el.value) el.value=P[M[id]];
+        el.addEventListener("input",function(){ var dr=ls("sam-agent-draft")||{}; dr[M[id]]=el.value; ls("sam-agent-draft",dr); }); });
+      if(P.img){ IMG=P.img; document.getElementById("pv").innerHTML='<img src="'+P.img+'" alt="">'; } })();
     document.getElementById("sf").addEventListener("submit",function(ev){ ev.preventDefault();
       var v=function(id){ return document.getElementById(id).value.trim(); }, er=document.getElementById("er"), n=v("fn"), ag=v("fa"), brn=v("fb").replace(/[^0-9]/g,""), p=v("fp"), em=v("fe"), dg=p.replace(/[^0-9]/g,"");
       if(n.length<3) return er.textContent="Please enter your full name.";
@@ -272,7 +278,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
       if(pw!==pw2) return er.textContent="The two passwords don't match.";
       em=em.toLowerCase(); er.textContent=""; var b=document.getElementById("sb"); busy(b,true,"Creating your account…");
       post({a:"agent_signup",t:tok(),pid:tok().slice(0,12),name:n,agency:ag,brn:brn,phone:p,email:em,password:pw,plan:PLAN,photo:IMG},function(d){ busy(b,false);
-        if(d&&d.ok){ ls("sam-agent-v",{em:em}); verify(em); window.scrollTo({top:0,behavior:"smooth"}); return; }
+        if(d&&d.ok){ ls("sam-agent-prof",{n:n,ag:ag,brn:brn,ph:p,em:em,img:IMG}); ls("sam-agent-draft",null); ls("sam-agent-v",{em:em}); verify(em); window.scrollTo({top:0,behavior:"smooth"}); return; }
         if(d&&d.err==="exists"){ er.innerHTML='An account with this email already exists. <a href="#" id="tl2">Log in</a> or reset your password.'; document.getElementById("tl2").addEventListener("click",function(x){ x.preventDefault(); MODE="login"; render(); }); return; }
         er.textContent=d?"Please check your details and try again.":"Couldn't reach the server. Please try again."; }); });
   }
@@ -293,6 +299,28 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
     document.getElementById("chk").addEventListener("click",function(){ this.textContent="Checking…"; refresh(true); });
     document.getElementById("sw").addEventListener("click",function(ev){ ev.preventDefault(); var np=pl==="unlimited"?"pro":"unlimited"; A.plan=np; S=S||{}; S.plan=np; ls("sam-agent",A); ls("sam-agent-st",S); render(); });
     document.getElementById("out").addEventListener("click",function(ev){ ev.preventDefault(); logout(); });
+  }
+  // ---------- edit profile (pre-filled with what they gave us) ----------
+  function editProf(){
+    var c=document.getElementById("rpt"); if(!c) return; var old=document.getElementById("epf"); if(old){ old.remove(); return; }
+    c.insertAdjacentHTML("afterbegin",'<form id="epf" class="fade" novalidate style="border:1.5px solid #C9A24A;border-radius:16px;padding:16px;margin-bottom:16px;background:#FFFBF0"><h3 style="margin:0 0 4px">✏️ My details</h3><p class="muted" style="margin:0 0 6px;font-size:13.5px">These show on every report you send. Your email ('+e(A.em||"")+') stays your login.</p><div class="g2">'+
+      '<label class="f">Full name<input class="i" id="en" autocomplete="name" maxlength="60" value="'+e(A.n||"")+'"></label>'+
+      '<label class="f">Agency / brokerage<input class="i" id="ea" autocomplete="organization" maxlength="60" value="'+e(A.ag||"")+'"></label>'+
+      '<label class="f">BRN<input class="i" id="eb" inputmode="numeric" maxlength="12" value="'+e(A.brn||"")+'"></label>'+
+      '<label class="f">WhatsApp number<input class="i" id="ep" type="tel" autocomplete="tel" maxlength="20" value="'+e(A.ph||"")+'"></label></div>'+
+      '<div class="err" id="eer"></div><button class="btn gold" type="submit" id="esb">Save my details</button><button class="btn ghost" type="button" id="ecl">Cancel</button></form>');
+    document.getElementById("ecl").addEventListener("click",function(){ document.getElementById("epf").remove(); });
+    document.getElementById("epf").scrollIntoView({behavior:"smooth",block:"start"});
+    document.getElementById("epf").addEventListener("submit",function(ev){ ev.preventDefault();
+      var v=function(id){ return document.getElementById(id).value.trim(); }, er=document.getElementById("eer"), n=v("en"), ag=v("ea"), brn=v("eb").replace(/[^0-9]/g,""), p=v("ep"), dg=p.replace(/[^0-9]/g,"");
+      if(n.length<3) return er.textContent="Please enter your full name.";
+      if(ag.length<2) return er.textContent="Please enter your agency.";
+      if(brn.length<3) return er.textContent="Please enter your BRN.";
+      if(dg.length<8||dg.length>15) return er.textContent="Please enter your WhatsApp number with country code.";
+      if(!/^\s*(\+|00)/.test(p)){ if(/^05\d{8}$/.test(dg)) p="+971"+dg.slice(1); else if(/^5\d{8}$/.test(dg)) p="+971"+dg; else p="+"+dg; }
+      A.n=n; A.ag=ag; A.brn=brn; A.ph=p; A.pend=1; ls("sam-agent",A); keep();
+      var b=document.getElementById("esb"); busy(b,true,"Saving…");
+      post({a:"agent_profile",t:A.t,name:n,agency:ag,brn:brn,phone:p},function(d){ busy(b,false); if(d&&d.ok){ delete A.pend; ls("sam-agent",A); } dash(); }); });
   }
   // ---------- 3. dashboard ----------
   var PJ=null, MXL=false, FT=null;
@@ -345,7 +373,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
        (pro&&left<=5?'<div class="warn"><b>'+left+' project'+(left===1?'':'s')+' left this month.</b> <a href="'+wa("Hi, I'd like to upgrade to Agent Unlimited (AED "+price("unlimited")+"/month). Name: "+A.n+", BRN "+A.brn+".")+'" target="_blank" rel="noopener">Go Unlimited →</a></div>':''))+
       (function(){ var dl=Math.round((new Date(S.until+"T23:59:59")-new Date())/864e5), lk=(pro?PAY.agent:PAY.agent_unl)||""; return dl<=5&&dl>=0?'<div class="warn"><b>Your plan renews on '+e(S.until)+' ('+(dl===0?'today':dl+' day'+(dl===1?'':'s')+' left')+').</b><br><span class="muted">Renew to keep your reports and your client links working.</span>'+(lk?'<a class="btn gold" style="margin-top:10px" href="'+e(lk)+'" target="_blank" rel="noopener">💳 Renew AED '+price(pro?"pro":"unlimited")+'</a>':'')+'<a class="btn wa" style="margin-top:8px" href="'+wa("Hi, I've renewed "+(pro?"Agent Pro":"Agent Unlimited")+". Name: "+A.n+", BRN "+A.brn+". Here is my receipt.")+'" target="_blank" rel="noopener">💬 Send renewal receipt</a></div>':''; })()+
       (rec.length?'<div class="rec"><h2 style="font-size:17px;margin-top:20px">Recent reports</h2>'+rec.slice(0,8).map(function(r){ return '<a href="'+e(r.l||("../checklist/?agent=1&proj="+encodeURIComponent(r.p)))+'"><b>'+e(r.p)+(r.c?' <span>· for '+e(r.c)+'</span>':'')+'</b><span>'+e(r.d||"")+(r.s?' · '+r.s+'/100':'')+'</span></a>'; }).join("")+'</div>':'')+
-      '<p class="hint" style="margin-top:18px">Tap your photo to change it · <a href="'+wa("Hi, I'd like to change my Agent Pro details. Name: "+A.n+", BRN "+A.brn+".")+'">Change my details</a> · <a href="#" id="out">Log out</a></p></div>';
+      '<p class="hint" style="margin-top:18px">Tap your photo to change it · <a href="#" id="ed">✏️ Edit my details</a> · <a href="#" id="out">Log out</a></p></div>';
     document.getElementById("out").addEventListener("click",function(ev){ ev.preventDefault(); logout(); });
     function toStats(a){ history.replaceState(null,"","#market"); tab("market",a); window.scrollTo({top:0,behavior:"smooth"}); }
     function tab(t,area){ [["t1","reports"],["t4","focus"],["t6","news"],["t2","market"],["t5","supply"],["t3","map"]].forEach(function(x){ document.getElementById(x[0]).classList.toggle("on",t===x[1]); });
@@ -362,6 +390,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
     document.getElementById("t1").addEventListener("click",function(ev){ ev.preventDefault(); history.replaceState(null,"","#reports"); tab("reports"); });
     document.getElementById("t2").addEventListener("click",function(ev){ ev.preventDefault(); history.replaceState(null,"","#market"); tab("market"); });
     if(TAB!=="reports") tab(TAB);
+    document.getElementById("ed").addEventListener("click",function(ev){ ev.preventDefault(); editProf(); });
     photoPick(document.getElementById("fi2"),function(d){ A.img=d; ls("sam-agent",A); try{ fetch(API,{method:"POST",mode:"no-cors",body:new URLSearchParams({a:"agent_photo",t:A.t,photo:d})}).catch(function(){}); }catch(x){} dash(); });
     setTimeout(function(){ var rg=document.getElementById("rg"); if(rg){ var k=0; (function f(){ k+=4; rg.style.setProperty("--v",Math.min(k,pct)); if(k<pct) requestAnimationFrame(f); })(); } },150);
     var qi=document.getElementById("q"), sg=document.getElementById("sg"), hi=-1, list=[];
@@ -396,7 +425,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
     if(!A||!A.t) return;
     api({a:"me",t:A.t},function(d){
       var before=JSON.stringify([S&&S.st,S&&S.plan,S&&S.until,S&&S.used,S&&S.cr,A&&A.n,A&&A.ag,A&&A.brn,A&&A.img&&A.img.length]);
-      if(d&&d.ok){ S={st:d.st,plan:d.plan,until:d.until,used:d.used,limit:d.limit,cr:d.cr,at:Date.now()}; ["n","ag","brn","ph","pid","img"].forEach(function(k){ if(d[k]) A[k]=String(d[k]); }); ls("sam-agent",A); ls("sam-agent-st",S); }
+      if(d&&d.ok){ S={st:d.st,plan:d.plan,until:d.until,used:d.used,limit:d.limit,cr:d.cr,at:Date.now()}; ["n","ag","brn","ph","pid","img"].forEach(function(k){ if(d[k]&&!(A.pend&&/^(n|ag|brn|ph)$/.test(k))) A[k]=String(d[k]); }); ls("sam-agent",A); ls("sam-agent-st",S); keep(); }
       else if(d&&d.st==="unknown"&&loud&&S){ S.st="pending"; }
       var after=JSON.stringify([S&&S.st,S&&S.plan,S&&S.until,S&&S.used,S&&S.cr,A&&A.n,A&&A.ag,A&&A.brn,A&&A.img&&A.img.length]);
       if(loud||before!==after) render();   // don't redraw (and lose the open tab) when nothing changed

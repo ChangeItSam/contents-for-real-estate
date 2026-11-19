@@ -309,6 +309,7 @@ function doPost(e) {
     if (p.a === 'agent_signup') return agpSignup(p);
     if (/^agent_(verify|resend|login|forgot|reset)$/.test(p.a || '')) return agpAuth(p);
     if (p.a === 'agent_photo') return agpPhoto(p);
+    if (p.a === 'agent_profile') return agpProfile(p);
     var sh = leadsSheet();
     var digits = String(p.phone || '').replace(/[^0-9]/g, '');
     var name = String(p.name || '').trim();
@@ -530,6 +531,18 @@ function agpPhoto(p) {
   var f = agpFind(p.t), img = agpImg(p.photo);
   if (f && img) f.sh.getRange(f.row, 14).setValue(img);
   return ContentService.createTextOutput(JSON.stringify({ ok: !!(f && img) })).setMimeType(ContentService.MimeType.JSON);
+}
+// the agent edits their own name, agency, BRN and WhatsApp from the portal (the token proves it's them)
+function agpProfile(p) {
+  var f = agpFind(p.t); if (!f) return agpOut({ ok: false });
+  var n = String(p.name || '').trim(), ag = String(p.agency || '').trim(), brn = String(p.brn || '').replace(/[^0-9]/g, ''), ph = String(p.phone || '').trim();
+  if (n.length < 3 || ag.length < 2 || brn.length < 3 || ph.replace(/[^0-9]/g, '').length < 8) return agpOut({ ok: false, err: 'fields' });
+  var old = [String(f.v[1]), String(f.v[2]), String(f.v[3]), String(f.v[4])];
+  f.sh.getRange(f.row, 2, 1, 4).setValues([[clean(n), clean(ag), clean(brn), clean(ph)]]);
+  if (old[3] !== brn && old[3] !== '') {   // a BRN change is worth a note for Sam
+    var note = String(f.v[12] || ''); f.sh.getRange(f.row, 13).setValue((note ? note + ' | ' : '') + 'BRN changed ' + old[3] + ' → ' + brn + ' (' + dstr(new Date()) + ')');
+  }
+  return agpOut({ ok: true, s: agpSession(f) });
 }
 // public photo lookup for a client opening a shared report (by Public ID, never by the private token)
 function agpPic(id) {
