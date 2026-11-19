@@ -125,17 +125,68 @@ input.i:focus{outline:0;border-color:var(--gold);box-shadow:0 0 0 4px rgba(201,1
 .ft{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px}
 .ft b{color:var(--navy);display:block;margin-top:6px}.ft span{color:var(--muted);font-size:14.5px}
 .fade{animation:fd .5s ease both}@keyframes fd{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+/* landing (logged out) */
+#navin{border:1px solid rgba(232,207,142,.55);color:#E8CF8E!important;border-radius:20px;padding:6px 12px;font-weight:700}#navin[hidden],.lnav[hidden]{display:none}@media(max-width:560px){.lnav{display:none!important}}
+.hcta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.hcta[hidden]{display:none}.hcta .btn{width:auto;margin:0;padding:14px 22px;font-size:16px}.hcta .ghost{border-color:rgba(232,207,142,.5);color:#fff}
+.hchips{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.hchips[hidden]{display:none}.hchips span{background:rgba(255,255,255,.08);border:1px solid rgba(232,207,142,.25);border-radius:20px;padding:6px 12px;font-size:13px;color:#E8E2D0}
+#land[hidden],#feat[hidden]{display:none}.ls{margin-top:56px}.ls>.k{color:var(--gold);font-weight:900;font-size:12.5px;letter-spacing:2px;text-transform:uppercase}.ls>h2{font-size:clamp(25px,4vw,34px);margin:6px 0 6px;letter-spacing:-.6px;line-height:1.15}.ls>p.muted{max-width:640px;font-size:16px}
+.gal{display:grid;grid-template-columns:1fr 330px;gap:28px;margin-top:22px;align-items:start}@media(max-width:780px){.gal{grid-template-columns:1fr}}
+.gl{display:grid;gap:8px}.gl button{display:flex;gap:12px;align-items:flex-start;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:16px;padding:12px 14px;font:inherit;cursor:pointer;transition:all .25s;color:var(--ink)}.gl button i{font-style:normal;font-size:22px;line-height:1.2}.gl button b{display:block;color:var(--navy);font-size:15.5px}.gl button span{display:block;color:var(--muted);font-size:13.5px;line-height:1.4;max-height:0;overflow:hidden;transition:max-height .35s}.gl button.on{border-color:var(--gold);background:linear-gradient(160deg,#FFF9EA,#fff);box-shadow:0 10px 24px rgba(201,162,74,.18)}.gl button.on span{max-height:120px;margin-top:3px}
+@media(max-width:780px){.gl{display:flex;overflow-x:auto;gap:8px;padding-bottom:6px;scrollbar-width:none}.gl::-webkit-scrollbar{display:none}.gl button{flex:0 0 auto;padding:9px 13px;border-radius:30px;align-items:center}.gl button i{font-size:17px}.gl button b{font-size:14px;white-space:nowrap}.gl button span{display:none}.gcap{display:block!important}}
+.gcap{display:none;text-align:center;color:var(--muted);font-size:14.5px;margin:12px auto 0;max-width:360px}
+.phone{position:relative;width:min(330px,100%);margin:0 auto;border-radius:42px;padding:12px;background:linear-gradient(160deg,#1B2B45,#081830);box-shadow:0 30px 70px rgba(8,24,48,.35),inset 0 0 0 2px rgba(232,207,142,.25)}.phone:before{content:"";position:absolute;top:20px;left:50%;transform:translateX(-50%);width:84px;height:20px;border-radius:12px;background:#050d1a;z-index:2}
+.scr{border-radius:32px;overflow:hidden;height:560px;background:#FAF7F0;position:relative}.scr img{width:100%;display:block;transition:opacity .35s}.scr:after{content:"";position:absolute;left:0;right:0;bottom:0;height:90px;background:linear-gradient(transparent,rgba(250,247,240,.95))}
+.scr img.sc{animation:scr 14s ease-in-out infinite alternate}@keyframes scr{0%,15%{transform:translateY(0)}100%{transform:translateY(calc(-100% + 560px))}}
+.how{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}@media(max-width:700px){.how{grid-template-columns:1fr}}.how>div{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;position:relative}.how b{display:block;color:var(--navy);font-size:17px;margin:8px 0 4px}.how span{color:var(--muted);font-size:14.5px}.how em{font-style:normal;width:36px;height:36px;border-radius:50%;background:var(--navy);color:var(--gold2);font-weight:900;display:grid;place-items:center}
+.pr{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}@media(max-width:700px){.pr{grid-template-columns:1fr;gap:24px}}
+.pc{background:#fff;border:2px solid var(--line);border-radius:24px;padding:24px;position:relative}.pc.best{border-color:var(--gold);background:linear-gradient(170deg,#FFF9EA,#fff 40%);box-shadow:0 20px 50px rgba(201,162,74,.22)}.pc .rib{position:absolute;top:-13px;left:22px;background:var(--navy);color:var(--gold2);font-size:12px;font-weight:900;letter-spacing:1px;text-transform:uppercase;border-radius:20px;padding:5px 12px}
+.pc h3{color:var(--navy);font-size:20px}.pc .amt{font-size:46px;font-weight:900;color:var(--navy);letter-spacing:-1.5px;line-height:1;margin:10px 0 2px}.pc .amt small{font-size:15px;font-weight:700;color:var(--muted);letter-spacing:0}.pc .per{color:var(--green);font-weight:800;font-size:14px}
+.pc ul{list-style:none;padding:0;margin:16px 0 0;display:grid;gap:8px}.pc li{padding-left:28px;position:relative;font-size:15px}.pc li:before{content:"✓";position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;background:#E6F4EC;color:var(--green);font-weight:900;font-size:12px;display:grid;place-items:center}
+.top{margin-top:14px;background:var(--navy);color:#fff;border-radius:18px;padding:14px 18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}.top b{color:var(--gold2)}.top span{flex:1;min-width:200px;font-size:14.5px;color:#C9D5E8}
+.rep{display:grid;grid-template-columns:300px 1fr;gap:28px;align-items:center;margin-top:20px}@media(max-width:700px){.rep{grid-template-columns:1fr}.rep img{max-width:320px;margin:0 auto}}.rep img{width:100%;border-radius:22px;box-shadow:0 24px 60px rgba(8,24,48,.25);display:block}.rep ul{list-style:none;padding:0;display:grid;gap:12px}.rep li{display:flex;gap:12px;align-items:flex-start}.rep li i{font-style:normal;font-size:22px}.rep li b{color:var(--navy);display:block}.rep li span{color:var(--muted);font-size:14.5px}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-top:10px}.faq summary{font-weight:800;color:var(--navy);cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px}.faq summary::-webkit-details-marker{display:none}.faq summary:after{content:"+";color:var(--gold);font-size:22px;line-height:1}.faq details[open] summary:after{content:"–"}.faq p{color:var(--muted);font-size:15px;margin-top:8px}
+.fin{margin-top:56px;background:radial-gradient(600px 260px at 80% 0,#1E4B82,transparent 70%),linear-gradient(160deg,var(--navy),var(--navy2));color:#fff;border-radius:28px;padding:34px 24px;text-align:center}.fin h2{color:#fff;font-size:clamp(24px,4vw,32px)}.fin p{color:#C9D5E8;margin:8px auto 0;max-width:520px}.fin .hcta{justify-content:center}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}.rv.in{opacity:1;transform:none}
 footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
 </style>
 </head>
 <body>
-<nav><div class="wrap"><a class="logo" href="/" aria-label="DealPro Agent"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#13284A"/><rect x="14" y="34" width="8" height="16" rx="2" fill="#C9A24A"/><rect x="28" y="24" width="8" height="26" rx="2" fill="#C9A24A"/><rect x="42" y="14" width="8" height="36" rx="2" fill="#F6E7BE"/><path d="M12 24 L24 16 L33 20 L48 9" fill="none" stroke="#F6E7BE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>DealPro<em>Agent</em></span></a><div class="lk"><a href="https://wa.me/971528728248?text=Hi%2C%20I%20have%20a%20question%20about%20DealPro%20Agent." target="_blank" rel="noopener">💬<span class="sup-t"> Support</span></a><a href="#" id="navout" hidden>↪ Log out</a></div></div></nav>
+<nav><div class="wrap"><a class="logo" href="/" aria-label="DealPro Agent"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#13284A"/><rect x="14" y="34" width="8" height="16" rx="2" fill="#C9A24A"/><rect x="28" y="24" width="8" height="26" rx="2" fill="#C9A24A"/><rect x="42" y="14" width="8" height="36" rx="2" fill="#F6E7BE"/><path d="M12 24 L24 16 L33 20 L48 9" fill="none" stroke="#F6E7BE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><span>DealPro<em>Agent</em></span></a><div class="lk"><a href="https://wa.me/971528728248?text=Hi%2C%20I%20have%20a%20question%20about%20DealPro%20Agent." target="_blank" rel="noopener">💬<span class="sup-t"> Support</span></a><a href="#inside" class="lnav" hidden>What's inside</a><a href="#pricing" class="lnav" hidden>Pricing</a><a href="#" id="navin" hidden>Log in</a><a href="#" id="navout" hidden>↪ Log out</a></div></div></nav>
 <header class="hero"><div class="wrap">
   <span class="tag">🏢 Agent Pro</span>
   <h1 id="ht">Your own <span>branded</span> deal analysis.</h1>
   <p id="hp">Type any Dubai off-plan project. Get the full deal report with your name, photo, agency and BRN on every page, ready to send to your client.</p>
+  <div class="hcta" id="hcta" hidden><a class="btn gold" href="#" data-go="signup">✨ Create my account</a><a class="btn ghost" href="#" data-go="login">Log in</a></div>
+  <div class="hchips" id="hchips" hidden><span>🏛️ Dubai Land Department data</span><span>🪪 Your name &amp; BRN on every report</span><span>💬 Clients reply on your WhatsApp</span></div>
 </div></header>
 <main class="wrap"><div class="lift" id="app"><div class="card"><p class="muted">Loading…</p></div></div>
+<div id="land" hidden>
+  <section class="ls rv" id="inside"><div class="k">What's inside</div><h2>Everything you need to close an off-plan deal.</h2><p class="muted">One login. Seven tools you'll use every day, built on Dubai Land Department data. These are real screens from the portal.</p>
+    <div class="gal"><div class="gl" id="gl"><button type="button" data-i="0" class="on"><i>🪪</i><div><b>Branded client report</b><span>Score, verdict and the 3 reasons why, with your photo, name, agency and BRN. Your client taps to WhatsApp or call you, not anyone else.</span></div></button><button type="button" data-i="1"><i>📄</i><div><b>Client reports in one tap</b><span>Type any Dubai off-plan project, including new launches. ⚡ Instant report ticks every check from DLD data for you.</span></div></button><button type="button" data-i="2"><i>🎯</i><div><b>Where to focus</b><span>The top 3 areas to work this month: rising prices, best yields, busiest sales, upcoming supply.</span></div></button><button type="button" data-i="3"><i>📰</i><div><b>News &amp; launches</b><span>Market-moving news (rules, fees, mortgages, visas) with why it matters, plus every new developer launch.</span></div></button><button type="button" data-i="4"><i>📊</i><div><b>Market statistics</b><span>Any area, any period: sales, off-plan share, price per sq ft, median price, month by month.</span></div></button><button type="button" data-i="5"><i>🏗️</i><div><b>Upcoming supply</b><span>Apartments, townhouses and villas handing over each year, in any area.</span></div></button><button type="button" data-i="6"><i>🗺️</i><div><b>Dubai price map</b><span>Every community on one map: price per sq ft, yearly change, rents and yields.</span></div></button></div><div><div class="phone"><div class="scr"><img id="gimg" src="/assets/dpa/shots/report.webp?v=2" alt="DealPro Agent screen"></div></div><p class="gcap" id="gcap"></p></div></div></section>
+  <section class="ls rv"><div class="k">The report your client gets</div><h2>Your name. Your BRN. Your WhatsApp.</h2>
+    <div class="rep"><img src="/assets/dpa/shots/report.webp?v=2" alt="Sample branded client report" loading="lazy"><ul>
+      <li><i>🏛️</i><div><b>20 checks, backed by DLD</b><span>Registration, escrow bank, construction progress, developer track record, price vs the area.</span></div></li>
+      <li><i>📈</i><div><b>Exit scenarios</b><span>Conservative, realistic and optimistic resale value, with the profit after fees.</span></div></li>
+      <li><i>🪪</i><div><b>Branded to you, top to bottom</b><span>Your photo and name in the header and background. "Prepared by" you.</span></div></li>
+      <li><i>💬</i><div><b>Leads come to you</b><span>Your client's WhatsApp and Call buttons go to your number.</span></div></li></ul></div></section>
+  <section class="ls rv"><div class="k">How it works</div><h2>Live in 3 steps.</h2>
+    <div class="how"><div><em>1</em><b>Create your profile</b><span>Name, agency, BRN, WhatsApp and photo. One minute.</span></div><div><em>2</em><b>Pay securely</b><span>Card or Apple Pay with Ziina. Activated the same day.</span></div><div><em>3</em><b>Send your first report</b><span>Type a project, tap ⚡ Instant report, send the link to your client.</span></div></div></section>
+  <section class="ls rv" id="pricing"><div class="k">Pricing</div><h2>One deal pays for years of it.</h2><p class="muted">Monthly plans. Every tool on both plans. Cancel any time.</p>
+    <div class="pr">
+      <div class="pc"><span class="rib">Best to start</span><h3>Agent Pro</h3><div class="amt"><span class="lp-pro">199</span> <small>AED / month</small></div><div class="per">30 projects a month · about AED 6.6 a project</div>
+        <ul><li>30 different projects a month, each sent to as many clients as you like</li><li>Branded reports with your name, BRN and WhatsApp</li><li>Where to focus, news &amp; launches</li><li>Market statistics, upcoming supply, price map</li></ul><a class="btn dark" href="#" data-go="signup" data-plan="pro">Start with Agent Pro →</a></div>
+      <div class="pc best"><span class="rib">⭐ Best value</span><h3>Agent Unlimited</h3><div class="amt"><span class="lp-unl">299</span> <small>AED / month</small></div><div class="per">Unlimited projects · for busy agents</div>
+        <ul><li><b>Unlimited</b> projects every month</li><li>Branded reports with your name, BRN and WhatsApp</li><li>Where to focus, news &amp; launches</li><li>Market statistics, upcoming supply, price map</li></ul><a class="btn gold" href="#" data-go="signup" data-plan="unlimited">Go Unlimited →</a></div></div>
+    <div class="top"><b>➕ Top-up AED <span class="lp-one">19</span></b><span>On Agent Pro and used all 30? Add one more project any time, no need to upgrade.</span></div></section>
+  <section class="ls rv faq"><div class="k">Questions</div><h2>Good to know.</h2>
+    <details><summary>Where does the data come from?</summary><p>The Dubai Land Department's open data (via Dubai Data), refreshed daily for projects and weekly for market statistics, plus developers' official launch details for brand-new projects.</p></details>
+    <details><summary>What counts as one project?</summary><p>Each different project you run a report on in a month. Send the same project to 10 clients and it still counts once.</p></details>
+    <details><summary>Will my clients see someone else's name?</summary><p>No. The report carries your name, photo, agency, BRN and WhatsApp. Your clients contact you.</p></details>
+    <details><summary>Can I use it on my phone?</summary><p>Yes. It works in any browser, phone or laptop. Log in with your email and password.</p></details>
+    <details><summary>How do I pay and when does it start?</summary><p>Pay by card or Apple Pay with Ziina, send the receipt on WhatsApp, and your plan is activated the same day for one month.</p></details>
+    <details><summary>Can I change my details later?</summary><p>Yes. Tap ✏️ Edit my details in your dashboard any time.</p></details></section>
+  <section class="fin rv"><h2>Send your first branded report today.</h2><p>Give clients DLD-backed answers instead of brochures.</p><div class="hcta"><a class="btn gold" href="#" data-go="signup">✨ Create my account</a><a class="btn ghost" href="#" data-go="login">Log in</a></div></section>
+</div>
 <div class="grid3" id="feat">
   <div class="ft">🏗️<b>DLD-backed checks</b><span>Registration, escrow, construction and the developer's track record.</span></div>
   <div class="ft">📈<b>Exit &amp; appreciation</b><span>Three realistic exit scenarios and the 10 factors behind them.</span></div>
@@ -169,6 +220,8 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
       '<div class="err" id="er">'+e(msg||"")+'</div><button class="btn gold" type="submit" id="lb">Log in →</button></form>'+
       '<p class="hint" style="text-align:center"><a href="#" id="fg">Forgot password?</a></p>'+
       '<button class="btn ghost" type="button" id="su">✨ New here? Create an agent account</button></div>';
+    document.getElementById("ht").innerHTML='Close more off-plan deals with <span>data clients trust</span>.';
+    document.getElementById("hp").textContent="Type any Dubai project and send a DLD-backed report with your name, BRN and WhatsApp on it. Plus where to focus, market stats, upcoming supply, news and new launches. All in one place.";
     var er=document.getElementById("er"), PF=ls("sam-agent-prof")||{};
     if(PF.em){ document.getElementById("le").value=PF.em; if(PF.n){ document.getElementById("ht").innerHTML='Welcome back, <span>'+e(PF.n.split(/\s+/)[0])+'</span>.'; document.getElementById("hp").textContent="Enter your password to open your dashboard."; } }
     document.getElementById("su").addEventListener("click",function(){ MODE="signup"; render(); });
@@ -415,7 +468,30 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
   }
   function navOut(){ var o=document.getElementById("navout"); if(o) o.hidden=!(A&&A.t); }
   document.getElementById("navout").addEventListener("click",function(ev){ ev.preventDefault(); logout(); });
-  function render(){ setTimeout(navOut,0);
+  // ---------- landing (logged out) ----------
+  var LSH=[["report", "Score, verdict and the 3 reasons why, with your photo, name, agency and BRN. Your client taps to WhatsApp or call you, not anyone else."], ["reports", "Type any Dubai off-plan project, including new launches. ⚡ Instant report ticks every check from DLD data for you."], ["focus", "The top 3 areas to work this month: rising prices, best yields, busiest sales, upcoming supply."], ["news", "Market-moving news (rules, fees, mortgages, visas) with why it matters, plus every new developer launch."], ["market", "Any area, any period: sales, off-plan share, price per sq ft, median price, month by month."], ["supply", "Apartments, townhouses and villas handing over each year, in any area."], ["map", "Every community on one map: price per sq ft, yearly change, rents and yields."]], GT=null;
+  function landing(on){
+    document.getElementById("land").hidden=!on; document.getElementById("hcta").hidden=!on; document.getElementById("hchips").hidden=!on;
+    document.getElementById("feat").hidden=on||!(A&&A.t); Array.prototype.forEach.call(document.querySelectorAll(".lnav"),function(a){ a.hidden=!on; });
+    document.getElementById("navin").hidden=!!(A&&A.t)||on;
+    if(!on){ clearInterval(GT); GT=null; return; }
+    document.querySelectorAll(".lp-pro").forEach(function(x){ x.textContent=price("pro"); }); document.querySelectorAll(".lp-unl").forEach(function(x){ x.textContent=price("unlimited"); }); document.querySelectorAll(".lp-one").forEach(function(x){ x.textContent=PAY.price_one||19; });
+    if(landing.done) return; landing.done=1;
+    var io=window.IntersectionObserver?new IntersectionObserver(function(es){ es.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add("in"); io.unobserve(x.target); } }); },{threshold:.1}):null;
+    document.querySelectorAll(".rv").forEach(function(x){ if(io) io.observe(x); else x.classList.add("in"); });
+    LSH.forEach(function(k){ var i=new Image(); i.src="/assets/dpa/shots/"+k[0]+".webp"; });
+    var bs=document.querySelectorAll("#gl button"), img=document.getElementById("gimg"), cap=document.getElementById("gcap"), cur=0;
+    function show(i,user){ cur=i; bs.forEach(function(b,j){ b.classList.toggle("on",j===i); }); img.style.opacity=0;
+      setTimeout(function(){ img.src="/assets/dpa/shots/"+LSH[i][0]+".webp?v=2"; img.className=""; void img.offsetWidth; img.className="sc"; img.style.opacity=1; },200);
+      cap.textContent=LSH[i][1]; if(user){ clearInterval(GT); GT=null; var g=document.getElementById("gl"); g.scrollTo({left:bs[i].offsetLeft-g.offsetWidth/2+bs[i].offsetWidth/2,behavior:"smooth"}); } }
+    bs.forEach(function(b,j){ b.addEventListener("click",function(){ show(j,true); }); }); show(0);
+    GT=setInterval(function(){ if(!document.getElementById("land").hidden) show((cur+1)%LSH.length); },6500);
+    document.addEventListener("click",function(ev){ var a=ev.target.closest&&ev.target.closest("[data-go]"); if(!a) return; ev.preventDefault();
+      if(a.dataset.plan) PLAN=a.dataset.plan; MODE=a.dataset.go; render(); document.getElementById("app").scrollIntoView({behavior:"smooth",block:"center"});
+      if(MODE==="login") setTimeout(function(){ var le=document.getElementById("le"), lp=document.getElementById("lp"); var f=le&&le.value?lp:le; if(f) f.focus({preventScroll:true}); },500); });
+    document.getElementById("navin").addEventListener("click",function(ev){ ev.preventDefault(); MODE="login"; render(); window.scrollTo({top:0,behavior:"smooth"}); });
+  }
+  function render(){ setTimeout(navOut,0); landing(!(A&&A.t)&&MODE==="login");
     if(!A||!A.t){ var pv=ls("sam-agent-v"); if(pv&&pv.em&&MODE!=="login"&&MODE!=="signup") return verify(pv.em); return MODE==="signup"?signup():login(); }
     if(S&&S.st==="active"&&S.until>=today) return dash();
     if(S&&(S.st==="expired"||(S.st==="active"&&S.until<today))) return pending(true);
