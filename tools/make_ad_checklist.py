@@ -153,6 +153,10 @@ s = s.replace("e.g. Binghatti JVC", "e.g. Saadiyat Lagoons")
 s = s.replace("(for example JVC or Dubai South)", "(for example Al Reem Island or Yas Island)")
 s = s.replace("open data via Dubai Data (CC BY 4.0)", "market data")
 s = s.replace("(open data via Dubai Data)", "(market data)")
+AD_PAUSED = True   # Abu Dhabi is switched off for now: ad.html forwards to the Dubai test. Set False to bring it back.
+if AD_PAUSED:
+    s = s.replace("<head>", '<head><script>location.replace("index.html"+location.search);</script><meta name="robots" content="noindex">', 1)
+    miss = [m for m in miss if "emtab" not in m[0] and 'data-em=' not in m[0]]
 if miss:
     print("NOT FOUND (check the Dubai page changed):"); [print("  ", m) for m in miss]
 open(OUT, "w", encoding="utf-8").write(s)

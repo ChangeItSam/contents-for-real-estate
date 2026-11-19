@@ -35,7 +35,7 @@ PAGES["terms"] = ("Terms & Conditions", f"""
 <p>The Services are information tools. <b>They are not financial, investment, legal or valuation advice</b>, and a score or verdict is not a recommendation to buy or sell. Always check the SPA, the escrow account and the registration with the developer and the authorities before paying, and take professional advice where you need it.</p>
 
 <h2>3. Data sources</h2>
-<p>Dubai market figures come from Dubai Land Department open data published through Dubai Data under the CC BY 4.0 licence, and from developers' official launch information. Abu Dhabi figures, where shown, come from the Abu Dhabi Real Estate Centre (ADREC). We are <b>not</b> an official service of the Dubai Land Department, RERA, ADREC or any developer. Public data can be delayed, incomplete or corrected by its publisher, and estimates (for example exit scenarios, property type or handover year) are projections, not guarantees. We do our best to keep the data accurate but do not guarantee it.</p>
+<p>Dubai market figures come from Dubai Land Department open data published through Dubai Data under the CC BY 4.0 licence, and from developers' official launch information. We are <b>not</b> an official service of the Dubai Land Department, RERA or any developer. Public data can be delayed, incomplete or corrected by its publisher, and estimates (for example exit scenarios, property type or handover year) are projections, not guarantees. We do our best to keep the data accurate but do not guarantee it.</p>
 
 <h2>4. Accounts (DealPro Agent)</h2>
 <ul>
