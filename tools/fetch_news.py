@@ -25,7 +25,10 @@ WHY = [(r"interest rate|fed |central bank|\beibor\b", "💳 Mortgage rates", "Ch
        (r"price|values?|per sq|appreciat|correct|decline|drop|fall|cool", "📈 Prices", "Price direction affects entry timing and resale profit."),
        (r"sales|transactions|deals|record|billion|bn", "📊 Demand", "Sales volumes show how strong buyer demand is."),
        (r"metro|road|airport|al maktoum|blue line|etihad rail|infrastructure|bridge|tunnel", "🚇 Infrastructure", "New transport usually lifts nearby prices.")]
-LAUNCH_RE = r"\blaunch(es|ed|ing)?\b|\bunveil(s|ed)?\b|\bintroduces\b|\bdebuts?\b|\breveals\b|\bnew (project|tower|community|phase)"
+LAUNCH_RE = r"\blaunch(es|ed|ing)?\b|\bunveil(s|ed)?\b|\bintroduces\b|\bdebuts?\b|\breveals\b|\bopens sales\b|\bsales launch"
+PROP_RE = r"propert|real estate|realty|\bhomes?\b|housing|villa|townhouse|apartment|residen|tower|off-plan|offplan|\bunits?\b|mortgage|\brents?\b|rental|tenant|landlord|\bdld\b|rera|escrow|developer|masterplan|master plan|community|plots?\b|golden visa|per sq|handover"
+LAUNCH_PROP_RE = r"villa|townhouse|apartment|residen|tower|homes|community|project|development|phase|collection|plots|masterplan|waterfront|beachfront"
+JUNK_RE = r"restaurant|dining|food|scooter|bike|traffic|fine for|flight|airline|hotel opening|concert|nye|new year|cirque|festival|ai tool|workspace|office space|school fees|holiday home|football|cricket|weather|recipe|retail at|mall opens|celebrat|linked to|hemedti|sanction|laundering|arrest"
 PLACE_RE = r"dubai|uae|emirates|emaar|nakheel|damac|sobha|meraas|binghatti|azizi|ellington|omniyat|danube|aldar|jvc|palm|marina|downtown|creek|expo|dubai south"
 SKIP_RE = r"abu dhabi only|saudi|riyadh|jeddah|qatar|doha|bahrain|oman|muscat|egypt|cairo|india|london|ras al khaimah|sharjah|ajman|umm al"
 
@@ -40,6 +43,17 @@ def fetch(q):
         except Exception: continue
         yield {"t": t.strip(), "s": src.strip(), "d": d, "u": it.findtext("link") or ""}
 
+def words(t): return set(w for w in re.findall(r"[a-z0-9]+", t.lower()) if len(w) > 2 and w not in {"the", "and", "for", "with", "dubai", "its", "new", "from", "into", "aed", "dhs", "dh"})
+def same(a, b):
+    A, B = words(a), words(b)
+    return bool(A and B) and len(A & B) / min(len(A), len(B)) >= 0.5
+def keep(t, kind):
+    low = t.lower()
+    if re.search(JUNK_RE, low) or not re.search(PROP_RE, low): return False
+    if "abu dhabi" in low and "dubai" not in low.replace("abu dhabi", ""): return False
+    if re.search(SKIP_RE, low) and "dubai" not in low: return False
+    if kind == "l" and not re.search(LAUNCH_PROP_RE, low): return False
+    return True
 def norm(t): return re.sub(r"[^a-z0-9]+", " ", t.lower()).strip()[:70]
 def why(t):
     for rx, tag, txt in WHY:
@@ -53,23 +67,29 @@ cut = (datetime.date.today() - datetime.timedelta(days=DAYS)).isoformat()
 got = {"m": {}, "l": {}}
 for k in ("m", "l"):
     for x in old.get(k, []):
-        if x.get("d", "") >= cut[:len(x.get("d", ""))]: got[k][norm(x["t"])] = x
+        if x.get("d", "") >= cut[:len(x.get("d", ""))] and keep(x["t"], k) and (k == "m" or re.search(LAUNCH_RE, x["t"].lower())): got[k][norm(x["t"])] = x
 ok = 0
 for k, qs in (("m", MARKET_Q), ("l", LAUNCH_Q)):
     for q in qs:
         try:
             for x in fetch(q):
                 t = x["t"]; low = t.lower()
-                if x["d"] < cut or not re.search(PLACE_RE, low) or re.search(SKIP_RE, low) and "dubai" not in low: continue
+                if x["d"] < cut or not re.search(PLACE_RE, low): continue
                 is_launch = bool(re.search(LAUNCH_RE, low))
                 kk = "l" if is_launch else "m"
+                if not keep(t, kk): continue
                 if kk == "m" and k == "l": continue          # launch query that isn't about a launch
                 key = norm(t)
-                if key in got["l"] or key in got["m"]: continue
+                if key in got["l"] or key in got["m"] or any(same(t, y["t"]) for y in list(got["l"].values()) + list(got["m"].values())): continue
                 if kk == "m": x["g"], x["w"] = why(t)
                 got[kk][key] = x; ok += 1
         except Exception as e:
             print("skip", q, e)
+for k in ("m", "l"):
+    L = []
+    for x in sorted(got[k].values(), key=lambda x: x["d"], reverse=True):
+        if not any(same(x["t"], y["t"]) for y in L): L.append(x)
+    got[k] = {norm(x["t"]): x for x in L}
 res = {"updated": datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%MZ"), "source": "Headlines via Google News; links open the publisher's article.",
        "m": sorted(got["m"].values(), key=lambda x: x["d"], reverse=True)[:40], "l": sorted(got["l"].values(), key=lambda x: x["d"], reverse=True)[:40]}
 json.dump(res, open(OUT, "w"), ensure_ascii=False, separators=(",", ":"))
