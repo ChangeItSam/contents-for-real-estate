@@ -28,9 +28,9 @@ WHY = [(r"interest rate|fed |central bank|\beibor\b", "💳 Mortgage rates", "Ch
 LAUNCH_RE = r"\blaunch(es|ed|ing)?\b|\bunveil(s|ed)?\b|\bintroduces\b|\bdebuts?\b|\breveals\b|\bopens sales\b|\bsales launch"
 PROP_RE = r"propert|real estate|realty|\bhomes?\b|housing|villa|townhouse|apartment|residen|tower|off-plan|offplan|\bunits?\b|mortgage|\brents?\b|rental|tenant|landlord|\bdld\b|rera|escrow|developer|masterplan|master plan|community|plots?\b|golden visa|per sq|handover"
 LAUNCH_PROP_RE = r"villa|townhouse|apartment|residen|tower|homes|community|project|development|phase|collection|plots|masterplan|waterfront|beachfront"
-JUNK_RE = r"restaurant|dining|food|scooter|bike|traffic|fine for|flight|airline|hotel opening|concert|nye|new year|cirque|festival|ai tool|workspace|office space|school fees|holiday home|football|cricket|weather|recipe|retail at|mall opens|celebrat|linked to|hemedti|sanction|laundering|arrest"
+JUNK_RE = r"restaurant|dining|food|scooter|bike|traffic|fine for|flight|airline|hotel opening|concert|nye|new year|cirque|festival|ai tool|workspace|office space|school fees|holiday home|football|cricket|weather|recipe|retail at|mall opens|celebrat|danube home|linked to|hemedti|sanction|laundering|arrest"
 PLACE_RE = r"dubai|uae|emirates|emaar|nakheel|damac|sobha|meraas|binghatti|azizi|ellington|omniyat|danube|aldar|jvc|palm|marina|downtown|creek|expo|dubai south"
-SKIP_RE = r"abu dhabi only|saudi|riyadh|jeddah|qatar|doha|bahrain|oman|muscat|egypt|cairo|india|london|ras al khaimah|sharjah|ajman|umm al"
+SKIP_RE = r"abu dhabi only|saudi|riyadh|jeddah|qatar|doha|bahrain|oman|muscat|egypt|cairo|india|lucknow|gurugram|gurgaon|noida|mumbai|delhi|pune|bengaluru|hyderabad|london|ras al khaimah|sharjah|ajman|umm al"
 
 def fetch(q):
     url = "https://news.google.com/rss/search?" + urllib.parse.urlencode({"q": q + " when:30d", "hl": "en-AE", "gl": "AE", "ceid": "AE:en"})
