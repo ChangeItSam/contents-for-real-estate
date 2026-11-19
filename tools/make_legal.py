@@ -58,7 +58,7 @@ PAGES["terms"] = ("Terms & Conditions", f"""
 <p>A "project" is each different project you run a full report on in a calendar month; opening the same project again in that month doesn't count twice. Prices are in UAE dirhams and are the total you pay. If we register for VAT, prices will be shown inclusive of 5% VAT and invoices will show the VAT amount. We may change prices for future periods; a change never affects a period you have already paid for, and we will show the new price before you renew.</p>
 
 <h2>7. Payment and renewal</h2>
-<p>Payments are made through our payment provider (Ziina) by card or Apple Pay; we never see or store your card details. A plan runs for one month from activation. <b>Plans do not renew automatically</b>: you pay again to renew, and if you don't, the plan simply ends on its end date. Report links you have sent to clients may stop opening after your plan ends. Cancellations and refunds are covered by our <a href="/legal/refunds/">Cancellation &amp; Refund Policy</a>.</p>
+<p>Payments are made through our payment provider (Ziina) by card or Apple Pay; we never see or store your card details. A plan runs for one month from activation. <b>Plans do not renew automatically</b>: you pay again to renew, and if you don't, the plan simply ends on its end date. Report links you have sent to clients may stop opening after your plan ends. Ziina charges us a processing fee on each payment; it is included in our prices and not added to what you pay. Cancellations and refunds are covered by our <a href="/legal/refunds/">Cancellation &amp; Refund Policy</a>.</p>
 
 <h2>8. Acceptable use</h2>
 <p>Don't copy, scrape, resell or republish the Services or their data in bulk; don't try to get around plan limits, access controls or the trial watermark; don't use the Services for anything unlawful, misleading or harmful; don't upload content you don't have the right to use (for example someone else's photo).</p>
@@ -149,11 +149,11 @@ PAGES["refunds"] = ("Cancellation & Refund Policy", f"""
 
 <h2>3. Refunds</h2>
 <ul>
-<li><b>Changed your mind</b>: full refund if you ask within <b>48 hours</b> of payment and have not run any full report or project in that paid month.</li>
+<li><b>Changed your mind</b>: refund if you ask within <b>48 hours</b> of payment and have not run any full report or project in that paid month. The payment processing fee charged by Ziina (about 1.5% to 2% of the payment) is not returned to us when a payment is refunded, so it is deducted from change-of-mind refunds.</li>
 <li><b>After that</b>, or once you have used the plan, the current month is not refundable, because the reports and data have already been provided.</li>
 <li><b>Top-ups</b> (AED 19 per project) are not refundable once the project has been used.</li>
-<li><b>Paid twice or charged the wrong amount</b>: the extra amount is always refunded.</li>
-<li><b>Service problem</b>: if a technical fault on our side stops you using a paid plan for more than 3 days in a row and we can't fix it, we refund the unused part of the month or extend your plan, as you prefer.</li>
+<li><b>Paid twice or charged the wrong amount</b>: the extra amount is always refunded in full, with no fee deducted.</li>
+<li><b>Service problem</b>: if a technical fault on our side stops you using a paid plan for more than 3 days in a row and we can't fix it, we refund the unused part of the month (no fee deducted) or extend your plan, as you prefer.</li>
 <li><b>Account closed for misuse</b> (see the Terms): no refund.</li>
 </ul>
 
