@@ -1,0 +1,20 @@
+name: Rebuild Abu Dhabi test
+on:
+  push:
+    paths: ["checklist/index.html", "tools/make_ad_checklist.py"]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/make_ad_checklist.py
+      - name: Commit if changed
+        run: |
+          git config user.name "ad-checklist-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add checklist/ad.html
+          git diff --cached --quiet || (git commit -m "Rebuild Abu Dhabi test from the Dubai test" && git pull --rebase -q && git push)

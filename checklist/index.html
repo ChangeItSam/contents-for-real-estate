@@ -336,6 +336,7 @@ body.agm:not(.agself) #rclose,body.agm:not(.agself) #review{display:none!importa
 .agov h3{color:#0B1F3A}.agov a{display:block;margin-top:10px;border-radius:30px;padding:13px;font-weight:800;text-decoration:none}
 .ssr{text-transform:none;display:inline-flex;align-items:center;gap:9px;text-decoration:none}.ssr .mk{width:44px;height:27px;flex:none}.ssr .wm{display:flex;flex-direction:column;line-height:1}.ssr .wm b{font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;font-size:23px;letter-spacing:.3px;color:#fff}.ssr .wm b i{font-style:normal;color:#C9A24A}.ssr .wm small{font-family:Montserrat,system-ui,sans-serif;font-weight:600;font-size:8.5px;letter-spacing:4.2px;color:#E8CF8E;margin-top:3px;padding-left:2px}.ssr.dk .wm b{color:#0B1F3A}.ssr.dk .wm small{color:#A8832F}.brandbar{grid-column:1/-1;display:flex;justify-content:center;margin:2px 0 14px}.brandbar .ssr .mk{width:52px;height:32px}.brandbar .ssr .wm b{font-size:27px}
 .agtrb{background:#C9A24A!important;color:#081830!important;font-weight:900!important;letter-spacing:1.5px;text-align:center}.agup{background:#FFF4D6;border:1.5px solid #C9A24A;border-radius:16px;padding:14px;margin:0 0 10px;color:#3B2A00;font-size:14.5px;line-height:1.45}.agup a{display:block;margin-top:10px;text-align:center;background:#081830;color:#E8CF8E;border-radius:30px;padding:12px;font-weight:800;text-decoration:none}
+.emtab{display:flex;gap:6px;background:#fff;border:1.5px solid #E6E1D6;border-radius:16px;padding:5px;margin:14px 0 4px;box-shadow:0 8px 20px rgba(11,31,58,.06)}.emtab a{flex:1;text-align:center;text-decoration:none;font-weight:800;font-size:15px;padding:11px 6px;border-radius:12px;color:#0B1F3A}.emtab a.on{background:linear-gradient(135deg,#C9A24A,#F6E7BE);color:#081830;box-shadow:0 6px 16px rgba(201,162,74,.35)}
 </style>
 <script>
 // Access gate: the test opens from the Instagram DM link (it carries ?k=...). A plain copied link goes to Instagram first.
@@ -509,6 +510,8 @@ html:not(.eoion) .ans .eoin{display:none}
  <div class="hpill">OFF-PLAN DEAL STRESS TEST</div>
  <h1>Should you <span class="g">BUY</span> or <span class="r">SKIP</span> the project you're considering now?</h1>
  <p class="sub2">Let's see the <b>real numbers</b>. A 2-minute test against real DLD sales, not the brochure, before a wrong deal costs you hundreds of thousands.</p>
+ <div class="emtab" id="emtab"><a href="index.html" class="on" data-em="dxb">🏙️ Check in Dubai</a><a href="ad.html" data-em="auh">🌴 Check in Abu Dhabi</a></div>
+ <script>(function(){ var q=location.search; Array.prototype.forEach.call(document.querySelectorAll("#emtab a"),function(a){ if(!a.classList.contains("on")){ var u=new URLSearchParams(q); u.delete("proj"); var s=u.toString(); a.href=a.getAttribute("href")+(s?"?"+s:""); } }); })();</script>
  <label class="proj hp"><span class="plab">Which project are you checking? <small>(type 2+ letters, then pick it from the list)</small></span><input id="proj" type="text" autocomplete="off" placeholder="Type your project name... e.g. Binghatti JVC"></label>
  <div class="sugg" id="sugg" hidden></div>
  <div class="feat" id="feat" hidden></div>

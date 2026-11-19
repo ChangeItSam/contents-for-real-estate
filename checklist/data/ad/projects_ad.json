@@ -1,0 +1,22 @@
+{"updated":"2026-11-19","source":"Starter list of well-known Abu Dhabi off-plan communities. Replaced by the full ADREC project list (with sales counts) once the ADREC export is loaded.",
+ "p":[
+  {"n":"Saadiyat Lagoons","d":"Saadiyat Island","dev":"Aldar","tags":"villas townhouses saadiyat"},
+  {"n":"The Arthouse","d":"Saadiyat Island","dev":"Aldar","tags":"saadiyat cultural district apartments"},
+  {"n":"Manarat Living","d":"Saadiyat Island","dev":"Aldar","tags":"saadiyat cultural district apartments"},
+  {"n":"Mamsha Gardens","d":"Saadiyat Island","dev":"Aldar","tags":"saadiyat apartments"},
+  {"n":"Nobu Residences Saadiyat","d":"Saadiyat Island","dev":"Aldar","tags":"branded residences saadiyat"},
+  {"n":"Louvre Abu Dhabi Residences","d":"Saadiyat Island","dev":"Aldar","tags":"saadiyat cultural district branded"},
+  {"n":"Yas Riva","d":"Yas Island","dev":"Aldar","tags":"villas yas"},
+  {"n":"Gardenia Bay","d":"Yas Island","dev":"Aldar","tags":"apartments yas"},
+  {"n":"Sea La Vie","d":"Yas Island","dev":"Aldar","tags":"yas bay apartments"},
+  {"n":"The Sustainable City Yas Island","d":"Yas Island","dev":"Diamond Developers","tags":"yas villas townhouses apartments"},
+  {"n":"Fay Alreeman","d":"Al Shamkha","dev":"Aldar","tags":"villas townhouses alreeman"},
+  {"n":"Reem Hills","d":"Al Reem Island","dev":"Q Properties","tags":"reem villas townhouses"},
+  {"n":"Ramhan Island","d":"Ramhan Island","dev":"Eagle Hills","tags":"villas beach"},
+  {"n":"Jubail Island","d":"Al Jubail Island","dev":"LEAD Development","tags":"villas mangroves"},
+  {"n":"Al Hudayriat Island","d":"Al Hudayriat Island","dev":"Modon","tags":"hudayriat villas"},
+  {"n":"Bloom Living","d":"Zayed City","dev":"Bloom Holding","tags":"townhouses villas zayed city"},
+  {"n":"Masdar City","d":"Masdar City","dev":"Masdar","tags":"apartments townhouses masdar"},
+  {"n":"Al Raha Beach","d":"Al Raha Beach","dev":"Aldar","tags":"raha apartments"},
+  {"n":"Al Maryah Island","d":"Al Maryah Island","dev":"Mubadala","tags":"maryah apartments"}
+ ]}
