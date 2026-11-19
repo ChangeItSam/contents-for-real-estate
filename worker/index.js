@@ -13,6 +13,10 @@ export default {
         url.pathname = "/" + p.replace(/^\/agent\/?/, "");
         return Response.redirect(url.toString(), 301);
       }
+      if (p === "/legal" || p.startsWith("/legal/")) {         // DealPro's own policies (no SamSurya Realty wording)
+        url.pathname = "/dpa-legal" + p.replace(/^\/legal/, "");
+        return env.ASSETS.fetch(new Request(url.toString(), request));
+      }
       if (p === "/" || p === "/index.html") {                    // root = the portal
         url.pathname = "/agent/";
         return env.ASSETS.fetch(new Request(url.toString(), request));

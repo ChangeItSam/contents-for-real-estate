@@ -179,14 +179,14 @@ nav.lg a.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}fo
 """
 NAV = [("terms", "Terms & Conditions"), ("privacy", "Privacy Policy"), ("refunds", "Cancellation & Refunds")]
 
-def page(key, title, body):
+def page(key, title, body, site="SamSurya Realty (samsuryarealty.com) and DealPro Agent (dealproagent.com)", brand="SamSurya Realty & DealPro Agent", icon="/favicon.svg"):
     nav = "".join(f'<a href="/legal/{k}/"' + (' class="on"' if k == key else "") + f">{html.escape(t)}</a>" for k, t in NAV)
     return f"""<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{html.escape(title)} | SamSurya Realty & DealPro Agent</title><meta name="robots" content="index,follow">
-<link rel="icon" href="/favicon.svg"><style>{CSS}</style></head><body>
+<title>{html.escape(title)} | {brand}</title><meta name="robots" content="index,follow">
+<link rel="icon" href="{icon}"><style>{CSS}</style></head><body>
 <header><div class="w"><a href="#" onclick="if(history.length>1){{history.back();return false;}}else{{location.href='/';return false;}}">← Back</a>
-<h1>{html.escape(title)}</h1><p>SamSurya Realty (samsuryarealty.com) and DealPro Agent (dealproagent.com) · Last updated {UPDATED}</p><nav class="lg">{nav}</nav></div></header>
+<h1>{html.escape(title)}</h1><p>{site} · Last updated {UPDATED}</p><nav class="lg">{nav}</nav></div></header>
 <main>{body}</main>
 <footer>{OP} · {LIC}</footer></body></html>
 """
@@ -197,3 +197,42 @@ for k, (t, b) in PAGES.items():
 idx = "<p class=\"lead\">Our policies for samsuryarealty.com and dealproagent.com.</p><ul>" + "".join(f'<li><a href="/legal/{k}/">{html.escape(t)}</a></li>' for k, t in NAV) + "</ul>"
 open(os.path.join(ROOT, "legal", "index.html"), "w", encoding="utf-8").write(page("", "Legal", idx))
 print("ok")
+
+# ---------- DealPro Agent only (dealproagent.com shows these at /legal/, via worker/index.js) ----------
+D = {}
+t, b = PAGES["terms"]
+b = b.replace('<p class="lead">These terms apply when you use <b>samsuryarealty.com</b> (including the Off-Plan Deal Stress Test, Picks and Premium) or <b>dealproagent.com</b> (DealPro Agent), together "the Services". By using the Services, creating an account or paying for a plan, you agree to them.</p>',
+              '<p class="lead">These terms apply when you use <b>DealPro Agent</b> at <b>dealproagent.com</b> ("the Service"), including the client reports you send from it. By using the Service, creating an account or paying for a plan, you agree to them.</p>')
+b = b.replace("""<ul>
+<li><b>Off-Plan Deal Stress Test</b>: a free buyer checklist that scores an off-plan project from your answers and from public market data.</li>
+<li><b>Premium</b> (buyers): full reports for up to 10 different projects a month.</li>
+<li><b>DealPro Agent</b> (real estate agents): branded deal reports for your clients, market statistics, Where to focus, upcoming supply, news and the price map.</li>
+</ul>""", "<p>DealPro Agent gives real estate agents branded deal reports for their clients, market statistics, Where to focus, upcoming supply, news &amp; launches and a price map.</p>")
+b = b.replace("<li><b>Premium</b>: AED 49 a month, up to 10 different projects a month.</li>\n", "")
+b = b.replace("The Services are information tools.", "The Service is an information tool.")
+b = b.replace("The Services are operated by", "DealPro Agent is operated by")
+b = b.replace("the DealPro Agent and SamSurya Realty names and logos", "the DealPro Agent name and logo")
+b = b.replace("the Services", "the Service").replace("The Services", "The Service").replace('"the Service"', '"the Service"')
+D["terms"] = (t, b)
+t, b = PAGES["privacy"]
+b = b.replace('through <b>samsuryarealty.com</b> and <b>dealproagent.com</b>', 'through <b>DealPro Agent</b> (<b>dealproagent.com</b>)')
+i = b.index("<h3>Buyers using the Stress Test, Picks or Premium</h3>"); j = b.index("<h3>Agents using DealPro Agent</h3>")
+b = b[:i] + b[j:]
+b = b.replace("<h3>Agents using DealPro Agent</h3>", "<h3>Agents</h3>")
+b = b.replace("<h3>On your device</h3>", "<h3>Clients who open a report</h3>\n<p>We don't ask clients for personal data to view a report. If a client contacts the agent through the report's WhatsApp or Call buttons, that conversation is between the client and the agent.</p>\n<h3>On your device</h3>")
+b = b.replace("<li>To give you your result, report or account, and to count plan usage (this is needed to provide the service you asked for).</li>\n<li>To send you your result and, if you agree, property updates on WhatsApp. Reply STOP at any time to stop updates.</li>",
+              "<li>To provide your account and reports, and to count plan usage (this is needed to provide the service you asked for).</li>\n<li>To send you service messages about your account and plan.</li>")
+b = b.replace("<li>Buyer submissions: up to 24 months, then deleted.</li>\n", "")
+b = b.replace("The sites save", "The site saves").replace("the sites use HTTPS", "the site uses HTTPS").replace("so you don't have to retype them", "so you don't have to retype them")
+b = b.replace("The Services are for adults.", "DealPro Agent is for adults.")
+D["privacy"] = (t, b)
+t, b = PAGES["refunds"]
+b = b.replace('This policy applies to paid plans on <b>samsuryarealty.com</b> (Premium) and <b>dealproagent.com</b> (Agent Pro, Agent Unlimited and top-ups).', 'This policy applies to paid DealPro Agent plans on <b>dealproagent.com</b>: Agent Pro, Agent Unlimited and top-ups.')
+D["refunds"] = (t, b)
+for k, (t, b) in D.items():
+    assert "samsurya" not in b.lower(), k
+    d = os.path.join(ROOT, "dpa-legal", k); os.makedirs(d, exist_ok=True)
+    open(os.path.join(d, "index.html"), "w", encoding="utf-8").write(page(k, t, b, site="DealPro Agent (dealproagent.com)", brand="DealPro Agent", icon="/assets/brand/dpa-favicon.svg?v=2"))
+idx = "<p class=\"lead\">Our policies for DealPro Agent (dealproagent.com).</p><ul>" + "".join(f'<li><a href="/legal/{k}/">{html.escape(t)}</a></li>' for k, t in NAV) + "</ul>"
+open(os.path.join(ROOT, "dpa-legal", "index.html"), "w", encoding="utf-8").write(page("", "Legal", idx, site="DealPro Agent (dealproagent.com)", brand="DealPro Agent", icon="/assets/brand/dpa-favicon.svg?v=2"))
+print("ok dpa")
