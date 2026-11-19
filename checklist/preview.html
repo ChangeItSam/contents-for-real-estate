@@ -335,6 +335,7 @@ body.agm:not(.agself) #rclose,body.agm:not(.agself) #review{display:none!importa
 .agov>div{background:#fff;color:#1B2433;border-radius:22px;padding:22px;max-width:420px;text-align:center}
 .agov h3{color:#0B1F3A}.agov a{display:block;margin-top:10px;border-radius:30px;padding:13px;font-weight:800;text-decoration:none}
 .ssr{text-transform:none;display:inline-flex;align-items:center;gap:9px;text-decoration:none}.ssr .mk{width:44px;height:27px;flex:none}.ssr .wm{display:flex;flex-direction:column;line-height:1}.ssr .wm b{font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;font-size:23px;letter-spacing:.3px;color:#fff}.ssr .wm b i{font-style:normal;color:#C9A24A}.ssr .wm small{font-family:Montserrat,system-ui,sans-serif;font-weight:600;font-size:8.5px;letter-spacing:4.2px;color:#E8CF8E;margin-top:3px;padding-left:2px}.ssr.dk .wm b{color:#0B1F3A}.ssr.dk .wm small{color:#A8832F}.brandbar{grid-column:1/-1;display:flex;justify-content:center;margin:2px 0 14px}.brandbar .ssr .mk{width:52px;height:32px}.brandbar .ssr .wm b{font-size:27px}
+.agtrb{background:#C9A24A!important;color:#081830!important;font-weight:900!important;letter-spacing:1.5px;text-align:center}.agup{background:#FFF4D6;border:1.5px solid #C9A24A;border-radius:16px;padding:14px;margin:0 0 10px;color:#3B2A00;font-size:14.5px;line-height:1.45}.agup a{display:block;margin-top:10px;text-align:center;background:#081830;color:#E8CF8E;border-radius:30px;padding:12px;font-weight:800;text-decoration:none}
 </style>
 <script>
 // Access gate: the test opens from the Instagram DM link (it carries ?k=...). A plain copied link goes to Instagram first.
@@ -1607,7 +1608,7 @@ html:not(.eoion) .ans .eoin{display:none}
   function resultLink(sc){
     var bits=boxes.map(function(b){return b.checked?"1":"0";}).join("");
     var proj=document.getElementById("proj").value.trim();
-    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0,dv:DEVSEL?DEVSEL.no:"",la:LAUNCH,pin:EOI&&PIN?PIN:"",ab:AGB?{n:AGB.n,ag:AGB.ag,brn:AGB.brn,ph:AGB.ph,pid:AGB.pid||"",ai:AGINST?1:0}:"",ag:window.getAgent?window.getAgent():"",ph:(who.p||"").replace(/[^0-9]/g,"").slice(-4)})))));
+    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0,dv:DEVSEL?DEVSEL.no:"",la:LAUNCH,pin:EOI&&PIN?PIN:"",ab:AGB?{n:AGB.n,ag:AGB.ag,brn:AGB.brn,ph:AGB.ph,pid:AGB.pid||"",ai:AGINST?1:0,tr:AGB.tr?1:0}:"",ag:window.getAgent?window.getAgent():"",ph:(who.p||"").replace(/[^0-9]/g,"").slice(-4)})))));
   }
   // ---------- Agent Pro mode: the agent's portal opens ?agent=1&proj=<project> ----------
   var AGAPI="https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec";
@@ -1616,9 +1617,17 @@ html:not(.eoion) .ans .eoin{display:none}
   function agApi(p,cb){ var n="agcb"+Math.random().toString(36).slice(2), s=document.createElement("script"), done=false;
     function end(d){ if(done) return; done=true; try{ delete window[n]; }catch(x){ window[n]=undefined; } if(s.parentNode) s.parentNode.removeChild(s); cb(d); }
     window[n]=function(d){ end(d); }; p.callback=n; s.src=AGAPI+"?"+new URLSearchParams(p).toString(); s.onerror=function(){ end(null); }; setTimeout(function(){ end(null); },15000); document.head.appendChild(s); }
-  function agUsed(d){ var el=document.getElementById("agused"); if(!el||!d) return; el.textContent=d.plan==="unlimited"?"Unlimited":((d.used||0)+" of "+(d.limit||30)+" projects this month"+(d.cr?" · +"+d.cr+" top-ups":"")); }
+  function agUsed(d){ var el=document.getElementById("agused"); if(!el||!d) return; if(d.st==="trial"||AGTR){ el.textContent="🎁 Free trial: "+Math.min(d.used||0,d.limit||3)+" of "+(d.limit||3)+" projects"; return; } el.textContent=d.plan==="unlimited"?"Unlimited":((d.used||0)+" of "+(d.limit||30)+" projects this month"+(d.cr?" · +"+d.cr+" top-ups":"")); }
   function agToday(){ return new Date().toISOString().slice(0,10); }
-  function agOk(d){ return d&&d.st==="active"&&d.until>=agToday(); }
+  function agOk(d){ return d&&((d.st==="active"&&d.until>=agToday())||d.st==="trial"); }
+  // free trial (3 projects after sign-up): reports carry Sam's name and number plus a FREE TRIAL watermark until the agent pays
+  var AGTR=false, SAMB={n:"Sam Surya",ag:"DealPro Agent",brn:"",ph:"+971528728248",pid:"",img:"",tr:1};
+  function agPay(){ var P2=PAYJ||{}, ov=document.createElement("div"); ov.className="agov";
+    ov.innerHTML='<div><h3>Your 3 free projects are used 🎉</h3><p style="margin-top:8px">Subscribe to keep going, remove the trial watermark and put <b>your</b> name, BRN and WhatsApp on every report.</p>'+
+      (P2.agent?'<a style="background:#C9A24A;color:#081830" target="_blank" rel="noopener" href="'+esc(P2.agent)+'">💳 Agent Pro · AED '+(P2.price_agent||199)+'/month</a>':'')+
+      (P2.agent_unl?'<a style="background:#081830;color:#E8CF8E" target="_blank" rel="noopener" href="'+esc(P2.agent_unl)+'">💳 Unlimited · AED '+(P2.price_agent_unl||299)+'/month</a>':'')+
+      '<a style="background:#25D366;color:#fff" target="_blank" rel="noopener" href="https://wa.me/971528728248?text='+encodeURIComponent("Hi Sam, I've paid for DealPro Agent. Name: "+((AGP&&AGP.n)||"")+". Here is my receipt.")+'">💬 Send the receipt</a><a style="color:#5B6678" href="../agent/">Back to my portal</a></div>';
+    document.body.appendChild(ov); }
   function agGo(){
     var proj=document.getElementById("proj").value.trim(), cl=(document.getElementById("agcl")||{}).value||"";
     who={n:cl.trim(),p:"",r:"Agent Pro"};
@@ -1626,6 +1635,7 @@ html:not(.eoion) .ans .eoin{display:none}
     agApi({a:"use",t:AGP.t,p:proj||"(no project)",c:who.n},function(d){
       if(d&&d.ok&&agOk(d)){ AGST=d; agLs("sam-agent-st",{st:d.st,plan:d.plan,until:d.until,used:d.used,limit:d.limit,cr:d.cr,at:Date.now()}); agUsed(d); open(); }
       else if(d&&d.need==="topup") agTopup(d);
+      else if(d&&d.need==="pay") agPay();
       else if(d&&d.st&&!agOk(d)) location.href="../agent/";
       else if(agOk(agLs("sam-agent-st"))) open();      // server not reachable: plan still valid on this phone
       else location.href="../agent/";
@@ -1651,12 +1661,13 @@ html:not(.eoion) .ans .eoin{display:none}
     L.forEach(function(x){ var s=x.nodeValue; if(s.indexOf("Sam")<0) return; x.nodeValue=s.replace(/Sam Surya/g,AGB.n).replace(/\bSam\b/g,first); });
     var dg=String(AGB.ph||"").replace(/[^0-9]/g,"");
     Array.prototype.forEach.call(root.querySelectorAll('a[href*="971528728248"]'),function(a){ if(dg) a.href=a.href.replace(/971528728248/g,dg); else a.removeAttribute("href"); }); }
-  function agPics(){ if(!AGB||!AGB.img) return; Array.prototype.forEach.call(document.querySelectorAll(".agpic"),function(x){ x.innerHTML='<img src="'+AGB.img+'" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">'; }); Array.prototype.forEach.call(document.querySelectorAll('img[src*="sam.jpg"]'),function(im){ im.src=AGB.img; im.style.display=""; }); }
+  function agPics(){ if(AGB&&AGB.tr&&!AGB.img) AGB.img="sam.jpg?v=2"; if(!AGB||!AGB.img) return; Array.prototype.forEach.call(document.querySelectorAll(".agpic"),function(x){ x.innerHTML='<img src="'+AGB.img+'" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:50%">'; }); Array.prototype.forEach.call(document.querySelectorAll('img[src*="sam.jpg"]'),function(im){ im.src=AGB.img; im.style.display=""; }); }
   // a client opens a report from an agent whose plan has ended: the report is no longer shown
   function agExpired(){ var r=document.getElementById("res"); if(r) r.hidden=true; var ov=document.createElement("div"); ov.className="agov"; var dg=String(AGB.ph||"").replace(/[^0-9]/g,"");
     ov.innerHTML='<div><h3>This report link has expired</h3><p style="margin-top:8px">Ask '+esc((AGB.n||"your agent").split(/\s+/)[0])+' for an updated report.</p>'+(dg?'<a style="background:#25D366;color:#fff" href="https://wa.me/'+dg+'">💬 WhatsApp '+esc((AGB.n||"").split(/\s+/)[0])+'</a>':'')+'</div>';
     document.body.appendChild(ov); }
   function agPage(){ if(!AGB||!AGB.n) return; document.body.classList.add("agm");
+    if(AGB.tr){ document.body.classList.add("agtr"); return; }
     agRebrand(document.body);
     Array.prototype.forEach.call(document.querySelectorAll('img[src*="sam.jpg"]'),function(im){ if(AGB.img) im.src=AGB.img; else im.style.display="none"; });
     var by=document.querySelector(".hero2 .by span"); if(by) by.textContent=(AGB.ag||"")+(AGB.brn?" · BRN "+AGB.brn:"");
@@ -1665,15 +1676,16 @@ html:not(.eoion) .ans .eoin{display:none}
   function agBrand(g){
     var cl=(WMK&&WMK.n)||"", id=AGB.n+(AGB.ag?" · "+AGB.ag:"")+(AGB.brn?" · BRN "+AGB.brn:"");
     agRebrand(g);
-    g.insertAdjacentHTML("afterbegin",'<div class="wmh">📄 Prepared by '+esc(id)+(cl?' for '+esc(cl):'')+(AGB.ph?' · 📞 '+esc(AGB.ph):'')+'</div>'+(AGINST?'<div class="wmh" style="opacity:.85">✔️ Checks marked as confirmed by '+esc(AGB.n)+'. DLD figures are from official records. Confirm the contract details with the developer before signing.</div>':''));
-    var bt=AGB.n+(AGB.brn?" · BRN "+AGB.brn:"")+(AGB.ag?" · "+AGB.ag:"");
-    var svg='<svg xmlns="http://www.w3.org/2000/svg" width="440" height="230"><text x="14" y="135" transform="rotate(-24 220 115)" font-family="Arial" font-size="18" font-weight="700" fill="rgba(232,207,142,0.13)">'+esc(bt)+'</text></svg>';
+    g.insertAdjacentHTML("afterbegin",(AGB.tr?'<div class="wmh agtrb">🎁 FREE TRIAL REPORT · DealPro Agent</div>':'')+'<div class="wmh">📄 Prepared by '+esc(id)+(cl?' for '+esc(cl):'')+(AGB.ph?' · 📞 '+esc(AGB.ph):'')+'</div>'+(AGINST?'<div class="wmh" style="opacity:.85">✔️ Checks marked as confirmed by '+(AGB.tr?'the agent':esc(AGB.n))+'. DLD figures are from official records. Confirm the contract details with the developer before signing.</div>':''));
+    var bt=AGB.tr?"FREE TRIAL · DealPro Agent · Sam Surya":AGB.n+(AGB.brn?" · BRN "+AGB.brn:"")+(AGB.ag?" · "+AGB.ag:"");
+    var svg=AGB.tr?'<svg xmlns="http://www.w3.org/2000/svg" width="440" height="230"><text x="0" y="135" transform="rotate(-24 220 115)" font-family="Arial" font-size="24" font-weight="900" fill="rgba(255,255,255,0.16)">'+esc(bt)+'</text></svg>':'<svg xmlns="http://www.w3.org/2000/svg" width="440" height="230"><text x="14" y="135" transform="rotate(-24 220 115)" font-family="Arial" font-size="18" font-weight="700" fill="rgba(232,207,142,0.13)">'+esc(bt)+'</text></svg>';
     g.style.backgroundImage='url("data:image/svg+xml,'+encodeURIComponent(svg)+'")'; g.style.backgroundRepeat="repeat";
     var fin=document.getElementById("final"), old=document.getElementById("agact"); if(old) old.remove(); var oc=document.getElementById("agcard"); if(oc) oc.remove();
     var ini=(AGB.n||"?").split(/\s+/).map(function(x){ return x[0]; }).join("").slice(0,2).toUpperCase(), dg=String(AGB.ph||"").replace(/[^0-9]/g,"");
     var vtx=document.getElementById("why3"); if(vtx) vtx.insertAdjacentHTML("beforebegin",'<div class="agcard" id="agcard"><i class="agpic">'+esc(ini)+'</i><div><b>'+esc(AGB.n)+'</b><small>'+esc((AGB.ag||"")+(AGB.brn?" · BRN "+AGB.brn:""))+'</small></div></div>');
     var sc=+document.getElementById("pct").textContent||0, proj=document.getElementById("proj").value.trim(), h='<div class="agact" id="agact">';
     if(AGSELF){ var link=resultLink(sc), msg="Hi"+(cl?" "+cl:"")+", here is the Off-Plan Stress Test report"+(proj?" for "+proj:"")+" I prepared for you: "+sc+"/100.\n\n"+link+"\n\n"+AGB.n+(AGB.brn?" · BRN "+AGB.brn:"");
+      if(AGB.tr){ var P3=PAYJ||{}; h+='<div class="agup"><b>🎁 This is a free trial report.</b> It shows Sam Surya\'s name and number and a trial watermark. Subscribe to remove the watermark and put <b>your</b> name, BRN and WhatsApp on every report.'+(P3.agent?'<a target="_blank" rel="noopener" href="'+esc(P3.agent)+'">💳 Remove watermark · AED '+(P3.price_agent||199)+'/month</a>':'<a href="../agent/">💳 Remove watermark</a>')+'</div>'; }
       h+='<a class="a1" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(msg)+'">📲 Send to my client on WhatsApp</a><button type="button" class="a2" id="agcp">🔗 Copy client link</button><a class="a3" href="../agent/">🏢 Back to my portal</a>';
       var rec=agLs("sam-agent-recent")||[]; rec=rec.filter(function(r){ return r.p!==proj||r.c!==cl; }); rec.unshift({p:proj,c:cl,s:sc,d:agToday(),l:link}); agLs("sam-agent-recent",rec.slice(0,20)); }
     else if(dg) h+='<a class="a1" target="_blank" rel="noopener" href="https://wa.me/'+dg+'?text='+encodeURIComponent("Hi "+(AGB.n||"").split(/\s+/)[0]+", I've read the Stress Test report"+(proj?" for "+proj:"")+". Can we talk it through?")+'">💬 Questions? WhatsApp '+esc((AGB.n||"").split(/\s+/)[0])+'</a><a class="a2" href="tel:+'+dg+'">📞 Call '+esc(AGB.ph)+'</a>';
@@ -1685,9 +1697,10 @@ html:not(.eoion) .ans .eoin{display:none}
     var q; try{ q=new URLSearchParams(location.search); }catch(e){ return; }
     if(q.get("agent")!=="1"||/^#r=/.test(location.hash)) return;
     var a=agLs("sam-agent"); if(!a||!a.t){ location.href="../agent/"; return; }
-    AGP=a; AGSELF=true; PREM=true; AGB={n:a.n||"",ag:a.ag||"",brn:a.brn||"",ph:a.ph||"",pid:a.pid||"",img:a.img||""}; agPage();
+    var st0=agLs("sam-agent-st")||{}; AGTR=st0.st==="trial";
+    AGP=a; AGSELF=true; PREM=true; AGB=AGTR?JSON.parse(JSON.stringify(SAMB)):{n:a.n||"",ag:a.ag||"",brn:a.brn||"",ph:a.ph||"",pid:a.pid||"",img:a.img||""}; agPage();
     document.body.classList.add("agm","agself");
-    var bar=document.createElement("div"); bar.className="agtop"; bar.innerHTML='<a href="../agent/">🏢 Agent Pro</a><b>'+esc(a.n||"")+'</b><span id="agused"></span><a href="#" id="agout" style="color:#C9D5E8;font-weight:600;font-size:13px">↪ Log out</a><input id="agcl" placeholder="Client name (optional)" maxlength="40">';
+    var bar=document.createElement("div"); bar.className="agtop"; bar.innerHTML='<a href="../agent/">🏢 '+(AGTR?'Free trial':'Agent Pro')+'</a><b>'+esc(a.n||"")+'</b><span id="agused"></span><a href="#" id="agout" style="color:#C9D5E8;font-weight:600;font-size:13px">↪ Log out</a><input id="agcl" placeholder="Client name (optional)" maxlength="40">';
     document.body.insertBefore(bar,document.body.firstChild);
     document.getElementById("agout").addEventListener("click",function(ev){ ev.preventDefault(); try{ ["sam-agent","sam-agent-st","sam-agent-v"].forEach(function(k){ localStorage.removeItem(k); }); }catch(x){} location.href="../agent/"; });
     agUsed(agLs("sam-agent-st"));

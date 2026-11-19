@@ -7,7 +7,7 @@ var HEAD = ['Date (Dubai)', 'Name', 'WhatsApp', 'Project', 'Deal Score', 'Verdic
 var FREE_REPORTS = 3;
 var PRICE_ONE = 19, PRICE_MONTH = 49, PREMIUM_LIMIT = 10;   // Premium (AED 49) = 10 different projects a month; more = AED 19 each
 // Agent Pro (portal: samsuryarealty.com/agent/). Pro = AGENT_PRO_LIMIT projects a month (+ AED 19 top-ups), Unlimited = no limit.
-var PRICE_AGENT = 199, PRICE_AGENT_UNL = 299, AGENT_PRO_LIMIT = 30;
+var PRICE_AGENT = 199, PRICE_AGENT_UNL = 299, AGENT_PRO_LIMIT = 30, AGENT_TRIAL = 3;   // AGENT_TRIAL: free projects after sign-up, reports carry Sam's name + a trial watermark
 var AGP_TAB = 'Agent Pro', AGP_HEAD = ['Token (keep private)', 'Name', 'Agency', 'BRN', 'WhatsApp', 'Email', 'Plan', 'Status', 'Paid until', 'Top-up credits', 'Signed up', 'Send link', 'Note', 'Photo', 'Public ID',
                 'Email verified', 'Password (scrambled)', 'Salt', 'Email code', 'Code valid until', 'Code tries'];
 var AGR_TAB = 'Agent reports', AGR_HEAD = ['Date (Dubai)', 'Token', 'Agent', 'Project', 'Month', 'Client'];
@@ -401,20 +401,37 @@ function agpFind(t) {
 }
 function agpUsed(t, month) {
   var v = agrSheet().getDataRange().getValues(), seen = {};
-  for (var i = 1; i < v.length; i++) if (String(v[i][1]) === t && mstr(v[i][4]) === month) seen[String(v[i][3]).toLowerCase().trim()] = 1;
+  for (var i = 1; i < v.length; i++) if (String(v[i][1]) === t && mstr(v[i][4]) === month && !/\(trial\)$/.test(String(v[i][2]))) seen[String(v[i][3]).toLowerCase().trim()] = 1;
+  return Object.keys(seen);
+}
+function agpUsedAll(t) {   // every different project this agent ever ran (for the free trial)
+  var v = agrSheet().getDataRange().getValues(), seen = {};
+  for (var i = 1; i < v.length; i++) if (String(v[i][1]) === t) seen[String(v[i][3]).toLowerCase().trim()] = 1;
   return Object.keys(seen);
 }
 function agpState(f) {
   var v = f.v, today = dstr(new Date()), until = dstr(v[8]), st = String(v[7] || '');
   var plan = /unl/i.test(String(v[6])) ? 'unlimited' : 'pro';
   var isAct = /active/i.test(st), live = isAct && until && until >= today;
+  if (!isAct && /yes/i.test(String(v[15])) && !/block|cancel/i.test(st)) {   // verified, not paid yet: free trial
+    var tu = agpUsedAll(String(v[0])).length;
+    return { ok: true, st: tu < AGENT_TRIAL ? 'trial' : 'pending', trial: 1, n: String(v[1]), ag: String(v[2]), brn: String(v[3]), ph: String(v[4]),
+             plan: plan, until: '', used: tu, limit: AGENT_TRIAL, cr: 0 };
+  }
   return { ok: true, st: live ? 'active' : (isAct ? 'expired' : 'pending'), n: String(v[1]), ag: String(v[2]), brn: String(v[3]), ph: String(v[4]),
            plan: plan, until: until, used: agpUsed(String(v[0]), today.slice(0, 7)).length, limit: plan === 'pro' ? AGENT_PRO_LIMIT : 0, cr: Number(v[9]) || 0 };
 }
 // one full report: counts each different project once per month; Pro stops at the limit unless top-up credits are left
 function agpUse(t, project, client) {
   var f = agpFind(t); if (!f) return { ok: false, st: 'unknown' };
-  var s = agpState(f); if (s.st !== 'active') return s;
+  var s = agpState(f);
+  if (s.trial) {   // free trial: 3 different projects in total
+    var key0 = String(project || '').toLowerCase().trim(), all = agpUsedAll(String(f.v[0])), seen0 = all.indexOf(key0) >= 0;
+    if (!seen0 && all.length >= AGENT_TRIAL) { s.ok = false; s.st = 'pending'; s.need = 'pay'; return s; }
+    if (!seen0) { agrSheet().appendRow([Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm'), String(f.v[0]), String(f.v[1]) + ' (trial)', clean(project), "'" + dstr(new Date()).slice(0, 7), clean(client)]); s.used = all.length + 1; }
+    s.st = 'trial'; s.counted = !seen0; return s;
+  }
+  if (s.st !== 'active') return s;
   var month = dstr(new Date()).slice(0, 7), key = String(project || '').toLowerCase().trim();
   var used = agpUsed(String(f.v[0]), month), already = used.indexOf(key) >= 0;
   if (!already) {
