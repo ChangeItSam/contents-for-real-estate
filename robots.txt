@@ -1,0 +1,26 @@
+# AI search and regular search crawlers are welcome on the public pages.
+User-agent: *
+Allow: /
+Disallow: /agent/
+Disallow: /dpa-legal/
+Disallow: /go/
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+Sitemap: https://samsuryarealty.com/sitemap.xml
