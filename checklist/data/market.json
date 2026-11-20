@@ -15,16 +15,6 @@
    "area": "Hessyan First"
   },
   {
-   "name": "Hayat 8",
-   "dev": "Hayat",
-   "area": "Dubai South Residential District",
-   "near": "Al Maktoum International Airport",
-   "ll": [
-    24.94354,
-    55.2199
-   ]
-  },
-  {
    "name": "Tilal by Binghatti",
    "dev": "Binghatti",
    "area": "Al Rowaiyah First",
@@ -442,19 +432,6 @@
    "src": "ezre.ae new launches (listed 3 Nov 2026, handover Q2 2029); remapp.ae (completion 30 Jun 2029), read 19 Nov 2026; DLD record not found"
   },
   {
-   "name": "SHIONE by Beyond",
-   "dev": "Beyond",
-   "area": "Palm Deira",
-   "comm": "Dubai Islands",
-   "ll": [
-    25.27614,
-    55.30168
-   ],
-   "tags": "shione siora dubai islands beyond developments",
-   "added": "2026-11-19",
-   "src": "TradeArabia, 10 Nov 2026; Dubai Chronicle, 10 Nov 2026 (launched 9 Nov, SIORA masterplan, Island B; handover Q4 2030 per RLI, 12 Nov 2026)"
-  },
-  {
    "name": "Grosvenor House",
    "dev": "Lotus Living",
    "comm": "Dubai South",
@@ -470,6 +447,95 @@
    "tags": "lincoln star residence v jebel ali hills saih shuaib",
    "added": "2026-11-19",
    "src": "ezre.ae new launches (listed 24 Oct 2026); dxboffplan.com (Jebel Ali Hills, handover Q2 2029), read 19 Nov 2026"
+  },
+  {
+   "name": "Business Park 2",
+   "dev": "Samana",
+   "area": "Majan",
+   "comm": "Majan",
+   "ll": [
+    25.0929,
+    55.3185
+   ],
+   "tags": "samana business park majan dubailand commercial offices",
+   "added": "2026-11-20",
+   "src": "ezre.ae new launches (listed 19 Nov 2026; on sale, handover Q3 2028), read 20 Nov 2026; DLD record not found"
+  },
+  {
+   "name": "Parkside Apartments",
+   "dev": "Nshama",
+   "area": "TOWN SQUARE",
+   "comm": "Town Square",
+   "ll": [
+    25.0045,
+    55.2913
+   ],
+   "tags": "town square nshama parkside",
+   "added": "2026-11-20",
+   "src": "ezre.ae new launches (listed 19 Nov 2026; on sale, handover Q4 2026), read 20 Nov 2026; DLD record not found"
+  },
+  {
+   "name": "The Woods Horizon at Sobha Sanctuary",
+   "dev": "Sobha",
+   "area": "The Valley",
+   "comm": "Sobha Sanctuary",
+   "tags": "sobha sanctuary woods horizon the valley",
+   "added": "2026-11-20",
+   "src": "ezre.ae new launches (listed 12 Nov 2026; on sale, handover Q4 2030), read 20 Nov 2026; DLD record not found"
+  },
+  {
+   "name": "The Tranquil at Sobha Central",
+   "dev": "Sobha",
+   "area": "DMCC-EZ2",
+   "comm": "Sobha Central",
+   "near": "Sheikh Zayed Road",
+   "ll": [
+    25.0709,
+    55.1387
+   ],
+   "tags": "sobha central tranquil sheikh zayed road szr",
+   "added": "2026-11-20",
+   "src": "fäm Properties new projects list (registered 18 Nov 2026, handover Q4 2030), read 20 Nov 2026; DLD record not found"
+  },
+  {
+   "name": "Dana at Expo Valley Views",
+   "dev": "Expo City Dubai",
+   "area": "Dubai World Central",
+   "comm": "Expo Valley Views",
+   "near": "Expo City Dubai",
+   "tags": "expo city expo valley views dana",
+   "added": "2026-11-20",
+   "src": "fäm Properties new projects list (registered 17 Nov 2026, handover Q4 2029), read 20 Nov 2026; DLD record not found"
+  },
+  {
+   "name": "Mahra at Expo Valley Views",
+   "dev": "Expo City Dubai",
+   "area": "Dubai World Central",
+   "comm": "Expo Valley Views",
+   "near": "Expo City Dubai",
+   "tags": "expo city expo valley views mahra",
+   "added": "2026-11-20",
+   "src": "fäm Properties new projects list (registered 17 Nov 2026, handover Q4 2029), read 20 Nov 2026; DLD record not found"
+  },
+  {
+   "name": "Amali Residences",
+   "dev": "Amali",
+   "area": "Al Wasl",
+   "ll": [
+    25.1959,
+    55.2557
+   ],
+   "tags": "al wasl amali",
+   "added": "2026-11-20",
+   "src": "fäm Properties new projects list (registered 18 Nov 2026, handover Q4 2029), read 20 Nov 2026; DLD record not found"
+  },
+  {
+   "name": "Chapter 02 by Newbury",
+   "dev": "Newbury",
+   "comm": "International City",
+   "tags": "international city newbury chapter 2",
+   "added": "2026-11-20",
+   "src": "fäm Properties new projects list (registered 6 Nov 2026, handover Q4 2027), read 20 Nov 2026; DLD record not found"
   }
  ]
 }
