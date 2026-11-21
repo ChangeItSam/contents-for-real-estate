@@ -536,6 +536,34 @@
    "tags": "international city newbury chapter 2",
    "added": "2026-11-20",
    "src": "fäm Properties new projects list (registered 6 Nov 2026, handover Q4 2027), read 20 Nov 2026; DLD record not found"
+  },
+  {
+   "name": "Rancho at Palm Springs",
+   "dev": "Nakheel",
+   "area": "Hessyan First",
+   "comm": "Palm Springs",
+   "near": "Palm Jebel Ali",
+   "ll": [
+    24.995,
+    55.047
+   ],
+   "tags": "palm springs rancho villas 4br 5br nakheel jebel ali hessyan canyon park",
+   "added": "2026-11-21",
+   "src": "Khaleej Times, 18 Nov 2026 (Nakheel launches first villas and townhouses at Palm Springs: Rancho 4-5BR villas, Aliso 3-4BR townhouses; prices and completion not disclosed)"
+  },
+  {
+   "name": "Aliso at Palm Springs",
+   "dev": "Nakheel",
+   "area": "Hessyan First",
+   "comm": "Palm Springs",
+   "near": "Palm Jebel Ali",
+   "ll": [
+    24.995,
+    55.047
+   ],
+   "tags": "palm springs aliso townhouses 3br 4br nakheel jebel ali hessyan canyon park",
+   "added": "2026-11-21",
+   "src": "Khaleej Times, 18 Nov 2026 (Nakheel launches first villas and townhouses at Palm Springs: Rancho 4-5BR villas, Aliso 3-4BR townhouses; prices and completion not disclosed)"
   }
  ]
 }
