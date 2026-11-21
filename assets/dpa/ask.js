@@ -33,7 +33,7 @@
     if (!document.getElementById('dpask-css')) { var st = document.createElement('style'); st.id = 'dpask-css'; st.textContent = CSS; document.head.appendChild(st); }
     var KEY = 'sam-agent-ask', H = store(KEY) || [];
     el.className = 'dpask';
-    el.innerHTML = '<h2>🤖 Ask <span>DealPro AI</span></h2><p class="m">Any technical question on Dubai off-plan: DLD and RERA rules, fees, Oqood, escrow, payment plans, resale before handover, mortgages, golden visa, handover, objections. Answers in seconds.</p>' +
+    el.innerHTML = '<h2>🤖 Ask <span>AI Expert Broker</span></h2><p class="m">Any technical question on Dubai off-plan: DLD and RERA rules, fees, Oqood, escrow, payment plans, resale before handover, mortgages, golden visa, handover, objections. Answers in seconds.</p>' +
       '<form><input id="dpq" maxlength="600" placeholder="Ask an off-plan question…" autocomplete="off" enterkeyhint="send"><button class="go" type="submit">Ask</button></form>' +
       '<div class="ch"></div><div class="log" aria-live="polite"></div>' +
       '<div class="ft"><span>AI answers are general guidance, not legal or financial advice. Confirm fees and rules on dubailand.gov.ae.</span><span class="lf"></span></div>';
