@@ -1,0 +1,478 @@
+{
+ "updated": "2026-11-21",
+ "note": "DealPro Agent off-plan Q&A library. General guidance only, not legal or financial advice.",
+ "items": [
+  {
+   "id": "q001",
+   "cat": "Buying basics",
+   "q": "What is an off-plan property?",
+   "a": "A unit bought from the developer **before construction is finished** (often before it starts). The buyer pays in instalments linked to dates or construction milestones and receives the unit at handover.\n\n- Registered on DLD's interim register (**Oqood**) during construction\n- Converts to a **title deed** after completion and final payment\n- Governed mainly by Law No. 13 of 2008 (interim register) and Law No. 8 of 2007 (escrow)",
+   "kw": "under construction meaning definition",
+   "src": [
+    "https://dlp.dubai.gov.ae/Legislation%20Reference/2017/Law%20No.%20(19)%20of%202017%20Amending%20Law%20No.%20(13)%20of%202008%20Regulating%20the%20Interim%20Real%20Property%20Register%20in%20the%20Emirate%20of%20Dubai.html",
+    "https://dlp.dubai.gov.ae/Legislation%20Reference/2007/Law%20No.%20(8)%20of%202007.html"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q002",
+   "cat": "Buying basics",
+   "q": "Can foreigners buy off-plan property in Dubai?",
+   "a": "Yes. Non-UAE nationals can buy **freehold** in Dubai's designated freehold areas (Downtown, Marina, JVC, Dubai Hills, Business Bay, Emaar South and many more). Residence in the UAE is **not** required: buyers can sign remotely and pay by bank transfer.\n\nOutside freehold zones, ownership for foreigners is limited (e.g. leasehold/usufruct). Always confirm the project is registered on DLD (Dubai REST app → Mashrooi).",
+   "kw": "foreigner non resident expat freehold zones who can buy",
+   "src": [
+    "https://dubailand.gov.ae"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q003",
+   "cat": "Buying basics",
+   "q": "What are the steps to buy an off-plan unit?",
+   "a": "1. **Choose the unit** and check the project is registered (Dubai REST → Mashrooi) with an escrow account\n2. **Pay the booking/EOI** (often refundable before the SPA, check terms) to the project escrow account\n3. **Sign the SPA** (sale and purchase agreement) with the developer\n4. **Pay the down payment + DLD fee**; the developer registers the sale on **Oqood**\n5. Pay **instalments** per the payment plan\n6. **Handover**: final payment, snagging, title deed issued",
+   "kw": "process how to buy step by step procedure",
+   "src": [
+    "https://dubailand.gov.ae"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q004",
+   "cat": "Buying basics",
+   "q": "What is Oqood?",
+   "a": "Oqood is the Dubai Land Department's **interim (off-plan) register**. When the SPA is registered, the buyer receives an Oqood certificate, which is the legal record of ownership during construction.\n\n- Any sale, resale or mortgage of an off-plan unit must be registered here; deals outside it are **void** (Law 13 of 2008, Art. 3)\n- At completion it converts to a **title deed**; the 4% DLD fee is not charged again",
+   "kw": "oqood certificate interim register registration",
+   "src": [
+    "https://dlp.dubai.gov.ae/Legislation%20Reference/2017/Law%20No.%20(19)%20of%202017%20Amending%20Law%20No.%20(13)%20of%202008%20Regulating%20the%20Interim%20Real%20Property%20Register%20in%20the%20Emirate%20of%20Dubai.html"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q005",
+   "cat": "Buying basics",
+   "q": "What is an EOI and is it refundable?",
+   "a": "An **Expression of Interest (EOI)** reserves a place in the queue for a launch before units are allocated. It is usually refundable if no unit is allocated or the buyer withdraws **before** booking, but terms differ by developer.\n\nAlways get the refund conditions **in writing** and make sure the payment goes to the developer or the project escrow account, never to a personal account.",
+   "kw": "expression of interest booking reservation deposit refund launch",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q006",
+   "cat": "Buying basics",
+   "q": "How do I check that a project is genuine and registered?",
+   "a": "Use the **Dubai REST app → Mashrooi** (or DLD's Project Status service). It shows:\n\n- Project and developer registration\n- **Escrow account** details\n- **Construction completion %** as inspected\n- Expected completion date\n\nAlso check the developer on DLD/RERA and that ads carry a Trakheesi permit number. Off-plan projects not registered with the Escrow Account Department may not be advertised.",
+   "kw": "verify legit scam check project registered mashrooi rest app",
+   "src": [
+    "https://dubailand.gov.ae/en/eservices/real-estate-permit-application/",
+    "https://dubailand.gov.ae/media/i31iv1n0/real-estate-brokerage-practice-guide_en.pdf"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q007",
+   "cat": "Buying basics",
+   "q": "Can a buyer purchase off-plan without visiting Dubai?",
+   "a": "Yes. Most developers allow **remote purchase**: e-signed SPA (or DocuSign), KYC documents (passport, address proof), payment by international transfer to the escrow account. For later procedures (resale, handover) the buyer can appoint someone through a **notarised power of attorney** (attested if signed abroad).",
+   "kw": "remote overseas abroad online power of attorney poa",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q008",
+   "cat": "Buying basics",
+   "q": "Can a company buy off-plan property?",
+   "a": "Yes, many developers sell to companies (UAE mainland, some free zones, and offshore companies like JAFZA/RAK ICC offshore). Expect extra KYC: trade licence, memorandum/articles, board resolution, share register.\n\nNote: rental income and gains of a **company** fall under UAE Corporate Tax (9% above the threshold), unlike an individual's personal investment income.",
+   "kw": "company corporate entity llc offshore buy in company name",
+   "src": [
+    "https://mof.gov.ae"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q009",
+   "cat": "Fees and costs",
+   "q": "What fees does a buyer pay on an off-plan purchase?",
+   "a": "Typical costs on a first purchase from the developer:\n\n- **DLD registration fee: 4%** of the price (paid at Oqood registration; some launches waive part or all of it)\n- **Registration admin charges** (DLD knowledge/innovation fees plus the developer's Oqood/registration admin fee; usually a few hundred to a few thousand dirhams, shown on the developer's statement of account)\n- **Agent commission**: usually paid by the developer on primary sales, not the buyer\n- At handover: **service charges** (often 6–12 months in advance), utility (DEWA) deposits, title deed fee\n\nConfirm current fees on dubailand.gov.ae or the developer's statement of account.",
+   "kw": "costs charges how much dld 4% registration fee oqood admin",
+   "src": [
+    "https://dubailand.gov.ae"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q010",
+   "cat": "Fees and costs",
+   "q": "Is the 4% DLD fee paid again at handover?",
+   "a": "No. On an off-plan purchase the 4% is paid once at Oqood registration. When the unit is completed, Oqood converts to a title deed with only a small **title deed issuance fee**. A **resale** is a new registration, so the new buyer pays 4% on the resale price.",
+   "kw": "4% twice handover title deed conversion",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q011",
+   "cat": "Fees and costs",
+   "q": "Who pays the agent commission on off-plan?",
+   "a": "On **primary** (developer) sales, the developer usually pays the agency commission under a marketing agreement, so the buyer pays nothing. On an off-plan **resale**, the common market practice is **2% + VAT** from the buyer (and/or seller), agreed in writing on the RERA forms. Rates aren't fixed by law: put them in the agreement.",
+   "kw": "commission brokerage fee who pays 2% developer pays",
+   "src": [
+    "https://dubailand.gov.ae/media/i31iv1n0/real-estate-brokerage-practice-guide_en.pdf"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q012",
+   "cat": "Fees and costs",
+   "q": "What service charges will the owner pay?",
+   "a": "Owners pay annual **service charges** (per sq ft) to the owners' association/management company for common areas, security, cleaning and maintenance. Rates are approved by RERA and published in the **Service Charge Index** (Dubai REST app / DLD).\n\nFor off-plan, the SPA or the ad should show the **proposed** service fee; the actual rate is set after completion. Factor it into net yield.",
+   "kw": "service charge maintenance fee mollak annual cost per sq ft",
+   "src": [
+    "https://dubailand.gov.ae"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q013",
+   "cat": "Fees and costs",
+   "q": "Is there VAT on buying a residential off-plan unit?",
+   "a": "Generally **no VAT for the buyer**: the first supply of a new **residential** property within 3 years of completion is **zero-rated**; later residential sales are **exempt**. **Commercial** property (offices, shops) is subject to **5% VAT**. Agency commission carries 5% VAT.",
+   "kw": "vat tax 5% residential commercial zero rated",
+   "src": [
+    "https://mof.gov.ae/en/public-finance/tax/vat/"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q014",
+   "cat": "Fees and costs",
+   "q": "Does the developer charge an admin or registration fee?",
+   "a": "Usually yes: developers often charge an **Oqood/registration admin fee** and later handover-related fees, and an **NOC fee** for resales. Amounts vary by developer (commonly from a few hundred to several thousand dirhams). Always ask for the full **statement of account** and fee schedule before the SPA.",
+   "kw": "developer admin fee noc fee charges",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q015",
+   "cat": "Payment plans and mortgages",
+   "q": "What payment plans are common in Dubai off-plan?",
+   "a": "- **Construction-linked**, e.g. 60/40, 70/30, 80/20: most paid during construction, balance at handover\n- **Post-handover plans**, e.g. 50/50 or 40/60: part paid over 1–5 years **after** handover\n- **Down payment** typically 10–20% plus the 4% DLD fee\n\nCheck whether instalments are **time-based** (fixed dates) or **milestone-based** (linked to inspected progress). Milestone plans protect the buyer if construction slows.",
+   "kw": "payment plan 60/40 80/20 instalments milestones down payment",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q016",
+   "cat": "Payment plans and mortgages",
+   "q": "What is a post-handover payment plan, and what's the catch?",
+   "a": "The buyer receives the keys and keeps paying the developer (often 1–5 years after handover). The unit can be rented out to cover instalments.\n\nCatches to explain:\n- Prices are often **higher** than on a construction-linked plan\n- The **title deed** may stay with a mortgage/pledge to the developer until fully paid\n- **Resale** before full payment needs the developer's NOC and the buyer to take over the plan\n- Missed payments carry penalties, and the developer can enforce under its SPA and the law",
+   "kw": "post handover phph plan after handover catch",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q017",
+   "cat": "Payment plans and mortgages",
+   "q": "Can a buyer get a mortgage for off-plan?",
+   "a": "Yes, but the **UAE Central Bank caps off-plan loans at 50% of the value**, regardless of nationality or value. In practice banks lend once the buyer has paid about **50%** of the price, and only on approved projects/developers. Many buyers pay the construction instalments in cash and take a mortgage at handover (then the normal ready-property limits apply: e.g. up to 80% for a first home for UAE nationals, 75% for expats, subject to value and bank policy).",
+   "kw": "mortgage loan bank finance ltv 50% off-plan",
+   "src": [
+    "https://rulebook.centralbank.ae/node/2856"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q018",
+   "cat": "Payment plans and mortgages",
+   "q": "What are the mortgage limits for a ready (handed-over) unit?",
+   "a": "UAE Central Bank maximum loan-to-value (first home, owner-occupier):\n\n- **Expats:** 75% up to AED 5m; 65% above AED 5m\n- **UAE nationals:** 80% up to AED 5m; 70% above\n- **Second/investment homes:** 60% (expats), 65% (nationals)\n- Max tenor **25 years**; debt-burden ratio capped at 50% of income\n\nBanks may lend less. Mortgage registration at DLD is **0.25% of the loan** plus admin.",
+   "kw": "ltv loan to value expat 75% 80% handover mortgage limits",
+   "src": [
+    "https://rulebook.centralbank.ae/node/2856"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q019",
+   "cat": "Payment plans and mortgages",
+   "q": "Can a non-resident get a mortgage in Dubai?",
+   "a": "Yes, several UAE banks lend to non-residents, usually at **lower LTV** (often 50–60%), with proof of income, bank statements and sometimes a minimum income. Terms change often: confirm with a mortgage adviser or bank before promising a figure.",
+   "kw": "non resident mortgage overseas buyer loan",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q020",
+   "cat": "Payment plans and mortgages",
+   "q": "What happens if a buyer misses instalments?",
+   "a": "Under **Article 11 of Law 13 of 2008** (as amended by Law 19 of 2017):\n\n1. The developer notifies DLD; DLD gives the buyer **30 days' notice** and may mediate\n2. If not settled, DLD issues a document showing the project's **completion %**\n3. The developer may then:\n- **Above 80%:** keep the contract and claim the balance, ask DLD to **auction** the unit, or terminate and keep **up to 40%** of the contract value\n- **60–80%:** terminate and keep **up to 40%**\n- **Below 60% (work started):** terminate and keep **up to 25%**\n- **Not started** (for reasons beyond the developer's control): keep **up to 30% of amounts paid**\n\nThe excess must be refunded. The SPA may also have late-payment penalties.",
+   "kw": "default missed payment late stop stops stopped paying non payment cancellation deduction article 11 penalty terminate",
+   "src": [
+    "https://dlp.dubai.gov.ae/Legislation%20Reference/2017/Law%20No.%20(19)%20of%202017%20Amending%20Law%20No.%20(13)%20of%202008%20Regulating%20the%20Interim%20Real%20Property%20Register%20in%20the%20Emirate%20of%20Dubai.html"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q021",
+   "cat": "Buyer protection and law",
+   "q": "How does the escrow account protect the buyer?",
+   "a": "Under **Law No. 8 of 2007**, every off-plan project must have its **own escrow account** with a DLD-approved bank. Buyer payments go into that account, not the developer's general account, and are released for **construction of that project**, based on progress. The escrow money can't be seized by the developer's creditors, and 5% is retained after completion.\n\nTell clients: **always pay to the escrow account** shown in the SPA.",
+   "kw": "escrow account protection money safe law 8 2007 bank",
+   "src": [
+    "https://dlp.dubai.gov.ae/Legislation%20Reference/2007/Law%20No.%20(8)%20of%202007.html"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q022",
+   "cat": "Buyer protection and law",
+   "q": "What happens if the project is cancelled?",
+   "a": "If **RERA cancels** a project by a reasoned decision, the developer must **refund all amounts** paid by buyers, through the escrow account under Law 8 of 2007 (Law 13 of 2008, Art. 11). Dubai also set up a special committee to liquidate cancelled projects and settle buyers' rights.",
+   "kw": "project cancelled cancellation refund developer bankrupt stalled",
+   "src": [
+    "https://dlp.dubai.gov.ae/Legislation%20Reference/2017/Law%20No.%20(19)%20of%202017%20Amending%20Law%20No.%20(13)%20of%202008%20Regulating%20the%20Interim%20Real%20Property%20Register%20in%20the%20Emirate%20of%20Dubai.html",
+    "https://dlp.dubai.gov.ae/Legislation%20Reference/2007/Law%20No.%20(8)%20of%202007.html"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q023",
+   "cat": "Buyer protection and law",
+   "q": "What if the project is delayed?",
+   "a": "Delays are common: check the **SPA's completion date and grace period** (often 6–12 months) and any **compensation clause**. Progress can be tracked on **Dubai REST → Mashrooi**. If the delay is serious, buyers can complain to RERA/DLD, and disputes go to the Dubai courts or the rental/real estate dispute bodies. A lawyer should advise on claims.\n\nAs an agent: never promise a handover date beyond what the SPA says.",
+   "kw": "delay late handover compensation grace period",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q024",
+   "cat": "Buyer protection and law",
+   "q": "Can a buyer cancel an off-plan purchase and get a refund?",
+   "a": "Not just by changing their mind: once the SPA is signed and registered, the buyer is bound. Options are:\n\n- **Resell** (assign) the unit once the developer allows it\n- Negotiate a **mutual cancellation** with the developer (often with a deduction)\n- Refunds by law mainly arise if the **project is cancelled** or the developer breaches the contract\n\nIf the buyer simply stops paying, Article 11 deductions can apply (up to 25–40% depending on completion).",
+   "kw": "cancel refund change mind withdraw",
+   "src": [
+    "https://dlp.dubai.gov.ae/Legislation%20Reference/2017/Law%20No.%20(19)%20of%202017%20Amending%20Law%20No.%20(13)%20of%202008%20Regulating%20the%20Interim%20Real%20Property%20Register%20in%20the%20Emirate%20of%20Dubai.html"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q025",
+   "cat": "Buyer protection and law",
+   "q": "What is RERA?",
+   "a": "The **Real Estate Regulatory Agency (RERA)** is the regulatory arm of the Dubai Land Department. It licenses and regulates developers, brokers and owners' associations, controls escrow accounts and project progress, approves service charges, and issues advertising permits (Trakheesi).",
+   "kw": "rera regulator dld difference",
+   "src": [
+    "https://dubailand.gov.ae/media/i31iv1n0/real-estate-brokerage-practice-guide_en.pdf"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q026",
+   "cat": "Buyer protection and law",
+   "q": "Who is responsible for defects after handover?",
+   "a": "Under **Dubai Law No. 6 of 2019** (jointly owned property), the developer is liable for:\n\n- **10 years** for **structural** defects, from the completion certificate\n- **1 year** for defective **installations** (mechanical, electrical, plumbing, drainage)\n\nAny clause reducing these is void. Report snags in writing at handover and within the warranty period.",
+   "kw": "defects warranty liability snag structural 10 years 1 year",
+   "src": [
+    "https://chambers.com/articles/construction-defects-dubai-legal-remedies-for-new-property-owners"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q027",
+   "cat": "Resale and exit",
+   "q": "Can an off-plan unit be resold before handover?",
+   "a": "Yes. It's an **assignment**: the new buyer takes over the contract and the rest of the payment plan.\n\n- Most developers require a minimum share paid first, typically **30–40%** (check the SPA)\n- The developer issues an **NOC** (fee varies, often AED 1,000–5,000 or more)\n- Transfer is done on **Oqood** at a DLD trustee office\n- The new buyer pays **4% DLD** on the resale price; the seller usually gets back what they paid plus the agreed premium",
+   "kw": "resale assignment flip sell before handover noc",
+   "src": [
+    "https://www.propertyfinder.ae/partnerhub/?p=6091"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q028",
+   "cat": "Resale and exit",
+   "q": "How is profit on an off-plan resale calculated?",
+   "a": "Seller's net gain ≈ **resale premium** (resale price − original price) − NOC/assignment fees − agency commission.\n\nThe new buyer reimburses the seller's **paid amount** (and usually the 4% the seller paid) plus the premium, and pays their own 4% DLD on the resale price. Show clients the **return on cash invested** (premium ÷ cash paid), not on the full price: that's where off-plan leverage shows.",
+   "kw": "profit roi flip resale calculation return on cash",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q029",
+   "cat": "Resale and exit",
+   "q": "Can a mortgaged off-plan unit be resold?",
+   "a": "Yes, but the bank must issue a **liability letter/clearance** and the loan is settled at transfer (often from the new buyer's payment). It adds time and bank fees, so start early. The developer NOC is still needed.",
+   "kw": "mortgaged resale bank clearance liability letter",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q030",
+   "cat": "Handover and after",
+   "q": "What happens at handover?",
+   "a": "1. Developer sends the **completion notice** and final statement\n2. Buyer pays the **final instalment** + handover charges (service charges in advance, title deed fee, utility deposits)\n3. **Inspection/snagging** of the unit, with defects listed in writing\n4. Keys and access cards; Oqood converts to a **title deed**\n5. Register DEWA (Move-In) and, if renting, Ejari\n\nA professional snagging inspection is worth recommending.",
+   "kw": "handover keys completion final payment title deed snagging",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q031",
+   "cat": "Handover and after",
+   "q": "What is snagging?",
+   "a": "Snagging is the **inspection of the finished unit** for defects (cracks, leaks, finishing, electrical, AC, doors, alignment) before or right after taking the keys. The list is sent to the developer to fix. Defects found later fall under the 1-year installations warranty and the 10-year structural liability.",
+   "kw": "snag list inspection defects",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q032",
+   "cat": "Visas and residency",
+   "q": "Can an off-plan purchase get the buyer a golden visa?",
+   "a": "Yes. The **10-year Golden Visa** route through property needs a property value of **AED 2 million or more**, and off-plan units from **approved developers** qualify (with Oqood and the developer's statement of account). Since early 2024 there's no minimum amount paid: the **property value** counts, and mortgaged properties can qualify too.\n\nRequirements change: confirm on the ICP/GDRFA or DLD Golden Visa service before promising.",
+   "kw": "golden visa 10 year 2 million residency visa",
+   "src": [
+    "https://www.agbi.com/news/uae-scraps-minimum-payment-for-property-golden-visa/"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q033",
+   "cat": "Visas and residency",
+   "q": "Is there a visa for property below AED 2 million?",
+   "a": "Yes, there are other property-linked visas:\n\n- **2-year property investor visa:** thresholds are quoted differently by different sources (often **AED 750,000**), with extra rules for joint and mortgaged ownership. Confirm with GDRFA before advising\n- **5-year retirement visa** for people 55+ with property of **AED 1 million+** (other criteria apply)\n\nThresholds and conditions change; check the official GDRFA/ICP service before advising.",
+   "kw": "visa 750k 2 year investor visa retirement visa below 2 million",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q034",
+   "cat": "Visas and residency",
+   "q": "Can joint owners get a golden visa?",
+   "a": "Joint ownership works if **each owner's share is AED 2 million or more**. There's an exception for **spouses**: if a married couple jointly owns property worth AED 2m+, one spouse can usually apply and sponsor the other. Confirm the current rules with the authority.",
+   "kw": "joint owners share golden visa couple spouse",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q035",
+   "cat": "Tax",
+   "q": "Is there property tax, capital gains tax or income tax on Dubai property?",
+   "a": "For **individuals**, no:\n\n- No annual property tax\n- No capital gains tax on resale profit\n- Rental income earned personally is **not** subject to UAE Corporate Tax (Cabinet Decision 49 of 2023), unless it's a licensed business activity\n\nThere is the 4% DLD transfer fee, a housing fee on rent for residents, and service charges. Buyers should check **tax in their home country**.",
+   "kw": "tax capital gains income tax rental tax corporate tax individual",
+   "src": [
+    "https://mof.gov.ae/en/news/ministry-of-finance-announces-issuance-of-uae-cabinet-decision-on-treatment-of-natural-persons-undertaking-a-business-or-business-activity/"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q036",
+   "cat": "Renting out",
+   "q": "Can an off-plan buyer rent out the unit after handover?",
+   "a": "Yes. Once the unit is handed over (and the title deed issued, or with developer approval for post-handover plans), it can be rented:\n\n- **Long-term:** tenancy contract registered on **Ejari**\n- **Short-term (holiday home):** needs a **DET holiday home permit** for the unit (and operator registration); the building must allow it\n\nNet yield = rent − service charges − maintenance − management fees.",
+   "kw": "rent out tenant ejari airbnb rental after handover yield",
+   "src": [
+    "https://www.dubaidet.gov.ae/en/our-services/for-consumers-and-students/apply-for-a-holiday-home-permit"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q037",
+   "cat": "Renting out",
+   "q": "What do I need for short-term rental (Airbnb) in Dubai?",
+   "a": "- Register on the **DET Holiday Homes system** (as an individual or through a licensed operator)\n- Get a **holiday home permit for each unit**; it's renewed yearly\n- Unit must be fully furnished and meet safety requirements; the building/community must allow holiday homes\n- Collect and pay the **Tourism Dirham** fee per night booked\n\nCheck the DET website for current fees.",
+   "kw": "airbnb short term rental holiday home permit det dtcm",
+   "src": [
+    "https://www.dubaidet.gov.ae/en/our-services/for-consumers-and-students/apply-for-a-holiday-home-permit"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q038",
+   "cat": "Agent practice and compliance",
+   "q": "What do I need to legally sell off-plan as an agent in Dubai?",
+   "a": "- A **RERA broker card** (BRN) under a licensed brokerage\n- A **marketing agreement** between your brokerage and the developer\n- A **Trakheesi advertising permit** for every ad\n- Off-plan ads must show the **developer name, escrow account number, expected completion date and proposed service fees**\n- Advertise only projects registered with the Escrow Account Department",
+   "kw": "agent license rera broker card brn trakheesi permit advertise compliance",
+   "src": [
+    "https://dubailand.gov.ae/media/i31iv1n0/real-estate-brokerage-practice-guide_en.pdf",
+    "https://dubailand.gov.ae/en/eservices/real-estate-permit-application/"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q039",
+   "cat": "Agent practice and compliance",
+   "q": "Which RERA forms are used in a deal?",
+   "a": "- **Form A:** seller ↔ listing agent (to list/advertise a ready or resale unit)\n- **Form B:** buyer ↔ buyer's agent\n- **Form I:** agent ↔ agent (commission split between agencies)\n- **Form F:** the sale MOU between buyer and seller (resale)\n\nPrimary off-plan sales use the developer's **SPA** and booking forms instead of Form F.",
+   "kw": "form a form b form f form i mou rera forms commission split two agencies agent to agent",
+   "src": [
+    "https://dubailand.gov.ae/media/i31iv1n0/real-estate-brokerage-practice-guide_en.pdf"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q040",
+   "cat": "Agent practice and compliance",
+   "q": "How do I check an agent's or a brokerage's licence?",
+   "a": "Use the **Dubai REST app** or DLD's broker search: enter the name or BRN. It shows whether the broker card and office licence are active. Clients can do the same, so keep your BRN on every report and ad.",
+   "kw": "check broker licence brn verify agent",
+   "src": [
+    "https://dubailand.gov.ae/media/i31iv1n0/real-estate-brokerage-practice-guide_en.pdf"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q041",
+   "cat": "Selling and objections",
+   "q": "How do I answer 'I'll wait for prices to drop'?",
+   "a": "Acknowledge it, then move to **their numbers**, not the market's mood:\n\n- Show the **area's price trend and supply** for the handover year (DealPro: Market statistics + Upcoming supply)\n- Explain that with a payment plan they lock today's price but pay mostly later: waiting costs them the **launch price** and the choice of units\n- Compare **cash needed now** (10–20% + 4%) with the rent they'd keep paying while waiting\n- Never promise prices will rise: show the range and the risks, and let them decide",
+   "kw": "objection wait price drop crash bubble timing",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q042",
+   "cat": "Selling and objections",
+   "q": "How do I answer 'Off-plan is risky'?",
+   "a": "Agree that there is risk, then show **how Dubai controls it**:\n\n- Money goes to a **project escrow account** (Law 8 of 2007)\n- Progress is **inspected** and visible on Dubai REST → Mashrooi\n- If RERA cancels a project, buyers get **full refunds**\n- Check the **developer's delivery record** and completion %\n\nRun the project through DealPro's report so they see the developer's record, supply and exit scenarios in one place.",
+   "kw": "objection risky safe trust developer risk",
+   "src": [
+    "https://dlp.dubai.gov.ae/Legislation%20Reference/2007/Law%20No.%20(8)%20of%202007.html"
+   ],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q043",
+   "cat": "Selling and objections",
+   "q": "How do I answer 'Ready property is better than off-plan'?",
+   "a": "Compare on their goal:\n\n- **Off-plan:** lower entry cash, payment plan, launch pricing, new building; but no rent until handover, and a delay risk\n- **Ready:** rent from day one, see what you buy; but full price (or mortgage) now, plus higher upfront fees\n\nFor investors with time and cash flow, off-plan often wins on **return on cash invested**. For people who need income now, ready may fit. Show both with numbers.",
+   "kw": "ready vs off plan which is better objection secondary",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q044",
+   "cat": "Selling and objections",
+   "q": "What should I show a client before they decide?",
+   "a": "A data-backed checklist:\n\n1. **Developer track record** and current completion %\n2. **Area prices and trend** (price per sq ft, 1-year change)\n3. **Upcoming supply** in that area for the handover year\n4. **Rent and gross/net yield**\n5. **Payment plan cash flow** and total cost (fees, service charges)\n6. **Exit scenarios**: conservative, realistic, optimistic\n\nDealPro's client report puts these on one page with your branding.",
+   "kw": "presentation what to show client checklist convince",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q045",
+   "cat": "Using DealPro",
+   "q": "How many units are handing over in an area, and when?",
+   "a": "Open the **🏗️ Upcoming supply** tab: pick the area and the year to see how many **apartments, townhouses and villas** hand over, with the projects behind the numbers. It comes from the DLD project registry and is updated weekly.\n\nUse it with clients to show whether the handover year is crowded (more rental competition) or tight.",
+   "kw": "supply units handover pipeline how many projects completing area year jvc",
+   "src": [],
+   "upd": "2026-11-21"
+  },
+  {
+   "id": "q046",
+   "cat": "Using DealPro",
+   "q": "Where do I see area prices, yields and sales for my client?",
+   "a": "- **📊 Market statistics:** sales, off-plan share, price per sq ft and best-selling projects for any area and period\n- **🗺️ Price map:** every community's price per sq ft, 1-year change, rental yield and rent\n- **🎯 Where to focus:** this month's top areas\n\nAll from DLD sales and Ejari rents, updated weekly. For one project, run a **client report** in 📄 Client reports.",
+   "kw": "price per sqft yield rent area statistics data trend which area best",
+   "src": [],
+   "upd": "2026-11-21"
+  }
+ ]
+}

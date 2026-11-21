@@ -565,40 +565,49 @@ function agpProfile(p) {
 // ---------- Ask DealPro AI: agents' technical questions about Dubai off-plan, answered through the OpenAI API ----------
 // Setup (once): Apps Script > Project Settings > Script properties > add OPENAI_API_KEY = your key from platform.openai.com
 // Optional: OPENAI_MODEL (default gpt-4o-mini), ASK_DAILY_LIMIT (default 30 a day; 5 a day on the free trial).
-var ASK_TAB = 'Agent questions', ASK_HEAD = ['Date (Dubai)', 'Token', 'Agent', 'Question', 'Answer (start)'];
+var ASK_TAB = 'Agent questions', ASK_HEAD = ['Date (Dubai)', 'Token', 'Agent', 'Question', 'Source', 'Question ID', 'Answer (start)'];
+// Source: "Library qNNN" = answered instantly from the Q&A library (checklist/data/faq.json); "New" = not in the library yet.
+// Every week the "New" questions are answered and added to the library; agents see "Your question has been answered" by Question ID.
 var ASK_SYSTEM = [
-  'You are DealPro AI, the assistant inside DealPro Agent, a tool for licensed real estate agents in Dubai.',
+  'You are the AI Expert Broker inside DealPro Agent, a tool for licensed real estate agents in Dubai.',
   'Answer technical questions about Dubai OFF-PLAN real estate: DLD and RERA rules and fees, Oqood and title deeds, escrow accounts,',
   'payment plans, post-handover plans, mortgages for off-plan, golden visa through property, assignment / resale before handover and NOC fees,',
   'service charges, handover and snagging, developer track records, yields and how to present data to clients, objection handling and closing.',
   'Rules: answer for an agent, practical and concise (short paragraphs or bullets, under 250 words unless asked for more).',
-  'Give figures only when they are well established (for example the 4% DLD transfer fee), and say when a rule or fee may have changed',
-  'and should be confirmed on the official source (dubailand.gov.ae, the Dubai REST app, the developer or the bank).',
+  'If DealPro library notes are given, prefer them; they are verified. Give figures only when they are well established (for example the 4% DLD fee),',
+  'and say when a rule or fee may have changed and should be confirmed on the official source (dubailand.gov.ae, the Dubai REST app, the developer or the bank).',
   'Never invent project-specific facts (prices, completion %, escrow numbers): tell the agent to run the project in DealPro or check DLD.',
   'You are not a lawyer or financial adviser: for legal disputes or tax, say a specialist should confirm.',
   'If the question is not about real estate, politely say you only answer Dubai property questions.'
 ].join(' ');
 function askSheet() { return listSheet(ASK_TAB, ASK_HEAD); }
+function askId() { var c = 'abcdefghjkmnpqrstuvwxyz23456789', s = ''; for (var i = 0; i < 8; i++) s += c.charAt(Math.floor(Math.random() * c.length)); return s; }
 function agpAsk(p) {
   var f = agpFind(p.t); if (!f) return agpOut({ ok: false, err: 'login' });
   var st = agpState(f); if (st.st !== 'active' && st.st !== 'trial') return agpOut({ ok: false, err: 'plan' });
   var q = String(p.q || '').trim().slice(0, 1200); if (q.length < 3) return agpOut({ ok: false, err: 'empty' });
+  var now = Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm'), sh = askSheet();
+  if (p.lib) { sh.appendRow([now, String(f.v[0]), String(f.v[1]), clean(q), 'Library ' + clean(String(p.lib).slice(0, 10)), '', '']); return agpOut({ ok: true, lib: 1 }); }
   var props = PropertiesService.getScriptProperties(), key = props.getProperty('OPENAI_API_KEY');
-  if (!key) return agpOut({ ok: false, err: 'setup' });
   var limit = st.st === 'trial' ? 5 : (Number(props.getProperty('ASK_DAILY_LIMIT')) || 30);
-  var day = Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd'), sh = askSheet(), v = sh.getDataRange().getValues(), used = 0;
-  for (var i = 1; i < v.length; i++) if (String(v[i][1]) === String(f.v[0]) && String(v[i][0]).slice(0, 10) === day) used++;
+  var day = now.slice(0, 10), v = sh.getDataRange().getValues(), used = 0;
+  for (var i = 1; i < v.length; i++) if (String(v[i][1]) === String(f.v[0]) && String(v[i][0]).slice(0, 10) === day && String(v[i][4]) === 'New') used++;
   if (used >= limit) return agpOut({ ok: false, err: 'limit', limit: limit });
-  var msgs = [{ role: 'system', content: ASK_SYSTEM }];
-  try { (JSON.parse(p.h || '[]') || []).slice(-6).forEach(function (m) { if (m && (m.r === 'user' || m.r === 'assistant')) msgs.push({ role: m.r, content: String(m.c || '').slice(0, 1500) }); }); } catch (x) {}
-  msgs.push({ role: 'user', content: q });
-  var r = UrlFetchApp.fetch('https://api.openai.com/v1/chat/completions', { method: 'post', contentType: 'application/json', muteHttpExceptions: true,
-    headers: { Authorization: 'Bearer ' + key }, payload: JSON.stringify({ model: props.getProperty('OPENAI_MODEL') || 'gpt-4o-mini', messages: msgs, max_tokens: 700, temperature: 0.3 }) });
-  var code = r.getResponseCode(), j = {}; try { j = JSON.parse(r.getContentText()); } catch (x) {}
-  if (code !== 200 || !j.choices || !j.choices[0]) return agpOut({ ok: false, err: 'ai', code: code, msg: (j.error && j.error.message) ? String(j.error.message).slice(0, 160) : '' });
-  var a = String(j.choices[0].message.content || '').trim();
-  sh.appendRow([Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm'), String(f.v[0]), String(f.v[1]), clean(q), clean(a.slice(0, 280))]);
-  return agpOut({ ok: true, a: a, left: Math.max(0, limit - used - 1), limit: limit });
+  var qid = askId(), a = '';
+  if (key) {
+    var msgs = [{ role: 'system', content: ASK_SYSTEM }];
+    var ctx = String(p.ctx || '').slice(0, 4000); if (ctx) msgs.push({ role: 'system', content: 'DealPro library notes (verified, may be only partly related):\n' + ctx });
+    try { (JSON.parse(p.h || '[]') || []).slice(-6).forEach(function (m) { if (m && (m.r === 'user' || m.r === 'assistant')) msgs.push({ role: m.r, content: String(m.c || '').slice(0, 1500) }); }); } catch (x) {}
+    msgs.push({ role: 'user', content: q });
+    try {
+      var r = UrlFetchApp.fetch('https://api.openai.com/v1/chat/completions', { method: 'post', contentType: 'application/json', muteHttpExceptions: true,
+        headers: { Authorization: 'Bearer ' + key }, payload: JSON.stringify({ model: props.getProperty('OPENAI_MODEL') || 'gpt-4o-mini', messages: msgs, max_tokens: 700, temperature: 0.3 }) });
+      var j = {}; try { j = JSON.parse(r.getContentText()); } catch (x) {}
+      if (r.getResponseCode() === 200 && j.choices && j.choices[0]) a = String(j.choices[0].message.content || '').trim();
+    } catch (x) {}
+  }
+  sh.appendRow([now, String(f.v[0]), String(f.v[1]), clean(q), 'New', qid, clean(a.slice(0, 280))]);
+  return agpOut({ ok: true, a: a, qid: qid, pending: true, left: Math.max(0, limit - used - 1), limit: limit });
 }
 // public photo lookup for a client opening a shared report (by Public ID, never by the private token)
 function agpPic(id) {
