@@ -564,6 +564,101 @@
    "tags": "palm springs aliso townhouses 3br 4br nakheel jebel ali hessyan canyon park",
    "added": "2026-11-21",
    "src": "Khaleej Times, 18 Nov 2026 (Nakheel launches first villas and townhouses at Palm Springs: Rancho 4-5BR villas, Aliso 3-4BR townhouses; prices and completion not disclosed)"
+  },
+  {
+   "name": "Ventana Residences",
+   "dev": "Zedor",
+   "area": "Warsan 4",
+   "comm": "Warsan 4",
+   "near": "Dragon Mart",
+   "tags": "warsan zedor ventana dragon mart silicon oasis",
+   "added": "2026-11-22",
+   "src": "Developers News Magazine / Zawya, 20 Nov 2026 (Zedor's first Dubai project: 127 apartments + 3 retail, from AED 520k, 50% booked before formal launch, handover Q1 2028)"
+  },
+  {
+   "name": "W Residences Dubai - JLT (Phase 3)",
+   "dev": "Signature Developers",
+   "area": "Jumeirah Lakes Towers",
+   "comm": "JLT",
+   "near": "Dubai Marina",
+   "ll": [
+    25.0709,
+    55.1387
+   ],
+   "tags": "jlt w residences marriott signature phase 3 betterhomes",
+   "added": "2026-11-22",
+   "src": "Developers News Magazine / Zawya, 20 Nov 2026 (Phase 3 launch, 2-3BR from AED 4m, open house 21-22 Nov at JLT sales centre)"
+  },
+  {
+   "name": "Gate Royale Residences",
+   "dev": "Baron Development",
+   "area": "Al Furjan",
+   "ll": [
+    25.0305,
+    55.1522
+   ],
+   "tags": "al furjan baron gate royale",
+   "added": "2026-11-22",
+   "src": "VILA recently-added off-plan list (vila.ae, updated 21 Nov 2026, read 22 Nov 2026): Baron Development, Al Furjan, handover Q4 2027"
+  },
+  {
+   "name": "Eterna by Grid",
+   "dev": "Grid",
+   "area": "International Media Production Zone",
+   "comm": "Dubai Production City",
+   "ll": [
+    25.0321,
+    55.1913
+   ],
+   "tags": "dpc impz dubai production city grid eterna",
+   "added": "2026-11-22",
+   "src": "VILA recently-added off-plan list (vila.ae, updated 21 Nov 2026, read 22 Nov 2026): Grid Realty, Dubai Production City, handover Q1 2029"
+  },
+  {
+   "name": "Jules Verne Residences",
+   "dev": "Segrex",
+   "area": "Jumeirah Village Triangle",
+   "comm": "JVT",
+   "ll": [
+    25.0498,
+    55.1907
+   ],
+   "tags": "jvt segrex jules verne",
+   "added": "2026-11-22",
+   "src": "VILA recently-added off-plan list (vila.ae, updated 21 Nov 2026, read 22 Nov 2026): Segrex Development, JVT, handover Q4 2030"
+  },
+  {
+   "name": "Volante by Zoya",
+   "dev": "Zoya",
+   "area": "Dubai South",
+   "comm": "Dubai South",
+   "tags": "dubai south zoya volante volant",
+   "added": "2026-11-22",
+   "src": "VILA recently-added off-plan list (vila.ae, updated 21 Nov 2026, read 22 Nov 2026): Zoya Developments, Dubai South, handover Q4 2029"
+  },
+  {
+   "name": "Seven x Seven Residences",
+   "dev": "Kasumigaseki Properties",
+   "area": "Bukadra",
+   "ll": [
+    25.1769,
+    55.3262
+   ],
+   "tags": "bukadra ras al khor kasumigaseki 7x7 seven by seven",
+   "added": "2026-11-22",
+   "src": "VILA recently-added off-plan list (vila.ae, updated 21 Nov 2026, read 22 Nov 2026): Kasumigaseki Properties Development, Bukadra, handover Q4 2029"
+  },
+  {
+   "name": "Element by Iman",
+   "dev": "Iman",
+   "area": "Dubai Science Park",
+   "ll": [
+    25.0735,
+    55.2413
+   ],
+   "tags": "dubai science park dsp iman element",
+   "added": "2026-11-22",
+   "src": "VILA recently-added off-plan list (vila.ae, updated 21 Nov 2026, read 22 Nov 2026): Iman, Dubai Science Park, handover Q2 2029"
   }
  ]
 }
