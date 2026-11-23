@@ -4,6 +4,9 @@
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    // Always serve over HTTPS (the browser shows "Not Secure" on http://). Cloudflare's "Always Use HTTPS" setting covers every path;
+    // this covers the pages the worker sees first (home, portal, policies) even if that setting is off.
+    if (url.protocol === "http:" && !/^(localhost|127\.)/.test(url.hostname)) { url.protocol = "https:"; return Response.redirect(url.toString(), 301); }
     // AGENT_HOST: the agent site's domain(s), comma-separated (e.g. "dataproagent.ae,www.dataproagent.ae"). The first is the main one.
     const hosts = String(env.AGENT_HOST || "").toLowerCase().split(",").map(s => s.trim()).filter(Boolean);
     const onAgents = hosts.includes(url.hostname) || url.hostname.startsWith("agents.");
