@@ -8,14 +8,15 @@ Edit the texts below, then run:  python3 tools/make_legal.py
 import os, html
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
-UPDATED = "19 November 2026"
+UPDATED = "23 November 2026"
+API = "https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec"
 OP = "SURYA TAMANG Marketing Management"
 LIC = "Trader Licence no. 1661461, issued by the Department of Economy and Tourism, Dubai"
 WA = "+971 52 872 8248"
 WAL = "https://wa.me/971528728248?text=" + "Hi%20Sam%2C%20I%20have%20a%20question%20about%20your%20terms%20%2F%20privacy."
 
 def contact():
-    return f'<p>WhatsApp: <a href="{WAL}">{WA}</a> (messages answered on working days, usually within 24 hours).</p>'
+    return f'<p>WhatsApp: <a href="{WAL}">{WA}</a> (messages answered on working days, usually within 24 hours), or write to us through the <a href="/legal/contact/">contact &amp; complaints form</a> (reply by email within 3 working days).</p>'
 
 PAGES = {}
 
@@ -55,7 +56,7 @@ PAGES["terms"] = ("Terms & Conditions", f"""
 <li><b>Agent Pro</b>: AED 199 a month, up to 30 different projects a month. Extra projects: AED 19 each (top-up).</li>
 <li><b>Agent Unlimited</b>: AED 299 a month, unlimited projects.</li>
 </ul>
-<p>A "project" is each different project you run a full report on in a calendar month; opening the same project again in that month doesn't count twice. Prices are in UAE dirhams and are the total you pay. If we register for VAT, prices will be shown inclusive of 5% VAT and invoices will show the VAT amount. We may change prices for future periods; a change never affects a period you have already paid for, and we will show the new price before you renew.</p>
+<p>A "project" is each different project you run a full report on in a calendar month; opening the same project again in that month doesn't count twice. Prices are in UAE dirhams and are the total you pay. We are not currently registered for VAT, so no VAT is charged. After every payment we email you a dated receipt. If we register for VAT, prices will be shown inclusive of 5% VAT and invoices will show the VAT amount. We may change prices for future periods; a change never affects a period you have already paid for, and we will show the new price before you renew.</p>
 
 <h2>7. Payment and renewal</h2>
 <p>Payments are made through our payment provider (Ziina) by card or Apple Pay; we never see or store your card details. A plan runs for one month from activation. <b>Plans do not renew automatically</b>: you pay again to renew, and if you don't, the plan simply ends on its end date. Report links you have sent to clients may stop opening after your plan ends. Ziina charges us a processing fee on each payment; it is included in our prices and not added to what you pay. Cancellations and refunds are covered by our <a href="/legal/refunds/">Cancellation &amp; Refund Policy</a>.</p>
@@ -166,7 +167,31 @@ PAGES["refunds"] = ("Cancellation & Refund Policy", f"""
 <p>This policy doesn't affect any rights you have under UAE consumer protection law.</p>
 """)
 
+CONTACT = f"""
+<p class="lead">Questions, problems with a payment or report, a refund request or a complaint: send it here and you get a reference number by email. We reply within 3 working days.</p>
+<form id="cf" class="cf">
+<label>Your name<input name="name" maxlength="80" autocomplete="name" required></label>
+<label>Email (we reply here)<input name="email" type="email" maxlength="120" autocomplete="email" required></label>
+<label>WhatsApp (optional)<input name="ph" type="tel" maxlength="25" autocomplete="tel"></label>
+<label>Topic<select name="topic"><option>Question</option><option>Payment or receipt</option><option>Refund request</option><option>Problem with a report</option><option>Complaint</option><option>My personal data</option></select></label>
+<label>Message<textarea name="msg" rows="6" maxlength="3000" required placeholder="For payments, add the date and the email or WhatsApp number on the account."></textarea></label>
+<input name="hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-5000px" aria-hidden="true">
+<button type="submit">Send message</button><p id="cfm" class="cfm" role="status"></p>
+</form>
+<h2>Other ways to reach us</h2>
+<p>WhatsApp: <a href="{WAL}">{WA}</a> (working days).</p>
+<p>If we can't resolve a complaint, you can contact the Department of Economy and Tourism, Dubai (consumer protection) at <a href="https://consumerrights.gov.ae" rel="noopener">consumerrights.gov.ae</a> or call 600 54 55 55.</p>
+<script>
+(function(){{var f=document.getElementById("cf"),m=document.getElementById("cfm");f.addEventListener("submit",function(e){{e.preventDefault();var b=f.querySelector("button");b.disabled=true;m.textContent="Sending…";
+var d=new URLSearchParams(new FormData(f));d.set("a","agent_contact");
+fetch("{API}",{{method:"POST",body:d}}).then(function(r){{return r.json();}}).then(function(j){{b.disabled=false;if(j&&j.ok){{f.reset();m.className="cfm ok";m.textContent="✅ Sent. Your reference is "+j.ref+". A copy is on its way to your email.";}}else{{m.className="cfm er";m.textContent=j&&j.err==="limit"?"You've sent several messages today. We'll reply to those first.":"Please fill your name, a valid email and your message.";}}}}).catch(function(){{b.disabled=false;m.className="cfm er";m.textContent="Couldn't send. Please try again, or message us on WhatsApp.";}});}});}})();
+</script>
+"""
 CSS = """
+.cf{display:grid;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:14px;position:relative}.cf label{display:grid;gap:4px;font-weight:700;color:var(--navy);font-size:14px}
+.cf input,.cf select,.cf textarea{font:inherit;font-size:16px;font-weight:400;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink,#1B2433)}
+.cf button{font:inherit;font-weight:800;font-size:16px;border:0;border-radius:12px;padding:12px;background:linear-gradient(135deg,#C9A24A,#F6E7BE 55%,#C9A24A);color:#081830;cursor:pointer}.cf button:disabled{opacity:.6}
+.cfm{margin:0;font-size:14.5px}.cfm.ok{color:#167A45;font-weight:700}.cfm.er{color:#A3261B}
 :root{--navy:#081830;--gold:#C9A24A;--gold2:#E8CF8E;--ink:#1B2433;--muted:#5B6678;--line:#E6E1D6;--cream:#FAF7F0}
 *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;font-size:16.5px}
 header{background:linear-gradient(160deg,#0F2748,var(--navy));color:#fff;padding:28px 18px 34px}header .w,main{max-width:780px;margin:0 auto}
@@ -177,7 +202,8 @@ h2{color:var(--navy);font-size:20px;margin:28px 0 8px}h3{color:var(--navy);font-
 a{color:#1A5DAB}nav.lg{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}nav.lg a{background:rgba(255,255,255,.1);border:1px solid rgba(232,207,142,.35);border-radius:20px;padding:6px 12px;color:#fff;font-size:13.5px}
 nav.lg a.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}footer{text-align:center;color:var(--muted);font-size:13px;padding:0 18px 40px}
 """
-NAV = [("terms", "Terms & Conditions"), ("privacy", "Privacy Policy"), ("refunds", "Cancellation & Refunds")]
+NAV = [("terms", "Terms & Conditions"), ("privacy", "Privacy Policy"), ("refunds", "Cancellation & Refunds"), ("contact", "Contact & complaints")]
+PAGES["contact"] = ("Contact & complaints", CONTACT)
 
 def page(key, title, body, site="SamSurya Realty (samsuryarealty.com) and DealPro Agent (dealproagent.com)", brand="SamSurya Realty & DealPro Agent", icon="/favicon.svg"):
     nav = "".join(f'<a href="/legal/{k}/"' + (' class="on"' if k == key else "") + f">{html.escape(t)}</a>" for k, t in NAV)
@@ -229,6 +255,7 @@ D["privacy"] = (t, b)
 t, b = PAGES["refunds"]
 b = b.replace('This policy applies to paid plans on <b>samsuryarealty.com</b> (Premium) and <b>dealproagent.com</b> (Agent Pro, Agent Unlimited and top-ups).', 'This policy applies to paid DealPro Agent plans on <b>dealproagent.com</b>: Agent Pro, Agent Unlimited and top-ups.')
 D["refunds"] = (t, b)
+D["contact"] = PAGES["contact"]
 for k, (t, b) in D.items():
     assert "samsurya" not in b.lower(), k
     d = os.path.join(ROOT, "dpa-legal", k); os.makedirs(d, exist_ok=True)

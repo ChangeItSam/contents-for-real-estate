@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Contact &amp; complaints | DealPro Agent</title><meta name="robots" content="index,follow">
+<link rel="icon" href="/assets/brand/dpa-favicon.svg?v=2"><style>
+.cf{display:grid;gap:12px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:14px;position:relative}.cf label{display:grid;gap:4px;font-weight:700;color:var(--navy);font-size:14px}
+.cf input,.cf select,.cf textarea{font:inherit;font-size:16px;font-weight:400;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff;color:var(--ink,#1B2433)}
+.cf button{font:inherit;font-weight:800;font-size:16px;border:0;border-radius:12px;padding:12px;background:linear-gradient(135deg,#C9A24A,#F6E7BE 55%,#C9A24A);color:#081830;cursor:pointer}.cf button:disabled{opacity:.6}
+.cfm{margin:0;font-size:14.5px}.cfm.ok{color:#167A45;font-weight:700}.cfm.er{color:#A3261B}
+:root{--navy:#081830;--gold:#C9A24A;--gold2:#E8CF8E;--ink:#1B2433;--muted:#5B6678;--line:#E6E1D6;--cream:#FAF7F0}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;font-size:16.5px}
+header{background:linear-gradient(160deg,#0F2748,var(--navy));color:#fff;padding:28px 18px 34px}header .w,main{max-width:780px;margin:0 auto}
+header a{color:var(--gold2);text-decoration:none;font-weight:700;font-size:14px}h1{margin:12px 0 4px;font-size:clamp(26px,5vw,36px);letter-spacing:-.5px}
+header p{margin:0;color:#C9D5E8;font-size:14px}main{padding:22px 18px 60px}
+.lead{font-size:17px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px}
+h2{color:var(--navy);font-size:20px;margin:28px 0 8px}h3{color:var(--navy);font-size:16.5px;margin:16px 0 4px}ul{padding-left:20px}li{margin:4px 0}
+a{color:#1A5DAB}nav.lg{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}nav.lg a{background:rgba(255,255,255,.1);border:1px solid rgba(232,207,142,.35);border-radius:20px;padding:6px 12px;color:#fff;font-size:13.5px}
+nav.lg a.on{background:var(--gold);color:var(--navy);border-color:var(--gold)}footer{text-align:center;color:var(--muted);font-size:13px;padding:0 18px 40px}
+</style></head><body>
+<header><div class="w"><a href="#" onclick="if(history.length>1){history.back();return false;}else{location.href='/';return false;}">← Back</a>
+<h1>Contact &amp; complaints</h1><p>DealPro Agent (dealproagent.com) · Last updated 23 November 2026</p><nav class="lg"><a href="/legal/terms/">Terms &amp; Conditions</a><a href="/legal/privacy/">Privacy Policy</a><a href="/legal/refunds/">Cancellation &amp; Refunds</a><a href="/legal/contact/" class="on">Contact &amp; complaints</a></nav></div></header>
+<main>
+<p class="lead">Questions, problems with a payment or report, a refund request or a complaint: send it here and you get a reference number by email. We reply within 3 working days.</p>
+<form id="cf" class="cf">
+<label>Your name<input name="name" maxlength="80" autocomplete="name" required></label>
+<label>Email (we reply here)<input name="email" type="email" maxlength="120" autocomplete="email" required></label>
+<label>WhatsApp (optional)<input name="ph" type="tel" maxlength="25" autocomplete="tel"></label>
+<label>Topic<select name="topic"><option>Question</option><option>Payment or receipt</option><option>Refund request</option><option>Problem with a report</option><option>Complaint</option><option>My personal data</option></select></label>
+<label>Message<textarea name="msg" rows="6" maxlength="3000" required placeholder="For payments, add the date and the email or WhatsApp number on the account."></textarea></label>
+<input name="hp" tabindex="-1" autocomplete="off" style="position:absolute;left:-5000px" aria-hidden="true">
+<button type="submit">Send message</button><p id="cfm" class="cfm" role="status"></p>
+</form>
+<h2>Other ways to reach us</h2>
+<p>WhatsApp: <a href="https://wa.me/971528728248?text=Hi%20Sam%2C%20I%20have%20a%20question%20about%20your%20terms%20%2F%20privacy.">+971 52 872 8248</a> (working days).</p>
+<p>If we can't resolve a complaint, you can contact the Department of Economy and Tourism, Dubai (consumer protection) at <a href="https://consumerrights.gov.ae" rel="noopener">consumerrights.gov.ae</a> or call 600 54 55 55.</p>
+<script>
+(function(){var f=document.getElementById("cf"),m=document.getElementById("cfm");f.addEventListener("submit",function(e){e.preventDefault();var b=f.querySelector("button");b.disabled=true;m.textContent="Sending…";
+var d=new URLSearchParams(new FormData(f));d.set("a","agent_contact");
+fetch("https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec",{method:"POST",body:d}).then(function(r){return r.json();}).then(function(j){b.disabled=false;if(j&&j.ok){f.reset();m.className="cfm ok";m.textContent="✅ Sent. Your reference is "+j.ref+". A copy is on its way to your email.";}else{m.className="cfm er";m.textContent=j&&j.err==="limit"?"You've sent several messages today. We'll reply to those first.":"Please fill your name, a valid email and your message.";}}).catch(function(){b.disabled=false;m.className="cfm er";m.textContent="Couldn't send. Please try again, or message us on WhatsApp.";});});})();
+</script>
+</main>
+<footer>SURYA TAMANG Marketing Management · Trader Licence no. 1661461, issued by the Department of Economy and Tourism, Dubai</footer></body></html>

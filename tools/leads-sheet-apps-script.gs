@@ -311,6 +311,7 @@ function doPost(e) {
     if (/^agent_(verify|resend|login|forgot|reset)$/.test(p.a || '')) return agpAuth(p);
     if (p.a === 'agent_photo') return agpPhoto(p);
     if (p.a === 'agent_profile') return agpProfile(p);
+  if (p.a === 'agent_contact') return agpContact(p);
     var sh = leadsSheet();
     var digits = String(p.phone || '').replace(/[^0-9]/g, '');
     var name = String(p.name || '').trim();
@@ -636,7 +637,9 @@ function agpActivate() {
     'Type any project and the full report opens with your name, agency and BRN, ready to send to your client.';
   if (digits.length >= 8) f.sh.getRange(f.row, 12).setRichTextValue(SpreadsheetApp.newRichTextValue().setText('📲 Send link').setLinkUrl('https://wa.me/' + digits + '?text=' + encodeURIComponent(msg)).build());
   f.sh.getRange(f.row, 1, 1, AGP_HEAD.length).setBackground('#E8F8EE');
-  SpreadsheetApp.getActive().toast('Active until ' + until + '. Tap "📲 Send link" in this row to send the portal link.');
+  var unl = /unl/i.test(String(f.v[6])), rn = agpReceipt(f, unl ? 'Agent Unlimited, 1 month' : 'Agent Pro, 1 month (30 projects)', unl ? PRICE_UNL : PRICE_PRO,
+    'Valid until ' + until);
+  SpreadsheetApp.getActive().toast('Active until ' + until + '. ' + (rn ? 'Receipt ' + rn + ' emailed. ' : 'No email on file: no receipt sent. ') + 'Tap "📲 Send link" in this row to send the portal link.');
 }
 // Sam's own master access: Agent Unlimited, active until 2099, on his number. Running it again re-sends the same link.
 var MASTER_PHONE = '+971528728248', MASTER_NAME = 'Sam Surya Tamang', MASTER_AGENCY = 'SamSurya Realty';
@@ -666,7 +669,56 @@ function agpMaster() {
 function agpTopup() {
   var f = agpSelected(), n = (Number(f.v[9]) || 0) + 1;
   f.sh.getRange(f.row, 10).setValue(n);
-  SpreadsheetApp.getActive().toast('Top-up added. ' + n + ' extra project' + (n === 1 ? '' : 's') + ' available.');
+  var rn = agpReceipt(f, 'Agent Pro top-up: 1 extra project', PRICE_ONE, 'Added to this month\'s allowance');
+  SpreadsheetApp.getActive().toast('Top-up added. ' + n + ' extra project' + (n === 1 ? '' : 's') + ' available.' + (rn ? ' Receipt ' + rn + ' emailed.' : ''));
+}
+
+// ---------- Receipts: a dated receipt emailed to the agent after every payment you record from the menu ----------
+// Seller details and prices. Prices must match checklist/data/pay.json. Not VAT-registered yet: when you register, set
+// Script property VAT_TRN = your TRN and the receipt switches to a tax invoice showing 5% VAT included.
+var SELLER = 'SURYA TAMANG Marketing Management', SELLER_LIC = 'Trader Licence 1661461 · Department of Economy and Tourism, Dubai';
+var PRICE_PRO = 199, PRICE_UNL = 299, PRICE_ONE = 19;
+var RCPT_TAB = 'Receipts', RCPT_HEAD = ['Receipt no.', 'Date (Dubai)', 'Token', 'Agent', 'Email', 'Item', 'Amount (AED)', 'VAT (AED)', 'Note'];
+function agpReceipt(f, item, amount, note) {
+  var to = agpMail(f.v[5]); if (!to) return '';
+  var sh = listSheet(RCPT_TAB, RCPT_HEAD), now = new Date(), yr = Utilities.formatDate(now, 'Asia/Dubai', 'yyyy');
+  var n = 0, v = sh.getDataRange().getValues(); for (var i = 1; i < v.length; i++) if (String(v[i][0]).indexOf('DPA-' + yr + '-') === 0) n++;
+  var no = 'DPA-' + yr + '-' + ('0000' + (n + 1)).slice(-4), date = Utilities.formatDate(now, 'Asia/Dubai', 'd MMMM yyyy');
+  var trn = PropertiesService.getScriptProperties().getProperty('VAT_TRN') || '', vat = trn ? Math.round(amount * 5 / 105 * 100) / 100 : 0;
+  var row = function (a, b) { return '<tr><td style="padding:6px 0;color:#5B6678">' + a + '</td><td style="padding:6px 0;text-align:right;font-weight:700">' + b + '</td></tr>'; };
+  var html = '<div style="font-family:Arial,sans-serif;max-width:520px;margin:auto;color:#1B2433">' +
+    '<div style="background:#081830;color:#fff;padding:18px 20px;border-radius:14px 14px 0 0"><b style="font-size:20px">DealPro <span style="color:#E8CF8E">Agent</span></b><br><span style="color:#B9C4D6">' + (trn ? 'Tax invoice' : 'Payment receipt') + '</span></div>' +
+    '<div style="border:1px solid #E6E1D6;border-top:0;padding:18px 20px;border-radius:0 0 14px 14px"><table style="width:100%;border-collapse:collapse;font-size:14px">' +
+    row('Receipt no.', no) + row('Date', date) + row('Billed to', clean(f.v[1]) + (f.v[2] ? ' · ' + clean(f.v[2]) : '') + (f.v[3] ? ' · BRN ' + clean(f.v[3]) : '')) +
+    row('Item', item) + row('Note', note) + (trn ? row('VAT 5% (included)', 'AED ' + vat.toFixed(2)) : '') +
+    '<tr><td style="padding:10px 0;border-top:2px solid #081830;font-weight:700">Total paid</td><td style="padding:10px 0;border-top:2px solid #081830;text-align:right;font-weight:900;font-size:18px">AED ' + amount.toFixed(2) + '</td></tr></table>' +
+    '<p style="font-size:13px;color:#5B6678">Paid by card / Apple Pay through Ziina. ' + (trn ? 'TRN ' + trn + '.' : 'The seller is not registered for VAT: no VAT was charged.') + '</p>' +
+    '<p style="font-size:12px;color:#8A93A3;border-top:1px solid #EEE;padding-top:10px">' + SELLER + ' · ' + SELLER_LIC + '<br>' + AGENT_SITE.replace('https://', '') + ' · Terms, refunds and contact: ' + AGENT_SITE + '/legal/</p></div></div>';
+  try {
+    MailApp.sendEmail({ to: to, name: 'DealPro Agent', subject: 'Your DealPro Agent receipt ' + no, htmlBody: html,
+      body: 'DealPro Agent receipt ' + no + '\nDate: ' + date + '\nItem: ' + item + '\nTotal paid: AED ' + amount.toFixed(2) + '\n' + (trn ? 'TRN ' + trn : 'Not VAT-registered: no VAT charged.') + '\n' + SELLER + ' · ' + SELLER_LIC });
+  } catch (err) { Logger.log('receipt failed: ' + err); return ''; }
+  sh.appendRow([no, Utilities.formatDate(now, 'Asia/Dubai', 'yyyy-MM-dd HH:mm'), String(f.v[0]), String(f.v[1]), to, item, amount, vat, note]);
+  return no;
+}
+
+// ---------- Contact & complaints form (dealproagent.com/legal/contact/) ----------
+var CONTACT_TAB = 'Contact & complaints', CONTACT_HEAD = ['Ref', 'Date (Dubai)', 'Name', 'Email', 'WhatsApp', 'Topic', 'Message', 'Status'];
+function agpContact(p) {
+  var msg = String(p.msg || '').trim().slice(0, 3000), mail = agpMail(p.email);
+  if (msg.length < 5 || !mail) return agpOut({ ok: false, err: 'fields' });
+  if (String(p.hp || '')) return agpOut({ ok: true, ref: 'OK' });   // honeypot: bots fill the hidden field
+  var sh = listSheet(CONTACT_TAB, CONTACT_HEAD), v = sh.getDataRange().getValues(), today = dstr(new Date()), same = 0;
+  for (var i = 1; i < v.length; i++) if (String(v[i][3]) === mail && String(v[i][1]).slice(0, 10) === today) same++;
+  if (same >= 5) return agpOut({ ok: false, err: 'limit' });
+  var ref = 'C' + Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyMMdd') + '-' + ('00' + v.length).slice(-3), topic = clean(String(p.topic || 'Question').slice(0, 40));
+  sh.appendRow([ref, Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm'), clean(String(p.name || '').slice(0, 80)), mail, clean(String(p.ph || '').slice(0, 25)), topic, clean(msg), 'New']);
+  try {
+    var to = PropertiesService.getScriptProperties().getProperty('ALERT_TO') || Session.getEffectiveUser().getEmail();
+    if (to) MailApp.sendEmail({ to: to, replyTo: mail, name: 'DealPro Agent', subject: '📩 ' + topic + ' ' + ref + ': ' + clean(String(p.name || mail)), body: 'Topic: ' + topic + '\nFrom: ' + clean(String(p.name || '')) + ' <' + mail + '> ' + clean(String(p.ph || '')) + '\n\n' + msg + '\n\nReply to this email to answer them. Logged in the "' + CONTACT_TAB + '" tab.' });
+    MailApp.sendEmail({ to: mail, name: 'DealPro Agent', subject: 'We received your message (' + ref + ')', body: 'Hi ' + (clean(String(p.name || '')).split(' ')[0] || 'there') + ',\n\nThanks for contacting DealPro Agent. Your reference is ' + ref + '. We reply within 3 working days.\n\nYour message:\n' + msg + '\n\n' + SELLER + ' · ' + SELLER_LIC });
+  } catch (err) { Logger.log('contact mail failed: ' + err); }
+  return agpOut({ ok: true, ref: ref });
 }
 
 // Email alert to the sheet owner for every new lead (shows as a Gmail notification on the phone)
