@@ -8,6 +8,7 @@ on:
       - "tools/fetch_dld_projects.py"
       - "tools/fetch_dld_psf.py"
       - "tools/fetch_dld_insights.py"
+      - "tools/fetch_golden_visa.py"
       - "checklist/data/developer_grades.json"
       - ".github/workflows/dld-projects.yml"
 permissions:
@@ -25,9 +26,13 @@ jobs:
         continue-on-error: true
       - run: python tools/fetch_dld_insights.py
         continue-on-error: true
+      - name: Golden Visa finder (DLD sales at AED 2M+, last 12 months)
+        run: python tools/fetch_golden_visa.py
+        continue-on-error: true
+        timeout-minutes: 30
       - name: Commit if changed
         run: |
           git config user.name "dld-refresh-bot"
           git config user.email "actions@users.noreply.github.com"
           git add checklist/data
-          git diff --cached --quiet || (git commit -m "Refresh DLD project list and PSF data" && git push)
+          git diff --cached --quiet || (git commit -m "Refresh DLD project list and PSF data" && git pull --rebase -q && git push)
