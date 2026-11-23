@@ -626,6 +626,19 @@ function agpSelected() {
 }
 function agpActivate() {
   var f = agpSelected(), today = dstr(new Date()), cur = dstr(f.v[8]);
+  // Renewal discount for agents who paid before: renew on/before the end date = 50% off, within 7 days after = 25% off, later = full.
+  var unl0 = /unl/i.test(String(f.v[6])), full = unl0 ? PRICE_UNL : PRICE_PRO, tier = 0;
+  if (cur && /active|expired/i.test(String(f.v[7])) && cur < '2090') {
+    var g = new Date(cur + 'T12:00:00'); g.setDate(g.getDate() + 7);
+    tier = today <= cur ? 50 : today <= dstr(g) ? 25 : 0;
+  }
+  var amt = tier === 50 ? (unl0 ? 149 : 99) : tier === 25 ? (unl0 ? 224 : 149) : full;
+  try {
+    var ui = SpreadsheetApp.getUi(), ans = ui.prompt('Amount paid (AED)', (tier ? tier + '% renewal discount applies (plan ended ' + cur + '). ' : 'Full price. ') +
+      'Change it if the agent paid a different amount (e.g. paid on time but you activate late).', ui.ButtonSet.OK_CANCEL);
+    if (ans.getSelectedButton() !== ui.Button.OK) return;
+    var typed = Number(String(ans.getResponseText()).replace(/[^0-9.]/g, '')); if (typed > 0) amt = typed;
+  } catch (err) { /* no UI (run from the editor): use the computed amount */ }
   var base = cur && cur > today && /active/i.test(String(f.v[7])) ? new Date(cur + 'T12:00:00') : new Date();
   base.setMonth(base.getMonth() + 1);
   var until = Utilities.formatDate(base, 'Asia/Dubai', 'yyyy-MM-dd');
@@ -637,8 +650,8 @@ function agpActivate() {
     'Type any project and the full report opens with your name, agency and BRN, ready to send to your client.';
   if (digits.length >= 8) f.sh.getRange(f.row, 12).setRichTextValue(SpreadsheetApp.newRichTextValue().setText('📲 Send link').setLinkUrl('https://wa.me/' + digits + '?text=' + encodeURIComponent(msg)).build());
   f.sh.getRange(f.row, 1, 1, AGP_HEAD.length).setBackground('#E8F8EE');
-  var unl = /unl/i.test(String(f.v[6])), rn = agpReceipt(f, unl ? 'Agent Unlimited, 1 month' : 'Agent Pro, 1 month (30 projects)', unl ? PRICE_UNL : PRICE_PRO,
-    'Valid until ' + until);
+  var unl = unl0, disc = amt < full ? ' · renewal discount ' + Math.round(100 - amt / full * 100) + '% (full price AED ' + full + ')' : '';
+  var rn = agpReceipt(f, (unl ? 'Agent Unlimited, 1 month' : 'Agent Pro, 1 month (30 projects)') + disc, amt, 'Valid until ' + until);
   SpreadsheetApp.getActive().toast('Active until ' + until + '. ' + (rn ? 'Receipt ' + rn + ' emailed. ' : 'No email on file: no receipt sent. ') + 'Tap "📲 Send link" in this row to send the portal link.');
 }
 // Sam's own master access: Agent Unlimited, active until 2099, on his number. Running it again re-sends the same link.

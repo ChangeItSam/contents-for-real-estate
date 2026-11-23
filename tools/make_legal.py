@@ -55,6 +55,7 @@ PAGES["terms"] = ("Terms & Conditions", f"""
 <li><b>Premium</b>: AED 49 a month, up to 10 different projects a month.</li>
 <li><b>Agent Pro</b>: AED 199 a month, up to 30 different projects a month. Extra projects: AED 19 each (top-up).</li>
 <li><b>Agent Unlimited</b>: AED 299 a month, unlimited projects.</li>
+<li><b>Renewal discount</b> (agents who have paid for a month before): renew on or before your plan's end date and the next month is 50% off (Agent Pro AED 99, Agent Unlimited AED 149); renew within 7 days after it ends and it is 25% off (AED 149 / AED 224); after that, the full price applies. The discount applies to the plan price only, not to top-ups, and we may change or end it for future renewals with notice on the site.</li>
 </ul>
 <p>A "project" is each different project you run a full report on in a calendar month; opening the same project again in that month doesn't count twice. Prices are in UAE dirhams and are the total you pay. We are not currently registered for VAT, so no VAT is charged. After every payment we email you a dated receipt. If we register for VAT, prices will be shown inclusive of 5% VAT and invoices will show the VAT amount. We may change prices for future periods; a change never affects a period you have already paid for, and we will show the new price before you renew.</p>
 
