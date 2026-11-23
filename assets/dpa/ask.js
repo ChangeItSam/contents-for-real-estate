@@ -27,7 +27,7 @@
   var ERR = { login: 'Please log in again to ask a question.', plan: 'Ask AI Expert Broker is part of an active DealPro plan.',
     limit: 'You\'ve used today\'s new questions. Your limit resets at midnight Dubai time. The Q&A library still answers instantly.', empty: 'Type a question first.' };
   var STOP = ' a an the is are was were be been do does did i me my we our you your he she it they them their this that these those what which who whom how why when where can could should would will shall may might must of to in on at for from by with about as into than then so if or and but not no any some there here have has had get gets got its just also only very more most much many off plan offplan dubai uae property properties unit units client clients buyer buyers ';
-  var SYN = { fee: 'fees cost costs charge charges', fees: 'fee cost costs charge charges', cost: 'fees fee charges', sell: 'resale resell assignment flip', resell: 'resale sell assignment flip', flip: 'resale sell assignment',
+  var SYN = { sqm: 'metre meter m2', sqft: 'foot feet', dld: 'dubai land department', fee: 'fees cost costs charge charges', fees: 'fee cost costs charge charges', cost: 'fees fee charges', sell: 'resale resell assignment flip', resell: 'resale sell assignment flip', flip: 'resale sell assignment',
     resale: 'sell resell assignment flip', loan: 'mortgage finance bank', mortgage: 'loan finance bank', finance: 'mortgage loan', visa: 'golden residency', residency: 'visa golden', late: 'missed default delay',
     missed: 'default late', default: 'missed late', cancel: 'cancellation refund', refund: 'cancel cancellation', airbnb: 'holiday short rent', rent: 'rental tenant ejari', rental: 'rent tenant', tax: 'vat taxes',
     commission: 'brokerage', safe: 'risky risk escrow', risk: 'risky safe escrow', escrow: 'safe protection', delay: 'delayed late', foreigner: 'foreigners expat non resident', instalments: 'installments payments missed',
@@ -44,23 +44,30 @@
     });
     flush(); return out.join('');
   }
-  function toks(s) { return String(s).toLowerCase().replace(/[^a-z0-9%]+/g, ' ').split(' ').filter(function (w) { return w.length > 1 && STOP.indexOf(' ' + w + ' ') < 0; }); }
-  function stem(w) { return w.length > 4 ? w.replace(/(ings|ing|ies|es|s|ed)$/, '') : w; }
-  function index(items) { items.forEach(function (it) { var b = {}; toks(it.q + ' ' + it.kw).forEach(function (w) { b[stem(w)] = 2; }); toks(it.a).forEach(function (w) { w = stem(w); if (!b[w]) b[w] = 0.35; }); it._b = b; }); }
+  function nums(s) {   // "1.5m", "1.5 million", "750k", "1,500,000" -> one token "n1500000" so amounts match exactly
+    return s.replace(/(\d+(?:\.\d+)?)\s*(million|mn|m)\b/g, function (x, n) { return ' n' + Math.round(parseFloat(n) * 1e6) + ' '; })
+      .replace(/(\d+(?:\.\d+)?)\s*k\b/g, function (x, n) { return ' n' + Math.round(parseFloat(n) * 1e3) + ' '; })
+      .replace(/\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d{3,}(?:\.\d+)?/g, function (x) { return ' n' + Math.round(parseFloat(x.replace(/,/g, ''))) + ' '; });
+  }
+  function toks(s) { return nums(String(s).toLowerCase()).replace(/\bform\s+([a-z])\b/g, 'form$1').replace(/[^a-z0-9%]+/g, ' ').split(' ').filter(function (w) { return (w.length > 1 || /^\d$/.test(w)) && STOP.indexOf(' ' + w + ' ') < 0; }); }
+  function stem(w) { return /^n\d+$/.test(w) || w.length <= 4 ? w : w.replace(/(ings|ing|ies|es|s|ed)$/, ''); }
+  function index(items) { items.forEach(function (it) { var b = {}, qq = {}; toks(it.q).forEach(function (w) { qq[stem(w)] = 1; }); it._q = qq; it._qn = Object.keys(qq).length || 1; toks(it.q + ' ' + it.kw).forEach(function (w) { b[stem(w)] = 2; }); toks(it.a).forEach(function (w) { w = stem(w); if (!b[w]) b[w] = 0.35; }); it._b = b; }); }
   function search(items, s) {
-    var qt = toks(s); if (!qt.length) return [];
+    var qt = toks(s); if (!qt.length) qt = String(s).toLowerCase().replace(/[^a-z0-9]+/g, ' ').split(' ').filter(function (w) { return w.length > 2 && ['what','how','the','does','can'].indexOf(w) < 0; }); if (!qt.length) return []; var hasNum = qt.some(function (w) { return /^n?\d+$/.test(w); });
     return items.map(function (it) {
-      var hit = 0, strong = 0;
-      qt.forEach(function (w) { var alts = [w].concat((SYN[w] || '').split(' ').filter(Boolean)), best = 0;
-        alts.forEach(function (x) { var v = it._b[stem(x)] || 0; if (v > best) best = v; }); hit += best; if (best >= 2) strong++; });
-      return { it: it, sc: hit / (2 * qt.length), cov: strong / qt.length };
+      var hit = 0, strong = 0, inq = 0;
+      qt.forEach(function (w) { var alts = [w].concat((SYN[w] || '').split(' ').filter(Boolean)), best = 0, q1 = 0;
+        alts.forEach(function (x) { var v = it._b[stem(x)] || 0; if (v > best) best = v; if (it._q[stem(x)]) q1 = 1; }); hit += best; inq += q1; if (best >= 2) strong++; });
+      var sc = hit / (2 * qt.length) + 0.15 * inq / it._qn + 0.05 * inq / qt.length;
+      if (!hasNum && it.cat === 'Worked examples') sc *= 0.75;   // a general question should get the general answer, not a numeric example
+      return { it: it, sc: sc, cov: strong / qt.length };
     }).filter(function (r) { return r.sc > 0.15; }).sort(function (a, b) { return b.sc - a.sc; });
   }
   function store(k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem(k) || 'null'); localStorage.setItem(k, JSON.stringify(v)); } catch (x) { return null; } }
   function srcs(it) { return it.src && it.src.length ? '<div class="refs">Source: ' + it.src.slice(0, 2).map(function (u) { var h = u.replace(/^https?:\/\/(www\.)?/, '').split('/')[0]; return '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(h) + '</a>'; }).join(' · ') + ' · updated ' + esc(it.upd || '') + '</div>' : ''; }
   window.DPAsk = { mount: function (el, api, token, base) {
     if (!document.getElementById('dpask-css')) { var st = document.createElement('style'); st.id = 'dpask-css'; st.textContent = CSS; document.head.appendChild(st); }
-    var KEY = 'sam-agent-ask', PK = 'sam-agent-askq-' + String(token || '').slice(0, 6), H = store(KEY) || [], P = store(PK) || [], LIB = [], CAT = '';
+    var KEY = 'sam-agent-ask', PK = 'sam-agent-askq-' + String(token || '').slice(0, 6), H = store(KEY) || [], P = store(PK) || [], LIB = [], CAT = null;
     el.className = 'dpask';
     el.innerHTML = '<h2>🤖 Ask <span>AI Expert Broker</span></h2><p class="m">Any technical question on Dubai off-plan: DLD and RERA rules, fees, Oqood, escrow, payment plans, resale before handover, mortgages, golden visa, handover, objections. Library answers are instant; new questions get a verified answer within a week.</p>' +
       '<form><input id="dpq" maxlength="600" placeholder="Ask an off-plan question…" autocomplete="off" enterkeyhint="send"><button class="go" type="submit">Ask</button></form><div class="sug" hidden></div>' +
@@ -118,7 +125,8 @@
       Array.prototype.forEach.call(sug.querySelectorAll('button'), function (x) { x.onclick = function () { var it = rs[+x.dataset.i].it; q.value = ''; sug.hidden = true; ch.hidden = true; bubble('q', esc(it.q)); showLib(it, it.q); post({ a: 'agent_ask', t: token, q: it.q, lib: it.id }); }; }); });
     function browse() {
       var cats = []; LIB.forEach(function (it) { if (cats.indexOf(it.cat) < 0) cats.push(it.cat); });
-      lib.innerHTML = '<div class="cats"><button type="button" data-c=""' + (CAT ? '' : ' class="on"') + '>All (' + LIB.length + ')</button>' + cats.map(function (c) { return '<button type="button" data-c="' + esc(c) + '"' + (CAT === c ? ' class="on"' : '') + '>' + esc(c) + '</button>'; }).join('') + '</div>' +
+      cats.sort(function (a, b) { return (a === 'Worked examples') - (b === 'Worked examples'); }); if (CAT === null) CAT = cats[0];
+      lib.innerHTML = '<div class="cats"><button type="button" data-c=""' + (CAT ? '' : ' class="on"') + '>All (' + LIB.length + ')</button>' + cats.map(function (c) { return '<button type="button" data-c="' + esc(c) + '"' + (CAT === c ? ' class="on"' : '') + '>' + esc(c) + ' (' + LIB.filter(function (it) { return it.cat === c; }).length + ')</button>'; }).join('') + '</div>' +
         LIB.filter(function (it) { return !CAT || it.cat === CAT; }).map(function (it) { return '<details><summary>' + esc(it.q) + '</summary><div class="a">' + md(it.a) + srcs(it) + '</div></details>'; }).join('');
       Array.prototype.forEach.call(lib.querySelectorAll('.cats button'), function (x) { x.onclick = function () { CAT = x.dataset.c; browse(); }; });
     }
