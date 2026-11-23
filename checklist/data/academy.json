@@ -1,7 +1,7 @@
 {
  "title": "Leads to Deals Formula",
  "by": "Sam Surya",
- "note": "Watch one lesson, try it on your next call, tick the box.",
+ "note": "Watch one. Try one. Tick one.",
  "modules": [
   {
    "id": "m1",
@@ -15,11 +15,12 @@
      "min": 2,
      "yt": "",
      "sum": [
-      "Why I close with data shown in the right order, not with talk.",
-      "How the Academy works: short lessons, then real case studies from my own deals (won and lost, no client details).",
-      "The path: before the call → the call → presentation → objections → closing → after the sale."
+      "I don't close because I talk well; I close because I show the data, in the right order.",
+      "The path: before the call → the call → presentation → objections → closing → follow-up → after the sale.",
+      "The rule of this Academy: watch one, try one, tick one."
      ],
-     "tpl": ""
+     "tpl": "",
+     "do": "Write down your current closing rate, so you can see it change."
     },
     {
      "id": "m1l1",
@@ -28,10 +29,11 @@
      "yt": "",
      "sum": [
       "Fast and blind loses leads: take 2 minutes before you dial.",
-      "Check 4 things: who it is, the words they used (home/family = end-user; ROI/rent = investor; golden visa = AED 2M mark), where they came from, their time and country.",
-      "Write one lead line before every call: it decides your whole pitch."
+      "Check 5 things: who it is, the words they used (home/family = end-user, ROI/rent = investor, golden visa = AED 2M mark), the source, their time zone, and the budget signal.",
+      "Write one lead line before every call. It decides your whole pitch."
      ],
-     "tpl": "Lead line: [who] · [buyer / investor / visa] · [source] · [area or project] · [best time to call]"
+     "tpl": "Lead line: [who] · [end-user / investor / visa] · [source] · [area or project] · [best time to call]",
+     "do": "On your next 3 leads, write your one line before you call. Screenshot it. Tick when you have 3."
     },
     {
      "id": "m1l2",
@@ -40,10 +42,11 @@
      "yt": "",
      "sum": [
       "If the client knows a number before you, you've lost the room.",
-      "One minute in DealPro: price per sq ft vs the area, upcoming supply, developer and escrow, exit scenarios.",
-      "Open with one fact they don't know; after the call send the full report with your name on it."
+      "One minute in DealPro: price per sq ft vs the area, upcoming supply, developer and escrow, the exit at handover.",
+      "Open with one fact they don't know; send the full report with your name AFTER the call, not before."
      ],
-     "tpl": "1 minute · 1 report · 1 fact they don't know"
+     "tpl": "\"This project is [x]% below the area average. I'll show you why.\"",
+     "do": "Before your next call, run one Instant Report and pick your one opening fact."
     },
     {
      "id": "m1l3",
@@ -52,10 +55,11 @@
      "yt": "",
      "sum": [
       "Live in or investment? It changes everything: schools and community, or rent, yield and exit.",
-      "Budget including fees (say the 4% DLD fee first), and cash or mortgage.",
-      "When will you decide, and why now? The 'why now' is what you come back to at 'let me think about it'."
+      "Budget including fees: say the 4% DLD first, and listen for cash or mortgage.",
+      "When will you decide, and what's making you look now? The 'why now' is what you come back to at 'let me think about it'."
      ],
-     "tpl": "1. Live in or investment?  2. Budget including fees, cash or mortgage?  3. When to decide, and why now?"
+     "tpl": "1. Live in or investment?  2. What budget are you comfortable with, including the fees?  3. When would you like to decide, and what's making you look now?",
+     "do": "Try these three questions on your next two leads. Write the answers down."
     }
    ],
    "cases": [
@@ -63,6 +67,374 @@
     "The client who knew more than you",
     "\"Just send me the brochure\"",
     "The dead deal"
+   ]
+  },
+  {
+   "id": "m2",
+   "n": 2,
+   "title": "Opening the call",
+   "idea": "30 seconds to prove you're not the fifth agent calling today.",
+   "lessons": [
+    {
+     "id": "m2l4",
+     "title": "The first 30 seconds: how to get their attention",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "Three parts: who you are in one line, why you're calling with one fact, one question that makes them talk.",
+      "Use their name, their area and one fact from the report, and give a choice of time.",
+      "'I'm busy' or 'just WhatsApp me': always trade the WhatsApp for a time. Never end with 'I'll send details'."
+     ],
+     "tpl": "\"Hi [Name], it's [you]. You asked about [area]. I just ran the numbers: this project is [x]% below the area average, and I wanted to show you why in two minutes. Is now a good time, or shall I call after 6?\"",
+     "do": "Record your own 30-second opening. Use it on 2 calls."
+    },
+    {
+     "id": "m2l5",
+     "title": "Find the real budget, timing and motive",
+     "min": 6,
+     "yt": "",
+     "sum": [
+      "Budget: including fees or before? Cash or mortgage? 'If the right one was at 1.7, would you stretch?'",
+      "Timing: 'No rush' isn't an answer. Ask: this month or next year, and what would make you decide faster?",
+      "Motive: 'What made you start looking now?' Then be quiet, and write their words down."
+     ],
+     "tpl": "Live or invest · budget [range] incl. fees · cash or mortgage · decide by [date] · motive: [their words]",
+     "do": "On your next 2 calls, write the full line."
+    },
+    {
+     "id": "m2l6",
+     "title": "Book the meeting or video call, not 'I'll send details'",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "'Send details' is an ending, not a next step. End with a time.",
+      "Summarise in their words, then offer two times, not 'when are you free?'.",
+      "Say what you'll send before the call so the video call has a purpose: a decision, not a chat."
+     ],
+     "tpl": "\"I can show you the two best options on video call today after 6, or tomorrow at 11. Which is better for you?\"",
+     "do": "Use the two-options close on your next 3 calls. Tick when one is booked."
+    }
+   ]
+  },
+  {
+   "id": "m3",
+   "n": 3,
+   "title": "The presentation",
+   "idea": "Present in order and you never lose the room.",
+   "lessons": [
+    {
+     "id": "m3l7",
+     "title": "The right order: area → supply → developer → project → price → plan → exit",
+     "min": 6,
+     "yt": "",
+     "sum": [
+      "Never start with the project: the client is buying a location.",
+      "Go in order every time: area, supply, developer, project, price, plan, exit.",
+      "Use the report on screen. Don't read it; point to it."
+     ],
+     "tpl": "Area → Supply → Developer → Project → Price → Plan → Exit",
+     "do": "Present your next project in this exact order. Don't skip supply or developer."
+    },
+    {
+     "id": "m3l8",
+     "title": "ROI and appreciation without overpromising",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "Never say 'this will double' or 'guaranteed returns'.",
+      "Show real rent for similar units, gross and net yield, then stop.",
+      "Show growth as flat / 3% / 5%, conservative first: then they trust the optimistic one."
+     ],
+     "tpl": "\"I can't promise the market. I can show you the data, and you decide.\"",
+     "do": "On your next presentation, show rent, net yield and 3 scenarios. No 'guaranteed'."
+    },
+    {
+     "id": "m3l9",
+     "title": "Supply: turning 'too many projects' into a reason to buy the right one",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "Supply isn't your enemy; it's your filter.",
+      "Three filters: location inside the area, a developer who finishes on time, price per sq ft below average.",
+      "Too much supply means the good ones stand out and the bad ones get stuck."
+     ],
+     "tpl": "\"There are [n] units coming in this area in the next 3 years. That's why we don't buy any project. We buy the right one.\"",
+     "do": "Check the area's supply number in DealPro and write your 3 filters before your next presentation."
+    },
+    {
+     "id": "m3l10",
+     "title": "Payment plan and cash flow: what they really pay each month",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "Clients don't buy a price, they buy a monthly payment.",
+      "Break it into booking (with the 4% DLD, said first), during construction, and handover.",
+      "For investors, show how much of the cost the rent covers, on one page."
+     ],
+     "tpl": "\"Today you pay [amount], including the DLD fee. Nothing hidden. Then [x]% during construction, and [x]% on handover.\"",
+     "do": "Make a one-page payment breakdown for your next client: booking + during + handover + DLD."
+    },
+    {
+     "id": "m3l11",
+     "title": "The exit: 3 scenarios, and why 'conservative' builds trust",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "Every presentation ends with the exit: 'If I need to sell, can I?'",
+      "Show conservative, realistic and optimistic at handover.",
+      "Ask them to buy on the conservative one. If it doesn't work, it's the wrong project, and you say so."
+     ],
+     "tpl": "\"I want you to be happy with the conservative one. If you are, the other two are a bonus.\"",
+     "do": "Present the exit with 3 scenarios on your next deal. Lead with conservative."
+    }
+   ]
+  },
+  {
+   "id": "m4",
+   "n": 4,
+   "title": "Objections",
+   "idea": "Handle objections with data, and never leave one without a time.",
+   "lessons": [
+    {
+     "id": "m4l12",
+     "title": "'Let me think about it'",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "It doesn't mean no; it means 'I need a reason to decide'.",
+      "Ask which part: the area, the price or the timing? Then remind them of their own motive.",
+      "Offer a small next step with a time, never a vague 'take your time'."
+     ],
+     "tpl": "\"Of course. What part do you want to think about: the area, the price, or the timing?\"",
+     "do": "Use the 3-step reply (what part + motive + next time) on your next 'let me think about it'."
+    },
+    {
+     "id": "m4l13",
+     "title": "'Prices are too high, I'll wait for a correction'",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "Don't argue. Agree first, then look at the data together.",
+      "Show price per sq ft vs the area, and what waiting costs: lost rent, lost payment plan, pricier next launch.",
+      "Ask: this project, or the whole market? Then show a cheaper option or the conservative scenario."
+     ],
+     "tpl": "\"I want you to buy because the numbers work even if you're right about a correction.\"",
+     "do": "Prepare your 'cost of waiting' math for your top project: rent lost + price change."
+    },
+    {
+     "id": "m4l14",
+     "title": "'I don't trust this developer'",
+     "min": 4,
+     "yt": "",
+     "sum": [
+      "Never defend a developer. Say 'Let's check it together'.",
+      "Show facts: delivered projects and on-time record, registration and escrow, construction progress.",
+      "If they still don't trust them, suggest another developer. They'll trust YOU more."
+     ],
+     "tpl": "\"That's a fair concern. Let's check it together.\"",
+     "do": "For your top 3 projects, know the developer's delivered projects, escrow and construction %."
+    },
+    {
+     "id": "m4l15",
+     "title": "'Another agent offered me a discount'",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "Don't panic and don't out-discount. Ask which discount and on which unit.",
+      "Most 'discounts' are a different unit, floor or view. The developer sets the price.",
+      "Offer to compare like for like, and win on data and after-sale service."
+     ],
+     "tpl": "\"Send me what they offered. Same unit, same floor, same view. If it's really better, I'll tell you to take it.\"",
+     "do": "Write your discount reply in your own words and practise it once out loud."
+    },
+    {
+     "id": "m4l16",
+     "title": "'My family needs to agree'",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "It's a buying signal: they like it but can't decide alone.",
+      "Ask who else decides and what they care about most.",
+      "Send a short video and the report, and book a 15-minute call with the family. Families trust conservative."
+     ],
+     "tpl": "\"Of course. Who else needs to see it, and what do they care about most?\"",
+     "do": "On your next family objection, ask who, what they care about, and book a call with them."
+    }
+   ]
+  },
+  {
+   "id": "m5",
+   "n": 5,
+   "title": "Closing",
+   "idea": "Close when you hear the signals, and stay with them after they pay.",
+   "lessons": [
+    {
+     "id": "m5l17",
+     "title": "Signs the client is ready",
+     "min": 4,
+     "yt": "",
+     "sum": [
+      "Five signs: they ask about the process, the unit, the money, they bring the family, they ask about the exit.",
+      "Hear two of them? Stop presenting and close.",
+      "Keep presenting after they're ready and you talk them out of it."
+     ],
+     "tpl": "\"It sounds like you like this one. Shall we check if that unit is still available?\"",
+     "do": "On your next 3 calls, write down which buying signals you heard."
+    },
+    {
+     "id": "m5l18",
+     "title": "The close: EOI, booking and what to say",
+     "min": 6,
+     "yt": "",
+     "sum": [
+      "Confirm the choice: unit, floor, view, price including fees.",
+      "Explain the EOI and the next steps simply: booking → SPA → Oqood → escrow.",
+      "Ask with two options, send the link while on the call, and stay until it's done."
+     ],
+     "tpl": "\"Shall we do the EOI today so we don't lose that unit, or tomorrow morning? I can send you the link now.\"",
+     "do": "Practise the close out loud once: confirm unit + EOI + next steps + two options."
+    },
+    {
+     "id": "m5l19",
+     "title": "After the booking: SPA, Oqood and escrow, step by step",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "Most agents disappear after booking. That's why they never get referrals.",
+      "Walk them through the SPA, Oqood and escrow, with proof.",
+      "Send the SPA summary, payment schedule and next construction-update date, then update them regularly."
+     ],
+     "tpl": "After booking: 1) SPA summary  2) Payment schedule  3) Next construction-update date",
+     "do": "Create your after-booking checklist and send it to your last client."
+    }
+   ]
+  },
+  {
+   "id": "m6",
+   "n": 6,
+   "title": "Follow-up",
+   "idea": "Follow-up is a system, not luck. Every message has value and a time.",
+   "lessons": [
+    {
+     "id": "m6l20",
+     "title": "Day 1 / 3 / 7 / 30: what to send each time",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "Day 1: the report and the agreed time. Day 3: one new fact.",
+      "Day 7: proof (a video, a photo, a launch). Day 30: what moved in the area.",
+      "Never 'Are you still interested?' Always 'here's what changed, and here's our next time'."
+     ],
+     "tpl": "\"Hi [Name], since we spoke, [one new fact]. The unit you liked is still available. Shall we keep our call on [day]?\"",
+     "do": "Set Day 1/3/7/30 reminders for your next 3 warm leads."
+    },
+    {
+     "id": "m6l21",
+     "title": "Use the report again: 'Here's what changed since we met'",
+     "min": 4,
+     "yt": "",
+     "sum": [
+      "The best reason to call a dead lead is what changed, not 'are you ready now?'.",
+      "Re-run the report: price per sq ft, units sold, construction, payment plan.",
+      "You're the expert who updates them, not the salesman who begs. End with a time."
+     ],
+     "tpl": "\"I just ran the report again. Two things changed. Can I send you the updated one-page report?\"",
+     "do": "Pick 5 old leads, run updated reports, and send 'here's what changed'."
+    },
+    {
+     "id": "m6l22",
+     "title": "Revive a dead lead with a new launch or price move",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "A dead lead didn't buy THAT project at THAT time. Send a new reason.",
+      "Three reasons that work: a new launch, a price or plan move, new data (metro, rents, construction).",
+      "One message, one reason, one time. No reply? Wait 30 days and try a different reason."
+     ],
+     "tpl": "\"No pressure. Just thought you should see it.\"",
+     "do": "List 10 dead leads, give each one a new reason, and send 5 today."
+    }
+   ]
+  },
+  {
+   "id": "m7",
+   "n": 7,
+   "title": "After the sale",
+   "idea": "One client becomes three: referrals for life.",
+   "lessons": [
+    {
+     "id": "m7l23",
+     "title": "Updates from booking to handover that make clients feel looked after",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "Booking to handover is 2–3 years. Disappear and they forget you.",
+      "One short update every month or quarter: stage, photo, next payment.",
+      "Mark the moments: Oqood done, 50% built, handover near. End with 'Is there anything you need?'"
+     ],
+     "tpl": "\"Hi [Name], construction update on your unit: they've finished [stage]. Here's a photo. Your next payment is on [date], [amount]. Any questions, I'm here.\"",
+     "do": "Send a construction update to all your booked clients this week."
+    },
+    {
+     "id": "m7l24",
+     "title": "The handover moment: asking for the referral the right way",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "Handover is the happiest moment. Let them enjoy it first.",
+      "Remind them how they found you, ask for ONE person, 'even just thinking', no pressure.",
+      "Let them choose how to introduce you, and give a small handover gift."
+     ],
+     "tpl": "\"Who do you know who is thinking about Dubai, even just thinking, who I could help with the data, no pressure?\"",
+     "do": "Write your handover referral script and use it on your next handover."
+    },
+    {
+     "id": "m7l25",
+     "title": "Yearly portfolio check: resale value and rent",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "Once a year, a free portfolio check makes you their advisor for life.",
+      "Show what it's worth now, what it rents for now, and what to do next.",
+      "Hold, rent or sell: advise on their goal, don't push."
+     ],
+     "tpl": "\"It's been a year since you bought. I ran your portfolio check. Can I send you 2 minutes on video?\"",
+     "do": "Do a portfolio check for 3 past clients this month."
+    },
+    {
+     "id": "m7l26",
+     "title": "Turning one client into 3: family, friends and colleagues",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "Family after handover, friends after a portfolio check, colleagues after you help them rent or resell.",
+      "Make it easy: 'Just forward them this one-page report with my number.'",
+      "Ask for one, not ten. That's how 200 clients become 600."
+     ],
+     "tpl": "\"Just forward them this one-page report with my number. I'll look after them like I looked after you.\"",
+     "do": "Ask one past client for one introduction this week."
+    }
+   ]
+  },
+  {
+   "id": "bonus",
+   "n": "Bonus",
+   "title": "Sam's story",
+   "idea": "From 1 in 10 to 3 in 10 presentations: what changed when I started using data.",
+   "lessons": [
+    {
+     "id": "bl1",
+     "title": "How I closed 3 out of every 10 presentations",
+     "min": 6,
+     "yt": "",
+     "sum": [
+      "I used to talk a lot, send brochures and close maybe 1 in 10.",
+      "One client knew the price per sq ft and I didn't. That night: never again.",
+      "Report before every call, data in order, the 3 questions: my closing rate tripled. Don't learn more scripts; learn the data."
+     ],
+     "tpl": "",
+     "do": "Write down your closing rate out of your last 10 presentations. Check it again in 30 days."
+    }
    ]
   }
  ]
