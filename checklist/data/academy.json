@@ -1,0 +1,69 @@
+{
+ "title": "Leads to Deals Formula",
+ "by": "Sam Surya",
+ "note": "Watch one lesson, try it on your next call, tick the box.",
+ "modules": [
+  {
+   "id": "m1",
+   "n": 1,
+   "title": "Before the call",
+   "idea": "The call is won or lost before you dial.",
+   "lessons": [
+    {
+     "id": "m1l0",
+     "title": "Welcome to the Leads to Deals Formula",
+     "min": 2,
+     "yt": "",
+     "sum": [
+      "Why I close with data shown in the right order, not with talk.",
+      "How the Academy works: short lessons, then real case studies from my own deals (won and lost, no client details).",
+      "The path: before the call → the call → presentation → objections → closing → after the sale."
+     ],
+     "tpl": ""
+    },
+    {
+     "id": "m1l1",
+     "title": "Read the lead in 2 minutes",
+     "min": 4,
+     "yt": "",
+     "sum": [
+      "Fast and blind loses leads: take 2 minutes before you dial.",
+      "Check 4 things: who it is, the words they used (home/family = end-user; ROI/rent = investor; golden visa = AED 2M mark), where they came from, their time and country.",
+      "Write one lead line before every call: it decides your whole pitch."
+     ],
+     "tpl": "Lead line: [who] · [buyer / investor / visa] · [source] · [area or project] · [best time to call]"
+    },
+    {
+     "id": "m1l2",
+     "title": "Run the report before you call, not after",
+     "min": 4,
+     "yt": "",
+     "sum": [
+      "If the client knows a number before you, you've lost the room.",
+      "One minute in DealPro: price per sq ft vs the area, upcoming supply, developer and escrow, exit scenarios.",
+      "Open with one fact they don't know; after the call send the full report with your name on it."
+     ],
+     "tpl": "1 minute · 1 report · 1 fact they don't know"
+    },
+    {
+     "id": "m1l3",
+     "title": "The 3 questions that decide your pitch",
+     "min": 5,
+     "yt": "",
+     "sum": [
+      "Live in or investment? It changes everything: schools and community, or rent, yield and exit.",
+      "Budget including fees (say the 4% DLD fee first), and cash or mortgage.",
+      "When will you decide, and why now? The 'why now' is what you come back to at 'let me think about it'."
+     ],
+     "tpl": "1. Live in or investment?  2. Budget including fees, cash or mortgage?  3. When to decide, and why now?"
+    }
+   ],
+   "cases": [
+    "The wrong pitch",
+    "The client who knew more than you",
+    "\"Just send me the brochure\"",
+    "The dead deal"
+   ]
+  }
+ ]
+}
