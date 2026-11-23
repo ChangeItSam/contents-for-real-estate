@@ -38,4 +38,4 @@ var d=new URLSearchParams(new FormData(f));d.set("a","agent_contact");
 fetch("https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec",{method:"POST",body:d}).then(function(r){return r.json();}).then(function(j){b.disabled=false;if(j&&j.ok){f.reset();m.className="cfm ok";m.textContent="✅ Sent. Your reference is "+j.ref+". A copy is on its way to your email.";}else{m.className="cfm er";m.textContent=j&&j.err==="limit"?"You've sent several messages today. We'll reply to those first.":"Please fill your name, a valid email and your message.";}}).catch(function(){b.disabled=false;m.className="cfm er";m.textContent="Couldn't send. Please try again, or message us on WhatsApp.";});});})();
 </script>
 </main>
-<footer>SURYA TAMANG Marketing Management · Trader Licence no. 1661461, issued by the Department of Economy and Tourism, Dubai</footer></body></html>
+<footer>SURYA TAMANG Marketing Management · Trader Licence no. 1661461, issued by the Department of Economy and Tourism, Dubai</footer><script src="/assets/permit.js" defer></script></body></html>

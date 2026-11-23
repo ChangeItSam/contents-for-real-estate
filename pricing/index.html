@@ -350,5 +350,6 @@ footer a{color:var(--gold2)}
   fetch("../checklist/data/insights.json",{cache:"force-cache"}).then(function(r){ return r.json(); }).then(function(j){ var n=Object.keys(j.p||{}).length; if(n){ var el=document.getElementById("nproj"); el.dataset.n=Math.floor(n/50)*50; if(el.dataset.done) el.textContent=el.dataset.n+"+"; } }).catch(function(){});
 })();
 </script>
+<script src="/assets/permit.js" defer></script>
 </body>
 </html>

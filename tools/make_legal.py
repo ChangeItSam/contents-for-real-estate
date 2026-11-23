@@ -215,7 +215,7 @@ def page(key, title, body, site="SamSurya Realty (samsuryarealty.com) and DealPr
 <header><div class="w"><a href="#" onclick="if(history.length>1){{history.back();return false;}}else{{location.href='/';return false;}}">← Back</a>
 <h1>{html.escape(title)}</h1><p>{site} · Last updated {UPDATED}</p><nav class="lg">{nav}</nav></div></header>
 <main>{body}</main>
-<footer>{OP} · {LIC}</footer></body></html>
+<footer>{OP} · {LIC}</footer>{"" if brand.startswith("DealPro") else "<script src=\"/assets/permit.js\" defer></script>"}</body></html>
 """
 
 for k, (t, b) in PAGES.items():
