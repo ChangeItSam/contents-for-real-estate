@@ -615,19 +615,6 @@
    "src": "VILA recently-added off-plan list (vila.ae, updated 21 Nov 2026, read 22 Nov 2026): Grid Realty, Dubai Production City, handover Q1 2029"
   },
   {
-   "name": "Jules Verne Residences",
-   "dev": "Segrex",
-   "area": "Jumeirah Village Triangle",
-   "comm": "JVT",
-   "ll": [
-    25.0498,
-    55.1907
-   ],
-   "tags": "jvt segrex jules verne",
-   "added": "2026-11-22",
-   "src": "VILA recently-added off-plan list (vila.ae, updated 21 Nov 2026, read 22 Nov 2026): Segrex Development, JVT, handover Q4 2030"
-  },
-  {
    "name": "Volante by Zoya",
    "dev": "Zoya",
    "area": "Dubai South",
@@ -649,16 +636,14 @@
    "src": "VILA recently-added off-plan list (vila.ae, updated 21 Nov 2026, read 22 Nov 2026): Kasumigaseki Properties Development, Bukadra, handover Q4 2029"
   },
   {
-   "name": "Element by Iman",
-   "dev": "Iman",
-   "area": "Dubai Science Park",
-   "ll": [
-    25.0735,
-    55.2413
-   ],
-   "tags": "dubai science park dsp iman element",
-   "added": "2026-11-22",
-   "src": "VILA recently-added off-plan list (vila.ae, updated 21 Nov 2026, read 22 Nov 2026): Iman, Dubai Science Park, handover Q2 2029"
+   "name": "Nad Al Sheba Gardens Phase 12",
+   "dev": "Meraas",
+   "area": "Nad Al Shiba",
+   "comm": "Nad Al Sheba Gardens",
+   "near": "Meydan Racecourse",
+   "tags": "meraas nad al sheba gardens nasg 97 villas phase 12 meydan",
+   "added": "2026-11-23",
+   "src": "Meraas news release, 17 Nov 2026 (97 four- and five-bed villas on the northern edge of Nad Al Sheba Gardens); Dubai Unpacked, updated 17 Nov 2026 (Phase 12, EOI open, handover June 2030); The National, 22 Nov 2026"
   }
  ]
 }
