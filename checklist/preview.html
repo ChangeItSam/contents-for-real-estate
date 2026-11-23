@@ -1804,6 +1804,10 @@ html:not(.eoion) .ans .eoin{display:none}
       setTimeout(function(){ if(typeof mtoast==="function") mtoast("↺ All cleared. Start again from the top"); },400); });
   })();
   var EXO=null; try{ fetch("data/exit_overrides.json",{cache:"no-cache"}).then(function(r){ return r.ok?r.json():null; }).then(function(j){ EXO=j; }).catch(function(){}); }catch(x){}
+  // ?project=<name> (from the Golden Visa finder): prefill the project box and pick the DLD match if there is one
+  setTimeout(function(){ var q; try{ q=new URLSearchParams(location.search); }catch(e){ return; } var pj=(q.get("project")||"").trim().slice(0,80);
+    if(!pj||q.get("agent")==="1"||/^#r=/.test(location.hash)) return; pin.value=pj;
+    load(function(){ var lo=pj.toLowerCase(), hit=P.p.filter(function(r){ return r[1].toLowerCase()===lo; })[0]; if(hit){ pick(hit); return; } pin.dispatchEvent(new Event("input",{bubbles:true})); }); },0);
   var MKT=[]; try{ fetch("data/market.json").then(function(r){ return r.json(); }).then(function(j){ MKT=(j&&j.p)||[]; }).catch(function(){}); }catch(x){}
   function shortDev(n){ n=String(n||""); var t=n.replace(/\b(l\.?\s?l\.?\s?c\.?|llc|fzco|fze|pjsc|p\.j\.s\.c\.?|real estate|development|developments|developer|developers|properties|property|holding|investments?|group|co\.?|company|\(.*?\))\b/gi,"").replace(/\s+/g," ").replace(/[\s\-·,.]+$/,"").trim(); return t||n; }
   function mktPick(m){
