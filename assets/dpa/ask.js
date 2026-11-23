@@ -67,7 +67,7 @@
   function srcs(it) { return it.src && it.src.length ? '<div class="refs">Source: ' + it.src.slice(0, 2).map(function (u) { var h = u.replace(/^https?:\/\/(www\.)?/, '').split('/')[0]; return '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(h) + '</a>'; }).join(' · ') + ' · updated ' + esc(it.upd || '') + '</div>' : ''; }
   window.DPAsk = { mount: function (el, api, token, base) {
     if (!document.getElementById('dpask-css')) { var st = document.createElement('style'); st.id = 'dpask-css'; st.textContent = CSS; document.head.appendChild(st); }
-    var KEY = 'sam-agent-ask', PK = 'sam-agent-askq-' + String(token || '').slice(0, 6), H = store(KEY) || [], P = store(PK) || [], LIB = [], CAT = null;
+    var KEY = 'sam-agent-ask', PK = 'sam-agent-askq-' + String(token || '').slice(0, 6), H = (store(KEY) || []).filter(function (m) { return m && (m.r === 'user' || m.r === 'assistant') && typeof m.c === 'string' && m.c && m.c !== 'undefined'; }), P = store(PK) || [], LIB = [], CAT = null;
     el.className = 'dpask';
     el.innerHTML = '<h2>🤖 Ask <span>AI Expert Broker</span></h2><p class="m">Any technical question on Dubai off-plan: DLD and RERA rules, fees, Oqood, escrow, payment plans, resale before handover, mortgages, golden visa, handover, objections. Library answers are instant; new questions get a verified answer within a week.</p>' +
       '<form><input id="dpq" maxlength="600" placeholder="Ask an off-plan question…" autocomplete="off" enterkeyhint="send"><button class="go" type="submit">Ask</button></form><div class="sug" hidden></div>' +
@@ -108,7 +108,7 @@
         if (!d || !d.ok) { w.className = 'a err'; w.textContent = d ? (ERR[d.err] || 'Something went wrong. Please try again.') : 'No connection. Please try again.'; if (!again) q.value = t; return; }
         var pend = '<div class="pend">⏳ <b>Logged for the library.</b> A verified answer arrives here within 7 days' + (typeof d.left === 'number' ? ' · ' + d.left + ' new question' + (d.left === 1 ? '' : 's') + ' left today' : '') + '.</div>';
         if (d.qid) { P.push({ qid: d.qid, q: t, at: Date.now() }); P = P.slice(-50); store(PK, P); }
-        if (d.a) { w.innerHTML = '<span class="src ai">🤖 AI quick answer</span>' + md(d.a) + pend; remember(t, { r: 'assistant', c: d.a, qid: d.qid }); }
+        if (typeof d.a === 'string' && d.a.trim() && d.a !== 'undefined') { w.innerHTML = '<span class="src ai">🤖 AI quick answer</span>' + md(d.a) + pend; remember(t, { r: 'assistant', c: d.a, qid: d.qid }); }
         else { w.innerHTML = '<p><b>This one isn\'t in the library yet.</b></p>' + (top.length ? '<p>Closest answers we have:</p><div class="more"></div>' : '') + pend;
           top.forEach(function (r) { libBtn(w.querySelector('.more'), r.it); }); }
       });

@@ -476,7 +476,7 @@ footer{text-align:center;color:var(--muted);font-size:13px;padding:40px 0 60px}
     if(TAB!=="reports") tab(TAB);
     (function(){ var box=document.createElement("div"); box.id="askc"; app.appendChild(box);   // Ask DealPro AI: always below the tabs' content (after the map)
       function go(){ if(window.DPAsk&&!box.dataset.on){ box.dataset.on="1"; window.DPAsk.mount(box,API,A.t,"/checklist/data/"); } }
-      if(window.DPAsk) return go(); var sc=document.createElement("script"); sc.src="/assets/dpa/ask.js?v=4"; sc.onload=go; document.head.appendChild(sc); })();
+      if(window.DPAsk) return go(); var sc=document.createElement("script"); sc.src="/assets/dpa/ask.js?v=5"; sc.onload=go; document.head.appendChild(sc); })();
     document.getElementById("ed").addEventListener("click",function(ev){ ev.preventDefault(); editProf(); });
     photoPick(document.getElementById("fi2"),function(d){ A.img=d; ls("sam-agent",A); try{ fetch(API,{method:"POST",mode:"no-cors",body:new URLSearchParams({a:"agent_photo",t:A.t,photo:d})}).catch(function(){}); }catch(x){} dash(); });
     setTimeout(function(){ var rg=document.getElementById("rg"); if(rg){ var k=0; (function f(){ k+=4; rg.style.setProperty("--v",Math.min(k,pct)); if(k<pct) requestAnimationFrame(f); })(); } },150);

@@ -22,13 +22,18 @@ export default {
       }
       if (p === "/" || p === "/index.html") {                    // root = the portal
         url.pathname = "/agent/";
-        return env.ASSETS.fetch(new Request(url.toString(), request));
+        return fresh(await env.ASSETS.fetch(new Request(url.toString(), request)));
       }
     } else if (hosts.length && (p === "/agent" || p.startsWith("/agent/"))) {
       url.hostname = hosts[0];
       url.pathname = "/";
       return Response.redirect(url.toString(), 301);
     }
-    return env.ASSETS.fetch(request);
+    return fresh(await env.ASSETS.fetch(request));
   }
 };
+// Pages (HTML) always revalidate, so a phone never keeps an old copy of the portal after an update.
+function fresh(res) {
+  if (!/text\/html/.test(res.headers.get("content-type") || "")) return res;
+  const r = new Response(res.body, res); r.headers.set("Cache-Control", "no-cache"); return r;
+}
