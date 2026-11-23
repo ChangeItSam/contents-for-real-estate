@@ -326,21 +326,25 @@
    "id": "q032",
    "cat": "Visas and residency",
    "q": "Can an off-plan purchase get the buyer a golden visa?",
-   "a": "Yes. The **10-year Golden Visa** route through property needs a property value of **AED 2 million or more**, and off-plan units from **approved developers** qualify (with Oqood and the developer's statement of account). Since early 2024 there's no minimum amount paid: the **property value** counts, and mortgaged properties can qualify too.\n\nRequirements change: confirm on the ICP/GDRFA or DLD Golden Visa service before promising.",
+   "a": "Yes. The **10-year Golden Visa** route through property needs a property value of **AED 2 million or more**, and off-plan units from **approved developers** qualify (with Oqood and the developer's statement of account). Since early 2024 there's no minimum amount paid: the **property value** counts, and mortgaged properties can qualify too.\n\nRequirements change: confirm on the ICP/GDRFA or DLD Golden Visa service before promising.\n\nOfficial DLD fees for the main applicant total **AED 9,884.75**; processing takes about 7–10 business days. Client-ready guide: samsuryarealty.com/golden-visa/",
    "kw": "golden visa 10 year 2 million residency visa",
    "src": [
+    "https://dubailand.gov.ae/en/eservices/request-for-golden-visa-investor/",
     "https://www.agbi.com/news/uae-scraps-minimum-payment-for-property-golden-visa/"
    ],
-   "upd": "2026-11-21"
+   "upd": "2026-11-23"
   },
   {
    "id": "q033",
    "cat": "Visas and residency",
    "q": "Is there a visa for property below AED 2 million?",
-   "a": "Yes, there are other property-linked visas:\n\n- **2-year property investor visa:** thresholds are quoted differently by different sources (often **AED 750,000**), with extra rules for joint and mortgaged ownership. Confirm with GDRFA before advising\n- **5-year retirement visa** for people 55+ with property of **AED 1 million+** (other criteria apply)\n\nThresholds and conditions change; check the official GDRFA/ICP service before advising.",
+   "a": "Yes, there are other property-linked routes:\n\n- **2-year property investor visa:** in 2026 DLD changed the rules; it was reported in May 2026 that the old AED 750,000 minimum was removed for sole owners. It applies to **completed** property with a title deed (not off-plan), and joint owners have their own minimum per share\n- **5-year retirement visa** for people 55+ with property of AED 1 million+ (other criteria apply)\n\nRules have changed several times: confirm on the DLD investor visa service or GDRFA before advising.",
    "kw": "visa 750k 2 year investor visa retirement visa below 2 million",
-   "src": [],
-   "upd": "2026-11-21"
+   "src": [
+    "https://dubailand.gov.ae/en/eservices/request-for-golden-visa-investor/",
+    "https://www.bhomes.com/en/blog/betterinformed/everything-you-need-to-know-about-obtaining-a-dubai-real-estate-investor-visa"
+   ],
+   "upd": "2026-11-23"
   },
   {
    "id": "q034",
