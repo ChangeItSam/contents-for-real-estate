@@ -115,6 +115,11 @@
     }
     function ask() {
       var t = q.value.trim(); if (t.length < 3 || b.disabled) return;
+      if (!LIB.length) { b.disabled = true; loadLib().then(function () { b.disabled = false; answerNow(t); }); return; }   // library still loading: wait, then answer
+      answerNow(t);
+    }
+    function answerNow(t) {
+      if (!t) return;
       q.value = ''; sug.hidden = true; ch.hidden = true; bubble('q', esc(t));
       var r = search(LIB, t)[0];
       if (r && r.sc >= 0.55 && r.cov >= 0.5) { showLib(r.it, t); post({ a: 'agent_ask', t: token, q: t, lib: r.it.id }); return; }
@@ -133,7 +138,12 @@
     bl.onclick = function () { lib.hidden = !lib.hidden; if (!lib.hidden) { browse(); lib.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } bl.textContent = lib.hidden ? '📚 Browse the Q&A library (' + LIB.length + ')' : '✕ Close the library'; };
     f.addEventListener('submit', function (ev) { ev.preventDefault(); ask(); });
     draw();
-    fetch((base || '/checklist/data/') + 'faq.json?v=' + Math.floor(Date.now() / 36e5)).then(function (r) { return r.json(); }).then(function (d) {
-      LIB = (d && d.items) || []; index(LIB); bl.textContent = '📚 Browse the Q&A library (' + LIB.length + ')'; answered(); }).catch(function () {});
+    // The library (~55 KB zipped) loads only when the Ask box comes near the screen, gets focus, or the agent has questions waiting, so the dashboard opens fast.
+    var LP = null;
+    function loadLib() { if (!LP) LP = fetch((base || '/checklist/data/') + 'faq.json?v=' + Math.floor(Date.now() / 36e5)).then(function (r) { return r.json(); }).then(function (d) {
+      LIB = (d && d.items) || []; index(LIB); bl.textContent = '📚 Browse the Q&A library (' + LIB.length + ')'; answered(); }).catch(function () { LP = null; }); return LP || Promise.resolve(); }
+    q.addEventListener('focus', loadLib, { once: true });
+    if (P.some(function (p) { return !p.seen; }) || !('IntersectionObserver' in window)) loadLib();
+    else { var io = new IntersectionObserver(function (es) { if (es.some(function (e) { return e.isIntersecting; })) { io.disconnect(); loadLib(); } }, { rootMargin: '600px' }); io.observe(el); }
   } };
 })();
