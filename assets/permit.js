@@ -21,3 +21,5 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', place); else place();
 })();
+// Also load the "Do me a favour: share" card on the same pages (assets/share.js).
+(function () { if (document.getElementById('shjs')) return; var s = document.createElement('script'); s.id = 'shjs'; s.src = '/assets/share.js?v=1'; s.defer = true; document.head.appendChild(s); })();
