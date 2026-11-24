@@ -129,6 +129,30 @@ h2 small{display:block;font-size:14px;font-weight:600;color:var(--muted);margin-
 .btn.big{font-size:17px;padding:15px 22px;width:100%}
 .more2{font-size:14px}
 @media (min-width:760px){.btn.big{width:auto}}
+
+/* calculator */
+.calc{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px 14px;box-shadow:0 6px 22px rgba(11,31,58,.08);margin-top:12px}
+.calc label{display:block;font-size:12.5px;letter-spacing:1px;text-transform:uppercase;font-weight:800;color:var(--muted);margin:12px 0 6px}
+.calc input[type=text],.calc input[type=number]{width:100%;font:inherit;font-size:17px;font-weight:700;border:2px solid var(--navy);border-radius:14px;padding:12px 14px;outline:none;color:var(--ink);background:#fff}
+.calc input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(30,91,216,.14)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:0;border:2px solid var(--line);background:#fff;color:var(--navy);font:inherit;font-weight:800;font-size:14px;border-radius:30px;padding:9px 8px;cursor:pointer}
+.seg button.on{background:var(--navy);border-color:var(--navy);color:var(--yel)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.res{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#D5DDEA;border-radius:18px;padding:14px;margin-top:16px}
+.res .big{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-bottom:1px solid rgba(255,255,255,.14);padding:8px 0}
+.res .big:last-of-type{border-bottom:0}
+.res .big span{font-size:14px}
+.res .big b{color:#fff;font-size:19px;white-space:nowrap}
+.res .big b.g{color:var(--yel);font-size:23px}
+.res .why{font-size:12.5px;color:#AFC0D8;margin-top:8px;line-height:1.5}
+.res .ok{margin-top:10px;border-radius:12px;padding:9px 11px;font-size:14px;font-weight:700}
+.res .ok.y{background:rgba(37,211,102,.16);color:#BDF5D1}.res .ok.n{background:rgba(255,210,63,.16);color:#FFE7A0}
+.next{background:#FFF9E3;border:2px solid #EBD58A;border-radius:20px;padding:16px 14px;margin-top:14px}
+.next h3{color:var(--navy);font-size:19px;line-height:1.25}
+.next p{font-size:14.5px;margin-top:6px;color:#3A3F4A}
+.next form{display:grid;gap:8px;margin-top:10px}
+.next input{width:100%;font:inherit;font-size:16px;font-weight:600;border:2px solid var(--navy);border-radius:14px;padding:12px 14px;outline:none;background:#fff}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Can I get a mortgage on an off-plan property in Dubai?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, banks can finance off-plan. Under the UAE Central Bank rules the loan can be at most 50% of the property value, whatever the price, nationality or purpose. Each bank decides which projects it finances."}}, {"@type": "Question", "name": "How much can an expat borrow on a ready home in Dubai?", "acceptedAnswer": {"@type": "Answer", "text": "For a non-UAE national's first home, up to 80% of the value under AED 5 million and 70% above AED 5 million. For a second or investment home, up to 60%. These are maximums; the bank can offer less."}}, {"@type": "Question", "name": "Can non-residents get a mortgage in Dubai?", "acceptedAnswer": {"@type": "Answer", "text": "The Central Bank limits apply to all non-UAE nationals. Whether a bank lends to someone living abroad, and on what terms, is each bank's own policy."}}, {"@type": "Question", "name": "How long can a UAE mortgage be?", "acceptedAnswer": {"@type": "Answer", "text": "Up to 25 years under the Central Bank rules. The bank sets the maximum age at the last repayment."}}, {"@type": "Question", "name": "What does it cost to register a mortgage in Dubai?", "acceptedAnswer": {"@type": "Answer", "text": "Dubai Land Department charges 0.25% of the mortgage value plus AED 20 in knowledge and innovation fees. A trustee centre charges AED 4,000 + VAT, or AED 5,000 + VAT for an off-plan Oqood property."}}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "Off-plan mortgage in Dubai: the 50% rule", "url": "https://samsuryarealty.com/off-plan-mortgage/", "author": {"@id": "https://samsuryarealty.com/#sam"}, "about": "Mortgages for off-plan property in Dubai", "dateModified": "2026-11-24"}</script>
@@ -149,8 +173,45 @@ h2 small{display:block;font-size:14px;font-weight:600;color:var(--muted);margin-
     <li><b>DLD mortgage registration:</b> 0.25% of the loan amount, plus small fees. <a href="https://dubailand.gov.ae/en/eservices/request-for-mortgage-registration/" target="_blank" rel="noopener">DLD ›</a></li>
   </ul>
   <p class="checked">Last checked 24 Nov 2026 on the UAE Central Bank Rulebook (Regulations Regarding Mortgage Loans, Notice 31/2013, consolidated 2020) and the Dubai Land Department service page. These are maximums: each bank can lend less.</p>
-  <div class="hcta"><a class="btn wa" id="wahero" href="https://wa.me/971528728248?text=Hi%20Sam%2C%20I%20saw%20your%20off-plan%20mortgage%20post%20and%20want%20more%20details" target="_blank" rel="noopener">💬 Ask Sam on WhatsApp</a><a class="btn gold" href="#example">See an example</a></div>
+  <div class="hcta"><a class="btn wa" id="wahero" href="https://wa.me/971528728248?text=Hi%20Sam%2C%20I%20saw%20your%20off-plan%20mortgage%20post%20and%20want%20more%20details" target="_blank" rel="noopener">💬 Ask Sam on WhatsApp</a><a class="btn gold" href="#calc">🧮 Calculate your mortgage</a></div>
 </header>
+
+<section id="calc">
+  <h2>🧮 Calculate your mortgage<small>See what a bank could lend you, the cash you need and the monthly payment. Uses the UAE Central Bank's maximum limits.</small></h2>
+  <div class="calc">
+    <label for="mp">Property price (AED)</label>
+    <input id="mp" type="text" inputmode="numeric" value="1,500,000" autocomplete="off">
+    <label>Property status</label>
+    <div class="seg" id="sgst"><button type="button" data-v="op" class="on">Off-plan</button><button type="button" data-v="rd">Ready (at handover)</button></div>
+    <label>You are</label>
+    <div class="seg" id="sgnat"><button type="button" data-v="ex" class="on">Expat / foreign buyer</button><button type="button" data-v="na">UAE national</button></div>
+    <label>This home is your</label>
+    <div class="seg" id="sghm"><button type="button" data-v="1" class="on">First home</button><button type="button" data-v="2">2nd / investment</button></div>
+    <div class="two">
+      <div><label for="mr">Interest rate %</label><input id="mr" type="number" step="0.01" min="0" max="20" value="4.5"></div>
+      <div><label for="my">Years (max 25)</label><input id="my" type="number" min="1" max="25" value="25"></div>
+    </div>
+    <label for="mi">Your monthly income, AED <span style="text-transform:none;letter-spacing:0">(optional)</span></label>
+    <input id="mi" type="text" inputmode="numeric" placeholder="e.g. 35,000" autocomplete="off">
+    <div class="res" aria-live="polite">
+      <div class="big"><span>Max bank loan (<i id="rl">50%</i>)</span><b class="g" id="ro">AED 750,000</b></div>
+      <div class="big"><span>Your own money, at least</span><b id="rc">AED 750,000</b></div>
+      <div class="big"><span>Monthly repayment, about</span><b id="rm">AED 4,170</b></div>
+      <div class="big"><span>DLD mortgage registration (0.25% + AED 20)</span><b id="rf">AED 1,895</b></div>
+      <div class="ok" id="rk" hidden></div>
+      <p class="why" id="rw"></p>
+    </div>
+  </div>
+  <div class="next">
+    <h3>Next: test the project you have in mind ✅</h3>
+    <p>Before you book, run my free <b>Off-Plan Stress Test</b> on that project: DLD registration, escrow, developer track record and price per sq ft against similar projects nearby. 20 checks, a score out of 100.</p>
+    <form id="tf" action="/checklist/" method="get">
+      <input name="project" id="tp" placeholder="Project or developer name (optional)" autocomplete="off">
+      <button class="btn gold big" type="submit">Run the free Stress Test ›</button>
+    </form>
+    <p style="font-size:13px;margin-top:8px">No project yet? See the <a href="/picks/">projects that passed all 20 checks</a>.</p>
+  </div>
+</section>
 
 <section>
   <h2>What the reel said<small>The short version, in 20 seconds</small></h2>
@@ -267,6 +328,36 @@ h2 small{display:block;font-size:14px;font-weight:600;color:var(--muted);margin-
 <b style="color:#0B1F3A">Sam Surya Tamang</b> · Principal Property Advisor, Bricksfield Real Estate · Dubai Broker Licence (BRN) 58987 · <a href="https://dubailand.gov.ae/en/eservices/validate-real-estate-licenses-and-permits/" rel="noopener" style="color:#1E4FA3">Verify on DLD</a><br>
 Prism Tower, Business Bay, Dubai · <a href="tel:+971528728248" style="color:#1E4FA3">+971 52 872 8248</a> · <a href="https://www.instagram.com/samtherealrealtor/" rel="noopener" style="color:#1E4FA3">@SamtheRealRealtor</a> · <a href="/" style="color:#1E4FA3">About Sam</a>
 </div>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)}, st='op', nat='ex', hm='1';
+  function num(v){return Number(String(v||'').replace(/[^0-9.]/g,''))||0}
+  function aed(n){return 'AED '+Math.round(n).toLocaleString('en-US')}
+  function seg(id,set){var b=$(id).querySelectorAll('button');b.forEach(function(x){x.onclick=function(){b.forEach(function(y){y.classList.remove('on')});x.classList.add('on');set(x.getAttribute('data-v'));calc()}})}
+  seg('sgst',function(v){st=v});seg('sgnat',function(v){nat=v});seg('sghm',function(v){hm=v});
+  function ltv(p){ // UAE Central Bank maximum loan-to-value (Mortgage Loan Regulations, Art. 3)
+    if(st==='op') return [0.5,'Off-plan: 50% for every buyer, any price'];
+    if(nat==='ex') return hm==='1' ? (p<=5e6?[0.8,'Expat first home up to AED 5M: 80%']:[0.7,'Expat first home above AED 5M: 70%']) : [0.6,'Expat second / investment home: 60%'];
+    return hm==='1' ? (p<=5e6?[0.85,'UAE national first home up to AED 5M: 85%']:[0.75,'UAE national first home above AED 5M: 75%']) : [0.65,'UAE national second / investment home: 65%'];
+  }
+  function calc(){
+    var p=num($('mp').value), r=num($('mr').value)/1200, y=Math.min(25,Math.max(1,num($('my').value)||25)), n=y*12, inc=num($('mi').value);
+    var l=ltv(p), loan=p*l[0], m=loan? (r? loan*r/(1-Math.pow(1+r,-n)) : loan/n) : 0;
+    $('rl').textContent=Math.round(l[0]*100)+'%'; $('ro').textContent=aed(loan); $('rc').textContent=aed(p-loan);
+    $('rm').textContent=aed(m); $('rf').textContent=aed(loan?loan*0.0025+20:0);
+    var k=$('rk');
+    if(inc>0&&m>0){k.hidden=false; var ok=m<=inc*0.5; k.className='ok '+(ok?'y':'n');
+      k.textContent= ok ? '✓ This repayment is '+Math.round(m/inc*100)+'% of your income, within the 50% limit (with no other loans).' : '⚠ This repayment is '+Math.round(m/inc*100)+'% of your income: above the 50% limit. You would need about '+aed(m*2)+' a month, a lower loan or a longer term.';}
+    else k.hidden=true;
+    $('rw').textContent=l[1]+'. Monthly payment is an estimate at '+(num($('mr').value)||0)+'% (put in your bank\'s quote) over '+y+' years; your bank sets the real rate, fees and the amount it lends. '+(st==='op'?'At handover the property counts as ready, so the limit can rise (e.g. up to 80% for an expat first home under AED 5M).':'');
+  }
+  $('mp').addEventListener('input',function(){var c=this.value.replace(/[^0-9]/g,'');this.value=c?Number(c).toLocaleString('en-US'):'';calc()});
+  $('mi').addEventListener('input',function(){var c=this.value.replace(/[^0-9]/g,'');this.value=c?Number(c).toLocaleString('en-US'):'';calc()});
+  ['mr','my'].forEach(function(i){$(i).addEventListener('input',calc)});
+  $('tf').addEventListener('submit',function(e){if(!$('tp').value.trim()){e.preventDefault();location.href='/checklist/';}});
+  calc();
+})();
+</script>
 <script src="/assets/permit.js" defer></script>
 </body>
 </html>
