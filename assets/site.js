@@ -20,6 +20,7 @@
     ['/picks/', '🏆 Projects that passed'],
     ['/golden-visa/', '🇦🇪 Golden Visa finder'],
     ['/off-plan-mortgage/', '🏦 Mortgage calculator'],
+    ['/build-your-deposit/', '💰 Build your deposit'],
     ['/data/', '📊 Data Room'],
     ['#callback', '📞 Call me back']
   ];

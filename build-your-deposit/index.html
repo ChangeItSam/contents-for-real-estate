@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>if(location.hostname.indexOf("github.io")>-1){location.replace("https://samsuryarealty.com"+location.pathname.replace(/^\/contents-for-real-estate/,"")+location.search+location.hash);}</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Not ready to buy yet? Build your Dubai property deposit | Sam Surya</title>
+<meta name="description" content="Work out how much cash you need to buy off-plan in Dubai (down payment + 4% DLD fee), how long it takes to save it, and how much extra monthly income would get you there sooner. Free calculator by Sam Surya, BRN 58987.">
+<link rel="canonical" href="https://samsuryarealty.com/build-your-deposit/">
+<meta property="og:title" content="Build your Dubai property deposit">
+<meta property="og:description" content="Free calculator: cash needed, months to save, extra income needed. Plus early access to IncomeOS.">
+<meta property="og:url" content="https://samsuryarealty.com/build-your-deposit/">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="#0B1F3A">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#0B1F3A;--navy2:#132E52;--ink:#14161B;--gold:#d4af37;--gold2:#F3DC97;--yel:#ffd23f;--blue:#1e5bd8;--muted:#5B6678;--line:#E6E1D6;--bg:#F5F3EE;--wa:#25D366;--wad:#128C4A;--green:#14532D}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Montserrat,system-ui,-apple-system,sans-serif;color:var(--ink);background:var(--bg);font-size:16px;line-height:1.55;padding-bottom:76px}
+a{color:var(--blue)}
+.wrap{max-width:880px;margin:0 auto}
+.top{background:var(--navy);color:var(--gold2);font-size:12.5px;letter-spacing:2px;text-transform:uppercase;font-weight:700;padding:12px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.top a{color:var(--gold2);text-decoration:none}
+.ssr{text-transform:none;display:inline-flex;align-items:center;gap:9px;text-decoration:none}.ssr .mk{width:44px;height:27px;flex:none}.ssr .wm{display:flex;flex-direction:column;line-height:1}.ssr .wm b{font-family:"Cormorant Garamond",Georgia,serif;font-weight:700;font-size:23px;letter-spacing:.3px;color:#fff}.ssr .wm b i{font-style:normal;color:#C9A24A}.ssr .wm small{font-family:Montserrat,system-ui,sans-serif;font-weight:600;font-size:8.5px;letter-spacing:4.2px;color:#E8CF8E;margin-top:3px;padding-left:2px}.top .ssr .mk{width:38px;height:23px}.top .ssr .wm b{font-size:20px}.top{align-items:center}
+.hero{background:linear-gradient(170deg,var(--navy),var(--navy2));color:#fff;padding:24px 16px 26px}
+.pill{display:inline-block;background:var(--yel);color:var(--navy);font-weight:800;font-size:12px;letter-spacing:1px;border-radius:20px;padding:4px 12px;text-transform:uppercase}
+.hero h1{font-size:27px;line-height:1.18;font-weight:800;margin-top:12px}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p.lead{color:#D5DDEA;font-size:15.5px;margin-top:10px}
+.rules{list-style:none;margin-top:16px;display:grid;gap:8px}
+.rules li{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:10px 12px 10px 40px;position:relative;font-size:14.5px;color:#E9EEF6}
+.rules li:before{content:"✓";position:absolute;left:13px;top:9px;width:19px;height:19px;border-radius:50%;background:var(--gold);color:var(--navy);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
+.rules li b{color:#fff}
+.rules a{color:var(--gold2);font-weight:700;font-size:12.5px;white-space:nowrap}
+.checked{margin-top:12px;font-size:12.5px;color:#AFC0D8}
+.checked a{color:var(--gold2)}
+.hcta{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:30px;padding:12px 18px;font-weight:800;font-size:15.5px;text-decoration:none;border:0;cursor:pointer;font-family:inherit}
+.btn.gold{background:linear-gradient(135deg,var(--yel),var(--gold));color:var(--navy)}
+.btn.wa{background:var(--wa);color:#fff}
+.btn.ghost{background:#fff;color:var(--navy);border:1.5px solid var(--line)}
+section{padding:22px 14px 6px}
+h2{font-size:22px;line-height:1.2;font-weight:800;color:var(--navy)}
+h2 small{display:block;font-size:14px;font-weight:600;color:var(--muted);margin-top:6px;line-height:1.45}
+/* finder */
+.finder{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px 14px;box-shadow:0 6px 22px rgba(11,31,58,.08);margin-top:14px}
+.chips{display:flex;gap:8px;margin-bottom:10px}
+.chips button{flex:1;border:2px solid var(--line);background:#fff;color:var(--navy);font:inherit;font-weight:800;font-size:14.5px;border-radius:30px;padding:9px 6px;cursor:pointer}
+.chips button.on{background:var(--navy);border-color:var(--navy);color:var(--yel)}
+.sbox{position:relative}
+.sbox input{width:100%;font:inherit;font-size:17px;font-weight:600;border:2px solid var(--navy);border-radius:16px;padding:14px 74px 14px 44px;outline:none;background:#fff;color:var(--ink)}
+.sbox input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(30,91,216,.14)}
+.sbox .ic{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:18px;pointer-events:none}
+.sbox .clr{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:var(--bg);color:var(--navy);font:inherit;font-weight:800;font-size:13px;border-radius:20px;padding:7px 12px;cursor:pointer}
+.hint{font-size:13.5px;color:var(--muted);margin-top:8px;line-height:1.45}
+.sugs{margin-top:12px}
+.sugs h3{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);font-weight:800;margin:10px 0 8px}
+.sgl{display:flex;flex-wrap:wrap;gap:8px}
+.sg{border:1.5px solid var(--line);background:var(--bg);color:var(--navy);font:inherit;font-weight:700;font-size:14.5px;border-radius:24px;padding:8px 13px;cursor:pointer;text-align:left;display:inline-flex;align-items:center;gap:7px}
+.sg:hover,.sg:focus{border-color:var(--gold);background:#FFF9E3;outline:none}
+.sg em{font-style:normal;font-weight:800;font-size:12px;background:var(--navy);color:var(--yel);border-radius:12px;padding:1px 8px}
+.sg.pri{background:#FFF6D6;border-color:#EBD58A}
+.more{margin-top:10px;background:none;border:0;color:var(--blue);font:inherit;font-weight:800;font-size:14.5px;cursor:pointer;padding:4px 0}
+.rhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin:18px 2px 10px;flex-wrap:wrap}
+.rhead b{color:var(--navy);font-size:17px}
+.rhead button{background:none;border:0;color:var(--blue);font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.list{display:grid;gap:12px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:0 3px 12px rgba(11,31,58,.06)}
+.ch{background:linear-gradient(135deg,var(--navy),#1C3F6E);color:#fff;padding:13px 14px}
+.ch b{display:block;font-size:18.5px;line-height:1.2;font-weight:800}
+.ch span{display:block;color:var(--gold2);font-weight:700;font-size:13.5px;margin-top:4px}
+.ch i{font-style:normal;display:inline-block;margin-top:7px;font-size:11.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;border-radius:10px;padding:2px 8px;background:var(--yel);color:var(--navy)}
+.ch i.rd{background:#DDE7F7;color:var(--navy)}
+.cb{padding:12px 14px 14px}
+.units{list-style:none;display:grid;gap:6px}
+.units li{background:#FBF7EA;border:1px solid #F0E4BE;border-radius:12px;padding:8px 10px;font-size:14.5px;line-height:1.4}
+.units li b{color:var(--navy)}
+.units li span{color:var(--muted);font-size:13px}
+.units li.fb{background:#F2F5FA;border-color:#DCE4F0}
+.src{font-size:12px;color:var(--muted);margin-top:8px}
+.cbtn{display:grid;gap:8px;margin-top:12px}
+.cbtn a{display:flex;align-items:center;justify-content:center;gap:8px;text-align:center;border-radius:14px;padding:11px 12px;font-weight:800;font-size:14.5px;text-decoration:none}
+.cbtn .st{background:#fff;border:1.5px solid var(--navy);color:var(--navy)}
+.cbtn .w{background:var(--wa);color:#fff}
+.note{background:#FFF9E3;border:1px solid #F0E0A8;border-radius:14px;padding:11px 13px;font-size:13.5px;color:#5A4712;margin-top:14px}
+.note a{color:var(--wad);font-weight:800}
+.empty{background:#fff;border:2px dashed #E3D7AE;border-radius:18px;padding:18px 16px;text-align:center}
+.empty b{display:block;color:var(--navy);font-size:17px;margin-bottom:10px}
+.box{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin-top:12px}
+.box p{font-size:15px;margin-top:6px}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:14px;margin-top:10px;padding:0 14px}
+.faq summary{cursor:pointer;font-weight:800;color:var(--navy);padding:13px 0;font-size:15.5px;list-style:none;position:relative;padding-right:26px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:after{content:"+";position:absolute;right:2px;top:10px;font-size:22px;color:var(--gold)}
+.faq details[open] summary:after{content:"–"}
+.faq details p{padding:0 0 13px;font-size:15px;color:#2A3140}
+.disc{font-size:12.5px;color:var(--muted);padding:18px 16px 6px;line-height:1.6}
+.sticky{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--wa);color:#fff;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 12px calc(13px + env(safe-area-inset-bottom));font-weight:800;font-size:16.5px;box-shadow:0 -4px 16px rgba(0,0,0,.12)}
+.sticky span{white-space:nowrap}
+.sticky small{background:rgba(255,255,255,.22);border-radius:30px;padding:3px 11px;font-size:14px;white-space:nowrap}
+.loading{color:var(--muted);font-size:14px;padding:10px 2px}
+@media (min-width:760px){
+  body{padding-bottom:0}
+  .sticky{display:none}
+  .hero{padding:40px 32px 36px;border-radius:0 0 26px 26px}
+  .hero h1{font-size:38px}
+  .rules{grid-template-columns:1fr 1fr}
+  section{padding:30px 24px 6px}
+  .list{grid-template-columns:1fr 1fr}
+  .finder{padding:20px}
+}
+.tbl{width:100%;border-collapse:collapse;font-size:14.5px}
+.tbl th{text-align:left;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);padding:6px 6px;border-bottom:2px solid var(--line)}
+.tbl td{padding:10px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.tbl td:nth-child(2) b{color:var(--blue);font-size:17px}
+.steps{padding-left:20px;display:grid;gap:10px;font-size:15px}
+.steps li::marker{color:var(--gold);font-weight:800}
+.fees{list-style:none;display:grid;gap:6px;margin-top:8px}
+.fees li{display:flex;justify-content:space-between;gap:12px;background:#FBF7EA;border:1px solid #F0E4BE;border-radius:12px;padding:9px 12px;font-size:14.5px}
+.fees li b{color:var(--navy);text-align:right;white-space:nowrap}
+.ticks{list-style:none;display:grid;gap:8px}
+.ticks li{position:relative;padding-left:26px;font-size:15px}
+.ticks li:before{content:"✓";position:absolute;left:0;top:0;color:var(--gold);font-weight:800}
+.cta{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#D5DDEA;border-radius:22px;padding:20px 16px;margin-top:6px}
+.cta p{margin-top:8px;font-size:15px}.cta a{color:var(--gold2)}
+.btn.big{font-size:17px;padding:15px 22px;width:100%}
+.more2{font-size:14px}
+@media (min-width:760px){.btn.big{width:auto}}
+
+/* calculator */
+.calc{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px 14px;box-shadow:0 6px 22px rgba(11,31,58,.08);margin-top:12px}
+.calc label{display:block;font-size:12.5px;letter-spacing:1px;text-transform:uppercase;font-weight:800;color:var(--muted);margin:12px 0 6px}
+.calc input[type=text],.calc input[type=number]{width:100%;font:inherit;font-size:17px;font-weight:700;border:2px solid var(--navy);border-radius:14px;padding:12px 14px;outline:none;color:var(--ink);background:#fff}
+.calc input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(30,91,216,.14)}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1;min-width:0;border:2px solid var(--line);background:#fff;color:var(--navy);font:inherit;font-weight:800;font-size:14px;border-radius:30px;padding:9px 8px;cursor:pointer}
+.seg button.on{background:var(--navy);border-color:var(--navy);color:var(--yel)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.res{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#D5DDEA;border-radius:18px;padding:14px;margin-top:16px}
+.res .big{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-bottom:1px solid rgba(255,255,255,.14);padding:8px 0}
+.res .big:last-of-type{border-bottom:0}
+.res .big span{font-size:14px}
+.res .big b{color:#fff;font-size:19px;white-space:nowrap}
+.res .big b.g{color:var(--yel);font-size:23px}
+.res .why{font-size:12.5px;color:#AFC0D8;margin-top:8px;line-height:1.5}
+.res .ok{margin-top:10px;border-radius:12px;padding:9px 11px;font-size:14px;font-weight:700}
+.res .ok.y{background:rgba(37,211,102,.16);color:#BDF5D1}.res .ok.n{background:rgba(255,210,63,.16);color:#FFE7A0}
+.next{background:#FFF9E3;border:2px solid #EBD58A;border-radius:20px;padding:16px 14px;margin-top:14px}
+.next h3{color:var(--navy);font-size:19px;line-height:1.25}
+.next p{font-size:14.5px;margin-top:6px;color:#3A3F4A}
+.next form{display:grid;gap:8px;margin-top:10px}
+.next input{width:100%;font:inherit;font-size:16px;font-weight:600;border:2px solid var(--navy);border-radius:14px;padding:12px 14px;outline:none;background:#fff}
+
+.calc{background:#fff;border:1px solid var(--line);border-radius:22px;padding:16px 14px;box-shadow:0 6px 22px rgba(11,31,58,.08);margin-top:12px}
+.calc label{display:block;font-size:12.5px;letter-spacing:1px;text-transform:uppercase;font-weight:800;color:var(--muted);margin:12px 0 6px}
+.calc input{width:100%;font:inherit;font-size:17px;font-weight:700;border:2px solid var(--navy);border-radius:14px;padding:12px 14px;outline:none;color:var(--ink);background:#fff}
+.calc input:focus{border-color:var(--blue);box-shadow:0 0 0 4px rgba(30,91,216,.14)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.res{background:linear-gradient(160deg,var(--navy),var(--navy2));color:#D5DDEA;border-radius:18px;padding:14px;margin-top:16px}
+.res .big{display:flex;justify-content:space-between;align-items:baseline;gap:10px;border-bottom:1px solid rgba(255,255,255,.14);padding:8px 0}
+.res .big:last-of-type{border-bottom:0}.res .big span{font-size:14px}.res .big b{color:#fff;font-size:19px;white-space:nowrap}.res .big b.g{color:var(--yel);font-size:23px}
+.res .why{font-size:12.5px;color:#AFC0D8;margin-top:8px;line-height:1.5}
+.ios{background:#FFF9E3;border:2px solid #EBD58A;border-radius:22px;padding:18px 16px;margin-top:14px}
+.ios h3{color:var(--navy);font-size:21px;line-height:1.25}.ios p{font-size:15px;margin-top:6px;color:#3A3F4A}
+.ios ul{margin:10px 0 0 20px;font-size:15px}.ios li{margin:4px 0}
+.ios form{display:grid;gap:8px;margin-top:12px}.ios input{width:100%;font:inherit;font-size:16px;font-weight:600;border:2px solid var(--navy);border-radius:14px;padding:12px 14px;outline:none;background:#fff}
+.ios .msg{border-radius:12px;padding:10px 12px;font-weight:700;font-size:14.5px}.ios .msg.s{background:#E8F8EE;color:#14532D}.ios .msg.e{background:#FDECEC;color:#8A1C1C}
+.ios .hp{position:absolute;left:-9999px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top"><a class="ssr" href="/checklist/" aria-label="SamSurya Realty"><svg class="mk" viewBox="0 0 230 142" aria-hidden="true"><defs><linearGradient id="mkg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3DC97"/><stop offset="1" stop-color="#C9A24A"/></linearGradient><mask id="mkm"><rect width="230" height="142" fill="#fff"/><rect x="72" y="70" width="26" height="62" fill="#000"/><rect x="104" y="46" width="26" height="86" fill="#000"/><rect x="136" y="82" width="22" height="50" fill="#000"/></mask></defs><g stroke="#C9A24A" stroke-width="6" stroke-linecap="round"><line x1="115" y1="6" x2="115" y2="24"/><line x1="58" y1="22" x2="68" y2="37"/><line x1="172" y1="22" x2="162" y2="37"/><line x1="20" y1="62" x2="36" y2="70"/><line x1="210" y1="62" x2="194" y2="70"/></g><path d="M30 132 A85 85 0 0 1 200 132 Z" fill="url(#mkg)" mask="url(#mkm)"/><rect x="10" y="132" width="210" height="7" rx="3.5" fill="#C9A24A"/></svg><span class="wm"><b>Sam<i>Surya</i></b><small>REALTY</small></span></a><a href="/picks/">Picks ›</a></div>
+<header class="hero">
+  <span class="pill">💰 Not ready yet?</span>
+  <h1>Let's build your <em>Dubai property deposit</em></h1>
+  <p class="lead">Many of my clients didn't have the full down payment on day one. With off-plan, you usually need the first instalment plus the Dubai Land Department fee up front, and the rest is spread over the construction. Work out your number below, how long it takes to save it, and how much extra income would get you there sooner.</p>
+  <div class="hcta"><a class="btn gold" href="#calc">🧮 Work out my deposit</a><a class="btn wa" href="https://wa.me/971528728248?text=Hi%20Sam%2C%20I%20used%20your%20Build-your-deposit%20page%20and%20want%20help%20planning%20my%20first%20Dubai%20property" target="_blank" rel="noopener">💬 Ask Sam on WhatsApp</a></div>
+</header>
+
+<section id="calc">
+  <h2>🧮 Your deposit plan<small>A quick estimate to plan with. Exact amounts come from the developer's payment plan and the official fees on the day.</small></h2>
+  <div class="calc">
+    <label for="dp">Property price you're aiming for (AED)</label>
+    <input id="dp" inputmode="numeric" value="1,000,000" autocomplete="off">
+    <div class="two">
+      <div><label for="dpct">First payment %</label><input id="dpct" type="number" min="0" max="100" step="1" value="10"></div>
+      <div><label for="dfee">DLD fee %</label><input id="dfee" type="number" min="0" max="10" step="0.1" value="4"></div>
+    </div>
+    <div class="two">
+      <div><label for="dsav">Saved so far (AED)</label><input id="dsav" inputmode="numeric" value="0" autocomplete="off"></div>
+      <div><label for="dmon">Save per month (AED)</label><input id="dmon" inputmode="numeric" value="3,000" autocomplete="off"></div>
+    </div>
+    <label for="dgoal">I'd like to be ready in (months)</label>
+    <input id="dgoal" type="number" min="1" max="120" value="12">
+    <div class="res" aria-live="polite">
+      <div class="big"><span>Cash you need up front, about</span><b class="g" id="o1">AED 140,000</b></div>
+      <div class="big"><span>Still to save</span><b id="o2">AED 140,000</b></div>
+      <div class="big"><span>Months to get there at your pace</span><b id="o3">47</b></div>
+      <div class="big"><span>Extra income needed per month to be ready on time</span><b id="o4">AED 8,667</b></div>
+      <p class="why" id="ow"></p>
+    </div>
+  </div>
+</section>
+
+<section id="incomeos">
+  <div class="ios">
+    <h3>🚀 Grow the gap faster: IncomeOS early access</h3>
+    <p>I'm building <b>IncomeOS</b>, a tool that helps you find a legitimate side income that fits your skills, budget and free time, then gives you a 90-day plan and tracks what you actually earn, so your deposit grows faster.</p>
+    <ul><li>Free <b>Income DNA</b> test: country, skills, hours, budget, goals</li><li>Honest matches with a clear score and the reasons (no get-rich-quick schemes)</li><li>A 90-day action plan, an income tracker and a monthly check against your deposit goal</li></ul>
+    <p style="font-size:13px">No income guarantees: results depend on you and the market. It is planning help, not financial advice.</p>
+    <form id="iosf" novalidate>
+      <input class="hp" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <input name="name" placeholder="Your name" autocomplete="name" aria-label="Your name">
+      <input name="phone" type="tel" placeholder="WhatsApp (+971 5x xxx xxxx)" autocomplete="tel" aria-label="WhatsApp number">
+      <input name="email" type="email" placeholder="Email (optional if you gave WhatsApp)" autocomplete="email" aria-label="Email">
+      <label style="font-size:13px;color:#5B6678"><input type="checkbox" name="ok" checked style="width:auto"> Sam Surya's team may contact me about IncomeOS and Dubai property. <a href="/legal/privacy/" target="_blank">Privacy</a></label>
+      <button class="btn gold big" type="submit">✅ Get early access</button>
+      <div class="msg" hidden></div>
+    </form>
+  </div>
+</section>
+
+<section>
+  <h2>How the numbers work<small>Simple, visible maths: change any box above</small></h2>
+  <div class="box">
+    <p><b>Cash up front</b> = price × first payment % + price × DLD fee %. Off-plan payment plans often start at 10-20% with the rest paid during construction and at handover; each project is different, so check the developer's plan.</p>
+    <p><b>DLD fee</b>: Dubai Land Department registration is 4% of the price, plus small admin fees (<a href="https://dubailand.gov.ae/" target="_blank" rel="noopener">dubailand.gov.ae</a>). Some launches pay part of it for you: that is per developer, subject to availability.</p>
+    <p><b>Months to save</b> = what's left ÷ what you save per month. <b>Extra income needed</b> = what's left ÷ months you chose − what you already save.</p>
+    <p>Planning a mortgage for the rest? See the <a href="/off-plan-mortgage/">off-plan mortgage guide and calculator</a>.</p>
+  </div>
+</section>
+
+<section>
+  <div class="cta">
+    <h2 style="color:#fff">Want a plan for your first Dubai property?</h2>
+    <p>Tell me your budget and timeline: I'll show you projects whose payment plans match what you can save, and when to book.</p>
+    <div class="hcta"><a class="btn wa big" href="https://wa.me/971528728248?text=Hi%20Sam%2C%20I%20used%20your%20Build-your-deposit%20page%20and%20want%20help%20planning%20my%20first%20Dubai%20property" target="_blank" rel="noopener">💬 WhatsApp Sam: +971 52 872 8248</a></div>
+    <p class="more2">Already have a project in mind? Run the free <a href="/checklist/">Off-Plan Stress Test</a> or see the <a href="/picks/">projects that passed all 20 checks</a>.</p>
+  </div>
+</section>
+
+<p class="disc">General information only, not financial, legal or tax advice. Estimates use the figures you enter; real payment plans, fees and availability are set by each developer and Dubai Land Department on the day. IncomeOS is in development; no income is promised. Sam Surya, Dubai broker BRN 58987 · @SamtheRealRealtor.</p>
+</div>
+
+<a class="sticky" href="https://wa.me/971528728248?text=Hi%20Sam%2C%20I%20used%20your%20Build-your-deposit%20page%20and%20want%20help%20planning%20my%20first%20Dubai%20property" target="_blank" rel="noopener"><span>💬 WhatsApp Sam</span><small>+971 52 872 8248</small></a>
+
+<footer style="text-align:center;color:#5B6678;font-size:13px;padding:24px 16px 40px;line-height:1.9"><a style="color:#0B1F3A;font-weight:700" href="/legal/terms/">Terms &amp; Conditions</a> · <a style="color:#0B1F3A;font-weight:700" href="/legal/privacy/">Privacy Policy</a> · <a style="color:#0B1F3A;font-weight:700" href="/legal/refunds/">Cancellation &amp; Refunds</a><br>SURYA TAMANG Marketing Management · DET Dubai Trade Licence 1661461</footer>
+<div class="ss-id" style="text-align:center;font:13px/1.7 Montserrat,system-ui,sans-serif;color:#5B6678;padding:18px 16px 28px;border-top:1px solid #E6E1D6">
+<b style="color:#0B1F3A">Sam Surya Tamang</b> · Principal Property Advisor, Bricksfield Real Estate · Dubai Broker Licence (BRN) 58987 · <a href="https://dubailand.gov.ae/en/eservices/validate-real-estate-licenses-and-permits/" rel="noopener" style="color:#1E4FA3">Verify on DLD</a><br>
+Prism Tower, Business Bay, Dubai · <a href="tel:+971528728248" style="color:#1E4FA3">+971 52 872 8248</a> · <a href="https://www.instagram.com/samtherealrealtor/" rel="noopener" style="color:#1E4FA3">@SamtheRealRealtor</a> · <a href="/" style="color:#1E4FA3">About Sam</a>
+</div>
+<script>
+(function(){
+  var $=function(i){return document.getElementById(i)};
+  function num(v){return Number(String(v||'').replace(/[^0-9.]/g,''))||0}
+  function aed(n){return 'AED '+Math.round(n).toLocaleString('en-US')}
+  function fmt(el){el.addEventListener('input',function(){var c=this.value.replace(/[^0-9]/g,'');this.value=c?Number(c).toLocaleString('en-US'):'';calc()})}
+  function calc(){
+    var p=num($('dp').value), pct=num($('dpct').value)/100, fee=num($('dfee').value)/100, sav=num($('dsav').value), mon=num($('dmon').value), g=Math.max(1,num($('dgoal').value)||12);
+    var need=p*pct+p*fee, left=Math.max(0,need-sav), months=left<=0?0:(mon>0?Math.ceil(left/mon):Infinity), extra=Math.max(0,left/g-mon);
+    $('o1').textContent=aed(need); $('o2').textContent=left<=0?'✅ ready':aed(left);
+    $('o3').textContent=months===Infinity?'add a monthly saving':months+(months===1?' month':' months');
+    $('o4').textContent=left<=0?'none':(extra<=0?'none: you are on track':aed(extra));
+    $('ow').textContent=(pct*100).toFixed(0)+'% first payment ('+aed(p*pct)+') + '+(fee*100).toFixed(1)+'% DLD fee ('+aed(p*fee)+'). Admin fees and any agency/registration trustee fees are extra; ask for the exact payment plan.';
+    window.__dep={need:need,left:left,goal:g};
+  }
+  ['dp','dsav','dmon'].forEach(function(i){fmt($(i))}); ['dpct','dfee','dgoal'].forEach(function(i){$(i).addEventListener('input',calc)}); calc();
+  var API='https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec';
+  var f=$('iosf'), m=f.querySelector('.msg');
+  function say(t,ok){m.hidden=false;m.className='msg '+(ok?'s':'e');m.innerHTML=t}
+  f.onsubmit=function(e){
+    e.preventDefault();
+    var d={a:'callback',name:f.name.value.trim(),phone:f.phone.value.trim(),email:f.email.value.trim(),interest:'IncomeOS early access (build deposit)',ready:'In '+(window.__dep?window.__dep.goal:'')+' months',
+      msg:window.__dep?('Deposit goal '+aed(window.__dep.need)+', still to save '+aed(window.__dep.left)):'',page:location.origin+location.pathname,title:document.title,src:'form',hp:f.hp.value};
+    if(d.name.length<2) return say('Please add your name.');
+    if(d.phone.replace(/[^0-9]/g,'').length<8 && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)) return say('Please add your WhatsApp number or email.');
+    if(!f.ok.checked) return say('Please tick the box so we may contact you.');
+    var b=f.querySelector('button'); b.disabled=true; b.textContent='Sending...';
+    var wa='https://wa.me/971528728248?text='+encodeURIComponent('Hi Sam, please add me to IncomeOS early access.\nName: '+d.name+(d.phone?'\nWhatsApp: '+d.phone:'')+(d.email?'\nEmail: '+d.email:'')+'\n'+d.msg);
+    fetch(API,{method:'POST',body:new URLSearchParams(d)}).then(function(r){return r.json()}).then(function(j){
+      if(!j||!j.ok||!/^CB/.test(j.ref||'')) throw 0;
+      f.innerHTML='<div class="msg s">✅ You\'re on the IncomeOS early-access list, '+d.name.split(' ')[0]+'! Ref '+j.ref+'. I\'ll message you when it opens.</div>';
+    }).catch(function(){ b.disabled=false; b.textContent='💬 Send on WhatsApp instead'; say('We couldn\'t send the form just now. <a href="'+wa+'" target="_blank" rel="noopener">Tap here to send it on WhatsApp</a>, it\'s all filled in.'); b.onclick=function(ev){ev.preventDefault();window.open(wa,'_blank')}; });
+  };
+})();
+</script>
+<script src="/assets/permit.js" defer></script>
+</body>
+</html>
