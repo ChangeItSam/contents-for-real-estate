@@ -312,6 +312,7 @@ function doPost(e) {
     if (p.a === 'agent_photo') return agpPhoto(p);
     if (p.a === 'agent_profile') return agpProfile(p);
   if (p.a === 'agent_contact') return agpContact(p);
+    if (p.a === 'callback') return ssCallback(p);
     var sh = leadsSheet();
     var digits = String(p.phone || '').replace(/[^0-9]/g, '');
     var name = String(p.name || '').trim();
@@ -731,6 +732,35 @@ function agpContact(p) {
     if (to) MailApp.sendEmail({ to: to, replyTo: mail, name: 'DealPro Agent', subject: '📩 ' + topic + ' ' + ref + ': ' + clean(String(p.name || mail)), body: 'Topic: ' + topic + '\nFrom: ' + clean(String(p.name || '')) + ' <' + mail + '> ' + clean(String(p.ph || '')) + '\n\n' + msg + '\n\nReply to this email to answer them. Logged in the "' + CONTACT_TAB + '" tab.' });
     MailApp.sendEmail({ to: mail, name: 'DealPro Agent', subject: 'We received your message (' + ref + ')', body: 'Hi ' + (clean(String(p.name || '')).split(' ')[0] || 'there') + ',\n\nThanks for contacting DealPro Agent. Your reference is ' + ref + '. We reply within 3 working days.\n\nYour message:\n' + msg + '\n\n' + SELLER + ' · ' + SELLER_LIC });
   } catch (err) { Logger.log('contact mail failed: ' + err); }
+  return agpOut({ ok: true, ref: ref });
+}
+
+// Buyer "Call me back" / "Keep me posted" forms on samsuryarealty.com (assets/site.js). Tab "Callbacks"; emails Sam.
+var CB_TAB = 'Callbacks', CB_HEAD = ['Ref', 'Date (Dubai)', 'Name', 'WhatsApp', 'Email', 'Ready to buy', 'Interested in', 'Call on (date)', 'Time (Dubai)', 'Message', 'Page', 'Form', 'Status'];
+function ssCallback(p) {
+  if (String(p.hp || '')) return agpOut({ ok: true, ref: 'OK' });   // honeypot
+  var name = clean(String(p.name || '').slice(0, 80)), phone = clean(String(p.phone || '').slice(0, 25)), digits = phone.replace(/[^0-9]/g, ''), mail = agpMail(p.email);
+  if (name.length < 2 || (digits.length < 8 && !mail)) return agpOut({ ok: false, err: 'fields' });
+  var sh = listSheet(CB_TAB, CB_HEAD), v = sh.getDataRange().getValues(), today = Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd'), same = 0;
+  for (var i = 1; i < v.length; i++) if (String(v[i][1]).slice(0, 10) === today && ((digits && String(v[i][3]).replace(/[^0-9]/g, '') === digits) || (mail && String(v[i][4]) === mail))) same++;
+  if (same >= 5) return agpOut({ ok: false, err: 'limit' });
+  var ref = 'CB' + Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyMMdd') + '-' + ('00' + v.length).slice(-3);
+  var page = String(p.page || ''); if (!/^https:\/\/(www\.)?samsuryarealty\.com\//.test(page)) page = '';
+  var f = { ready: clean(String(p.ready || '').slice(0, 60)), interest: clean(String(p.interest || '').slice(0, 160)), date: clean(String(p.date || '').slice(0, 10)), time: clean(String(p.time || '').slice(0, 20)), msg: clean(String(p.msg || '').slice(0, 800)), src: p.src === 'popup' ? 'Before-you-go box' : 'Call-me-back form' };
+  sh.appendRow([ref, Utilities.formatDate(new Date(), 'Asia/Dubai', 'yyyy-MM-dd HH:mm'), name, phone, mail, f.ready, f.interest, f.date, f.time, f.msg, page, f.src, 'New']);
+  try {
+    var to = PropertiesService.getScriptProperties().getProperty('ALERT_TO') || Session.getEffectiveUser().getEmail();
+    var wa = digits.length >= 8 ? 'https://wa.me/' + digits : '';
+    var o = { to: to, name: 'SamSurya Realty website', subject: '📞 Callback request ' + ref + ': ' + name + (f.ready ? ' · ready ' + f.ready : '') + (f.date ? ' · call ' + f.date + ' ' + f.time : ''),
+      body: 'New ' + f.src + ' on samsuryarealty.com\n\nName: ' + name + '\nWhatsApp/phone: ' + (phone || '-') + (wa ? '  (' + wa + ')' : '') + '\nEmail: ' + (mail || '-') +
+        '\nReady to buy: ' + (f.ready || '-') + '\nInterested in: ' + (f.interest || '-') + '\nCall on: ' + (f.date || '-') + ' ' + (f.time ? f.time + ' Dubai' : '') +
+        '\nMessage: ' + (f.msg || '-') + '\nPage: ' + (page || '-') + '\n\nLogged in the "' + CB_TAB + '" tab (' + ref + ').' };
+    if (mail) o.replyTo = mail;
+    if (to) MailApp.sendEmail(o);
+    if (mail) MailApp.sendEmail({ to: mail, name: 'Sam Surya · SamSurya Realty', subject: 'Got it, ' + (name.split(' ')[0] || 'there') + ': I\'ll be in touch (' + ref + ')',
+      body: 'Hi ' + (name.split(' ')[0] || 'there') + ',\n\nThanks for leaving your details on samsuryarealty.com. ' + (f.date ? 'My team or I will call you on ' + f.date + (f.time ? ' (' + f.time + ' Dubai time)' : '') + '.' : 'I\'ll keep you posted with new Dubai off-plan launches and guides.') +
+        '\n\nNeed me sooner? WhatsApp me: https://wa.me/971528728248\nFree tools: https://samsuryarealty.com/checklist/ (Off-Plan Stress Test) · https://samsuryarealty.com/picks/\n\nSam Surya Tamang\nPrincipal Property Advisor · Dubai broker BRN 58987 · @SamtheRealRealtor\n\nReply STOP to this email and I won\'t contact you again.' });
+  } catch (err) { Logger.log('callback mail failed: ' + err); }
   return agpOut({ ok: true, ref: ref });
 }
 

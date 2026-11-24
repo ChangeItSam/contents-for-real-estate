@@ -8,7 +8,7 @@ Edit the texts below, then run:  python3 tools/make_legal.py
 import os, html
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
-UPDATED = "23 November 2026"
+UPDATED = "25 November 2026"
 API = "https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec"
 OP = "SURYA TAMANG Marketing Management"
 LIC = "Trader Licence no. 1661461, issued by the Department of Economy and Tourism, Dubai"
@@ -93,6 +93,7 @@ PAGES["privacy"] = ("Privacy Policy", f"""
 <ul>
 <li>Your name, WhatsApp number and whether you are a buyer or an agent, when you ask for your result or report.</li>
 <li>The project you check, your answers and your score, and optional details you type (price, size, payment plan, area, rent).</li>
+<li>If you use a "Call me back" or "Keep me posted" form: your name, WhatsApp number and/or email, when you expect to be ready to buy, what you're interested in, the day and time you'd like a call and any message. We use it only to contact you about Dubai property, as you asked; reply STOP at any time.</li>
 </ul>
 <h3>Agents using DealPro Agent</h3>
 <ul>

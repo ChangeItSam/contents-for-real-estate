@@ -21,5 +21,5 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', place); else place();
 })();
-// Also load the "Do me a favour: share" card on the same pages (assets/share.js).
-(function () { if (document.getElementById('shjs')) return; var s = document.createElement('script'); s.id = 'shjs'; s.src = '/assets/share.js?v=1'; s.defer = true; document.head.appendChild(s); })();
+// Also load the buyer site kit on the same pages (assets/site.js): Explore menu, share card, call-me-back form.
+(function () { if (document.getElementById('ssjs')) return; var s = document.createElement('script'); s.id = 'ssjs'; s.src = '/assets/site.js?v=1'; document.head.appendChild(s); })();
