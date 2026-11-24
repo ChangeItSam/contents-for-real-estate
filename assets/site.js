@@ -70,7 +70,22 @@
   ].join('');
   var st = document.createElement('style'); st.textContent = css; document.head.appendChild(st);
 
-  /* 1. Explore bar */
+  /* 1. Explore bar. New topic pages that the daily posting adds to sitemap.xml show up here automatically. */
+  var SKIP = /^\/(legal|dpa-legal|pricing|projects|agent|go|assets|checklist\/.)/;
+  function more() {
+    fetch('/sitemap.xml').then(function (r) { return r.text(); }).then(function (x) {
+      var have = PAGES.map(function (p) { return p[0]; }), add = [];
+      (x.match(/<loc>[^<]+<\/loc>/g) || []).forEach(function (l) {
+        var u; try { u = new URL(l.replace(/<\/?loc>/g, '')).pathname; } catch (e) { return; }
+        if (!/^\/[a-z0-9-]+\/$/.test(u) || SKIP.test(u) || have.indexOf(u) >= 0) return;
+        var name = u.replace(/\//g, '').replace(/-/g, ' ').replace(/\b\w/g, function (c) { return c.toUpperCase(); }).replace(/\bOff Plan\b/, 'Off-Plan');
+        add.push([u, '📘 ' + name]); have.push(u);
+      });
+      if (!add.length) return;
+      PAGES.splice(PAGES.length - 1, 0, add[0]); for (var i = 1; i < add.length; i++) PAGES.splice(PAGES.length - 1, 0, add[i]);
+      var n = document.getElementById('ssnav'); if (n) { n.remove(); nav(); }
+    }).catch(function () {});
+  }
   function nav() {
     if (document.getElementById('ssnav')) return;
     var n = document.createElement('nav'); n.id = 'ssnav'; n.setAttribute('aria-label', "Sam Surya's pages");
@@ -216,6 +231,6 @@
     nav(); share(); callback(); arm();
     if (location.hash === '#callback') setTimeout(function () { var c = document.getElementById('callback'); if (c) c.scrollIntoView(); }, 50);
   }
-  function later() { nav(); setTimeout(go, 500); }   // menu right away (no jump); the rest once the page has settled
+  function later() { nav(); more(); setTimeout(go, 500); }   // menu right away (no jump); the rest once the page has settled
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', later); else later();
 })();
