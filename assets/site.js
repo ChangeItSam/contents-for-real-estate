@@ -31,10 +31,19 @@
 
   var css = [
     '#ssnav{background:#0B1F3A;border-bottom:2px solid #d4af37;position:relative;z-index:30;font-family:Montserrat,system-ui,-apple-system,sans-serif}',
-    '#ssnav .in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:8px;overflow-x:auto;padding:8px 12px;scrollbar-width:none}#ssnav .in::-webkit-scrollbar{display:none}',
-    '#ssnav b{color:#d4af37;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}',
+    '#ssnav .in{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:10px;padding:8px 12px}',
+    '#ssnav b{flex:none;color:#d4af37;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap}',
+    '#ssnav .vw{flex:1;min-width:0;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent);mask-image:linear-gradient(90deg,transparent,#000 4%,#000 96%,transparent)}',
+    '#ssnav .tr{display:flex;gap:8px;width:max-content;animation:ssmq 45s linear infinite}',
+    '#ssnav .vw:hover .tr,#ssnav .vw:focus-within .tr,#ssnav .vw.hold .tr{animation-play-state:paused}',
+    '@keyframes ssmq{from{transform:translateX(0)}to{transform:translateX(-50%)}}',
+    '@media(prefers-reduced-motion:reduce){#ssnav .tr{animation:none}#ssnav .vw{overflow-x:auto}}',
     '#ssnav a{flex:none;white-space:nowrap;color:#fff;text-decoration:none;font-size:13px;font-weight:700;border:1px solid rgba(255,255,255,.22);border-radius:20px;padding:6px 11px;background:rgba(255,255,255,.06)}',
-    '#ssnav a.on{background:#ffd23f;color:#0B1F3A;border-color:#ffd23f}#ssnav a.cb{background:#25D366;border-color:#25D366}',
+    '#ssnav a.on{background:#ffd23f;color:#0B1F3A;border-color:#ffd23f}',
+    '#ssnav .all{flex:none;border:0;border-radius:20px;padding:7px 13px;font:inherit;font-size:13px;font-weight:800;cursor:pointer;background:linear-gradient(135deg,#ffd23f,#d4af37);color:#0B1F3A;white-space:nowrap}',
+    '#ssnav .pn{display:none;position:absolute;right:12px;top:100%;margin-top:6px;width:290px;max-width:calc(100vw - 24px);max-height:70vh;overflow:auto;background:#0B1F3A;border:2px solid #d4af37;border-radius:18px;padding:10px;box-shadow:0 14px 40px rgba(0,0,0,.35)}',
+    '#ssnav .pn.op{display:block}#ssnav .pn a{display:block;margin:4px 0;border-radius:12px;padding:10px 12px}#ssnav .pn a.cb{background:#25D366;border-color:#25D366}',
+    '#ssnav .pn i{display:block;font-style:normal;color:#d4af37;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:800;margin:4px 4px 6px}',
     '.sskit{font-family:Montserrat,system-ui,-apple-system,sans-serif;max-width:640px;margin:24px auto;padding:0 14px;text-align:left}',
     '.sskit .card{border-radius:22px;padding:20px 18px 16px;box-shadow:0 8px 26px rgba(11,31,58,.14)}',
     '#ssshare .card{background:linear-gradient(160deg,#0B1F3A,#163A68);color:#D5DDEA;border:2px solid #d4af37}',
@@ -87,14 +96,31 @@
       var n = document.getElementById('ssnav'); if (n) { n.remove(); nav(); }
     }).catch(function () {});
   }
+  var TOP = 7; // only the first 7 pages move along the banner; the rest live under "All pages"
+  function link(p, cls) {
+    var on = p[0] === P || (p[0] !== '/' && P.indexOf(p[0]) === 0);
+    var c = on ? 'on' : (cls || '');
+    return '<a href="' + p[0] + '"' + (c ? ' class="' + c + '"' : '') + (on ? ' aria-current="page"' : '') + '>' + p[1] + '</a>';
+  }
   function nav() {
     if (document.getElementById('ssnav')) return;
+    var top = PAGES.filter(function (p) { return p[0] !== '#callback'; }).slice(0, TOP);
+    var row = top.map(function (p) { return link(p); }).join('');
     var n = document.createElement('nav'); n.id = 'ssnav'; n.setAttribute('aria-label', "Sam Surya's pages");
-    n.innerHTML = '<div class="in"><b>Explore</b>' + PAGES.map(function (p) {
-      var on = p[0] === P || (p[0] !== '/' && P.indexOf(p[0]) === 0);
-      return '<a href="' + p[0] + '"' + (on ? ' class="on" aria-current="page"' : p[0] === '#callback' ? ' class="cb"' : '') + '>' + p[1] + '</a>';
-    }).join('') + '</div>';
+    n.innerHTML = '<div class="in"><b>Explore</b><div class="vw"><div class="tr">' + row +
+      '<span aria-hidden="true" style="display:contents">' + row.replace(/<a /g, '<a tabindex="-1" ') + '</span></div></div>' +
+      '<button type="button" class="all" aria-expanded="false" aria-controls="sspn">☰ All pages</button></div>' +
+      '<div class="pn" id="sspn"><i>All pages (' + PAGES.length + ')</i>' +
+      PAGES.map(function (p) { return link(p, p[0] === '#callback' ? 'cb' : ''); }).join('') + '</div>';
     document.body.insertBefore(n, document.body.firstChild);
+    var btn = n.querySelector('.all'), pn = n.querySelector('.pn'), vw = n.querySelector('.vw');
+    function set(o) { pn.classList.toggle('op', o); btn.setAttribute('aria-expanded', o ? 'true' : 'false'); btn.textContent = o ? '✕ Close' : '☰ All pages'; }
+    btn.addEventListener('click', function (e) { e.stopPropagation(); set(!pn.classList.contains('op')); });
+    pn.addEventListener('click', function (e) { if (e.target.tagName === 'A') set(false); });
+    document.addEventListener('click', function (e) { if (!n.contains(e.target)) set(false); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') set(false); });
+    vw.addEventListener('touchstart', function () { vw.classList.add('hold'); }, { passive: true });
+    vw.addEventListener('touchend', function () { setTimeout(function () { vw.classList.remove('hold'); }, 2500); });
   }
 
   /* 2. Share card (middle of the page) */
