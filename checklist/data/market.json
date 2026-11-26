@@ -668,6 +668,48 @@
    "tags": "binghatti arts district atelier tilal binghatti phase 2 academic city rowaiyah dubailand",
    "added": "2026-11-25",
    "src": "Off Plan Insider, updated 23 Nov 2026 (apartment phase formerly Tilal Binghatti Phase 2; first building Atelier; EOI opened 23 Nov 2026, SPA from 8 Dec, official unveiling 20 Jan 2027, handover Q2 2029)"
+  },
+  {
+   "name": "Cheval South Bay",
+   "dev": "Dubai South",
+   "area": "Dubai South Residential District",
+   "comm": "South Bay",
+   "near": "Al Maktoum International Airport",
+   "ll": [
+    24.94354,
+    55.2199
+   ],
+   "st": "teaser",
+   "tags": "dubai south south bay cheval collection branded residences serviced apartments dwc",
+   "added": "2026-11-26",
+   "src": "The National, 11 Nov 2026 & TradeArabia, 11 Nov 2026 (Dubai South signs with Cheval Collection; 95 branded residences + 98 serviced apartments; sales expected to start 2027, opening 2030)"
+  },
+  {
+   "name": "Tessera",
+   "dev": "Al Ghurair",
+   "area": "Dubai South Residential District",
+   "near": "Al Maktoum International Airport",
+   "ll": [
+    24.94354,
+    55.2199
+   ],
+   "tags": "dubai south al ghurair development stacked townhouses tessera residences dwc",
+   "added": "2026-11-26",
+   "src": "Gulf News, 25 Nov 2026 (80 stacked townhouses, 2BR+ and 3BR+, completion 2028); TradeArabia, Sep 2026"
+  },
+  {
+   "name": "The Chedi Private Residences",
+   "dev": "Al Seeb",
+   "area": "Barsha Heights",
+   "comm": "Tecom",
+   "near": "Sheikh Zayed Road",
+   "ll": [
+    25.09828,
+    55.17578
+   ],
+   "tags": "chedi al seeb barsha heights tecom branded residences",
+   "added": "2026-11-26",
+   "src": "Dubizzle new projects page, read 26 Nov 2026 (Barsha Heights, handover Q1 2029, 3% completed; no DLD details shown); Skift, 25 Nov 2026"
   }
  ]
 }
