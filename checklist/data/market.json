@@ -710,6 +710,149 @@
    "tags": "chedi al seeb barsha heights tecom branded residences",
    "added": "2026-11-26",
    "src": "Dubizzle new projects page, read 26 Nov 2026 (Barsha Heights, handover Q1 2029, 3% completed; no DLD details shown); Skift, 25 Nov 2026"
+  },
+  {
+   "name": "Baystar by Vida",
+   "dev": "Emaar",
+   "area": "Mina Rashid",
+   "comm": "Rashid Yachts & Marina",
+   "near": "Mina Rashid",
+   "ll": [
+    25.27111,
+    55.26593
+   ],
+   "tags": "emaar vida mina rashid rashid yachts marina port rashid",
+   "added": "2026-11-27",
+   "src": "FHI Global Dubai new projects list (fhiglobal.ae, updated 26 Nov 2026, read 27 Nov 2026): listed 16 Nov 2026, Launching, from AED 2.1M; Emaar latest launches page"
+  },
+  {
+   "name": "Sera 1",
+   "dev": "Emaar",
+   "area": "Mina Rashid",
+   "comm": "Rashid Yachts & Marina",
+   "near": "Mina Rashid",
+   "ll": [
+    25.27111,
+    55.26593
+   ],
+   "tags": "emaar mina rashid rashid yachts marina port rashid sera",
+   "added": "2026-11-27",
+   "src": "FHI Global Dubai new projects list (fhiglobal.ae, updated 26 Nov 2026, read 27 Nov 2026): listed 17 Nov 2026, Launching, from AED 2.1M"
+  },
+  {
+   "name": "Faro at The Heights",
+   "dev": "Emaar",
+   "comm": "The Heights Country Club & Wellness",
+   "tags": "emaar the heights country club villas faro",
+   "added": "2026-11-27",
+   "src": "Property Finder Dubai new projects page (read 27 Nov 2026): from AED 6.7M, delivery Q2 2030"
+  },
+  {
+   "name": "Virella at The Valley",
+   "dev": "Emaar",
+   "area": "The Valley",
+   "comm": "The Valley",
+   "ll": [
+    25.01147,
+    55.44707
+   ],
+   "tags": "emaar the valley townhouses virella",
+   "added": "2026-11-27",
+   "src": "Property Finder Dubai new projects page (read 27 Nov 2026): delivery Q1 2030"
+  },
+  {
+   "name": "Virella 2",
+   "dev": "Emaar",
+   "area": "The Valley",
+   "comm": "The Valley",
+   "ll": [
+    25.01147,
+    55.44707
+   ],
+   "tags": "emaar the valley townhouses virella",
+   "added": "2026-11-27",
+   "src": "Property Finder Dubai new projects page (read 27 Nov 2026): from AED 4.37M, delivery Q1 2030"
+  },
+  {
+   "name": "Montura 3 at Grand Polo",
+   "dev": "Emaar",
+   "comm": "Grand Polo Club & Resort",
+   "tags": "emaar grand polo club resort montura villas",
+   "added": "2026-11-27",
+   "src": "Property Finder Dubai new projects page (read 27 Nov 2026): from AED 7.07M, delivery Q2 2029"
+  },
+  {
+   "name": "Selvara 3",
+   "dev": "Emaar",
+   "comm": "Grand Polo Club & Resort",
+   "tags": "emaar grand polo club resort selvara villas",
+   "added": "2026-11-27",
+   "src": "FHI Global Dubai new projects list (fhiglobal.ae, updated 26 Nov 2026, read 27 Nov 2026): listed 1 Oct 2026, from AED 6.4M, handover 2029"
+  },
+  {
+   "name": "Naseem at The Wilds",
+   "dev": "Aldar",
+   "comm": "The Wilds",
+   "tags": "aldar the wilds dubailand villas naseem",
+   "added": "2026-11-27",
+   "src": "Property Finder Dubai new projects page (read 27 Nov 2026): from AED 9.3M, delivery Q4 2029"
+  },
+  {
+   "name": "The Wilds - Moringa Mansions",
+   "dev": "Aldar",
+   "comm": "The Wilds",
+   "tags": "aldar the wilds dubailand mansions moringa",
+   "added": "2026-11-27",
+   "src": "FHI Global Dubai new projects list (fhiglobal.ae, updated 26 Nov 2026, read 27 Nov 2026): listed 5 Nov 2026, from AED 38.5M, handover Q3 2029"
+  },
+  {
+   "name": "Elire Managed by Lux",
+   "dev": "Qube",
+   "area": "Business Bay",
+   "ll": [
+    25.17946,
+    55.26837
+   ],
+   "tags": "qube development business bay lux elire branded",
+   "added": "2026-11-27",
+   "src": "FHI Global Dubai new projects list (fhiglobal.ae, updated 26 Nov 2026, read 27 Nov 2026): listed 13 Nov 2026, from AED 2.8M, handover Q4 2028"
+  },
+  {
+   "name": "Avior",
+   "dev": "Acube",
+   "area": "Al Wasl",
+   "near": "Sheikh Zayed Road",
+   "ll": [
+    25.19593,
+    55.25574
+   ],
+   "tags": "acube developments al wasl sheikh zayed road avior",
+   "added": "2026-11-27",
+   "src": "FHI Global Dubai new projects list (fhiglobal.ae, updated 26 Nov 2026, read 27 Nov 2026): listed 19 Nov 2026, Pre-Launch, from AED 3.9M, handover Q3 2031"
+  },
+  {
+   "name": "Orvessa Residences",
+   "dev": "BNW",
+   "area": "Al Furjan",
+   "ll": [
+    25.03047,
+    55.15223
+   ],
+   "tags": "bnw developments al furjan orvessa",
+   "added": "2026-11-27",
+   "src": "FHI Global Dubai new projects list (fhiglobal.ae, updated 26 Nov 2026, read 27 Nov 2026): listed 17 Oct 2026, from AED 1.3M, handover Q3 2028"
+  },
+  {
+   "name": "Lunara Tower",
+   "dev": "Tarrad",
+   "area": "Majan",
+   "ll": [
+    25.09294,
+    55.31848
+   ],
+   "tags": "tarrad development majan dubailand lunara",
+   "added": "2026-11-27",
+   "src": "FHI Global Dubai new projects list (fhiglobal.ae, updated 26 Nov 2026, read 27 Nov 2026): listed 16 Oct 2026, from AED 850K, handover Q4 2029"
   }
  ]
 }
