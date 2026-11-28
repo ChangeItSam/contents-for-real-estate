@@ -370,6 +370,7 @@ body.agm:not(.agself) #rclose,body.agm:not(.agself) #review{display:none!importa
 .pcalc label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700;color:var(--navy)}
 .pcalc input{font:inherit;font-size:17px;padding:11px 12px;border:2px solid var(--gold);border-radius:12px;background:#fff;color:var(--navy);width:100%;min-width:0;min-height:48px}
 .pcalc input:focus{outline:0;border-color:var(--navy)}
+.psfshow{margin-top:10px;padding:12px 14px;border-radius:12px;background:#FFF8DC;border:1px solid #E8D48A;color:#0B1F3A;font-size:16px;line-height:1.5}.psfshow span{display:block;font-size:22px;font-weight:800;color:#0B1F3A}
 @media(max-width:480px){.pcalc{grid-template-columns:1fr}.psfrow{flex-wrap:nowrap;white-space:nowrap}.psfrow input{flex:1 1 auto;min-width:0;width:100%;font-size:20px;font-weight:800}}
 .psfrow .eq{font-size:22px;color:var(--gold)}
 .psfrow input.auto{background:#EAF8EF;border-color:#3DDC84}
@@ -611,6 +612,7 @@ html:not(.eoion) .ans .eoin{display:none}
   <div class="pcalc"><label>Unit price (AED)<input id="pprice" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 1,200,000"></label>
   <label>Size (sq ft)<input id="psize" type="text" inputmode="decimal" autocomplete="off" placeholder="e.g. 650"></label></div>
   <div class="psfrow"><span class="eq">=</span> AED <input id="psf" type="text" inputmode="decimal" autocomplete="off" placeholder="auto"> / sq ft</div>
+  <div class="psfshow" id="psfshow" hidden></div>
   <small class="psfnote" id="psfnote">Already know your price per sq ft? Type it straight into the box above.</small>
   <label class="proj">Where is the property? <small>(filled in when you pick your project at the top)</small><input id="ploc" type="text" autocomplete="off" placeholder="Tap to choose, or type the area"></label><div id="plocsg" class="sugg" hidden></div><datalist id="plocs"></datalist>
   <span class="q">Check 20</span><h3>How your price compares <span class="pts" id="psfpts" hidden></span></h3>
@@ -1731,7 +1733,7 @@ html:not(.eoion) .ans .eoin{display:none}
 
   document.getElementById("rclose").addEventListener("click",close);
   document.getElementById("review").addEventListener("click",function(){ close(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
-  document.getElementById("reset").addEventListener("click",function(){ devClear(); devIn.value=""; setLaunch(""); setEoi(false,false); devBoxShow(); boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc","pinin"].forEach(function(i){var el=document.getElementById(i); if(el) el.value="";}); PIN=null; try{ localStorage.removeItem("sam-dealtest-pin"); }catch(e){} if(window.setAgent) window.setAgent("",false); if(LMK&&LMAP){ LMAP.removeLayer(LMK); LMK=null; } pinOut(); document.getElementById("psf").classList.remove("auto"); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
+  document.getElementById("reset").addEventListener("click",function(){ devClear(); devIn.value=""; setLaunch(""); setEoi(false,false); devBoxShow(); boxes.forEach(function(b){b.checked=false;}); ["psf","pprice","psize","ploc","pinin"].forEach(function(i){var el=document.getElementById(i); if(el) el.value="";}); var _sh=document.getElementById("psfshow"); if(_sh) _sh.hidden=true; PIN=null; try{ localStorage.removeItem("sam-dealtest-pin"); }catch(e){} if(window.setAgent) window.setAgent("",false); if(LMK&&LMAP){ LMAP.removeLayer(LMK); LMK=null; } pinOut(); document.getElementById("psf").classList.remove("auto"); PSFV=0; PSFP=null; psfCalc(); update(); document.querySelector(".game").scrollIntoView({behavior:"smooth"}); });
   function confetti(){
     var c=document.getElementById("conf"), x=c.getContext("2d"); c.width=innerWidth; c.height=innerHeight;
     var cols=["#C9A24A","#E8CF8E","#3DDC84","#fff","#25D366"], ps=[];
@@ -2019,6 +2021,8 @@ html:not(.eoion) .ans .eoin{display:none}
     cma.hidden=false;
   }
   function calcFromParts(){ var pr=num(document.getElementById("pprice").value), sz=num(document.getElementById("psize").value);
+    var sh=document.getElementById("psfshow");
+    if(sh){ if(pr&&sz){ sh.innerHTML='AED <b>'+Math.round(pr).toLocaleString("en-US")+'</b> ÷ <b>'+(Math.round(sz*100)/100).toLocaleString("en-US")+'</b>&nbsp;sq&nbsp;ft =<span>AED '+Math.round(pr/sz).toLocaleString("en-US")+' per sq ft</span>'; sh.hidden=false; } else sh.hidden=true; }
     if(pr&&sz){ psfIn.value=Math.round(pr/sz).toLocaleString("en-US"); psfIn.classList.add("auto"); psfAll();
       [["xprice","pprice"],["xsize","psize"]].forEach(function(p){ var t=document.getElementById(p[0]); if(t && (!t.value.trim() || t.dataset.auto==="1")){ t.value=document.getElementById(p[1]).value; t.dataset.auto="1"; t.dispatchEvent(new Event("change",{bubbles:true})); } }); } }
   psfIn.addEventListener("input",function(){ psfIn.classList.remove("auto"); });
