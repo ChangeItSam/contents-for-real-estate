@@ -1999,7 +1999,7 @@ html:not(.eoion) .ans .eoin{display:none}
   }
   function calcFromParts(){ var pr=num(document.getElementById("pprice").value), sz=num(document.getElementById("psize").value);
     var sh=document.getElementById("psfshow");
-    if(sh){ if(pr&&sz){ sh.innerHTML='AED <b>'+Math.round(pr).toLocaleString("en-US")+'</b> ÷ <b>'+(Math.round(sz*100)/100).toLocaleString("en-US")+'&nbsp;sq&nbsp;ft =<span>AED '+Math.round(pr/sz).toLocaleString("en-US")+' per sq ft</span>'; sh.hidden=false; } else sh.hidden=true; }
+    if(sh){ if(pr&&sz){ sh.innerHTML='AED <b>'+Math.round(pr).toLocaleString("en-US")+'</b> ÷ <b>'+(Math.round(sz*100)/100).toLocaleString("en-US")+'</b>&nbsp;sq&nbsp;ft =<span>AED '+Math.round(pr/sz).toLocaleString("en-US")+' per sq ft</span>'; sh.hidden=false; } else sh.hidden=true; }
     if(pr&&sz){ psfIn.value=Math.round(pr/sz).toLocaleString("en-US"); psfIn.classList.add("auto"); psfAll();
       [["xprice","pprice"],["xsize","psize"]].forEach(function(p){ var t=document.getElementById(p[0]); if(t && (!t.value.trim() || t.dataset.auto==="1")){ t.value=document.getElementById(p[1]).value; t.dataset.auto="1"; t.dispatchEvent(new Event("change",{bubbles:true})); } }); } }
   psfIn.addEventListener("input",function(){ psfIn.classList.remove("auto"); });
