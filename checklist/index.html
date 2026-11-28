@@ -370,6 +370,7 @@ body.agm:not(.agself) #rclose,body.agm:not(.agself) #review{display:none!importa
 .pcalc label{display:flex;flex-direction:column;gap:4px;font-size:14px;font-weight:700;color:var(--navy)}
 .pcalc input{font:inherit;font-size:17px;padding:11px 12px;border:2px solid var(--gold);border-radius:12px;background:#fff;color:var(--navy);width:100%;min-width:0;min-height:48px}
 .pcalc input:focus{outline:0;border-color:var(--navy)}
+@media(max-width:480px){.pcalc{grid-template-columns:1fr}.psfrow{flex-wrap:nowrap;white-space:nowrap}.psfrow input{flex:1 1 auto;min-width:0;width:100%;font-size:20px;font-weight:800}}
 .psfrow .eq{font-size:22px;color:var(--gold)}
 .psfrow input.auto{background:#EAF8EF;border-color:#3DDC84}
 .psfnote{display:block;font-size:12.5px;color:var(--muted);margin-top:6px}
@@ -2102,8 +2103,9 @@ html:not(.eoion) .ans .eoin{display:none}
   // wait until the buyer has finished typing (left the price/size boxes), then hold the comparison
   (function(){ var ids=["pprice","psize","psf"];
     ids.forEach(function(id){ var e=document.getElementById(id); if(e) e.addEventListener("blur",function(){ setTimeout(function(){
-      var a=document.activeElement; if(a && ids.indexOf(a.id)>=0) return;
-      var c=document.getElementById("cma"), l=document.getElementById("ploc"); if(c && !c.hidden && l && l.value.trim() && num(document.getElementById("psf").value)>0) holdNext(c); },300); }); }); })();
+      var a=document.activeElement; if(a && (ids.indexOf(a.id)>=0 || /^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName))) return;
+      var vv=window.visualViewport; if(vv && vv.height < window.innerHeight*0.8) return;
+      var c=document.getElementById("cma"), l=document.getElementById("ploc"); if(c && !c.hidden && l && l.value.trim() && num(document.getElementById("psf").value)>0) holdNext(c); },900); }); }); })();
   // Property type decides the bedroom choices (how Dubai listings are typed)
   (function(){ var T=document.getElementById("xptype"), B=document.getElementById("xbed"), BL=document.getElementById("xbedl"), RL=document.getElementById("xrentl");
     var OPT={"":["Studio","1 B/R","2 B/R","3 B/R","4 B/R","5 B/R","6 B/R","Duplex","Penthouse","Mansion (7+ B/R)"],
@@ -2144,8 +2146,10 @@ html:not(.eoion) .ans .eoin{display:none}
     function after(s){ return !FROM || FROM===s.hi || s.hi.contains(FROM) || !!(FROM.compareDocumentPosition(s.hi)&4); }
     function next(){ var i; if(FROM){ for(i=0;i<steps.length;i++){ if(!skipped[steps[i].k] && after(steps[i]) && !steps[i].done()) return i; } }
       for(i=0;i<steps.length;i++){ if(!skipped[steps[i].k] && !steps[i].done()) return i; } return steps.length-1; }
+    var PCF=["pprice","psize","psf"];
     function draw(){
       if(document.activeElement && document.activeElement.id==="proj" && !document.getElementById("sugg").hidden) return;
+      if(document.activeElement && PCF.indexOf(document.activeElement.id)>=0) return;
       if(document.documentElement.className.indexOf("locked")>=0 || FROMLINK) return;
       var i=next(); if(i===cur) return;
       var moved=cur>=0 && i>cur; cur=i; var s=steps[i];
@@ -2175,6 +2179,7 @@ html:not(.eoion) .ans .eoin{display:none}
     window.guideGo=function(from){ FROM=from||null; cur=-1; draw(); FROM=null; if(lab && lab.parentNode) lab.scrollIntoView({behavior:"smooth",block:"center"}); };
     var t=null; function soon(ev){ lastEvt=ev.type; clearTimeout(t); t=setTimeout(draw,ev.type==="change"?350:150); }
     document.addEventListener("change",soon,true); document.addEventListener("input",soon,true);
+    PCF.forEach(function(id){ var e=document.getElementById(id); if(e) e.addEventListener("blur",function(){ setTimeout(function(){ var a=document.activeElement; if(!a||PCF.indexOf(a.id)<0){ lastEvt="input"; draw(); } },700); }); });
     document.getElementById("sugg").addEventListener("click",function(){ lastEvt="change"; setTimeout(draw,500); });
     Array.prototype.forEach.call(document.querySelectorAll(".ans.lq button"),function(bt){ bt.addEventListener("click",function(){ lastEvt="change"; setTimeout(draw,600); }); });
     document.getElementById("reset").addEventListener("click",function(){ skipped={}; cur=-1; setTimeout(draw,200); });
