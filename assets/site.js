@@ -125,6 +125,7 @@
 
   /* 2. Share card (middle of the page) */
   function share() {
+    if (/^\/checklist\//.test(P)) return;                          // Sam: no "do me a favour" card on the Stress Test page
     var d = document.createElement('div'); d.id = 'ssshare'; d.className = 'sskit';
     var msg = 'Found this free Dubai off-plan guide, worth a look: ';
     d.innerHTML = '<div class="card"><h3>🙏 Liking this? <em>Do me a small favour.</em></h3>' +

@@ -22,4 +22,4 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', place); else place();
 })();
 // Also load the buyer site kit on the same pages (assets/site.js): Explore menu, share card, call-me-back form.
-(function () { if (document.getElementById('ssjs')) return; var s = document.createElement('script'); s.id = 'ssjs'; s.src = '/assets/site.js?v=4'; document.head.appendChild(s); })();
+(function () { if (document.getElementById('ssjs')) return; var s = document.createElement('script'); s.id = 'ssjs'; s.src = '/assets/site.js?v=5'; document.head.appendChild(s); })();
