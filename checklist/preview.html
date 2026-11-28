@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script>try{var _m=location.hash.match(/^#r_([A-Za-z0-9_-]+)$/);if(_m){var _b=_m[1].replace(/-/g,"+").replace(/_/g,"/");while(_b.length%4)_b+="=";history.replaceState(null,"",location.pathname+location.search+"#r="+encodeURIComponent(_b));}}catch(e){}</script>
 <script>try{ if(/[#&]r=/.test(location.hash)){ for(var i=localStorage.length-1;i>=0;i--){ var k=localStorage.key(i); if(k && k.indexOf("sam-dealtest")===0 && k!=="sam-dealtest-k") localStorage.removeItem(k); } } }catch(e){}</script>
 
 <script>if(location.hostname.indexOf("github.io")>-1){location.replace("https://samsuryarealty.com"+location.pathname.replace(/^\/contents-for-real-estate/,"")+location.search+location.hash);}</script>
@@ -1616,7 +1617,7 @@ html:not(.eoion) .ans .eoin{display:none}
   function resultLink(sc){
     var bits=boxes.map(function(b){return b.checked?"1":"0";}).join("");
     var proj=document.getElementById("proj").value.trim();
-    return location.origin+location.pathname+"#r="+encodeURIComponent(btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0,dv:DEVSEL?DEVSEL.no:"",la:LAUNCH,pin:EOI&&PIN?PIN:"",ab:AGB?{n:AGB.n,ag:AGB.ag,brn:AGB.brn,ph:AGB.ph,pid:AGB.pid||"",ai:AGINST?1:0,tr:AGB.tr?1:0}:"",ag:window.getAgent?window.getAgent():"",ph:(who.p||"").replace(/[^0-9]/g,"").slice(-4)})))));
+    return location.origin+location.pathname+"#r_"+btoa(unescape(encodeURIComponent(JSON.stringify({b:bits,p:proj,n:who.n||"",v:PSFV||"",l:document.getElementById("ploc").value.trim(),pn:PSFP&&PSFP.no||"",s:boxes.map(function(b){var v=stOf(b);return v==="u"||v==="n"?v:"-";}).join(""),x:xget(),e:EOI?1:0,dv:DEVSEL?DEVSEL.no:"",la:LAUNCH,pin:EOI&&PIN?PIN:"",ab:AGB?{n:AGB.n,ag:AGB.ag,brn:AGB.brn,ph:AGB.ph,pid:AGB.pid||"",ai:AGINST?1:0,tr:AGB.tr?1:0}:"",ag:window.getAgent?window.getAgent():"",ph:(who.p||"").replace(/[^0-9]/g,"").slice(-4)})))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
   }
   // ---------- Agent Pro mode: the agent's portal opens ?agent=1&proj=<project> ----------
   var AGAPI="https://script.google.com/macros/s/AKfycbzL_iF14unTfwziL1wRoB7uFWhXynmWX99ffPtOLHN6qG9yRkqJ-NZNSq9sX7feOTvH/exec";
